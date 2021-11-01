@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   productItem: {
+    position:"relative",
     "@media (max-width: 576px)": {
       maxWidth: "100%",
       flexBasis: "100%",
@@ -110,11 +111,12 @@ const useStyles = makeStyles((theme) => ({
   },
   btnWrapper: {
     position: "absolute",
-    top: "0.8rem",
-    right: "0.8rem",
+    top: "1.5rem",
+    right: "1.5rem",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 99,
   },
   editIcon: {
     color: "#DDD",

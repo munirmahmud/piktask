@@ -6,15 +6,15 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+// import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import behanceIcon from "../../../assets/icons/behance.svg";
-import cardsIcon from "../../../assets/icons/cards.svg";
-import cvcIcon from "../../../assets/icons/cvcicon.svg";
+// import cardsIcon from "../../../assets/icons/cards.svg";
+// import cvcIcon from "../../../assets/icons/cvcicon.svg";
 import dribbbleIcon from "../../../assets/icons/dribble.svg";
 import facebookIcon from "../../../assets/icons/facebook.svg";
 import freepikIcon from "../../../assets/icons/freepik.svg";

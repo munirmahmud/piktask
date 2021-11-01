@@ -1,5 +1,3 @@
-// import { faEdit } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
@@ -11,13 +9,12 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
-// import { borderColor } from "@mui/system";
+import { element } from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Footer from "../../../components/ui/Footer";
-// import productData from "../../../data/products.json";
 import { getBaseURL } from "../../../helpers";
 import Layout from "../../../Layout";
 import AdminHeader from "../../components/Header";
@@ -28,17 +25,30 @@ import useStyles from "./PendingFiles.styles";
 
 const PendingFiles = () => {
   const classes = useStyles();
-  const user = useSelector((state) => state.user);
-  // const [products, setProducts] = useState(productData.products);
-  const [selectedProducts, setSelectedProducts] = useState([]);
-
-  const [notYetSubmitted, setNotYetSubmitted] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-
   const cardRef = useRef();
+  const user = useSelector((state) => state.user);
+
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [pendingProducts, setPendingProducts] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [productName, setProductName] = useState("");
+  const [productId, setProductId] = useState("");
+
+  pendingProducts.forEach(element => {
+    if(productId.includes(element.token_id)){
+      element.title = productName;
+      console.log("title", element.title);
+    }
+  })
+
+  // pendingProducts.forEach(element => {
+  //   console.log("element.token_id", element.token_id);
+  // });
+
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
+
 
   useEffect(() => {
     const setResponsiveness = () => {
@@ -52,42 +62,42 @@ const PendingFiles = () => {
   }, []);
 
   useEffect(() => {
-    if(user?.isLogged && user?.role === "contributor"){
+    if (user?.isLogged && user?.role === "contributor") {
       try {
         axios
-          .get(`${process.env.REACT_APP_API_URL}/contributor/images/not_submit`,
-            { headers: {Authorization: user?.token},}
+          .get(
+            `${process.env.REACT_APP_API_URL}/contributor/images/not_submit`,
+            { headers: { Authorization: user?.token } }
           )
-          .then(({data}) => {
-            if(data?.status){
-              setNotYetSubmitted(data.images);
+          .then(({ data }) => {
+            if (data?.status) {
+              setPendingProducts(data.images);
             }
-          })
+          });
       } catch (error) {
         console.log("Not submit", error);
       }
     }
-  }, [user?.isLogged, user?.token, user?.role])
+  }, [user?.isLogged, user?.token, user?.role]);
 
-  // console.log("notYetSubmitted", notYetSubmitted);
-  console.log("selectedProducts", selectedProducts);
 
   const handleDelete = (id) => {
-    if(user?.isLogged && user?.role === "contributor"){
-      try {
-        axios
-          .delete(`${process.env.REACT_APP_API_URL}/images/${id}`,
-            { headers: {Authorization: user?.token},}
-          )
-          .then(({data}) => {
-            console.log("data", data);
-            if(data?.status){
-              toast.success(data.message);
-            }
-          })
-      } catch (error) {
-        console.log("Product delete", error);
-      }
+    try {
+      axios
+        .delete(`${process.env.REACT_APP_API_URL}/images/${id}`, {
+          headers: { Authorization: user?.token },
+        })
+        .then(({ data }) => {
+          console.log("data", data);
+          if (data?.status) {
+            const index = pendingProducts.findIndex((item) => item.token_id === id);
+            pendingProducts.splice(index, 1);
+            setPendingProducts([...pendingProducts]);
+            toast.success(data.message);
+          }
+        });
+    } catch (error) {
+      console.log("Product delete", error);
     }
   };
 
@@ -122,22 +132,20 @@ const PendingFiles = () => {
   };
 
   const handleWorkInfo = () => {
-
     if (selectedProducts.length > 0) {
-      if(selectedProducts.length > 12) {
+      if (selectedProducts.length > 12) {
         toast.error("You can not select more than 12");
         return;
       }
       setOpenModal(true);
     } else {
-      toast.error("No product");
+      toast.error("Select your product");
       setOpenModal(false);
     }
   };
 
-
   return (
-    <Layout title={`Pending || Piktask`}>
+    <Layout title={"Pending || Piktask"}>
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
@@ -167,8 +175,8 @@ const PendingFiles = () => {
             </div>
 
             <Grid container spacing={2}>
-              {notYetSubmitted.length > 0 ? (
-                notYetSubmitted.map((product) => (
+              {pendingProducts.length > 0 ? (
+                pendingProducts.map((product) => (
                   <Grid
                     key={product?.id}
                     item
@@ -177,26 +185,30 @@ const PendingFiles = () => {
                     md={2}
                     className={classes.productItem}
                   >
+                    <div className={classes.btnWrapper}>
+                      <DeleteIcon
+                        onClick={() => handleDelete(product.token_id)}
+                        className={classes.deleteIcon}
+                      />
+                    </div>
                     <Card
                       className={classes.pendingFileCard}
-                      onClick={(e) => { selectedProduct(e, product);}}
+                      onClick={(e) => {
+                        selectedProduct(e, product);
+                      }}
                       classes={{ root: classes.root }}
                       ref={cardRef}
                     >
-                      <div className={classes.btnWrapper}>
-                        {/* <FontAwesomeIcon icon={faEdit} className={classes.editIcon} /> */}
-                        <DeleteIcon
-                          onClick={() => handleDelete(product.token_id)}
-                          className={classes.deleteIcon}
-                        />
-                      </div>
+
                       <img
                         src={getBaseURL().bucket_base_url + getBaseURL().images + product.original_file}
                         alt={product?.title}
                       />
                       <CardContent>
-                        <Typography variant="h3">{product.title}</Typography>
-                        <Typography variant="body2">File Size: {(product.size / 1024 / 1024).toFixed(2)} MB</Typography>
+                        <Typography variant="h3">{productName ? productName : product.title}</Typography>
+                        <Typography variant="body2"> 
+                          File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "} MB
+                        </Typography>
                       </CardContent>
                     </Card>
                   </Grid>
@@ -230,6 +242,8 @@ const PendingFiles = () => {
               setSelectedProducts={setSelectedProducts}
               setOpenModal={setOpenModal}
               products={selectedProducts}
+              setProductName={setProductName}
+              setProductId={setProductId}
             />
           </Drawer>
           <Footer />
