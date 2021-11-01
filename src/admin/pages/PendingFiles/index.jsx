@@ -1,5 +1,5 @@
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faEdit } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Card,
@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Footer from "../../../components/ui/Footer";
-import productData from "../../../data/products.json";
+// import productData from "../../../data/products.json";
 import { getBaseURL } from "../../../helpers";
 import Layout from "../../../Layout";
 import AdminHeader from "../../components/Header";
@@ -29,7 +29,7 @@ import useStyles from "./PendingFiles.styles";
 const PendingFiles = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const [products, setProducts] = useState(productData.products);
+  // const [products, setProducts] = useState(productData.products);
   const [selectedProducts, setSelectedProducts] = useState([]);
 
   const [notYetSubmitted, setNotYetSubmitted] = useState([]);
@@ -59,7 +59,6 @@ const PendingFiles = () => {
             { headers: {Authorization: user?.token},}
           )
           .then(({data}) => {
-            // console.log("data", data);
             if(data?.status){
               setNotYetSubmitted(data.images);
             }
@@ -70,19 +69,33 @@ const PendingFiles = () => {
     }
   }, [user?.isLogged, user?.token, user?.role])
 
-  console.log("notYetSubmitted", notYetSubmitted);
+  // console.log("notYetSubmitted", notYetSubmitted);
   console.log("selectedProducts", selectedProducts);
 
   const handleDelete = (id) => {
-    setProducts(products.filter((product) => product.id !== id));
-    return;
+    if(user?.isLogged && user?.role === "contributor"){
+      try {
+        axios
+          .delete(`${process.env.REACT_APP_API_URL}/images/${id}`,
+            { headers: {Authorization: user?.token},}
+          )
+          .then(({data}) => {
+            console.log("data", data);
+            if(data?.status){
+              toast.success(data.message);
+            }
+          })
+      } catch (error) {
+        console.log("Product delete", error);
+      }
+    }
   };
 
-  const deleteSelectionProduct = () => {
-    const filteredProducts = products.filter(product => !product.isSelected);
-    setProducts(filteredProducts);
-    setSelectedProducts([]);
-  }
+  // const deleteSelectionProduct = () => {
+  //   const filteredProducts = products.filter(product => !product.isSelected);
+  //   setProducts(filteredProducts);
+  //   setSelectedProducts([]);
+  // }
   // console.log("deleteSelectionProduct", selectedProducts);
 
   const selectedProduct = (e, product) => {
@@ -134,9 +147,9 @@ const PendingFiles = () => {
             <div className={classes.headingWrapper}>
               <Heading tag="h2">Not Yet Submit</Heading>
               <div>
-                <Button onClick={() => deleteSelectionProduct()} className={`${classes.actionBtn} ${classes.deleteBtn}`}>
+                {/* <Button onClick={() => deleteSelectionProduct()} className={`${classes.actionBtn} ${classes.deleteBtn}`}>
                   Delete File
-                </Button>
+                </Button> */}
                 <Button
                   to={`/contributor/upload`}
                   component={Link}
@@ -173,12 +186,11 @@ const PendingFiles = () => {
                       <div className={classes.btnWrapper}>
                         {/* <FontAwesomeIcon icon={faEdit} className={classes.editIcon} /> */}
                         <DeleteIcon
-                          onClick={() => handleDelete(product.id)}
+                          onClick={() => handleDelete(product.token_id)}
                           className={classes.deleteIcon}
                         />
                       </div>
                       <img
-                        onClick={(e) => { selectedProduct(e, product);}}
                         src={getBaseURL().bucket_base_url + getBaseURL().images + product.original_file}
                         alt={product?.title}
                       />
