@@ -7,12 +7,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Spacing from "../../../components/Spacing";
 import Footer from "../../../components/ui/Footer";
-import Paginations from "../../../components/ui/Pagination";
-import ProductNotFound from "../../../components/ui/ProductNotFound";
-import productData from "../../../data/products.json";
+import { getBaseURL } from "../../../helpers";
 import Layout from "../../../Layout";
 import AdminHeader from "../../components/Header";
 import Heading from "../../components/Heading";
@@ -21,13 +21,11 @@ import useStyles from "./RejectFiles.styles";
 
 const RejectFiles = () => {
   const classes = useStyles();
-  const [openModal, setOpenModal] = useState(false);
-  const [products, setProducts] = useState(productData.products);
-  const [rejectImage, setRejectImage] = useState([]);
-  const [rejectMessage, setRejectMessage] = useState();
-  const [pageCount, setPageCount] = useState(1);
-
   const user = useSelector((state) => state.user);
+  const [rejectMessage, setRejectMessage] = useState([]);
+  const [rejectProduct, setRejectProduct] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -43,44 +41,46 @@ const RejectFiles = () => {
     window.addEventListener("resize", () => setResponsiveness());
   }, []);
 
-
-  const rejectItem = 6;
-  //load data
   useEffect(() => {
-    if (user.token) {
+    if(user?.isLogged && user?.role === "contributor"){
       try {
-        async function fetchApi() {
-          let response = await fetch(
-            `${process.env.REACT_APP_API_URL}/contributor/images/rejected?limit=${rejectItem}&page=${pageCount}`,
-            {
-              headers: {
-                Authorization: user.token,
-                "Content-Type": "application/json",
-              },
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected`, {
+            headers: { Authorization: user?.token },
+          })
+          .then(({ data }) => {
+            if (data?.status) {
+              setRejectProduct(data.images);
             }
-          );
-          const data = await response.json();
-          if (data?.status) {
-            setRejectImage(data);
-          }
-        }
-        fetchApi();
+          });
       } catch (error) {
-        console.log(error);
+        console.log("Rejected product", error);
       }
     }
-  }, [pageCount,user.token]);
+  }, [user?.isLogged, user?.role, user?.token])
 
   const handleClick = (product) => {
-    // Run  when the reject status is true
-    if (product?.reject?.status) {
+    // Reject API integration
+    if (product?.id) {
       setOpenModal(true);
-      setRejectMessage();
+      try {
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected/${product?.id}`, {
+            headers: { Authorization: user?.token },
+          })
+          .then(({ data }) => {
+            if (data?.status) {
+              setRejectMessage(data.reasons);
+            }
+          });
+      } catch (error) {
+        console.log("Reject issue", error);
+      }
     }
   };
 
   return (
-    <Layout title={"RejectFiles || Piktask"}>
+    <Layout title="RejectFiles | Piktask">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
@@ -89,21 +89,22 @@ const RejectFiles = () => {
           <div className={classes.rejectFilesWrapper}>
             <div className={classes.headingWrapepr}>
               <Heading tag="h2">Reject Files</Heading>
+              <Typography>Here you will see your rejected resources. The reason for rejection is specified in each <br /> case. For more information, consult our Reasons for rejection.</Typography>
             </div>
 
             <Grid container spacing={2}>
-              {products.length > 0 ? (
-                products.map((product) => (
-                  <Grid key={product._id} item xs={3} sm={2} md={2} className={classes.productItem}>
+              {rejectProduct.length > 0 ? (
+                rejectProduct.map((product) => (
+                  <Grid key={product.id} item xs={3} sm={2} md={2} className={classes.productItem}>
                     <Card
                       className={classes.cardWrapper}
                       onClick={() => handleClick(product)}
                     >
                       <div className={classes.cardImage}>
-                        <img src={product.image} alt={product.name} />
+                        <img src={getBaseURL().bucket_base_url + getBaseURL().images + product.original_file} alt={product.original_name} />
                       </div>
                       <CardContent className={classes.cardContent}>
-                        {/* <Typography variant="h3">{product.name}</Typography> */}
+                        {/* <Typography variant="h3">{product.title}</Typography> */}
                         <Typography variant="h3">Reject File</Typography>
                       </CardContent>
                     </Card>
@@ -111,17 +112,13 @@ const RejectFiles = () => {
                 ))
               ) : (
                 <div className={classes.noItemsFound}>
-                  <ProductNotFound noCollection="Reject"/>
+                  <Typography>No products are in pending</Typography>
                 </div>
               )}
 
             </Grid>
-              {products?.length > 5 && (
-                <>
-                 <Paginations count={10} />
-                </>
-              )}
           </div>
+          <Spacing space={{height: "2.5rem"}} />
           <Footer />
         </main>
       </div>
@@ -143,47 +140,26 @@ const RejectFiles = () => {
               onClick={() => setOpenModal(false)}
             />
           </div>
-          <hr />
         </div>
+        <hr />
 
         <div className={classes.rejectionMessage}>
-          <div className={classes.article}>
-            <Typography variant="h3" className={classes.title}>
-              Similar submissions
-            </Typography>
-            <Typography variant="body1">
-              Your content will be rejected because it has minimal differences
-              from other resources sent in the same submission or is quite
-              similar to other files previously submitted by the same author.{" "}
-            </Typography>
-          </div>
-          <div className={classes.article}>
-            <Typography variant="h3" className={classes.title}>
-              Composition
-            </Typography>
-            <Typography variant="body1">
-              The design does not comply with the basic composition rules. In
-              order for a resource to have good composition, all elements must
-              be put together coherently. Make sure they are correctly arranged
-              in the artboard and have adequate size. Content with a poor
-              arrangement of elements or with an unbalanced composition will be
-              rejected
-            </Typography>
-          </div>
-          <div className={classes.article}>
-            <Typography variant="h3" className={classes.title}>
-              Composition
-            </Typography>
-            <Typography variant="body1">
-              The design does not comply with the basic composition rules. In
-              order for a resource to have good composition, all elements must
-              be put together coherently. Make sure they are correctly arranged
-              in the artboard and have adequate size. Content with a poor
-              arrangement of elements or with an unbalanced composition will be
-              rejected
-            </Typography>
-          </div>
-          
+          {rejectMessage.length > 0 ? (
+            rejectMessage.map((reject) => (
+              <div key={reject?.reason_id} className={classes.article}>
+                <Typography variant="h3" className={classes.title}>
+                  {reject?.title}
+                </Typography>
+                <Typography variant="body1">
+                  {reject?.description}.{" "}
+                </Typography>
+              </div>
+            ))
+          ) : (
+            <div className={classes.noItemsFound}>
+              <Typography>No products reason.</Typography>
+            </div>
+          )}
         </div>
         <Button variant="contained" className={classes.viewBtn}>
           View More Reasons

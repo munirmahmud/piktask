@@ -9,7 +9,6 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axios from "axios";
-import { element } from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -31,24 +30,9 @@ const PendingFiles = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [pendingProducts, setPendingProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [productName, setProductName] = useState("");
-  const [productId, setProductId] = useState("");
-
-  pendingProducts.forEach(element => {
-    if(productId.includes(element.token_id)){
-      element.title = productName;
-      console.log("title", element.title);
-    }
-  })
-
-  // pendingProducts.forEach(element => {
-  //   console.log("element.token_id", element.token_id);
-  // });
-
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
-
 
   useEffect(() => {
     const setResponsiveness = () => {
@@ -80,7 +64,6 @@ const PendingFiles = () => {
     }
   }, [user?.isLogged, user?.token, user?.role]);
 
-
   const handleDelete = (id) => {
     try {
       axios
@@ -88,7 +71,6 @@ const PendingFiles = () => {
           headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
-          console.log("data", data);
           if (data?.status) {
             const index = pendingProducts.findIndex((item) => item.token_id === id);
             pendingProducts.splice(index, 1);
@@ -106,7 +88,6 @@ const PendingFiles = () => {
   //   setProducts(filteredProducts);
   //   setSelectedProducts([]);
   // }
-  // console.log("deleteSelectionProduct", selectedProducts);
 
   const selectedProduct = (e, product) => {
     if (!product.isSelected) {
@@ -139,13 +120,13 @@ const PendingFiles = () => {
       }
       setOpenModal(true);
     } else {
-      toast.error("Select your product");
+      toast.error("Please select at 1 product");
       setOpenModal(false);
     }
   };
 
   return (
-    <Layout title={"Pending || Piktask"}>
+    <Layout title="Pending | Piktask">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
@@ -201,11 +182,11 @@ const PendingFiles = () => {
                     >
 
                       <img
-                        src={getBaseURL().bucket_base_url + getBaseURL().images + product.original_file}
-                        alt={product?.title}
+                        src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file}
+                        alt={product?.original_name}
                       />
                       <CardContent>
-                        <Typography variant="h3">{productName ? productName : product.title}</Typography>
+                        <Typography variant="h3">{product?.original_name}</Typography>
                         <Typography variant="body2"> 
                           File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "} MB
                         </Typography>
@@ -242,8 +223,6 @@ const PendingFiles = () => {
               setSelectedProducts={setSelectedProducts}
               setOpenModal={setOpenModal}
               products={selectedProducts}
-              setProductName={setProductName}
-              setProductId={setProductId}
             />
           </Drawer>
           <Footer />
