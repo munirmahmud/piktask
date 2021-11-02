@@ -28,8 +28,7 @@ const DownloadItems = () => {
   const [isLoading, setLoading] = useState(true);
   const [downloadsItem, setDownloadsItem] = useState([]);
   const [pageCount, setPageCount] = useState(1);
-
-  var downloadItem = 4;
+  var downloadItem = 6;
 
   useEffect(() => {
     setLoading(true);
@@ -52,7 +51,7 @@ const DownloadItems = () => {
   }, [user?.isLogged, user?.token, pageCount, downloadItem]);
 
   return (
-    <Layout title="Downloads || Piktask">
+    <Layout title="Downloads | Piktask">
       <Header />
       <Spacing space={{ height: "5rem" }} />
       <Container>
@@ -90,15 +89,11 @@ const DownloadItems = () => {
                 </>
               )}
             </Grid>
-            {downloadsItem?.length >3 && (
+            {/* {downloadsItem?.length >5 && ( */}
               <>
-                <Paginations
-                  onChange={() => setPageCount(prev => prev + 1)}
-                  count={10}
-                  pageCount={pageCount}
-                />
+                <Paginations pageCount={pageCount} setPageCount={setPageCount} />
               </>
-            )}
+            {/* )} */}
           </Grid>
         </Grid>
       </Container>
