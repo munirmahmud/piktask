@@ -46,7 +46,7 @@ const PendingFiles = () => {
   }, []);
 
   useEffect(() => {
-    if (user?.isLogged && user?.role === "contributor") {
+    if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
           .get(
@@ -62,7 +62,7 @@ const PendingFiles = () => {
         console.log("Not submit", error);
       }
     }
-  }, [user?.isLogged, user?.token, user?.role]);
+  }, [user?.isLoggedIn, user?.token, user?.role]);
 
   const handleDelete = (id) => {
     try {
@@ -120,7 +120,7 @@ const PendingFiles = () => {
       }
       setOpenModal(true);
     } else {
-      toast.error("Please select at 1 product");
+      toast.error("Please select at list 1 product");
       setOpenModal(false);
     }
   };

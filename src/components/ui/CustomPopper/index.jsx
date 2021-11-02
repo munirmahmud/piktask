@@ -12,7 +12,6 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import EuroIcon from "@material-ui/icons/Euro";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-// import DevicesIcon from "@material-ui/icons/Devices";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
@@ -22,6 +21,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { getBaseURL } from "../../../helpers";
 // import crownGreenIcon from "../../../assets/icons/crownGreenIcon.svg";
 import useStyles from "./Popper.styles";
 
@@ -44,7 +44,7 @@ const CustomPopper = ({
   useEffect(() => {
     setLoading(true);
 
-    if (user?.isLogged && user?.role === "user") {
+    if (user?.isLoggedIn && user?.role === "user") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/profile/download_count`, {
           headers: { Authorization: user?.token },
@@ -60,11 +60,11 @@ const CustomPopper = ({
           console.log(error);
         });
     }
-  }, [user?.token, user?.isLogged, user?.role]);
+  }, [user?.token, user?.isLoggedIn, user?.role]);
 
   const handleSignout = () => {
     if (user && user?.token) {
-      user.isLogged = false;
+      user.isLoggedIn = false;
       history.push("/");
       localStorage.removeItem("token");
 
@@ -106,12 +106,12 @@ const CustomPopper = ({
                 <Grid container className={classes.gridUserInfo}>
                   <Grid item xs={6} className={classes.userInDropdown}>
                     <div className={classes.avatarCircle}>
-                      {user?.isLogged &&
+                      {user?.isLoggedIn &&
                       user?.avatar &&
                       user?.avatar !== "null" ? (
                         <img
                           className={classes.dropdownUserAvatar}
-                          src={user?.avatar}
+                          src={getBaseURL().bucket_base_url + "/" + user?.avatar}
                           alt="UserPhoto"
                         />
                       ) : (

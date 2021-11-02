@@ -118,7 +118,7 @@ const ContributorSignUp = (props) => {
       .then((res) => {
         if (res.data.status) {
           setOpenAuthModal(false);
-          user.isLogged = true;
+          user.isLoggedIn = true;
           const token = res.data.token;
           localStorage.setItem("token", token);
           const decodedToken = jwt_decode(token.split(" ")[1]);

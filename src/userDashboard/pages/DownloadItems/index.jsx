@@ -32,7 +32,7 @@ const DownloadItems = () => {
 
   useEffect(() => {
     setLoading(true);
-    if(user?.isLogged){
+    if(user?.isLoggedIn){
       axios
       .get(`${process.env.REACT_APP_API_URL}/user/downloads?limit=${downloadItem}&page=${pageCount}`,
         { headers: { Authorization: user?.token }, }
@@ -48,7 +48,7 @@ const DownloadItems = () => {
         setLoading(false);
       });
     }
-  }, [user?.isLogged, user?.token, pageCount, downloadItem]);
+  }, [user?.isLoggedIn, user?.token, pageCount, downloadItem]);
 
   return (
     <Layout title="Downloads | Piktask">

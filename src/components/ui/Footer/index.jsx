@@ -139,7 +139,7 @@ const Footer = () => {
                   </Link>
                 </ListItem>
                 <ListItem className={classes.navItem}>
-                {user?.isLogged && user?.role === "contributor" ? (
+                {user?.isLoggedIn && user?.role === "contributor" ? (
                   <Link className={classes.navLink} to="/contributor/dashboard">
                     Sell your content
                   </Link>
@@ -285,7 +285,7 @@ const Footer = () => {
                 </Link>
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }}>
-                {user?.isLogged && user?.role === "contributor" ? (
+                {user?.isLoggedIn && user?.role === "contributor" ? (
                   <Link className={classes.navLink} to="/contributor/dashboard">
                     Sell your content
                   </Link>
