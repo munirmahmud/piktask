@@ -319,7 +319,7 @@ const EarningManagement = () => {
   }
 
   return (
-    <Layout title={"Earning Management || Piktask"}>
+    <Layout title="Earning Management | Piktask">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 

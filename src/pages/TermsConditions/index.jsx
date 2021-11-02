@@ -10,7 +10,7 @@ import useStyles from "./TermsConditions.style";
 export const TermsConditions = () => {
   const classes = useStyles();
   return (
-    <Layout title={" Terms &amp; conditions || Piktask"}>
+    <Layout title=" Terms &amp; conditions | Piktask">
       <Header />
 
       <HeroSection terms size="medium" isSearch />

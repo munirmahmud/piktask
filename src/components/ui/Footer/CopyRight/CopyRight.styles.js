@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     height: "100%",
-    zIndex: 9999
+    zIndex: 1,
   },
   gridRoot: {
     display: "flex",

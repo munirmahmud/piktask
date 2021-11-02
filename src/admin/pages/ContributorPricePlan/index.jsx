@@ -55,7 +55,7 @@ const ContributorPricePlan = () => {
   }));
 
   return (
-    <Layout title="Contributor Price Plan || Piktask">
+    <Layout title="Contributor Price Plan | Piktask">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
