@@ -29,7 +29,7 @@ const UserFollowing = () => {
   const [followersItem, setFollowersItem] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(1);
-  var followerItem = 10;
+  var followerItem = 6;
 
   useEffect(() => {
     setLoading(true);
@@ -53,7 +53,7 @@ const UserFollowing = () => {
   }, [user?.isLogged, user?.token, pageCount, followerItem]);
 
   return (
-    <Layout title="Followings || Piktask">
+    <Layout title="Followings | Piktask">
       <Header />
       <Spacing space={{ height: "5rem" }} />
       <Container>
@@ -143,11 +143,11 @@ const UserFollowing = () => {
               ) : (
                 <ProductNotFound noCollection="User Following" />
               )}
-              {followersItem.length > 9 && (
+              {/* {followersItem.length > 5 && ( */}
                 <>
-                  <Paginations count={10} />
+                  <Paginations pageCount={pageCount} setPageCount={setPageCount} />
                 </>
-              )}
+              {/* )} */}
             </Grid>
           </Grid>
         </Grid>

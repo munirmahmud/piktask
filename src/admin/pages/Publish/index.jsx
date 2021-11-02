@@ -148,7 +148,7 @@ const Publish = () => {
 
 
   return (
-    <Layout title={"Publish || Piktask"}>
+    <Layout title="Publish | Piktask">
       {isLoading}
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}

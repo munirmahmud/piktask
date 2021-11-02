@@ -29,7 +29,7 @@ const FavoriteItems = () => {
   const [isLoading, setLoading] = useState(true);
   const [favoriteProducts, setFavoriteProducts] = useState({});
   const [pageCount, setPageCount] = useState(1);
-  var favoriteProduct = 18;
+  var favoriteProduct = 6;
 
   useEffect(() => {
     setLoading(true);
@@ -52,7 +52,7 @@ const FavoriteItems = () => {
   }, [user?.isLogged, user?.token, pageCount, favoriteProduct]);
 
   return (
-    <Layout title="Favorite Items || Piktask">
+    <Layout title="Favorite Items | Piktask">
       <Header />
       <Spacing space={{ height: "5rem" }} />
       <Container>
@@ -74,7 +74,7 @@ const FavoriteItems = () => {
                   {favoriteProducts?.length ? (
                     favoriteProducts?.map((photo) => (
                       <Grid
-                        key={photo.image_id}
+                        key={photo?.like_id}
                         item
                         xs={6}
                         sm={4}
@@ -90,11 +90,11 @@ const FavoriteItems = () => {
                 </>
               )}
             </Grid>
-            {favoriteProducts?.length > 17 && (
+            {/* {favoriteProducts?.length > 5 && ( */}
               <>
-                <Paginations count={10} />
+                <Paginations pageCount={pageCount} setPageCount={setPageCount} />
               </>
-            )}
+            {/* )} */}
           </Grid>
         </Grid>
       </Container>

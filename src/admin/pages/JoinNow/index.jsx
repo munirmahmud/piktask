@@ -11,7 +11,7 @@ import rightArrow from "../../../assets/icons/stepArrow.svg";
 const JoinNow = () => {
   const classes = useStyles();
   return (
-    <Layout title={"Join Now || Piktask"}>
+    <Layout title="Join Now | Piktask">
       <HeroSection size="large" contributorUser isSearch />
       <Spacing space={{ height: "2.5rem" }} />
       {/* Instruction  */}

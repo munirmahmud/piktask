@@ -91,10 +91,10 @@ const AccountSettings = () => {
   useEffect(() => {
     setLoading(true);
 
-    if (user?.token) {
+    if (user?.isLogged) {
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/profile`, {
-          headers: { Authorization: user.token },
+          headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -132,7 +132,7 @@ const AccountSettings = () => {
           console.log(error.message);
         });
     }
-  }, [user.token]);
+  }, [user?.token, user?.isLogged]);
 
   //Update contributor profile
   const handleSubmit = (e) => {
@@ -269,7 +269,7 @@ const AccountSettings = () => {
 
   //payment getWay
   useEffect(() => {
-    if (user?.token) {
+    if (user?.isLogged) {
       axios
         .get(`${process.env.REACT_APP_API_URL}/payment`, {
           headers: { Authorization: user.token },
@@ -283,10 +283,10 @@ const AccountSettings = () => {
           console.log(error.message);
         });
     }
-  }, [user.token]);
+  }, [user.token, user?.isLogged]);
 
   return (
-    <Layout title={`Profile || Piktask`}>
+    <Layout title="Profile | Piktask">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 

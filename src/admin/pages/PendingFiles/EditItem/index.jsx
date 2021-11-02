@@ -10,15 +10,15 @@ import useStyles from "./EditItem.styles";
 
 const EditItem = (props) => {
   const classes = useStyles();
-  const { products, setOpenModal, setSelectedProducts, setProductName, setProductId } = props;
   const user = useSelector((state) => state.user);
-  const [category, setCategory] = useState([]);
+  const { products, setOpenModal, setSelectedProducts } = props;
 
   const [categoryName, setCategoryName] = useState("");
-  const [title, setTitle] = useState("");
   const [tagsValue, setTagsValue] = useState([]);
-  // const [value, setValue] = useState([]);
-  
+  const [category, setCategory] = useState([]);
+  const [title, setTitle] = useState("");
+
+  // const [errorMessage, setErrorMessage] = useState({});
   
   const handleCategoryChange = () => {
     axios
@@ -31,8 +31,6 @@ const EditItem = (props) => {
     })
     .catch((error) => console.log("Categories loading error: ", error));
   };
-  
-  // console.log("products", products);
   
   const keyWords = [
     // { title: "Business Card" },
@@ -49,9 +47,22 @@ const EditItem = (props) => {
       images.push(element.token_id)
     });
 
-    // if(title)
+    if (!categoryName) {
+      toast.error("Please select a category");
+      // setErrorMessage( {categoryError: })
+      return;
+    } else if(!title){
+      toast.error("The Title field is required.");
+      return;
+    } else if (title.length < 3 || title.length > 200) {
+      toast.error("Title must be between 3 and 200 characters");
+      return;
+    } else if (tagsValue.length === 0) {
+      toast.error("The tag field is required");
+      return;
+    }
 
-    // TODO: After successful the form call this function
+    // API integration for set product details 
     if(user?.isLogged){
       const url = `${process.env.REACT_APP_API_URL}/images?action=${action}`;
       try {
@@ -73,8 +84,6 @@ const EditItem = (props) => {
           setCategoryName("");
           setTitle("");
           setTagsValue([]);
-          setProductName(title);
-          setProductId(images);
           toast.success(response.data.message || "Product update successfully");
         }
       } catch (error) {
@@ -106,8 +115,8 @@ const EditItem = (props) => {
               <div key={product.id} className={classes.productItem}>
                 <img
                   className={classes.editItemImage}
-                  src={getBaseURL().bucket_base_url + getBaseURL().images + product.original_file}
-                  alt={product.title}
+                  src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file}
+                  alt={product?.original_name}
                 />
               </div>
             ))}

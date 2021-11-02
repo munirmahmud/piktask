@@ -32,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "1.5rem",
   },
   headingWrapepr: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
     marginTop: "2rem",
     marginBottom: "1.5rem",
   },
@@ -53,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardImage: {
     padding: "0.4rem 0.4rem 0rem 0.4rem",
-    height: 150,
+    height: 120,
     "& img": {
       height: "100%",
       width: "100%",
@@ -64,12 +61,18 @@ const useStyles = makeStyles((theme) => ({
     padding: "0rem",
     backgroundColor: "#f1f1f1",
     marginTop: "-0.39rem !important",
+    textAlign: "center",
     "& h3": {
       fontSize: "1.4rem",
       lineHeight: "1.5",
       color: "#114960",
       textAlign: "center",
-      padding: "0.5rem 0rem",
+      padding: "0.5rem 0rem 0rem",
+    },
+    "& p": {
+      fontSize: "1.2rem",
+      lineHeight: "1.5",
+      paddingBottom: "0.5rem"
     },
     "& .MuiCardContent-root": {
       padding: "0rem !important",

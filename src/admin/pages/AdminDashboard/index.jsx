@@ -62,7 +62,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     setLoading(true);
 
-    // Author current month earning
+    // Author current month earning API integration
     if(user?.isLogged && user?.role === "contributor"){
       var newDate = new Date();
       var firstDayCurrentMonth = new Date(newDate.getFullYear(), newDate.getMonth(), 2);
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
       })
     }
     
-    // Author previous month earning
+    // Author previous month earning API integration
     if(user?.isLogged && user?.role === "contributor"){
       var previousDate = new Date();
       var previousMonthFirstDay = new Date(previousDate.getFullYear(), previousDate.getMonth() - 1, 2);
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
       })
     }
 
-    // Author last file API
+    // Author last file API integration
     if(user?.isLogged && user?.role === "contributor"){
       axios
       .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=5`,
@@ -116,7 +116,7 @@ const AdminDashboard = () => {
       })
     }
 
-    // Piktask top file API 
+    // Piktask top file API  integration
     if(user?.isLogged && user?.role === "contributor"){
       axios
       .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/top_files?limit=5`,
@@ -133,7 +133,7 @@ const AdminDashboard = () => {
 
 
   return (
-    <Layout title={`Dashboard || Piktask`}>
+    <Layout title="Dashboard | Piktask">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 

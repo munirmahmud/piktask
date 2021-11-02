@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "7rem",
     backgroundColor: "#fff",
-    boxShadow: "0 8px 12px 3px rgb(0 0 0 / 6%)",
+    boxShadow: "0 8px 12px 3px rgb(0 0 0 / 3%)",
   },
   root: {
     height: "100%",
