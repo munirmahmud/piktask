@@ -1,28 +1,26 @@
 import { Pagination } from "@material-ui/lab";
-import React, { useState } from "react";
+import React from "react";
 import Spacing from "../../Spacing";
 import useStyles from "./Pagination.style";
 
 const Paginations = (props) => {
   const classes = useStyles();
-  // const [pageCount, setPageCount] = useState(1);
-
-  const { count, pageCount, onChange } = props;
+  const { pageCount, setPageCount } = props;
 
   return (
     <>
       <Spacing space={{ height: "3rem" }} />
       <div className={classes.pagination}>
         <Pagination
-        //  setPageCount= {onChange={(value) => setPageCount(value)}}
-        onChange={onChange}
+          onChange={(event, value) => setPageCount(value)}
+          // setPageCount= {onChange={(value) => setPageCount(value)}}
+          count={10}
+          defaultPage={pageCount}
           variant="outlined"
           shape="rounded"
           color="primary"
           size="medium"
-          count={count}
-          page={pageCount}
-
+          pageCount={pageCount}
         />
       </div>
     </>

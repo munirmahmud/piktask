@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   productItem: {
-    position:"relative",
+    position: "relative",
     "@media (max-width: 576px)": {
       maxWidth: "100%",
       flexBasis: "100%",
@@ -150,7 +150,7 @@ const useStyles = makeStyles((theme) => ({
     // backgroundColor: "red",
   },
   editItemContainer: {
-    width: "55rem",
+    width: "45rem",
     padding: "3rem 4.5rem",
 
     "@media (max-width: 600px)": {

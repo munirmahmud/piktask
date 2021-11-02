@@ -32,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "1.5rem",
   },
   headingWrapepr: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
     marginTop: "2rem",
     marginBottom: "1.5rem",
   },
@@ -52,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
   },
   cardImage: {
     padding: "0.4rem 0.4rem 0rem 0.4rem",
+    height: 120,
+    "& img": {
+      height: "100%",
+      width: "100%",
+      objectFit: "cover",
+    },
   },
   cardContent: {
     padding: "0rem",
@@ -88,13 +91,15 @@ const useStyles = makeStyles((theme) => ({
       color: "#0088f2",
     },
   },
-  modalHeader: {
-    padding: "2rem 4rem 0",
+  modalContainer: {
     "& hr": {
       border: "0 solid transparent",
       backgroundColor: "#ddd",
       height: "0.1rem",
     },
+  },  
+  modalHeader: {
+    padding: "2rem 4rem 0",
   },
   headingContent: {
     display: "flex",
@@ -104,7 +109,6 @@ const useStyles = makeStyles((theme) => ({
   },
 
   rejectionMessage: {
-    // height:"100vh",
     padding: "2rem 4rem",
     margin: "2.2rem 0",
     "& p": {

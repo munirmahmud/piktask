@@ -35,7 +35,7 @@ const GuidLine = () => {
   };
 
   return (
-    <Layout title={"Guidline || Piktask"}>
+    <Layout title="Guidline | Piktask">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 

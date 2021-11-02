@@ -10,7 +10,7 @@ import useStyles from "./LicenseAgreement.style";
 export const LicenseAgreement = () => {
   const classes = useStyles();
   return (
-    <Layout title={" License Agreement || Piktask"}>
+    <Layout title=" License Agreement | Piktask">
       <Header />
 
       <HeroSection license size="medium" isSearch />
