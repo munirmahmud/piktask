@@ -63,7 +63,7 @@ const AdminDashboard = () => {
     setLoading(true);
 
     // Author current month earning API integration
-    if(user?.isLogged && user?.role === "contributor"){
+    if(user?.isLoggedIn && user?.role === "contributor"){
       var newDate = new Date();
       var firstDayCurrentMonth = new Date(newDate.getFullYear(), newDate.getMonth(), 2);
       var firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
@@ -82,7 +82,7 @@ const AdminDashboard = () => {
     }
     
     // Author previous month earning API integration
-    if(user?.isLogged && user?.role === "contributor"){
+    if(user?.isLoggedIn && user?.role === "contributor"){
       var previousDate = new Date();
       var previousMonthFirstDay = new Date(previousDate.getFullYear(), previousDate.getMonth() - 1, 2);
       var previousFirstDays = previousMonthFirstDay.toISOString().substring(0, 10);
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
     }
 
     // Author last file API integration
-    if(user?.isLogged && user?.role === "contributor"){
+    if(user?.isLoggedIn && user?.role === "contributor"){
       axios
       .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=5`,
         { headers: { Authorization: user?.token },}
@@ -117,7 +117,7 @@ const AdminDashboard = () => {
     }
 
     // Piktask top file API  integration
-    if(user?.isLogged && user?.role === "contributor"){
+    if(user?.isLoggedIn && user?.role === "contributor"){
       axios
       .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/top_files?limit=5`,
         { headers: { Authorization: user?.token }}
@@ -129,7 +129,7 @@ const AdminDashboard = () => {
         }
       })
     }
-  }, [user?.token, user?.role, user?.isLogged])
+  }, [user?.token, user?.role, user?.isLoggedIn])
 
 
   return (

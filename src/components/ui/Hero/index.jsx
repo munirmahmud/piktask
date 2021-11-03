@@ -100,7 +100,7 @@ const HeroSection = (props) => {
                 <img src={contributorLogo} alt="contributorLogo" />
               </Button>
 
-              {user?.token && user?.role === "contributor" && user?.isLogged ? (
+              {user?.token && user?.role === "contributor" && user?.isLoggedIn ? (
                 <div
                   className={classes.userAvatarArea}
                   onClick={handleToggle}

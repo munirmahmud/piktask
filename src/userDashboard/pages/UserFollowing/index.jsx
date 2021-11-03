@@ -34,7 +34,7 @@ const UserFollowing = () => {
   useEffect(() => {
     setLoading(true);
 
-    if(user?.isLogged){
+    if(user?.isLoggedIn){
       axios
       .get(`${process.env.REACT_APP_API_URL}/user/following_list?limit=${followerItem}&page=${pageCount}`,
         { headers: { Authorization: user?.token } }
@@ -50,7 +50,7 @@ const UserFollowing = () => {
         setLoading(false);
       });
     }
-  }, [user?.isLogged, user?.token, pageCount, followerItem]);
+  }, [user?.isLoggedIn, user?.token, pageCount, followerItem]);
 
   return (
     <Layout title="Followings | Piktask">

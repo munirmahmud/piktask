@@ -19,6 +19,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import MobileSidebarMenu from "../Sidebar/MobileSidebarMenu";
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import { getBaseURL } from "../../../helpers";
 
 const customStyles = makeStyles({
   menuWrapper: {
@@ -128,10 +129,10 @@ const AdminHeader = () => {
                     aria-haspopup="true"
                     ref={anchorRef}
                   >
-                    {user?.isLogged && user?.role === "contributor" && user?.avatar && user?.avatar !== "null" ? (
+                    {user?.isLoggedIn && user?.role === "contributor" && user?.avatar && user?.avatar !== "null" ? (
                       <img
                         className={classes.adminPhoto}
-                        src={user?.avatar}
+                        src={getBaseURL().bucket_base_url + "/" + user?.avatar}
                         alt="UserPhoto"
                       />
                     ) : (
@@ -180,10 +181,10 @@ const AdminHeader = () => {
                     aria-haspopup="true"
                     ref={anchorRef}
                   >
-                    {user?.isLogged && user?.role === "contributor" && user?.avatar && user?.avatar !== "null" ? (
+                    {user?.isLoggedIn && user?.role === "contributor" && user?.avatar && user?.avatar !== "null" ? (
                       <img
                         className={classes.adminPhoto}
-                        src={user?.avatar}
+                        src={getBaseURL().bucket_base_url + "/" + user?.avatar}
                         alt="UserPhoto"
                       />
                     ) : (
@@ -210,7 +211,7 @@ const AdminHeader = () => {
               onClick={() => setOpenMobileMenu(false)}
               className={iconClass.closeMenuIcon}
             />
-            {user && user?.isLogged ? (
+            {user && user?.isLoggedIn ? (
               <Button
                 component={Link}
                 to="/"

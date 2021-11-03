@@ -33,7 +33,7 @@ const FavoriteItems = () => {
 
   useEffect(() => {
     setLoading(true);
-    if(user?.isLogged){
+    if(user?.isLoggedIn){
       axios
       .get(`${process.env.REACT_APP_API_URL}/user/favourite_image/?limit=${favoriteProduct}&page=${pageCount}`,
         { headers: { Authorization: user?.token } }
@@ -49,7 +49,7 @@ const FavoriteItems = () => {
         setLoading(false);
       });
     }
-  }, [user?.isLogged, user?.token, pageCount, favoriteProduct]);
+  }, [user?.isLoggedIn, user?.token, pageCount, favoriteProduct]);
 
   return (
     <Layout title="Favorite Items | Piktask">
