@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardContent,
+  CircularProgress,
   Drawer,
   Grid,
   Typography,
@@ -25,7 +26,7 @@ const RejectFiles = () => {
   const [rejectMessage, setRejectMessage] = useState([]);
   const [rejectProduct, setRejectProduct] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-
+  const [isLoading, setLoading] = useState(false);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -42,7 +43,8 @@ const RejectFiles = () => {
   }, []);
 
   useEffect(() => {
-    if(user?.isLoggedIn && user?.role === "contributor"){
+    setLoading(true);
+    if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
           .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected`, {
@@ -51,13 +53,15 @@ const RejectFiles = () => {
           .then(({ data }) => {
             if (data?.status) {
               setRejectProduct(data.images);
+              setLoading(false);
             }
           });
       } catch (error) {
         console.log("Rejected product", error);
+        setLoading(false);
       }
     }
-  }, [user?.isLoggedIn, user?.role, user?.token])
+  }, [user?.isLoggedIn, user?.role, user?.token]);
 
   const handleClick = (product) => {
     // Reject API integration
@@ -65,9 +69,12 @@ const RejectFiles = () => {
       setOpenModal(true);
       try {
         axios
-          .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected/${product?.id}`, {
-            headers: { Authorization: user?.token },
-          })
+          .get(
+            `${process.env.REACT_APP_API_URL}/contributor/images/rejected/${product?.id}`,
+            {
+              headers: { Authorization: user?.token },
+            }
+          )
           .then(({ data }) => {
             if (data?.status) {
               setRejectMessage(data.reasons);
@@ -89,36 +96,68 @@ const RejectFiles = () => {
           <div className={classes.rejectFilesWrapper}>
             <div className={classes.headingWrapepr}>
               <Heading tag="h2">Reject Files</Heading>
-              <Typography>Here you will see your rejected resources. The reason for rejection is specified in each <br /> case. For more information, consult our Reasons for rejection.</Typography>
+              <Typography>
+                Here you will see your rejected resources. The reason for
+                rejection is specified in each <br /> case. For more
+                information, consult our Reasons for rejection.
+              </Typography>
             </div>
 
             <Grid container spacing={2}>
-              {rejectProduct.length > 0 ? (
-                rejectProduct.map((product) => (
-                  <Grid key={product.id} item xs={3} sm={2} md={2} className={classes.productItem}>
-                    <Card
-                      className={classes.cardWrapper}
-                      onClick={() => handleClick(product)}
-                    >
-                      <div className={classes.cardImage}>
-                        <img src={getBaseURL().bucket_base_url + getBaseURL().images + product.original_file} alt={product.original_name} />
-                      </div>
-                      <CardContent className={classes.cardContent}>
-                        {/* <Typography variant="h3">{product.title}</Typography> */}
-                        <Typography variant="h3">Reject File</Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))
-              ) : (
-                <div className={classes.noItemsFound}>
-                  <Typography>No products are in pending</Typography>
+              {isLoading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "0 auto",
+                  }}
+                >
+                  <CircularProgress />
                 </div>
+              ) : (
+                <>
+                  {rejectProduct.length > 0 ? (
+                    rejectProduct.map((product) => (
+                      <Grid
+                        key={product.id}
+                        item
+                        xs={3}
+                        sm={2}
+                        md={2}
+                        className={classes.productItem}
+                      >
+                        <Card
+                          className={classes.cardWrapper}
+                          onClick={() => handleClick(product)}
+                        >
+                          <div className={classes.cardImage}>
+                            <img
+                              src={
+                                getBaseURL().bucket_base_url +
+                                getBaseURL().images +
+                                product.original_file
+                              }
+                              alt={product.original_name}
+                            />
+                          </div>
+                          <CardContent className={classes.cardContent}>
+                            {/* <Typography variant="h3">{product.title}</Typography> */}
+                            <Typography variant="h3">Reject File</Typography>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))
+                  ) : (
+                    <div className={classes.noItemsFound}>
+                      <Typography>No products are in pending</Typography>
+                    </div>
+                  )}
+                </>
               )}
-
             </Grid>
           </div>
-          <Spacing space={{height: "2.5rem"}} />
+          <Spacing space={{ height: "2.5rem" }} />
           <Footer />
         </main>
       </div>
@@ -150,9 +189,7 @@ const RejectFiles = () => {
                 <Typography variant="h3" className={classes.title}>
                   {reject?.title}
                 </Typography>
-                <Typography variant="body1">
-                  {reject?.description}.{" "}
-                </Typography>
+                <Typography variant="body1">{reject?.description}. </Typography>
               </div>
             ))
           ) : (

@@ -184,6 +184,7 @@ const useStyles = makeStyles((theme) => ({
     width: "4.8rem",
     height: "4.8rem",
     borderRadius: "100%",
+    objectFit: "cover",
     position: "relative",
     right: "-0.6rem",
     color: "#FB5252",

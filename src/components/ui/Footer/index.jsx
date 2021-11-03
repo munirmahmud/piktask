@@ -19,23 +19,16 @@ import { useSelector } from "react-redux";
 const Footer = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const [open, setOpen] = useState(true);
-  const [contact, setContact] = useState(true);
-  const [information, setInformation] = useState(true);
-  const [legal, setLegal] = useState(true);
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
-  const handleContact = () => {
-    setContact(!contact);
-  };
-  const handleInformation = () => {
-    setInformation(!information);
-  };
-  const handleLegal = () => {
-    setLegal(!legal);
-  };
+  const [information, setInformation] = useState(true);
+  const [contact, setContact] = useState(true);
+  const [legal, setLegal] = useState(true);
+  const [open, setOpen] = useState(true);
+
+  const handleClick = () => { setOpen(!open); };
+  const handleLegal = () => { setLegal(!legal); };
+  const handleContact = () => { setContact(!contact); };
+  const handleInformation = () => { setInformation(!information); };
 
   //mobile responsive
   const [menuSate, setMenuSate] = useState({ mobileView: false });

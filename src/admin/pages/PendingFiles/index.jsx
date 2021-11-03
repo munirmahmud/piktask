@@ -21,6 +21,7 @@ import Heading from "../../components/Heading";
 import Sidebar from "../../components/Sidebar";
 import EditItem from "./EditItem";
 import useStyles from "./PendingFiles.styles";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const PendingFiles = () => {
   const classes = useStyles();
@@ -30,6 +31,7 @@ const PendingFiles = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [pendingProducts, setPendingProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -46,6 +48,7 @@ const PendingFiles = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
@@ -56,10 +59,12 @@ const PendingFiles = () => {
           .then(({ data }) => {
             if (data?.status) {
               setPendingProducts(data.images);
+              setLoading(false)
             }
           });
       } catch (error) {
         console.log("Not submit", error);
+        setLoading(false);
       }
     }
   }, [user?.isLoggedIn, user?.token, user?.role]);
@@ -75,7 +80,9 @@ const PendingFiles = () => {
             const index = pendingProducts.findIndex((item) => item.token_id === id);
             pendingProducts.splice(index, 1);
             setPendingProducts([...pendingProducts]);
-            toast.success(data.message);
+            toast.success(data.message, {
+              autoClose: 200,
+            });
           }
         });
     } catch (error) {
@@ -156,48 +163,56 @@ const PendingFiles = () => {
             </div>
 
             <Grid container spacing={2}>
-              {pendingProducts.length > 0 ? (
-                pendingProducts.map((product) => (
-                  <Grid
-                    key={product?.id}
-                    item
-                    xs={4}
-                    sm={3}
-                    md={2}
-                    className={classes.productItem}
-                  >
-                    <div className={classes.btnWrapper}>
-                      <DeleteIcon
-                        onClick={() => handleDelete(product.token_id)}
-                        className={classes.deleteIcon}
-                      />
-                    </div>
-                    <Card
-                      className={classes.pendingFileCard}
-                      onClick={(e) => {
-                        selectedProduct(e, product);
-                      }}
-                      classes={{ root: classes.root }}
-                      ref={cardRef}
-                    >
-
-                      <img
-                        src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file}
-                        alt={product?.original_name}
-                      />
-                      <CardContent>
-                        <Typography variant="h3">{product?.original_name}</Typography>
-                        <Typography variant="body2"> 
-                          File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "} MB
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))
-              ) : (
-                <div className={classes.noItemsFound}>
-                  <Typography>No products are in pending</Typography>
+              {isLoading ? (
+                <div style={{ display: 'flex', justifyContent: "center", alignItems: "center", margin: "0 auto" }}>
+                  <CircularProgress />
                 </div>
+              ) : (
+                <>
+                  {pendingProducts.length > 0 ? (
+                    pendingProducts.map((product) => (
+                      <Grid
+                        key={product?.id}
+                        item
+                        xs={4}
+                        sm={3}
+                        md={2}
+                        className={classes.productItem}
+                      >
+                        <div className={classes.btnWrapper}>
+                          <DeleteIcon
+                            onClick={() => handleDelete(product?.token_id)}
+                            className={classes.deleteIcon}
+                          />
+                        </div>
+                        <Card
+                          className={classes.pendingFileCard}
+                          onClick={(e) => {
+                            selectedProduct(e, product);
+                          }}
+                          classes={{ root: classes.root }}
+                          ref={cardRef}
+                        >
+
+                          <img
+                            src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file}
+                            alt={product?.original_name}
+                          />
+                          <CardContent>
+                            <Typography variant="h3">{product?.original_name}</Typography>
+                            <Typography variant="body2"> 
+                              File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "} MB
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))
+                  ) : (
+                    <div className={classes.noItemsFound}>
+                      <Typography>No products are in pending</Typography>
+                    </div>
+                  )}
+                </>
               )}
             </Grid>
           </div>

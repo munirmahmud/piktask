@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid, Typography } from "@material-ui/core";
+import { Card, CardContent, CircularProgress, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -14,6 +14,7 @@ import useStyles from "./Revision.styles";
 const Revision = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
+  const [isLoading, setLoading] = useState(false);
   const [revisionProduct, setRevisionProduct] = useState([]);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
@@ -31,6 +32,7 @@ const Revision = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     if(user?.isLoggedIn && user?.role === "contributor"){
       try {
         axios
@@ -41,10 +43,12 @@ const Revision = () => {
             console.log("data", data);
             if (data?.status) {
               setRevisionProduct(data.images);
+              setLoading(false);
             }
           });
       } catch (error) {
         console.log("Revision product", error);
+        setLoading(false);
       }
     }
   }, [user?.isLoggedIn, user?.role, user?.token])
@@ -64,26 +68,34 @@ const Revision = () => {
             </div>
 
             <Grid container spacing={2}>
-              {revisionProduct.length > 0 ? (
-                revisionProduct.map((product) => (
-                  <Grid key={product.id} item xs={3} sm={2} md={2} className={classes.productItem}>
-                    <Card className={classes.cardWrapper}>
-                      <div className={classes.cardImage}>
-                        <img src={getBaseURL().bucket_base_url + getBaseURL().images + product.original_file} alt={product.title} />
-                      </div>
-                      <CardContent className={classes.cardContent}>
-                        <Typography variant="h3">Revision: {product.title}</Typography>
-                        <Typography> 
-                          File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "} MB
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))
-              ) : (
-                <div className={classes.noItemsFound}>
-                  <Typography>No products are in pending</Typography>
+              {isLoading ? (
+                <div style={{ display: 'flex', justifyContent: "center", alignItems: "center", margin: "0 auto" }}>
+                  <CircularProgress />
                 </div>
+              ) : (
+                <>
+                  {revisionProduct.length > 0 ? (
+                    revisionProduct.map((product) => (
+                      <Grid key={product.id} item xs={3} sm={2} md={2} className={classes.productItem}>
+                        <Card className={classes.cardWrapper}>
+                          <div className={classes.cardImage}>
+                            <img src={getBaseURL().bucket_base_url + getBaseURL().images + product.original_file} alt={product.title} />
+                          </div>
+                          <CardContent className={classes.cardContent}>
+                            <Typography variant="h3">Revision: {product.title}</Typography>
+                            <Typography> 
+                              File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "} MB
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))
+                  ) : (
+                    <div className={classes.noItemsFound}>
+                      <Typography>No products are in pending</Typography>
+                    </div>
+                  )}
+                </>
               )}
             </Grid>
           </div>

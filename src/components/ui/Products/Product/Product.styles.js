@@ -95,6 +95,7 @@ export const useStyles = makeStyles((theme) => ({
   image: {
     width: "100%",
     height: "100%",
+    objectFit: "cover",
   },
   itemFooter: {
     padding: "1rem 0rem",

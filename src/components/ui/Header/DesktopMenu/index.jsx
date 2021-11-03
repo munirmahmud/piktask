@@ -204,7 +204,7 @@ const DesktopMenu = ({ history }) => {
               Premium
             </Button> */}
 
-            {user?.isLoggedIn && user?.role === "user" && user?.isLoggedIn ? (
+            {user?.isLoggedIn && user?.role === "user" ? (
               <div
                 className={classes.userAvatarArea}
                 onClick={handleToggle}
@@ -215,7 +215,7 @@ const DesktopMenu = ({ history }) => {
                 {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
                   <img
                     className={classes.avatar}
-                    src={getBaseURL().bucket_base_url + "/" + user?.avatar}
+                    src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
                     alt="UserPhoto"
                   />
                 ) : (

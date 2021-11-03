@@ -28,9 +28,10 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     "& img": {
       height: "12rem",
-      display: "flex",
       Width: "12rem",
       borderRadius: "50%",
+      objectFit: "cover",
+      display: "flex",
       margin: "0 auto",
       padding: "0.2rem",
       boxShadow: "0px 0px 5px #ddd",

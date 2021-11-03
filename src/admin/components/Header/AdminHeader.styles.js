@@ -123,6 +123,7 @@ const useStyles = makeStyles((theme) => ({
     width: "4rem",
     height: "4rem",
     borderRadius: "100%",
+    objectFit: "cover",
     [theme.breakpoints.down(769)]: {
       width: "3.5rem",
       height: "3.5rem",
