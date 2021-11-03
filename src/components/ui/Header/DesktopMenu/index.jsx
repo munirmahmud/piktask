@@ -19,6 +19,7 @@ import { Link, NavLink } from "react-router-dom";
 import CustomPopper from "../../CustomPopper";
 import useStyles from "./DesktopMenu.styles";
 import { useSelector } from "react-redux";
+import { getBaseURL } from "../../../../helpers";
 
 const DesktopMenu = ({ history }) => {
   const classes = useStyles();
@@ -171,7 +172,7 @@ const DesktopMenu = ({ history }) => {
             />
           </Tabs>
           <Toolbar disableGutters className={classes.toolBarContainer}>
-            { user?.isLogged && user?.role === "contributor" ? (
+            { user?.isLoggedIn && user?.role === "contributor" ? (
               <Button
                 className={classes.sellContentBtn}
                 component={Link}
@@ -203,7 +204,7 @@ const DesktopMenu = ({ history }) => {
               Premium
             </Button> */}
 
-            {user?.isLogged && user?.role === "user" && user?.isLogged ? (
+            {user?.isLoggedIn && user?.role === "user" && user?.isLoggedIn ? (
               <div
                 className={classes.userAvatarArea}
                 onClick={handleToggle}
@@ -211,10 +212,10 @@ const DesktopMenu = ({ history }) => {
                 aria-haspopup="true"
                 ref={anchorRef}
               >
-                {user?.isLogged && user?.avatar && user?.avatar !== "null" ? (
+                {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
                   <img
                     className={classes.avatar}
-                    src={user?.avatar}
+                    src={getBaseURL().bucket_base_url + "/" + user?.avatar}
                     alt="UserPhoto"
                   />
                 ) : (

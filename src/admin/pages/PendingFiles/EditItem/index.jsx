@@ -17,8 +17,6 @@ const EditItem = (props) => {
   const [tagsValue, setTagsValue] = useState([]);
   const [category, setCategory] = useState([]);
   const [title, setTitle] = useState("");
-
-  // const [errorMessage, setErrorMessage] = useState({});
   
   const handleCategoryChange = () => {
     axios
@@ -49,7 +47,6 @@ const EditItem = (props) => {
 
     if (!categoryName) {
       toast.error("Please select a category");
-      // setErrorMessage( {categoryError: })
       return;
     } else if(!title){
       toast.error("The Title field is required.");
@@ -63,7 +60,7 @@ const EditItem = (props) => {
     }
 
     // API integration for set product details 
-    if(user?.isLogged){
+    if(user?.isLoggedIn){
       const url = `${process.env.REACT_APP_API_URL}/images?action=${action}`;
       try {
         const response = await axios({

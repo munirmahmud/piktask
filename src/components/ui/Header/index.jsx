@@ -19,6 +19,7 @@ import CustomPopper from "../CustomPopper";
 import { useSelector } from "react-redux";
 import DesktopMenu from "./DesktopMenu";
 import useStyles from "./Header.styles";
+import { getBaseURL } from "../../../helpers";
 
 const customStyles = makeStyles({
   menuWrapper: {
@@ -117,7 +118,7 @@ const Header = () => {
                 </div>
                 <div>
                   <div className={classes.menuButton}>
-                    {user?.isLogged ? (
+                    {user?.isLoggedIn ? (
                       <div
                         className={classes.userAvatarArea}
                         onClick={handleToggle}
@@ -125,10 +126,10 @@ const Header = () => {
                         aria-haspopup="true"
                         ref={anchorRef}
                       >
-                        {user?.isLogged && user?.avatar && user?.avatar !== "null" ? (
+                        {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
                           <img
                             className={classes.avatar}
-                            src={user?.avatar}
+                            src={getBaseURL().bucket_base_url + "/" + user?.avatar}
                             alt="UserPhoto"
                           />
                         ) : (
@@ -178,7 +179,7 @@ const Header = () => {
             onClick={() => setOpenMobileMenu(false)}
             className={iconClass.closeIcon}
           />
-          {user && user?.isLogged && user?.role === "user" ? (
+          {user && user?.isLoggedIn && user?.role === "user" ? (
             <Button
               component={Link}
               to="/"
@@ -229,7 +230,7 @@ const Header = () => {
               <Link to="/category/logo-mockup">Logo Mockup</Link>
             </MenuItem>
 
-            {user?.isLogged && user?.role === "contributor" ? (
+            {user?.isLoggedIn && user?.role === "contributor" ? (
               <MenuItem
                 onClick={() => setOpenMobileMenu(false)}
                 classes={{ selected: classes.selected }}

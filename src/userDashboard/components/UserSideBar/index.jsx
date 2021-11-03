@@ -35,6 +35,7 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { getBaseURL } from "../../../helpers";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -90,7 +91,7 @@ const UserSideBar = () => {
     setLoading(true);
 
     // get user information
-    if (user?.isLogged) {
+    if (user?.isLoggedIn) {
       axios
         .get(`${process.env.REACT_APP_API_URL}/user/profile`, {
           headers: { Authorization: user?.token },
@@ -106,7 +107,7 @@ const UserSideBar = () => {
           console.log(error.message);
         });
     }
-  }, [user?.token, user?.isLogged]);
+  }, [user?.token, user?.isLoggedIn]);
 
   //close account modal
   const handleDialogOpen = () => { setAlertDialog(true);};
@@ -134,7 +135,7 @@ const UserSideBar = () => {
 
   const handleSignout = () => {
     if (user && user?.token) {
-      user.isLogged = false;
+      user.isLoggedIn = false;
       history.push("/");
       localStorage.removeItem("token");
       dispatch({
@@ -230,7 +231,7 @@ const UserSideBar = () => {
               <div className={classes.profileImage}>
                 {profilePicture ? (
                   <div>
-                    <img src={profilePicture} alt="UserProfile" />
+                    <img src={getBaseURL().bucket_base_url + "/" + profilePicture} alt="UserProfile" />
                   </div>
                 ) : (
                   <img src={authorPhoto} alt="UserProfile" />

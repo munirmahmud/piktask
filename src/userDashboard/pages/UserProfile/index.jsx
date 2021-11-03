@@ -88,7 +88,7 @@ const   UserProfile = () => {
   useEffect(() => {
     setLoading(true);
 
-    if(user?.isLogged){
+    if(user?.isLoggedIn){
       axios
       .get(`${process.env.REACT_APP_API_URL}/user/profile`, {
         headers: { Authorization: user?.token },
@@ -117,7 +117,7 @@ const   UserProfile = () => {
         console.log(error.message);
       });
     }
-  }, [user?.token, user?.isLogged]);
+  }, [user?.token, user?.isLoggedIn]);
 
   //Update user profile
   const handleSubmit = (e) => {

@@ -42,7 +42,7 @@ const RejectFiles = () => {
   }, []);
 
   useEffect(() => {
-    if(user?.isLogged && user?.role === "contributor"){
+    if(user?.isLoggedIn && user?.role === "contributor"){
       try {
         axios
           .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected`, {
@@ -57,7 +57,7 @@ const RejectFiles = () => {
         console.log("Rejected product", error);
       }
     }
-  }, [user?.isLogged, user?.role, user?.token])
+  }, [user?.isLoggedIn, user?.role, user?.token])
 
   const handleClick = (product) => {
     // Reject API integration

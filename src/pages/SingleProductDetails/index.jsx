@@ -104,7 +104,7 @@ const SingleProductDetails = () => {
             setAllTags(tags.filter((e) => e));
           }
 
-          if (user && user?.isLogged && user.role === "user") {
+          if (user && user?.isLoggedIn && user.role === "user") {
             axios
               .get(
                 `${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.detail.user_id}`,
@@ -123,7 +123,7 @@ const SingleProductDetails = () => {
       .catch((error) => console.log("Single image", error));
 
     // Like status API
-    if (user && user?.isLogged && user?.role === "user") {
+    if (user && user?.isLoggedIn && user?.role === "user") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/images/${imageID}/like_status`, {
           headers: { Authorization: user?.token },
@@ -145,7 +145,7 @@ const SingleProductDetails = () => {
     // related product API
     let relatedImageURL;
 
-    if (user?.isLogged && user?.id && user?.role === "user") {
+    if (user?.isLoggedIn && user?.id && user?.role === "user") {
       relatedImageURL = `${process.env.REACT_APP_API_URL}/images/${imageID}/related_image?user_id=${user?.id}`;
     } else {
       relatedImageURL = `${process.env.REACT_APP_API_URL}/images/${imageID}/related_image`;
@@ -159,17 +159,17 @@ const SingleProductDetails = () => {
         }
       })
       .catch((error) => console.log("Related image error: ", error));
-  }, [imageID, user?.id, user?.isLogged, user?.role]);
+  }, [imageID, user?.id, user?.isLoggedIn, user?.role]);
 
   const handleFollower = () => {
-    if (!user?.isLogged && window.innerWidth > 900) {
+    if (!user?.isLoggedIn && window.innerWidth > 900) {
       setOpenAuthModal(true);
-    } else if (!user?.isLogged && window.innerWidth < 900) {
+    } else if (!user?.isLoggedIn && window.innerWidth < 900) {
       history.push(`/login?url=${location.pathname}`);
     } else if (
       user?.id !== imageDetails?.user_id &&
       user &&
-      user?.isLogged &&
+      user?.isLoggedIn &&
       user?.role === "user"
     ) {
       axios
@@ -189,14 +189,14 @@ const SingleProductDetails = () => {
   };
 
   const handleLikeBtn = () => {
-    if (!user?.isLogged && window.innerWidth > 900) {
+    if (!user?.isLoggedIn && window.innerWidth > 900) {
       setOpenAuthModal(true);
-    } else if (!user?.isLogged && window.innerWidth < 900) {
+    } else if (!user?.isLoggedIn && window.innerWidth < 900) {
       history.push(`/login?url=${location.pathname}`);
     } else if (
       user?.id !== imageDetails?.user_id &&
       user &&
-      user?.isLogged &&
+      user?.isLoggedIn &&
       user?.role === "user"
     ) {
       axios
@@ -238,7 +238,7 @@ const SingleProductDetails = () => {
       method: "get",
     };
 
-    if (user && user?.isLogged) {
+    if (user && user?.isLoggedIn) {
       if(user?.role === "user"){
         downloadAPI.headers = { Authorization: user?.token };
       } else{

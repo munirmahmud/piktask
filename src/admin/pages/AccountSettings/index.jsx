@@ -91,7 +91,7 @@ const AccountSettings = () => {
   useEffect(() => {
     setLoading(true);
 
-    if (user?.isLogged) {
+    if (user?.isLoggedIn) {
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/profile`, {
           headers: { Authorization: user?.token },
@@ -132,7 +132,7 @@ const AccountSettings = () => {
           console.log(error.message);
         });
     }
-  }, [user?.token, user?.isLogged]);
+  }, [user?.token, user?.isLoggedIn]);
 
   //Update contributor profile
   const handleSubmit = (e) => {
@@ -269,7 +269,7 @@ const AccountSettings = () => {
 
   //payment getWay
   useEffect(() => {
-    if (user?.isLogged) {
+    if (user?.isLoggedIn) {
       axios
         .get(`${process.env.REACT_APP_API_URL}/payment`, {
           headers: { Authorization: user.token },
@@ -283,7 +283,7 @@ const AccountSettings = () => {
           console.log(error.message);
         });
     }
-  }, [user.token, user?.isLogged]);
+  }, [user.token, user?.isLoggedIn]);
 
   return (
     <Layout title="Profile | Piktask">
