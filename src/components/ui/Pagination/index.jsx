@@ -24,8 +24,6 @@ const Paginations = (props) => {
           shape="rounded"
           color="primary"
           size="medium"
-          showFirstButton
-          showLastButton
           pageCount={pageCount}
         />
       </div>

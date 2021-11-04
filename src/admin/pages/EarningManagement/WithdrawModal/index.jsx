@@ -55,7 +55,7 @@ const WithdrawModal = (props) => {
   } = props;
 
   
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [authData, setAuthData] = useState("");
   const [errors, setErrors] = useState("");
 
@@ -81,22 +81,21 @@ const WithdrawModal = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true); 
 
-    if(user?.token && !errors){
+    if(user?.isLoggedIn && !errors){
       axios
         .post(`${process.env.REACT_APP_API_URL}/contributor/withdrawals/request`,
           {amount: authData}, 
-          {headers: { Authorization: user.token },}
+          {headers: { Authorization: user?.token },}
         )
         .then(({ data }) => {
-          console.log("data", data);
           if (data?.status) {
             setLoading(false);
           }
         })
         .catch((error) => {
           console.log(error.message);
+          setLoading(false);
         });
     }
   };

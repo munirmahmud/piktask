@@ -6,15 +6,11 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-// import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-// import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import behanceIcon from "../../../assets/icons/behance.svg";
-// import cardsIcon from "../../../assets/icons/cards.svg";
-// import cvcIcon from "../../../assets/icons/cvcicon.svg";
 import dribbbleIcon from "../../../assets/icons/dribble.svg";
 import facebookIcon from "../../../assets/icons/facebook.svg";
 import freepikIcon from "../../../assets/icons/freepik.svg";
@@ -31,7 +27,6 @@ import allCountry from "../../../data/countryList.json";
 
 const AccountSettings = () => {
   const classes = useStyles();
-
   const user = useSelector((state) => state.user);
 
   const [paymentMethod, setPaymentMethod] = useState([]);
@@ -54,7 +49,7 @@ const AccountSettings = () => {
   const [twitter, setTwitter] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [instagram, setInstagram] = useState("");
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
 
   //bank info state
@@ -89,9 +84,7 @@ const AccountSettings = () => {
 
   // get contributor information
   useEffect(() => {
-    setLoading(true);
-
-    if (user?.isLoggedIn) {
+    if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/profile`, {
           headers: { Authorization: user?.token },
@@ -130,9 +123,10 @@ const AccountSettings = () => {
         })
         .catch((error) => {
           console.log(error.message);
+          setLoading(false);
         });
     }
-  }, [user?.token, user?.isLoggedIn]);
+  }, [user?.token, user?.isLoggedIn, user?.role]);
 
   //Update contributor profile
   const handleSubmit = (e) => {
@@ -247,7 +241,7 @@ const AccountSettings = () => {
         method: "put",
         url,
         headers: {
-          Authorization: user.token,
+          Authorization: user?.token,
           "Content-Type": "application/json",
         },
         data: formData,
@@ -269,10 +263,10 @@ const AccountSettings = () => {
 
   //payment getWay
   useEffect(() => {
-    if (user?.isLoggedIn) {
+    if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/payment`, {
-          headers: { Authorization: user.token },
+          headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -283,7 +277,7 @@ const AccountSettings = () => {
           console.log(error.message);
         });
     }
-  }, [user.token, user?.isLoggedIn]);
+  }, [user.token, user?.isLoggedIn, user?.role]);
 
   return (
     <Layout title="Profile | Piktask">

@@ -4,7 +4,6 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AccountSettings from "./admin/pages/AccountSettings";
 import TagRelatedProducts from "./pages/TagRelatedProducts";
 import AdminDashboard from "./admin/pages/AdminDashboard";
-import BecomeContributor from "./pages/BecomeContributor";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import PendingFiles from "./admin/pages/PendingFiles";
@@ -159,8 +158,6 @@ const App = () => {
         <Route exact path="/support" component={Support} />
         <Route exact path="/contact" component={Contact} />
 
-        <Route exact path="/start-selling" component={BecomeContributor} />
-        <Route exact path="/email/verify" component={CompleteRegistration} />
 
         {/* Category pages */}
         <Route exact path="/vector" component={Category} />
@@ -179,6 +176,7 @@ const App = () => {
         <Route exact path="/confirm-signup" component={ConfirmSignup} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/reset-password" component={ResetPassword} />
+        <Route exact path="/email/verify" component={CompleteRegistration} />
 
         {/* Subscription page */}
         <Route exact path="/subscription" component={Subscription} />

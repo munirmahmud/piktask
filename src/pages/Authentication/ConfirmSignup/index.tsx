@@ -16,6 +16,7 @@ export const ConfirmSignup = () => {
   const [isRedirectTo, setRedirectTo] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [token, setToken] = useState("");
+  const [role, setRole] = useState("")
 
 
   useEffect(() => {
@@ -57,10 +58,10 @@ export const ConfirmSignup = () => {
       axios
       .post(`${process.env.REACT_APP_API_URL}/auth/verify/account`, {token,})
       .then((res) => {
-        console.log("res", res);
         if (res.status === 200) {
           toast.success(res.data.message);
           setLoading(false);
+          setRole(res?.data.role);
           setToken("");
           setRedirectTo(true);
           return;
@@ -77,11 +78,11 @@ export const ConfirmSignup = () => {
   return (
     <Layout title={"Confirm Signup || Piktask"}>
       {/* if confirm redirect to login */}
-      {isRedirectTo && <Redirect to="/login" />}
+      {isRedirectTo && <Redirect to={`/login?${role}`} />}
       <Header />
       <Spacing space={{ height: "2.5rem" }} />
       <Container>
-        <Grid container spacing={0} justify="center">
+        <Grid container spacing={0} alignItems="center" justifyContent="center">
           <Grid item sm={12} md={6}>
             <div className={classes.cardWrapper} style={{ padding: "4rem" }}>
               <div className={classes.cardHeadingWrapper}>

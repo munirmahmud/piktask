@@ -22,13 +22,12 @@ export const Recent = () => {
   const user = useSelector((state) => state.user);
 
   const [recentProduct, setRecentProduct] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(1);
   var limit = 52;
 
   //Recent images API integration
   useEffect(() => {
-    setLoading(true);
     let recentUrl;
     if (user?.isLoggedIn && user?.id) {
       recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=recent&limit=${limit}&page=${pageCount}&user_id=${user.id}`;
@@ -38,12 +37,14 @@ export const Recent = () => {
     axios
       .get(recentUrl)
       .then(({ data }) => {
-        if (data?.status) {
+        if (data?.images.length > 0) {
           setRecentProduct(data?.images);
           dispatch({
             type: "RECENT_PHOTOS",
             payload: [...data?.images],
           })
+          setLoading(false);
+        } else {
           setLoading(false);
         }
       })

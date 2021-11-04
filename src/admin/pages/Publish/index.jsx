@@ -2,6 +2,7 @@ import {
   Button,
   Card, 
   CardContent, 
+  CircularProgress, 
   FormControl, 
   Grid, 
   Paper, 
@@ -26,7 +27,7 @@ import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { getBaseURL, getWords } from "../../../helpers";
 import { Link } from "react-router-dom";
-import premiumFileSell from '../../../assets/icons/crownEnterpriseIcon.svg';
+// import premiumFileSell from '../../../assets/icons/crownEnterpriseIcon.svg';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 const Publish = () => {
@@ -34,15 +35,13 @@ const Publish = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [allPublishProduct, setAllPublishProduct] = useState([]);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
 
   useEffect(() => {
-    setLoading(true);
-
     const setResponsiveness = () => {
       return window.innerWidth < 900
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
@@ -60,14 +59,15 @@ const Publish = () => {
         { headers: { Authorization: user?.token },}
         )
         .then(({data}) => {
-          if(data?.status) {
+          if(data?.images.length > 0) {
             setAllPublishProduct(data?.images);
             setLoading(false);
-
             dispatch({
               type: "TOTAL_IMAGE_EARNING",
               payload: [...data?.images],
             });
+          } else {
+            setLoading(false);
           }
         }
       )
@@ -149,7 +149,6 @@ const Publish = () => {
 
   return (
     <Layout title="Publish | Piktask">
-      {isLoading}
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
@@ -185,8 +184,8 @@ const Publish = () => {
                           id: "months",
                         }}
                       >
-                        {fromMonths.length > 0 &&
-                          fromMonths.map((month, index) => (
+                        {fromMonths?.length > 0 &&
+                          fromMonths?.map((month, index) => (
                             <option key={month} value={month}>
                               {month}
                             </option>
@@ -255,8 +254,8 @@ const Publish = () => {
                           id: "months",
                         }}
                       >
-                        {toMonths.length > 0 &&
-                          toMonths.map((month, index) => (
+                        {toMonths?.length > 0 &&
+                          toMonths?.map((month, index) => (
                             <option key={month} value={month}>
                               {month}
                             </option>
@@ -352,55 +351,84 @@ const Publish = () => {
                         </TableHead>
 
                         <TableBody>
-                          {allPublishProduct?.length > 0 && (
-                            allPublishProduct?.map((product) => (
-                              <TableRow
-                                key={product?.id}
-                                className={classes.tableRowContent}
-                              >
-                                <TableCell className={`${classes.tableCell} ${classes.authProductWrapper}`}>
-                                  <Link to={`/images/${product?.title.replace(/ /g, "_")}&id=${product?.id}`}>
-                                    <img
-                                      className={classes.publishImg}
-                                      src={getBaseURL().bucket_base_url + getBaseURL().images + product?.preview}
-                                      alt={product?.preview}
-                                    />
-                                  </Link>
-                                  
-                                  {/* {product?.item_for_sale === "sale" && (
-                                    <div className={classes.premiumIcon}>
-                                      <img src={premiumFileSell} alt="Premium Product" />
-                                    </div>
-                                  )} */}
-                                </TableCell>
-                                <TableCell style={{textAlign: "left"}} className={classes.tableCell}>
-                                  {product?.title.split(" ").length > 4 ? (
-                                    <>
-                                    { getWords(4, product?.title)}...
-                                    </>
-                                  ) : (
-                                    <>
-                                      {product?.title}
-                                    </>
-                                  )}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  {product?.extension}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  {product?.total_likes}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  {product?.total_downloads}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  <AttachMoneyIcon />{product?.earn_per_image}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  {moment(product?.createdAt).format("LL")}
-                                </TableCell>
-                              </TableRow>
-                            ))
+                          {isLoading ? (
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                margin: "0 auto",
+                                height: 300,
+                              }}
+                            >
+                              <CircularProgress color="primary" />
+                            </div>
+                          ) : (
+                            <>
+                              {allPublishProduct?.length > 0 ? (
+                                allPublishProduct?.map((product) => (
+                                  <TableRow
+                                    key={product?.id}
+                                    className={classes.tableRowContent}
+                                  >
+                                    <TableCell className={`${classes.tableCell} ${classes.authProductWrapper}`}>
+                                      <Link to={`/images/${product?.title.replace(/ /g, "_")}&id=${product?.id}`}>
+                                        <img
+                                          className={classes.publishImg}
+                                          src={getBaseURL().bucket_base_url + getBaseURL().images + product?.preview}
+                                          alt={product?.preview}
+                                        />
+                                      </Link>
+                                      
+                                      {/* {product?.item_for_sale === "sale" && (
+                                        <div className={classes.premiumIcon}>
+                                          <img src={premiumFileSell} alt="Premium Product" />
+                                        </div>
+                                      )} */}
+                                    </TableCell>
+                                    <TableCell style={{textAlign: "left"}} className={classes.tableCell}>
+                                      {product?.title.split(" ").length > 4 ? (
+                                        <>
+                                        { getWords(4, product?.title)}...
+                                        </>
+                                      ) : (
+                                        <>
+                                          {product?.title}
+                                        </>
+                                      )}
+                                    </TableCell>
+                                    <TableCell className={classes.tableCell}>
+                                      {product?.extension}
+                                    </TableCell>
+                                    <TableCell className={classes.tableCell}>
+                                      {product?.total_likes}
+                                    </TableCell>
+                                    <TableCell className={classes.tableCell}>
+                                      {product?.total_downloads}
+                                    </TableCell>
+                                    <TableCell className={classes.tableCell}>
+                                      <AttachMoneyIcon />{product?.earn_per_image}
+                                    </TableCell>
+                                    <TableCell className={classes.tableCell}>
+                                      {moment(product?.createdAt).format("LL")}
+                                    </TableCell>
+                                  </TableRow>
+                                ))
+                              ) : (
+                                <div 
+                                  className={classes.noItemsFound}
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    margin: "0 auto",
+                                    height: 300
+                                  }}
+                                >
+                                  <Typography variant="h3">No products are in pending</Typography>
+                                </div>
+                              )}
+                            </>
                           )}
                         </TableBody>
                       </Table>
