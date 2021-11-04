@@ -5,7 +5,7 @@ import { Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { Box, LinearProgress } from "@mui/material";
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -37,23 +37,10 @@ const UploadFiles = () => {
   const history = useHistory();
   const user = useSelector((state) => state.user);
 
-  const [item_for_sale, setItem_for_sale] = useState("free");
-  const [archivedFileSrc, setArchivedFileSrc] = useState("");
-  const [typeOfImage, setTypeOfImage] = useState("image");
-  const [categoryItems, setcategoryItems] = useState([]);
-  const [imageFileSrc, setImageFileSrc] = useState("");
   const [description, setDescription] = useState("");
   const [imageError, setImageError] = useState("");
-  const [usages, setUsages] = useState("free");
-  const [category, setCategory] = useState(1);
-  const [price, setPrice] = useState("0");
-  const [title, setTitle] = useState("");
 
-  const [isArchivedFile, setArchivedFile] = useState(true);
-  const [titleError, setTitleError] = useState(false);
-  const [isImageFile, setImageFile] = useState(true);
   const [isLoading, setLoading] = useState(false);
-  const [itemSale, setItemSale] = useState(false);
   let isUploadBtnDisabled = true;
 
   //for tag element
@@ -62,6 +49,7 @@ const UploadFiles = () => {
   const [thumbImage, setThumbImage] = useState("");
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const [isImageDimensionOkay, setImageDimensionOkay] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const { mobileView } = menuSate;
 
@@ -79,7 +67,7 @@ const UploadFiles = () => {
 
   const { getRootProps, getInputProps, isDragActive, fileRejections } =
     useDropzone({
-      accept: "image/*, .ai,.eps,.psd,.svg ",
+      accept: "image/*, .ai,.eps,.psd,.svg",
       noKeyboard: true,
       onDrop: (acceptedFiles) => {
         setThumbImage(acceptedFiles[0]);
@@ -117,13 +105,19 @@ const UploadFiles = () => {
     const element = file;
     const fileName = element.name.split(".")[0];
 
+    let timer = null;
+    // timer = setInterval(() => {
+    //   setProgress((prevProgress) =>
+    //     prevProgress >= 100 ? 10 : prevProgress + 10
+    //   );
+    // }, 600);
+
     return new Promise((resolve, reject) => {
       var fr = new FileReader();
       fr.onload = async (ev) => {
         const fileSize = ev.target.result.byteLength;
 
         if (fileSize < chunkSize) {
-          console.log("fast conditions");
           const headers = {
             Authorization: user.token,
             "content-type": "application/octet-stream",
@@ -132,27 +126,66 @@ const UploadFiles = () => {
             end: true,
             "file-name": element.name,
           };
-          console.log("token match from 1st con", tokenMatch);
 
           if (tokenMatch[fileName]) {
             headers["token-id"] = tokenMatch[fileName];
           }
 
-          try {
-            let response = await fetch(url, {
-              method: "POST",
-              headers,
-              body: ev.target.result,
+          axios({
+            url,
+            method: "POST",
+            headers,
+            data: ev.target.result,
+
+            onUploadProgress: (progressEvent) => {
+              const { loaded, total } = progressEvent;
+
+              let percent = Math.round((loaded / total) * 100);
+              setProgress(percent);
+            },
+          })
+            .then((response) => {
+              if (response.errors) {
+                toast.error(response.errors);
+                // return;
+              } else if (response.status) {
+                tokenMatch[fileName] = response.token_id;
+                toast.success(
+                  "File uploaded successfully. Please add your files meta."
+                );
+
+                setTimeout(() => {
+                  setFiles([]);
+                }, 600);
+                resolve();
+              }
+            })
+            .catch((error) => {
+              console.log("Single file upload error", error);
+              reject();
             });
 
-            response = await response.json();
-            tokenMatch[fileName] = response.token_id;
-            resolve();
-            console.log("response token 1st", tokenMatch);
-          } catch (error) {
-            console.error(error);
-            reject();
-          }
+          // try {
+          //   const data = await fetch(url, {
+          //     method: "POST",
+          //     headers,
+          //     body: ev.target.result,
+          //   });
+
+          //   const response = await data.json();
+
+          //   console.log("response", response);
+          //   if (response.errors) {
+          //     toast.error(response.errors);
+          //     // return;
+          //   } else if (response.status) {
+          //     tokenMatch[fileName] = response.token_id;
+          //     resolve();
+          //   }
+          // } catch (error) {
+          //   console.log("File upload error", error);
+          //   reject();
+          // }
         } else {
           let uploadId;
           for (let i = 0; i < fileSize / chunkSize + 1; i++) {
@@ -240,7 +273,6 @@ const UploadFiles = () => {
       };
       fr.onerror = reject;
       fr.readAsArrayBuffer(element);
-      console.log("element.name", element.name);
     });
   };
 
@@ -256,17 +288,16 @@ const UploadFiles = () => {
   };
 
   //ProgressBar
-  const [progress, setProgress] = useState(0);
-  useCallback(() => {
-    const timer = setInterval(() => {
-      setProgress((prevProgress) =>
-        prevProgress >= 100 ? 10 : prevProgress + 10
-      );
-    }, 800);
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  // useCallback(() => {
+  //   const timer = setInterval(() => {
+  //     setProgress((prevProgress) =>
+  //       prevProgress >= 100 ? 10 : prevProgress + 10
+  //     );
+  //   }, 800);
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, [progress]);
 
   //remove file function
   const removeFile = (file, itemIndex) => {
@@ -280,7 +311,7 @@ const UploadFiles = () => {
   function checkFileSize(file) {
     let fileStatus = [];
 
-    files.map((file) => {
+    files?.map((file) => {
       if (
         (file.name.match(/\.(jpg|jpeg|png|gif)$/) && file.size < 524288) ||
         file.size > 83886080 ||
@@ -313,7 +344,7 @@ const UploadFiles = () => {
   const getUploadFiles = () => {
     checkFileSize();
 
-    return files.map((file, index) => (
+    return files?.map((file, index) => (
       <div className="files-wrapper" key={file.name}>
         {(file.name.match(/\.(jpg|jpeg|png|gif)$/) && file.size < 524288) ||
         file.size > 83886080 ||
@@ -387,67 +418,6 @@ const UploadFiles = () => {
         )}
       </div>
     ));
-  };
-
-  const handleSubmits = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setTitleError(false);
-
-    const formData = new FormData();
-    formData.append("title", title.toString());
-    formData.append("tags", tags.toString());
-    formData.append("category", category);
-    formData.append("item_for_sale", item_for_sale);
-    formData.append("price", price);
-    formData.append("usages", usages);
-    formData.append("description", description);
-    formData.append("preview", thumbImage);
-    if (typeOfImage === "image") {
-      formData.append("original_file", imageFileSrc);
-    } else if (typeOfImage === "zip") {
-      formData.append("isZip", true);
-      formData.append("zip_folder", archivedFileSrc);
-    }
-
-    const url = `${process.env.REACT_APP_API_URL}/images/upload`;
-    axios({
-      method: "post",
-      url,
-      data: formData,
-      headers: {
-        Authorization: user?.token,
-        "Content-Type": "multipart/form-data",
-      },
-    })
-      .then((res) => {
-        if (res?.status === 200) {
-          toast.success(res.data.message);
-          setLoading(false);
-          setTitle("");
-          setDescription("");
-          setTags([]);
-          setCategory("");
-          setPrice("");
-          setUsages("");
-          setItem_for_sale("");
-          setFiles([]);
-          setTypeOfImage("");
-        }
-        if (res?.status === 401) {
-          localStorage.removeItem("token");
-          toast.success("Please login Again");
-          history.replace("/login");
-          setLoading(false);
-        }
-      })
-      .catch((error) => {
-        const { errors } = error.response.data;
-        for (let key in errors) {
-          toast.error(errors[key]);
-        }
-        setLoading(false);
-      });
   };
 
   return (

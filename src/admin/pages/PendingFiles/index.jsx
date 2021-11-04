@@ -72,7 +72,9 @@ const PendingFiles = () => {
         })
         .then(({ data }) => {
           if (data?.status) {
-            const index = pendingProducts.findIndex((item) => item.token_id === id);
+            const index = pendingProducts.findIndex(
+              (item) => item.token_id === id
+            );
             pendingProducts.splice(index, 1);
             setPendingProducts([...pendingProducts]);
             toast.success(data.message);
@@ -180,15 +182,21 @@ const PendingFiles = () => {
                       classes={{ root: classes.root }}
                       ref={cardRef}
                     >
-
                       <img
-                        src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file}
+                        src={
+                          getBaseURL().bucket_base_url +
+                          getBaseURL().images +
+                          product?.original_file
+                        }
                         alt={product?.original_name}
                       />
                       <CardContent>
-                        <Typography variant="h3">{product?.original_name}</Typography>
-                        <Typography variant="body2"> 
-                          File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "} MB
+                        <Typography variant="h3">
+                          {product?.original_name}
+                        </Typography>
+                        <Typography variant="body2">
+                          File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "}
+                          MB
                         </Typography>
                       </CardContent>
                     </Card>
