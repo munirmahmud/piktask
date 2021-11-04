@@ -1,12 +1,12 @@
 import { Container, Typography } from "@material-ui/core";
 import React from "react";
+import rightArrow from "../../../assets/icons/stepArrow.svg";
 import Spacing from "../../../components/Spacing";
 import CallToAction from "../../../components/ui/CallToAction";
 import Footer from "../../../components/ui/Footer";
 import HeroSection from "../../../components/ui/Hero";
 import Layout from "../../../Layout";
 import useStyles from "./JoinNow.style";
-import rightArrow from "../../../assets/icons/stepArrow.svg";
 
 const JoinNow = () => {
   const classes = useStyles();

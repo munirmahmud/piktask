@@ -1,5 +1,4 @@
 import { ThemeProvider } from "@material-ui/core/styles";
-import LinearProgress from "@mui/material/LinearProgress";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
@@ -28,7 +27,6 @@ import {
   CookiesPolicy,
   CopyrightInfo,
   Help,
-  Home,
   LicenseAgreement,
   Login,
   NotFoundPage,
@@ -47,6 +45,7 @@ import AuthorProfile from "./pages/AuthorProfile";
 import BecomeContributor from "./pages/BecomeContributor";
 import Categories from "./pages/Categories";
 import GuidLine from "./pages/GuidLine";
+import Home from "./pages/Home";
 import SearchResults from "./pages/SearchResults";
 import SingleBlogPost from "./pages/SingleBlogPost";
 import SingleProductDetails from "./pages/SingleProductDetails";
@@ -118,7 +117,6 @@ const App = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/client/urls`)
       .then(({ data }) => {
-        console.log("data", data);
         if (data?.status) {
           localStorage.setItem("imageBaseURL", JSON.stringify(data.urls));
           setDataLoaded(false);
@@ -126,14 +124,11 @@ const App = () => {
       });
   }, [dispatch]);
 
-  return isDataLoaded ? (
-    <LinearProgress />
-  ) : (
+  return (
     <ThemeProvider theme={theme}>
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
-
         {/* Contributor Dashboard */}
         <Route exact path="/contributor/dashboard" component={AdminDashboard} />
         <Route exact path="/contributor/upload" component={UploadFiles} />

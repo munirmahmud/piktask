@@ -1,15 +1,15 @@
 import { Container, Grid, Typography } from "@material-ui/core";
 import React from "react";
+import bdtaskMembers from "../../assets/aboutUs/bdtask_members.jpg";
+import clientMeeting from "../../assets/aboutUs/meeting_with_client.jpg";
 import Spacing from "../../components/Spacing";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
 import Layout from "../../Layout";
 import useStyles from "./AboutUs.style";
-import clientMeeting from "../../assets/aboutUs/meeting_with_client.jpg";
-import bdtaskMembers from "../../assets/aboutUs/bdtask_members.jpg";
 
-export const AboutUs = () => {
+const AboutUs = () => {
   const classes = useStyles();
   return (
     <Layout>
@@ -101,7 +101,7 @@ export const AboutUs = () => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
                   <Typography variant="h2">Vision</Typography>
-                  <Typography  className={classes.missionVisionDescription}>
+                  <Typography className={classes.missionVisionDescription}>
                     The vision of Bdtask is to introduce technology to mass
                     people to help them improve their lifestyle and solve
                     problems in their daily life through digitalization.
@@ -117,3 +117,5 @@ export const AboutUs = () => {
     </Layout>
   );
 };
+
+export default AboutUs;
