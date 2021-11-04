@@ -16,7 +16,7 @@ const ConfirmSignup = () => {
   const [isRedirectTo, setRedirectTo] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [token, setToken] = useState("");
-  const [role, setRole] = useState("")
+  const [role, setRole] = useState("");
 
   useEffect(() => {
     document.body.style.backgroundColor = "#ECEEF5";
@@ -55,14 +55,14 @@ const ConfirmSignup = () => {
 
     if (token) {
       axios
-      .post(`${process.env.REACT_APP_API_URL}/auth/verify/account`, {token,})
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success(res.data.message);
-          setLoading(false);
-          setRole(res?.data.role);
-          setToken("");
-          setLoading(false);
+        .post(`${process.env.REACT_APP_API_URL}/auth/verify/account`, { token })
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success(res.data.message);
+            setLoading(false);
+            setRole(res?.data.role);
+            setToken("");
+          }
         });
     }
   };

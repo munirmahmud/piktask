@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@material-ui/core/styles";
+import LinearProgress from "@mui/material/LinearProgress";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
@@ -123,7 +124,9 @@ const App = () => {
       });
   }, [dispatch]);
 
-  return (
+  return isDataLoaded ? (
+    <LinearProgress />
+  ) : (
     <ThemeProvider theme={theme}>
       <ToastContainer />
       <Switch>
