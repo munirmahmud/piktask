@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -21,7 +22,6 @@ import Heading from "../../components/Heading";
 import Sidebar from "../../components/Sidebar";
 import EditItem from "./EditItem";
 import useStyles from "./PendingFiles.styles";
-import CircularProgress from '@mui/material/CircularProgress';
 
 const PendingFiles = () => {
   const classes = useStyles();
@@ -59,7 +59,7 @@ const PendingFiles = () => {
           .then(({ data }) => {
             if (data?.status) {
               setPendingProducts(data.images);
-              setLoading(false)
+              setLoading(false);
             }
           });
       } catch (error) {
@@ -77,7 +77,9 @@ const PendingFiles = () => {
         })
         .then(({ data }) => {
           if (data?.status) {
-            const index = pendingProducts.findIndex((item) => item.token_id === id);
+            const index = pendingProducts.findIndex(
+              (item) => item.token_id === id
+            );
             pendingProducts.splice(index, 1);
             setPendingProducts([...pendingProducts]);
             toast.success(data.message, {
@@ -164,20 +166,20 @@ const PendingFiles = () => {
 
             <Grid container spacing={2}>
               {isLoading ? (
-                <div 
-                  style={{ 
-                    display: 'flex', 
-                    justifyContent: "center", 
-                    alignItems: "center", 
-                    margin: "0 auto" 
-                    }}
-                  >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "0 auto",
+                  }}
+                >
                   <CircularProgress color="primary" />
                 </div>
               ) : (
                 <>
-                  {pendingProducts.length > 0 ? (
-                    pendingProducts.map((product) => (
+                  {pendingProducts?.length > 0 ? (
+                    pendingProducts?.map((product) => (
                       <Grid
                         key={product?.id}
                         item
@@ -200,15 +202,21 @@ const PendingFiles = () => {
                           classes={{ root: classes.root }}
                           ref={cardRef}
                         >
-
                           <img
-                            src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file}
+                            src={
+                              getBaseURL().bucket_base_url +
+                              getBaseURL().images +
+                              product?.original_file
+                            }
                             alt={product?.original_name}
                           />
                           <CardContent>
-                            <Typography variant="h3">{product?.original_name}</Typography>
-                            <Typography variant="body2"> 
-                              File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "} MB
+                            <Typography variant="h3">
+                              {product?.original_name}
+                            </Typography>
+                            <Typography variant="body2">
+                              File Size:{" "}
+                              {(product.size / 1024 / 1024).toFixed(2)} MB
                             </Typography>
                           </CardContent>
                         </Card>
