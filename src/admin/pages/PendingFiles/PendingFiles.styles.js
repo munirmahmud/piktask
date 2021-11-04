@@ -116,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 99,
+    zIndex: 1,
   },
   editIcon: {
     color: "#DDD",

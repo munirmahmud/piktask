@@ -20,7 +20,7 @@ import useStyles from './Popular.style';
 export const PopularImages = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [popularProducts, setPopularProducts] = useState({});
 
   useEffect(() => {
@@ -46,10 +46,9 @@ export const PopularImages = () => {
   }, [user]);
 
   return (
-    <Layout title={`Popular Image || Piktask`}>
-        <Header />
-        <HeroSection
-        // background={heroBanner}
+    <Layout title="Popular Image | Piktask">
+      <Header />
+      <HeroSection
         size="large"
         popularKeywords
         title="Graphic Resource for Free Download"

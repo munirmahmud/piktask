@@ -1,8 +1,7 @@
-import { Button, Container, Grid } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Spacing from "../../components/Spacing";
 import Blog from "../../components/ui/Blog";
 import CallToAction from "../../components/ui/CallToAction";
@@ -11,51 +10,48 @@ import Header from "../../components/ui/Header";
 import SectionHeading from "../../components/ui/Heading";
 import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
+import Paginations from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
-import { TopSeller } from "../../components/ui/TopSeller";
 import Layout from "../../Layout";
 import useStyles from "./Recent.style";
 
 export const Recent = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [isLoading, setLoading] = useState(true);
+
   const [recentProduct, setRecentProduct] = useState([]);
-  // const [items, setItems] = useState([]);
-  // const [newProduct, setNewProduct] = useState([]);
-  // let [pageCount, setPageCount] = useState(1);
+  const [isLoading, setLoading] = useState(false);
+  const [pageCount, setPageCount] = useState(1);
+  var limit = 52;
 
-  // console.log("Page count", pageCount);
-
-  //data load
-  const loadData = () => {
+  //Recent images API integration
+  useEffect(() => {
+    setLoading(true);
     let recentUrl;
-    if (user && user?.id) {
-      recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=recent&user_id=${user.id}&limit=100`;
+    if (user?.isLoggedIn && user?.id) {
+      recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=recent&limit=${limit}&page=${pageCount}&user_id=${user.id}`;
     } else {
-      recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=recent&limit=100`;
+      recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=recent&limit=${limit}&page=${pageCount}`;
     }
     axios
       .get(recentUrl)
       .then(({ data }) => {
         if (data?.status) {
           setRecentProduct(data?.images);
+          dispatch({
+            type: "RECENT_PHOTOS",
+            payload: [...data?.images],
+          })
           setLoading(false);
-          // recentProduct.push(recentProduct.concat(recentProduct));
         }
       })
       .catch((error) => {
         console.log("Category products error:", error);
         setLoading(false);
       });
-  };
-
-  //Load Initial value
-  useEffect(() => {
-    setLoading(true);
-    loadData();
-  }, []);
+  }, [user?.isLoggedIn, user?.id, limit, pageCount, dispatch]);
 
   //onScroll data load
   // useEffect(() => {
@@ -89,7 +85,7 @@ export const Recent = () => {
 
 
   return (
-    <Layout title="Recent Images || Piktask" description="Recent Images">
+    <Layout title="Recent Images | Piktask" description="Recent Images">
       <Header />
       <HeroSection
         size="large"
@@ -124,6 +120,7 @@ export const Recent = () => {
             </>
           )}
         </Grid>
+        <Paginations pageCount={pageCount} setPageCount={setPageCount} />
       </Container>
 
       <Spacing space={{ height: "3.5rem" }} />

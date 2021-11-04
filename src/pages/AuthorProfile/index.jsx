@@ -14,19 +14,21 @@ import { useHistory, useLocation, useParams } from "react-router";
 import Layout from "../../Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getBaseURL } from "../../helpers";
+import Spacing from "../../components/Spacing";
 
 const AuthorProfile = () => {
   const classes = useStyles();
-  const { username } = useParams();
   const history = useHistory();
   const location = useLocation();
+  const { username } = useParams();
   const user = useSelector((state) => state.user);
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
-  const [isLoading, setLoading] = useState(true);
   const [imageSummery, setImageSummery] = useState([]);
   const [isFollowing, setFollowing] = useState(false);
   const [profileInfo, setProfileInfo] = useState({});
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -58,7 +60,7 @@ const AuthorProfile = () => {
           }
         });
     } catch (error) {
-      console.log(error);
+      console.log("statistics", error);
     }
   }, [username, user]);
 
@@ -92,7 +94,7 @@ const AuthorProfile = () => {
 
 
   return (
-    <Layout title={`${profileInfo?.username} || Piktask`}>
+    <Layout title={`${profileInfo?.username} | Piktask`}>
       <Header />
       <div
         className={classes.authorHero}
@@ -108,7 +110,7 @@ const AuthorProfile = () => {
                   <div className={classes.authorImg}>
                     {profileInfo?.avatar ? (  
                       <img
-                        src={profileInfo?.avatar}
+                        src={getBaseURL().bucket_base_url + getBaseURL().profiles + profileInfo?.avatar}
                         alt={profileInfo?.username}
                       />
                     ) : (
@@ -165,8 +167,8 @@ const AuthorProfile = () => {
         </Container>
       </div>
       <AuthorItems userId={profileInfo.id} imageSummery={imageSummery} />
-
-      {!user.token ? (
+      <Spacing space={{ height: "4rem" }} />
+      {!user?.isLoggedIn ? (
         <CallToAction
           title="Join Piktask team"
           subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"

@@ -61,8 +61,6 @@ const Product = ({ photo = null }) => {
 
   function pikTaskEncodeURI(data) {
     if (data) {
-      // `/images/${photo?.title.replace(/ /g, "_")}&id=${photo?.image_id}`;
-
       return encodeURI(
         `/images/${data?.title.toLowerCase().replace(/\s/g , "-")}&id=${data?.image_id}`
       );
@@ -156,7 +154,7 @@ const Product = ({ photo = null }) => {
                   <CardMedia
                     component="img"
                     className={classes.authorImage}
-                    image={photo?.avatar}
+                    image={getBaseURL().bucket_base_url + getBaseURL().profiles + photo?.avatar}
                     title={photo?.name}
                   />
                 ) : (

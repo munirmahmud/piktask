@@ -111,7 +111,7 @@ const CustomPopper = ({
                       user?.avatar !== "null" ? (
                         <img
                           className={classes.dropdownUserAvatar}
-                          src={getBaseURL().bucket_base_url + "/" + user?.avatar}
+                          src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
                           alt="UserPhoto"
                         />
                       ) : (
