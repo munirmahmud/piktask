@@ -12,8 +12,10 @@ const AuthorItems = ({ imageSummery, userId }) => {
   const user = useSelector(state => state.user);
 
   const [authorAllResource, setAuthorAllResource] = useState();
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [value, setValue] = useState(0);
+  // const [pageCount, setPageCount] = useState(1);
+  // var limit = 6;
 
   const handleActiveButton = (index) => { setValue(index); };
 
@@ -21,10 +23,9 @@ const AuthorItems = ({ imageSummery, userId }) => {
     setLoading(true);
     
     if (imageSummery[0]?.extension) {
-
       let authorResourcesURL;
 
-      if(user && user?.id){
+      if(user?.isLoggedIn && user?.id){
         authorResourcesURL = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${imageSummery[0]?.extension}?userId=${user?.id}`
       } else {
         authorResourcesURL = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${imageSummery[0]?.extension}`
@@ -41,11 +42,10 @@ const AuthorItems = ({ imageSummery, userId }) => {
         });
       } catch (error) { console.log("All author resources", error); }
     } else { console.log("Sorry no extension found"); }
-  }, [userId, imageSummery, user])
+  }, [userId, imageSummery, user?.isLoggedIn, user?.id])
 
   const handleAuthorResource = (tag) => {
     if (tag) {
-
       let authorResourcesURL;
 
       if(user && user?.id){

@@ -7,7 +7,7 @@ import HeroSection from "../../components/ui/Hero";
 import React, { useEffect, useState } from "react";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import Layout from "../../Layout";
 import axios from "axios";
 import ProductNotFound from "../../components/ui/ProductNotFound";
@@ -17,13 +17,15 @@ import Spacing from "../../components/Spacing";
 const TagTemplate = () => {
   const classes = useStyles();
   const { tagName } = useParams();
+  const location = useLocation();
+  const keywords = location.pathname.split("/tag/").pop().replace(/-/g, ' ');
   const [isLoading, setLoading] = useState(false);
   const [tagRelatedProducts, setTagRelatedProducts] = useState([]);
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${process.env.REACT_APP_API_URL}/client/search/?tag=${tagName}`)
+      .get(`${process.env.REACT_APP_API_URL}/client/search/?tag=${keywords}`)
       .then(({ data }) => {
         if (data?.status) {
           setTagRelatedProducts(data.results);
@@ -31,7 +33,7 @@ const TagTemplate = () => {
         }
       })
       .catch((error) => console.log(" Related Tag Image error: ", error));
-  }, [tagName]);
+  }, [keywords]);
 
   return (
     <Layout title={`${tagName} | Piktask`} description={`${tagName} | Piktask`}>
@@ -39,7 +41,7 @@ const TagTemplate = () => {
       <HeroSection size="medium" />
       <Container>
         <Typography className={classes.totalResources} variant="h4">
-          {`${tagRelatedProducts.length} Resources for "${tagName}"`}
+          {`${tagRelatedProducts.length} Resources for "${tagName.replace(/-/g, ' ')}"`}
         </Typography>
         <Grid classes={{ container: classes.container }} container spacing={2}>
           {isLoading ? (

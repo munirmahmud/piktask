@@ -26,16 +26,18 @@ const useStyles = makeStyles({
 const FavoriteItems = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const [isLoading, setLoading] = useState(true);
-  const [favoriteProducts, setFavoriteProducts] = useState({});
+  
+  const [favoriteProducts, setFavoriteProducts] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(1);
-  var favoriteProduct = 6;
+  var limit = 6;
+  // const displayCount = Math.ceil(favoriteProducts?.length / limit);
 
   useEffect(() => {
     setLoading(true);
     if(user?.isLoggedIn){
       axios
-      .get(`${process.env.REACT_APP_API_URL}/user/favourite_image/?limit=${favoriteProduct}&page=${pageCount}`,
+      .get(`${process.env.REACT_APP_API_URL}/user/favourite_image/?limit=${limit}&page=${pageCount}`,
         { headers: { Authorization: user?.token } }
       )
       .then(({ data }) => {
@@ -49,7 +51,7 @@ const FavoriteItems = () => {
         setLoading(false);
       });
     }
-  }, [user?.isLoggedIn, user?.token, pageCount, favoriteProduct]);
+  }, [user?.isLoggedIn, user?.token, pageCount, limit]);
 
   return (
     <Layout title="Favorite Items | Piktask">
@@ -91,9 +93,7 @@ const FavoriteItems = () => {
               )}
             </Grid>
             {/* {favoriteProducts?.length > 5 && ( */}
-              <>
-                <Paginations pageCount={pageCount} setPageCount={setPageCount} />
-              </>
+              <Paginations pageCount={pageCount} setPageCount={setPageCount} />
             {/* )} */}
           </Grid>
         </Grid>

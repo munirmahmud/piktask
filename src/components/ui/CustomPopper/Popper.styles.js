@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     width: "5rem",
     height: "5rem",
     borderRadius: "100%",
+    objectFit: "cover",
     padding: "0.2rem",
     marginRight: "1rem",
     "@media (max-width: 576px)": {

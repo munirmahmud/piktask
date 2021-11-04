@@ -18,6 +18,8 @@ import Spacing from "../../components/Spacing";
 const SearchResults = () => {
   const classes = useStyles();
   const { pathname } = useLocation();
+  const location = useLocation();
+  const keywords = location.pathname.split("=").pop().replace(/-/g, ' ');
   const user = useSelector((state) => state.user);
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
@@ -25,7 +27,7 @@ const SearchResults = () => {
   const [isLoading, setLoading] = useState(false);
 
   const searchQuery = pathname.split("=");
-  const keywords = searchQuery[1];
+  // const keywords = searchQuery[1];
   const searchCategoryID = searchQuery[3];
 
   const prepareSearchQuery = () => {
@@ -61,7 +63,7 @@ const SearchResults = () => {
   };
 
   return (
-    <Layout title={`${keywords} || Piktask`}>
+    <Layout title={`${keywords} | Piktask`}>
       <Header></Header>
       <HeroSection
         size="large"
@@ -71,7 +73,7 @@ const SearchResults = () => {
 
       <Container>
         <Typography className={classes.totalResources} variant="h3">
-          {`${searchResults.length} Resources for "${keywords}"`}
+          {`${searchResults.length} Resources for "${keywords.replace(/-/g, ' ')}"`}
         </Typography>
         <Grid classes={{ container: classes.container }} container spacing={2}>
           {isLoading ? (

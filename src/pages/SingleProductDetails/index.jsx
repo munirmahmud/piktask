@@ -299,7 +299,7 @@ const SingleProductDetails = () => {
 
   return (
     <Layout
-      title={`${imageDetails?.title} || Piktask`}
+      title={`${imageDetails?.title} | Piktask`}
       description={`${imageDetails?.description} || Piktask`}
     >
       <Header />
@@ -479,7 +479,7 @@ const SingleProductDetails = () => {
                       {imageDetails?.user?.avatar ? (
                         <img
                           className={classes.authorImg}
-                          src={imageDetails?.user?.avatar}
+                          src={getBaseURL().bucket_base_url + getBaseURL().profiles + imageDetails?.user?.avatar}
                           alt={imageDetails?.user?.username}
                         />
                       ) : (
@@ -659,7 +659,7 @@ const SingleProductDetails = () => {
           size="large"
         />
 
-        {/* <Products /> */}
+        {/* Products */}
         <Grid classes={{ container: classes.container }} container spacing={2}>
           {isLoading ? (
             <Loader />
@@ -708,7 +708,7 @@ const SingleProductDetails = () => {
                 justifyContent: "space-between",
               }}
             >
-              <PinterestShareButton url={imageLink}>
+              <PinterestShareButton url={shareUrl} media={imageLink}>
                 <PinterestIcon
                   size={40}
                   style={{ margin: "0.4rem" }}

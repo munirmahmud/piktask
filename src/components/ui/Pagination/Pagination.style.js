@@ -3,8 +3,8 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   pagination: {
     display: "flex",
-    justifyContent: "flex-end",
-
+    justifyContent: "center",
+    alignItems: "center",
     "& button": {
       fontSize: "1.4rem",
       fontWeight: 500,

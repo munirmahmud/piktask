@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   image: {
     width: "100%",
     height: "100%",
+    objectFit: "cover",
     padding: "2rem 2rem",
 
     [theme.breakpoints.down("sm")]: {

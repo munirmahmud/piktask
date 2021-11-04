@@ -171,9 +171,9 @@ const Search = () => {
     setIsExpanded(false);
 
     if(searchCategoryID) {
-      history.push(`/search/title=${searchQuery}&category_id=${searchCategoryID}`);
+      history.push(`/search/title=${searchQuery.toLowerCase().replace(/\s/g , "-")}&category_id=${searchCategoryID}`);
     } else {
-      history.push(`/search/title=${searchQuery}`);
+      history.push(`/search/title=${searchQuery.toLowerCase().replace(/\s/g , "-")}`);
     }
   };
   

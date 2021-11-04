@@ -90,9 +90,7 @@ const DownloadItems = () => {
               )}
             </Grid>
             {/* {downloadsItem?.length >5 && ( */}
-              <>
-                <Paginations pageCount={pageCount} setPageCount={setPageCount} />
-              </>
+              <Paginations pageCount={pageCount} setPageCount={setPageCount} />
             {/* )} */}
           </Grid>
         </Grid>
