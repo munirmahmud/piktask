@@ -113,14 +113,14 @@ const RejectFiles = () => {
                     margin: "0 auto",
                   }}
                 >
-                  <CircularProgress />
+                  <CircularProgress color="primary" />
                 </div>
               ) : (
                 <>
-                  {rejectProduct.length > 0 ? (
+                  {rejectProduct?.length > 0 ? (
                     rejectProduct.map((product) => (
                       <Grid
-                        key={product.id}
+                        key={product?.id}
                         item
                         xs={3}
                         sm={2}
@@ -136,14 +136,13 @@ const RejectFiles = () => {
                               src={
                                 getBaseURL().bucket_base_url +
                                 getBaseURL().images +
-                                product.original_file
+                                product?.original_file
                               }
-                              alt={product.original_name}
+                              alt={product?.original_name}
                             />
                           </div>
                           <CardContent className={classes.cardContent}>
-                            {/* <Typography variant="h3">{product.title}</Typography> */}
-                            <Typography variant="h3">Reject File</Typography>
+                            <Typography variant="h3">{product?.original_name}</Typography>
                           </CardContent>
                         </Card>
                       </Grid>

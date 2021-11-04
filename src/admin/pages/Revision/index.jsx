@@ -1,4 +1,10 @@
-import { Card, CardContent, CircularProgress, Grid, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  CircularProgress,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -33,7 +39,7 @@ const Revision = () => {
 
   useEffect(() => {
     setLoading(true);
-    if(user?.isLoggedIn && user?.role === "contributor"){
+    if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
           .get(`${process.env.REACT_APP_API_URL}/contributor/images/pending`, {
@@ -51,11 +57,10 @@ const Revision = () => {
         setLoading(false);
       }
     }
-  }, [user?.isLoggedIn, user?.role, user?.token])
+  }, [user?.isLoggedIn, user?.role, user?.token]);
 
   return (
     <Layout title="Under Revision | Piktask">
-
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
@@ -64,28 +69,47 @@ const Revision = () => {
           <div className={classes.cardContentWrapper}>
             <div className={classes.headingWrapepr}>
               <Heading tag="h2">Under Revision</Heading>
-              <Typography>Here you can see the submitted files. Our team will review them and check if they meet our <br /> requirements. The files could remain in this stage for a few days. Please be patient!</Typography>
+              <Typography>
+                Here you can see the submitted files. Our team will review them
+                and check if they meet our <br /> requirements. The files could
+                remain in this stage for a few days. Please be patient!
+              </Typography>
             </div>
 
             <Grid container spacing={2}>
               {isLoading ? (
-                <div style={{ display: 'flex', justifyContent: "center", alignItems: "center", margin: "0 auto" }}>
-                  <CircularProgress />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "0 auto",
+                  }}
+                >
+                  <CircularProgress color="primary" />
                 </div>
               ) : (
                 <>
-                  {revisionProduct.length > 0 ? (
+                  {revisionProduct?.length > 0 ? (
                     revisionProduct.map((product) => (
-                      <Grid key={product.id} item xs={3} sm={2} md={2} className={classes.productItem}>
+                      <Grid
+                        key={product?.id}
+                        item
+                        xs={3}
+                        sm={2}
+                        md={2}
+                        className={classes.productItem}
+                      >
                         <Card className={classes.cardWrapper}>
                           <div className={classes.cardImage}>
-                            <img src={getBaseURL().bucket_base_url + getBaseURL().images + product.original_file} alt={product.title} />
+                            <img
+                              src={ getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file }
+                              alt={product.original_name}
+                            />
                           </div>
                           <CardContent className={classes.cardContent}>
-                            <Typography variant="h3">Revision: {product.title}</Typography>
-                            <Typography> 
-                              File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "} MB
-                            </Typography>
+                            <Typography variant="h3">{product.original_name}</Typography>
+                            <Typography>File Size:{" "}{(product.size / 1024 / 1024).toFixed(2)} MB</Typography>
                           </CardContent>
                         </Card>
                       </Grid>
@@ -99,11 +123,10 @@ const Revision = () => {
               )}
             </Grid>
           </div>
-          <Spacing space={{height: "1.8rem"}} />
+          <Spacing space={{ height: "1.8rem" }} />
           <Footer />
         </main>
       </div>
-
     </Layout>
   );
 };

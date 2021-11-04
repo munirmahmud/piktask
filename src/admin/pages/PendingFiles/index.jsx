@@ -164,8 +164,15 @@ const PendingFiles = () => {
 
             <Grid container spacing={2}>
               {isLoading ? (
-                <div style={{ display: 'flex', justifyContent: "center", alignItems: "center", margin: "0 auto" }}>
-                  <CircularProgress />
+                <div 
+                  style={{ 
+                    display: 'flex', 
+                    justifyContent: "center", 
+                    alignItems: "center", 
+                    margin: "0 auto" 
+                    }}
+                  >
+                  <CircularProgress color="primary" />
                 </div>
               ) : (
                 <>
