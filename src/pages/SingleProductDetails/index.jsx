@@ -78,6 +78,7 @@ const SingleProductDetails = () => {
   const [isLike, setLike] = useState(false);
   const [downloadCount, setDownloadCount] = useState();
   const [imageLink, setImageLink] = useState("");
+  const [role, setRole] = useState("");
 
   const handleTooltipClose = () => {
     setOpenCopyLink(false);
@@ -90,8 +91,6 @@ const SingleProductDetails = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
-
     // Match image ID
     axios
       .get(`${process.env.REACT_APP_API_URL}/images/${imageID}`)
@@ -113,14 +112,20 @@ const SingleProductDetails = () => {
               .then((response) => {
                 if (response.data.status) {
                   setFollowing(true);
+                  setLoading(false);
                 } else {
                   setFollowing(false);
+                  setLoading(false);
                 }
               });
           }
+          setLoading(false);
         }
       })
-      .catch((error) => console.log("Single image", error));
+      .catch((error) => {
+        console.log("Single image", error);
+        setLoading(false);
+      });
 
     // Like status API
     if (user && user?.isLoggedIn && user?.role === "user") {
@@ -131,10 +136,13 @@ const SingleProductDetails = () => {
         .then(({ data }) => {
           if (!data?.status) {
             setLike(false);
+            setLoading(false);
           } else if (data?.status) {
             setLike(true);
+            setLoading(false);
           } else {
             console.log("Image like status error");
+            setLoading(false);
           }
         })
         .catch((error) => console.log("Like status error: ", error));
@@ -158,20 +166,20 @@ const SingleProductDetails = () => {
           setLoading(false);
         }
       })
-      .catch((error) => console.log("Related image error: ", error));
+      .catch((error) => {
+        console.log("Related image error: ", error);
+        setLoading(false);
+      });
   }, [imageID, user?.id, user?.isLoggedIn, user?.role]);
 
-  const handleFollower = () => {
+  const handleFollower = (e) => {
     if (!user?.isLoggedIn && window.innerWidth > 900) {
+      setRole(e.currentTarget.value);
       setOpenAuthModal(true);
     } else if (!user?.isLoggedIn && window.innerWidth < 900) {
       history.push(`/login?url=${location.pathname}`);
-    } else if (
-      user?.id !== imageDetails?.user_id &&
-      user &&
-      user?.isLoggedIn &&
-      user?.role === "user"
-    ) {
+    } else if ( user?.id !== imageDetails?.user_id && user && user?.isLoggedIn && user?.role === "user" ) 
+    {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/contributor/followers/${imageDetails?.user_id}`,
@@ -181,24 +189,22 @@ const SingleProductDetails = () => {
         .then((response) => {
           if (response?.status === 200) {
             setFollowing(!isFollowing);
+            setLoading(false);
           }
         });
     } else {
-      toast.error("You can't follow yourself");
+      toast.error("You can't follow yourself", { autoClose: 500,});
     }
   };
 
-  const handleLikeBtn = () => {
+  const handleLikeBtn = (e) => {
     if (!user?.isLoggedIn && window.innerWidth > 900) {
+      setRole(e.currentTarget.value);
       setOpenAuthModal(true);
     } else if (!user?.isLoggedIn && window.innerWidth < 900) {
       history.push(`/login?url=${location.pathname}`);
-    } else if (
-      user?.id !== imageDetails?.user_id &&
-      user &&
-      user?.isLoggedIn &&
-      user?.role === "user"
-    ) {
+    } else if ( user?.id !== imageDetails?.user_id && user && user?.isLoggedIn && user?.role === "user" ) 
+      {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/images/${imageID}/like`,
@@ -208,16 +214,19 @@ const SingleProductDetails = () => {
         .then(({ data }) => {
           if (data?.status) {
             setLike(true);
+            setLoading(false);
           } else if (!data?.status) {
-            toast.error(data.message);
+            toast.error(data.message, {autoClose: 500,});
             setLike(true);
+            setLoading(false);
           } else {
             console.log("Something wrong with the like");
+            setLoading(false);
           }
         })
         .catch((error) => console.log("Like error: ", error));
     } else {
-      toast.error("You can't like yourself");
+      toast.error("You can't like yourself", {autoClose: 500,});
     }
   };
 
@@ -242,6 +251,7 @@ const SingleProductDetails = () => {
       if(user?.role === "user"){
         downloadAPI.headers = { Authorization: user?.token };
       } else{
+        setRole(e.currentTarget.value);
         setOpenAuthModal(true);
         return;
       }
@@ -274,10 +284,11 @@ const SingleProductDetails = () => {
       })
       .catch((error) => {
         console.log("catch", error.response);
-        if (user?.token) {
-          toast.error(error.response.data.message);
+        if (user?.isLoggedIn) {
+          toast.error(error.response.data.message, {autoClose: 500,});
         } else {
-          toast.error(error.response.data.message);
+          toast.error(error.response.data.message, {autoClose: 500,});
+          setRole(e.currentTarget.value);
           setOpenAuthModal(true);
         }
       });
@@ -512,6 +523,7 @@ const SingleProductDetails = () => {
                     <Button
                       className={`${classes.authorBtn} ${classes.followBtn}`}
                       onClick={handleFollower}
+                      value="user"
                     >
                       {!isFollowing ? <>Follow</> : <>Following</>}
                     </Button>
@@ -600,6 +612,7 @@ const SingleProductDetails = () => {
                         <Button
                           className={classes.downloadBtn}
                           onClick={handleDownload}
+                          value="user"
                         >
                           <img src={downArrowIconWhite} alt="Download" />
                           Download
@@ -621,6 +634,7 @@ const SingleProductDetails = () => {
                       <Button
                         className={classes.likeBtn}
                         onClick={handleLikeBtn}
+                        value="user"
                       >
                         <img src={likeIcon} alt="like Button" />
                       </Button>
@@ -650,6 +664,7 @@ const SingleProductDetails = () => {
         <SignUpModal
           openAuthModal={openAuthModal}
           setOpenAuthModal={setOpenAuthModal}
+          role={role}
         />
 
         <Spacing space={{ height: "2.5rem" }}></Spacing>

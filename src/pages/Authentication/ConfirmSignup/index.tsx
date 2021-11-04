@@ -16,6 +16,7 @@ const ConfirmSignup = () => {
   const [isRedirectTo, setRedirectTo] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [token, setToken] = useState("");
+  const [role, setRole] = useState("")
 
   useEffect(() => {
     document.body.style.backgroundColor = "#ECEEF5";
@@ -54,19 +55,12 @@ const ConfirmSignup = () => {
 
     if (token) {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/auth/verify/account`, { token })
-        .then((res) => {
-          console.log("res", res);
-          if (res.status === 200) {
-            toast.success(res.data.message);
-            setLoading(false);
-            setToken("");
-            setRedirectTo(true);
-            return;
-          }
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
+      .post(`${process.env.REACT_APP_API_URL}/auth/verify/account`, {token,})
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success(res.data.message);
+          setLoading(false);
+          setRole(res?.data.role);
           setToken("");
           setLoading(false);
         });
@@ -76,11 +70,11 @@ const ConfirmSignup = () => {
   return (
     <Layout title={"Confirm Signup || Piktask"}>
       {/* if confirm redirect to login */}
-      {isRedirectTo && <Redirect to="/login" />}
+      {isRedirectTo && <Redirect to={`/login?${role}`} />}
       <Header />
       <Spacing space={{ height: "2.5rem" }} />
       <Container>
-        <Grid container spacing={0} justify="center">
+        <Grid container spacing={0} alignItems="center" justifyContent="center">
           <Grid item sm={12} md={6}>
             <div className={classes.cardWrapper} style={{ padding: "4rem" }}>
               <div className={classes.cardHeadingWrapper}>

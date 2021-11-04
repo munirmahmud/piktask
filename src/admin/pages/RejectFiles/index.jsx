@@ -26,7 +26,7 @@ const RejectFiles = () => {
   const [rejectMessage, setRejectMessage] = useState([]);
   const [rejectProduct, setRejectProduct] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -43,7 +43,6 @@ const RejectFiles = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
     if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
@@ -51,8 +50,10 @@ const RejectFiles = () => {
             headers: { Authorization: user?.token },
           })
           .then(({ data }) => {
-            if (data?.status) {
+            if (data?.images.length > 0) {
               setRejectProduct(data.images);
+              setLoading(false);
+            } else {
               setLoading(false);
             }
           });
@@ -111,6 +112,7 @@ const RejectFiles = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     margin: "0 auto",
+                    height: 300,
                   }}
                 >
                   <CircularProgress color="primary" />
@@ -118,7 +120,7 @@ const RejectFiles = () => {
               ) : (
                 <>
                   {rejectProduct?.length > 0 ? (
-                    rejectProduct.map((product) => (
+                    rejectProduct?.map((product) => (
                       <Grid
                         key={product?.id}
                         item
@@ -148,8 +150,17 @@ const RejectFiles = () => {
                       </Grid>
                     ))
                   ) : (
-                    <div className={classes.noItemsFound}>
-                      <Typography>No products are in pending</Typography>
+                    <div 
+                      className={classes.noItemsFound}
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        margin: "0 auto",
+                        height: 300
+                      }}
+                    >
+                      <Typography variant="h3">No products are in pending</Typography>
                     </div>
                   )}
                 </>

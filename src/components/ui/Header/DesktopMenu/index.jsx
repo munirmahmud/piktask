@@ -27,6 +27,7 @@ const DesktopMenu = ({ history }) => {
   const user = useSelector((state) => state.user);
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
+  const [role, setRole] = useState("");
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
 
@@ -69,6 +70,11 @@ const DesktopMenu = ({ history }) => {
   // const handleCloseSubMenu = () => {
   //   setAnchorEl(null);
   // };
+
+  const handleClick = (e) => {
+    setRole(e.currentTarget.value);
+    setOpenAuthModal(true);
+  }
 
   return (
     <>
@@ -226,7 +232,8 @@ const DesktopMenu = ({ history }) => {
             ) : (
               <Button
                 className={classes.signInBtn}
-                onClick={() => setOpenAuthModal(true)}
+                onClick={handleClick}
+                value="user"
               >
                 <img
                   className={classes.crownIcon}
@@ -251,6 +258,7 @@ const DesktopMenu = ({ history }) => {
       <SignUpModal
         openAuthModal={openAuthModal}
         setOpenAuthModal={setOpenAuthModal}
+        role={role}
       />
     </>
   );

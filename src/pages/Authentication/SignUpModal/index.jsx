@@ -62,7 +62,7 @@ const SignUpModal = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const { openAuthModal, setOpenAuthModal } = props;
+  const { openAuthModal, setOpenAuthModal, role } = props;
   const { from } = location.state || { from: { pathname: "/" } };
 
   const [passwordValue, setPasswordValue] = useState(false);
@@ -75,7 +75,6 @@ const SignUpModal = (props) => {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "user",
   });
 
   //Handle the password show and hide
@@ -111,7 +110,7 @@ const SignUpModal = (props) => {
       .post(`${process.env.REACT_APP_API_URL}/auth/login`, {
         username: authData.userName,
         password: authData.password,
-        role: authData.role,
+        role: role,
       })
       .then((res) => {
         if (res.data.status) {
@@ -120,6 +119,7 @@ const SignUpModal = (props) => {
           const token = res.data.token;
           localStorage.setItem("token", token);
           const decodedToken = jwt_decode(token.split(" ")[1]);
+          console.log("decodedToken", decodedToken.role);
           localStorage.setItem("profileImage", decodedToken.avatar);
 
           if (decodedToken.email) {
@@ -131,7 +131,9 @@ const SignUpModal = (props) => {
               },
             });
           }
-          if (location.pathname) {
+          if(decodedToken.role === "contributor"){
+            history.push("/contributor/dashboard");
+          } else if (location.pathname) {
             history.push(location.pathname);
           } else {
             history.replace(from);
@@ -139,7 +141,7 @@ const SignUpModal = (props) => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data?.message);
+        toast.error(error.response.data?.message, { autoClose: 500,});
         authData.userName = "";
         authData.password = "";
         setLoading(false);
@@ -198,7 +200,7 @@ const SignUpModal = (props) => {
       email: authData.email,
       password: authData.password,
       confirmPassword: authData.password,
-      role: authData.role,
+      role: role,
     })
     .then(async (res) => {
       if (res?.status === 200) {
@@ -222,7 +224,7 @@ const SignUpModal = (props) => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message, { autoClose: 500,});
         authData.userName = "";
         authData.email = "";
         authData.password = "";

@@ -20,7 +20,7 @@ import useStyles from "./Revision.styles";
 const Revision = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [revisionProduct, setRevisionProduct] = useState([]);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
@@ -38,7 +38,6 @@ const Revision = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
     if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
@@ -46,9 +45,10 @@ const Revision = () => {
             headers: { Authorization: user?.token },
           })
           .then(({ data }) => {
-            console.log("data", data);
-            if (data?.status) {
+            if (data?.images.length > 0) {
               setRevisionProduct(data.images);
+              setLoading(false);
+            } else {
               setLoading(false);
             }
           });
@@ -84,6 +84,7 @@ const Revision = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     margin: "0 auto",
+                    height: 300,
                   }}
                 >
                   <CircularProgress color="primary" />
@@ -91,7 +92,7 @@ const Revision = () => {
               ) : (
                 <>
                   {revisionProduct?.length > 0 ? (
-                    revisionProduct.map((product) => (
+                    revisionProduct?.map((product) => (
                       <Grid
                         key={product?.id}
                         item
@@ -115,8 +116,17 @@ const Revision = () => {
                       </Grid>
                     ))
                   ) : (
-                    <div className={classes.noItemsFound}>
-                      <Typography>No products are in pending</Typography>
+                    <div 
+                      className={classes.noItemsFound}
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        margin: "0 auto",
+                        height: 300
+                      }}
+                    >
+                      <Typography variant="h3">No products are in pending</Typography>
                     </div>
                   )}
                 </>

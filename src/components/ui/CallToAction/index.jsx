@@ -1,13 +1,19 @@
 import { Button, Container, Typography } from "@material-ui/core";
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import ContributorSignUp from "../../../admin/pages/ContributorSignUp";
+import SignUpModal from "../../../pages/Authentication/SignUpModal";
 import useStyles from "./CallToAction.styles";
 
 const CallToAction = (props) => {
   const classes = useStyles();
   const {title, subtitle, buttonText, buttonLink, buttonClicked, uppercase, contributorJoinNow,} = props;
   const [openAuthModal, setOpenAuthModal] = useState(false);
+  const [role, setRole] = useState("");
+
+  const handleClick = (e) => {
+    setRole(e.currentTarget.value)
+    setOpenAuthModal(true)
+  }
 
   return (
     <div className={classes.wrapper}>
@@ -23,7 +29,8 @@ const CallToAction = (props) => {
           <Button
             className={classes.moreButton}
             style={{ textTransform: uppercase ? "uppercase" : "capitalize" }}
-            onClick={() => setOpenAuthModal(true)}
+            onClick={handleClick}
+            value="contributor"
           >
             {buttonText}
           </Button>
@@ -39,9 +46,10 @@ const CallToAction = (props) => {
           </Link>
         )}
       </Container>
-      <ContributorSignUp
+      <SignUpModal
         openAuthModal={openAuthModal}
         setOpenAuthModal={setOpenAuthModal}
+        role={role}
       />
     </div>
   );

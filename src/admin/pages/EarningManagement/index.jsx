@@ -28,7 +28,7 @@ const EarningManagement = () => {
   const [onClickEvent, setOnClickEvent] = useState(true);
   const [totalSummary, setTotalSummery] = useState({});
   const [earningData, setEarningData] = useState(0);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [openWithdrawModal, setWithdrawModal] = useState(false);
   
 
@@ -50,7 +50,7 @@ const EarningManagement = () => {
     window.addEventListener("resize", () => setResponsiveness());
 
     // Total earning summary API integration
-    if (user?.token) {
+    if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/earning/summary`, 
           { headers: { Authorization: user?.token },}
@@ -64,7 +64,7 @@ const EarningManagement = () => {
     }
 
     // Total earning management statistics API integrate
-    if (user?.token) {
+    if (user?.isLoggedIn && user?.role === "contributor") {
       let totalCount = [];
       let labelCount = [];
 
@@ -100,7 +100,7 @@ const EarningManagement = () => {
           }
         });
     }
-  }, [user?.token]);
+  }, [user?.token, user?.isLoggedIn, user?.role]);
 
   const handleChange = (e, newValue) => {
     setEarningData(newValue);
@@ -163,7 +163,7 @@ const EarningManagement = () => {
   const handleDateSubmit = (e) => {
     e.preventDefault();
 
-    if (user?.token) {
+    if (user?.isLoggedIn && user?.role === "contributor") {
       let totalCount = [];
       let labelCount = [];
 
@@ -200,7 +200,7 @@ const EarningManagement = () => {
     var selectedName = e.target.name;
     setSelectName(e.target.name);
 
-    if (user?.token) {
+    if (user?.isLoggedIn && user?.role === "contributor") {
       let totalCount = [];
       let labelCount = [];
 
@@ -292,11 +292,10 @@ const EarningManagement = () => {
   const [accountNumber, setAccountNumber] = useState("");
   
   const handleWithdrawInfo = () => {
-    setLoading(true);
-    if (user?.token) {
+    if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/withdrawals/info`, {
-          headers: { Authorization: user.token },
+          headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -314,6 +313,7 @@ const EarningManagement = () => {
         })
         .catch((error) => {
           console.log(error.message);
+          setLoading(false);
         });
     }
   }

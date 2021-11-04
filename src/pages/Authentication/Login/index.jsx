@@ -35,7 +35,7 @@ const Login = ({ history }) => {
   const [value, setValue] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const role = "user";
+  const role = location.search.split("?").pop();
 
   useEffect(() => {
     return () => {

@@ -1,6 +1,7 @@
 import { Container } from "@material-ui/core";
 import React from "react";
-import useStyles from "./NotFoundPage.styles"
+import useStyles from "./NotFoundPage.styles";
+import PageNotFound from "../../assets/banner/page-not-found.png"
 
 export const NotFoundPage = () => {
   const classes = useStyles();
@@ -8,10 +9,11 @@ export const NotFoundPage = () => {
     <>
       <div className={classes.pageNotFound}>
         <Container>
-          <h3>404</h3>
-          <h1>Page Not Found</h1>
+          <div className={classes.pageNotFoundImg}>
+            <img src={PageNotFound} alt="PageNotFound" />
+          </div>
         </Container>
       </div>
     </>
-  )
+  );
 };
