@@ -6,21 +6,21 @@ import {
   Select,
   Typography,
 } from "@material-ui/core";
-import ProductNotFound from "../../components/ui/ProductNotFound";
-import CallToAction from "../../components/ui/CallToAction";
-import Product from "../../components/ui/Products/Product";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import HeroSection from "../../components/ui/Hero";
+import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
+import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
+import ProductNotFound from "../../components/ui/ProductNotFound";
+import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
 import useStyles from "./Category.styles";
-import axios from "axios";
-import { useSelector } from "react-redux";
 
-export const Category = () => {
+const Category = () => {
   const classes = useStyles();
   const { catName } = useParams();
   const user = useSelector((state) => state.user);
@@ -223,3 +223,5 @@ export const Category = () => {
     </Layout>
   );
 };
+
+export default Category;

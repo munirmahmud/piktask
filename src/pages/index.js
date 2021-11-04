@@ -3,15 +3,10 @@ import AllBlogs from "./AllBlogs";
 import ConfirmSignup from "./Authentication/ConfirmSignup";
 import Login from "./Authentication/Login";
 import Registration from "./Authentication/Registration";
+import ResetPassword from "./Authentication/ResetPassword";
+import Category from "./Category";
 import Home from "./Home";
 
-export * from "./AboutUs";
-export * from "./AllBlogs";
-export * from "./Authentication/ConfirmSignup";
-export * from "./Authentication/Login";
-export * from "./Authentication/Registration";
-export * from "./Authentication/ResetPassword";
-export * from "./Category";
 export * from "./Contact";
 export * from "./CookiesPolicy";
 export * from "./CopyrightInfo";
@@ -28,4 +23,13 @@ export * from "./SingleBlogPost";
 export * from "./Support";
 export * from "./TermsConditions";
 export * from "./TrendingSearch";
-export { Login, Home, AboutUs, AllBlogs, ConfirmSignup, Registration };
+export {
+  Login,
+  Home,
+  AboutUs,
+  AllBlogs,
+  ConfirmSignup,
+  Registration,
+  Category,
+  ResetPassword,
+};
