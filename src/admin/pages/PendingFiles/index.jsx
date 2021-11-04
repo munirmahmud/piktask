@@ -31,7 +31,7 @@ const PendingFiles = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [pendingProducts, setPendingProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -48,7 +48,6 @@ const PendingFiles = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
     if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
@@ -57,8 +56,10 @@ const PendingFiles = () => {
             { headers: { Authorization: user?.token } }
           )
           .then(({ data }) => {
-            if (data?.status) {
+            if (data?.images.length > 0) {
               setPendingProducts(data.images);
+              setLoading(false);
+            } else {
               setLoading(false);
             }
           });
@@ -143,7 +144,7 @@ const PendingFiles = () => {
           <AdminHeader />
           <div className={classes.dashboardGridContainer}>
             <div className={classes.headingWrapper}>
-              <Heading tag="h2">Not Yet Submit</Heading>
+              <Heading tag="h2">Not submitted yet</Heading>
               <div>
                 {/* <Button onClick={() => deleteSelectionProduct()} className={`${classes.actionBtn} ${classes.deleteBtn}`}>
                   Delete File
@@ -172,6 +173,7 @@ const PendingFiles = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     margin: "0 auto",
+                    height: 300,
                   }}
                 >
                   <CircularProgress color="primary" />
