@@ -2,24 +2,24 @@ import {
   Button,
   Container,
   Drawer,
-  makeStyles,
   Grid,
+  makeStyles,
   Typography,
 } from "@material-ui/core";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import CloseIcon from "@material-ui/icons/Close";
+import MenuIcon from "@material-ui/icons/Menu";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import CustomPopper from "../../../components/ui/CustomPopper";
 import crownIcon from "../../../assets/icons/crown.svg";
 import logo from "../../../assets/Logo/piktask-6.png";
-import useStyles from "./AdminHeader.styles";
-import MenuIcon from "@material-ui/icons/Menu";
-import CloseIcon from "@material-ui/icons/Close";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import MobileSidebarMenu from "../Sidebar/MobileSidebarMenu";
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import CustomPopper from "../../../components/ui/CustomPopper";
 import { getBaseURL } from "../../../helpers";
+import MobileSidebarMenu from "../Sidebar/MobileSidebarMenu";
+import useStyles from "./AdminHeader.styles";
 
 const customStyles = makeStyles({
   menuWrapper: {
@@ -54,11 +54,11 @@ const customStyles = makeStyles({
       marginBottom: "-0.8rem",
     },
   },
-  closeMenuIcon:{
+  closeMenuIcon: {
     fontSize: "3rem",
     cursor: "pointer",
     color: "#FFF",
-  }
+  },
 });
 
 const AdminHeader = () => {
@@ -83,7 +83,9 @@ const AdminHeader = () => {
     window.addEventListener("resize", () => setResponsiveness());
   }, []);
 
-  const handleToggle = () => { setOpen((prevState) => !prevState);};
+  const handleToggle = () => {
+    setOpen((prevState) => !prevState);
+  };
 
   const handleClose = (e) => {
     if (anchorRef.current && anchorRef.current.contains(e.target)) {
@@ -97,64 +99,73 @@ const AdminHeader = () => {
       setOpen(false);
     }
   };
-  const handleMobileMenu = () => { setOpenMobileMenu(true);};
+  const handleMobileMenu = () => {
+    setOpenMobileMenu(true);
+  };
 
   return (
     <>
       <div position="fixed" className={classes.appbarHeader}>
         {mobileView ? (
           <div className={classes.fullWidth}>
-          <Container classes={{ root: classes.root }}>
-            <Grid
-              container
-              spacing={2}
-              classes={{ container: classes.container }}
-            >
-              <Grid item xs={2}>
-                <Link to="/" className={classes.adminLogoLink}>
-                  <img
-                    className={classes.adminLogo}
-                    src={logo}
-                    alt="Piktask"
-                  />
-                </Link>
-              </Grid>
+            <Container classes={{ root: classes.root }}>
+              <Grid
+                container
+                spacing={2}
+                classes={{ container: classes.container }}
+              >
+                <Grid item xs={2}>
+                  <Link to="/" className={classes.adminLogoLink}>
+                    <img
+                      className={classes.adminLogo}
+                      src={logo}
+                      alt="Piktask"
+                    />
+                  </Link>
+                </Grid>
 
-              <Grid item xs={10} classes={{ item: classes.item }}>
-                <div className={classes.headerInfo}>
-                  <div
-                    className={classes.userProfile}
-                    onClick={handleToggle}
-                    aria-controls={open ? "menu-list-grow" : undefined}
-                    aria-haspopup="true"
-                    ref={anchorRef}
-                  >
-                    {user?.isLoggedIn && user?.role === "contributor" && user?.avatar && user?.avatar !== "null" ? (
-                      <img
-                        className={classes.adminPhoto}
-                        src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
-                        alt="UserPhoto"
-                      />
-                    ) : (
-                      <AccountCircleIcon className={classes.avatar} />
-                    )}
-                    <Typography className={classes.userName} variant="h4">
-                      {user ? user.username : "Design Studio"}
-                    </Typography>
-                    <ArrowDropDownIcon className={classes.arrowDown} />
+                <Grid item xs={10} classes={{ item: classes.item }}>
+                  <div className={classes.headerInfo}>
+                    <div
+                      className={classes.userProfile}
+                      onClick={handleToggle}
+                      aria-controls={open ? "menu-list-grow" : undefined}
+                      aria-haspopup="true"
+                      ref={anchorRef}
+                    >
+                      {user?.isLoggedIn &&
+                      user?.role === "contributor" &&
+                      user?.avatar &&
+                      user?.avatar !== "null" ? (
+                        <img
+                          className={classes.adminPhoto}
+                          src={
+                            getBaseURL().bucket_base_url +
+                            getBaseURL().profiles +
+                            user?.avatar
+                          }
+                          alt="UserPhoto"
+                        />
+                      ) : (
+                        <AccountCircleIcon className={classes.avatar} />
+                      )}
+                      <Typography className={classes.userName} variant="h4">
+                        {user ? user.username : "Design Studio"}
+                      </Typography>
+                      <ArrowDropDownIcon className={classes.arrowDown} />
+                    </div>
+                    <MenuIcon
+                      onClick={handleMobileMenu}
+                      className={iconClass.menuIcon}
+                    />
                   </div>
-                  <MenuIcon
-                    onClick={handleMobileMenu}
-                    className={iconClass.menuIcon}
-                  />
-                </div>
+                </Grid>
               </Grid>
-            </Grid>
-          </Container>
-        </div>
+            </Container>
+          </div>
         ) : (
           <div className={classes.fullWidth}>
-            <div  className={classes.root}>
+            <div className={classes.root}>
               <div>
                 <Button
                   className={classes.uploadBtn}
@@ -181,10 +192,17 @@ const AdminHeader = () => {
                     aria-haspopup="true"
                     ref={anchorRef}
                   >
-                    {user?.isLoggedIn && user?.role === "contributor" && user?.avatar && user?.avatar !== "null" ? (
+                    {user?.isLoggedIn &&
+                    user?.role === "contributor" &&
+                    user?.avatar &&
+                    user?.avatar !== "null" ? (
                       <img
                         className={classes.adminPhoto}
-                        src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
+                        src={
+                          getBaseURL().bucket_base_url +
+                          getBaseURL().profiles +
+                          user?.avatar
+                        }
                         alt="UserPhoto"
                       />
                     ) : (

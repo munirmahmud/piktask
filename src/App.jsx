@@ -1,69 +1,71 @@
-import CompleteRegistration from "./pages/Authentication/EmailVerification";
-import EarningManagement from "./admin/pages/EarningManagement";
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import AccountSettings from "./admin/pages/AccountSettings";
-import TagRelatedProducts from "./pages/TagRelatedProducts";
-import AdminDashboard from "./admin/pages/AdminDashboard";
-import BecomeContributor from "./pages/BecomeContributor";
 import { ThemeProvider } from "@material-ui/core/styles";
+import LinearProgress from "@mui/material/LinearProgress";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import PendingFiles from "./admin/pages/PendingFiles";
-import RejectFiles from "./admin/pages/RejectFiles";
-import SingleProductDetails from "./pages/SingleProductDetails";
-import UploadFiles from "./admin/pages/UploadFiles";
-import "react-toastify/dist/ReactToastify.min.css";
-import SearchResults from "./pages/SearchResults";
-import AuthorProfile from "./pages/AuthorProfile";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Subscription from "./pages/Subscription";
-import Revision from "./admin/pages/Revision";
+import "react-toastify/dist/ReactToastify.min.css";
+import AccountSettings from "./admin/pages/AccountSettings";
+import AdminDashboard from "./admin/pages/AdminDashboard";
+import ContributorPricePlan from "./admin/pages/ContributorPricePlan";
+import EarningManagement from "./admin/pages/EarningManagement";
+import JoinNow from "./admin/pages/JoinNow";
+import PendingFiles from "./admin/pages/PendingFiles";
 // import Sellers from "./pages/Sellers";
 import Publish from "./admin/pages/Publish";
-import Categories from "./pages/Categories";
+import RejectFiles from "./admin/pages/RejectFiles";
+import Revision from "./admin/pages/Revision";
+import UploadFiles from "./admin/pages/UploadFiles";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import theme from "./components/ui/Theme";
-import React, { useEffect } from "react";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
 import {
+  AboutUs,
+  Category,
   ConfirmSignup,
+  Contact,
+  CookiesPolicy,
+  CopyrightInfo,
   Help,
   Home,
+  LicenseAgreement,
   Login,
   NotFoundPage,
+  PopularImages,
   Pricing,
+  Recent,
   Registration,
   ResetPassword,
-  Category,
-  Recent,
-  PopularImages,
-  TrendingSearch,
-  TermsConditions,
-  CopyrightInfo,
-  LicenseAgreement,
-  CookiesPolicy,
   Support,
-  Contact,
-  AboutUs,
+  TermsConditions,
+  TrendingSearch,
 } from "./pages";
-import GuidLine from "./pages/GuidLine";
-import SingleBlogPost from "./pages/SingleBlogPost";
 import AllBlogs from "./pages/AllBlogs";
-import UserProfile from "./userDashboard/pages/UserProfile";
-import FavoriteItems from "./userDashboard/pages/FavoriteItems";
-import DownloadItems from "./userDashboard/pages/DownloadItems";
-import UserFollowing from "./userDashboard/pages/UserFollowing";
+import CompleteRegistration from "./pages/Authentication/EmailVerification";
+import AuthorProfile from "./pages/AuthorProfile";
+import BecomeContributor from "./pages/BecomeContributor";
+import Categories from "./pages/Categories";
+import GuidLine from "./pages/GuidLine";
+import SearchResults from "./pages/SearchResults";
+import SingleBlogPost from "./pages/SingleBlogPost";
+import SingleProductDetails from "./pages/SingleProductDetails";
+import Subscription from "./pages/Subscription";
+import TagRelatedProducts from "./pages/TagRelatedProducts";
 import DeviceActivity from "./userDashboard/pages/DeviceActivity";
+import DownloadItems from "./userDashboard/pages/DownloadItems";
+import FavoriteItems from "./userDashboard/pages/FavoriteItems";
+import UserFollowing from "./userDashboard/pages/UserFollowing";
+import UserProfile from "./userDashboard/pages/UserProfile";
 import UserSubscription from "./userDashboard/pages/UserSubscription";
-import JoinNow from "./admin/pages/JoinNow";
-import ContributorPricePlan from "./admin/pages/ContributorPricePlan";
 
 const App = () => {
   const dispatch = useDispatch();
+  const [isDataLoaded, setDataLoaded] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
+
     // Check username/password auth state
     const setUserToken = window.localStorage.getItem("token") || "";
     const avatar = window.localStorage.getItem("profileImage") || "";
@@ -115,15 +117,18 @@ const App = () => {
     // Product Base url API
     axios
       .get(`${process.env.REACT_APP_API_URL}/client/urls`)
-      .then(({data}) => {
-        if(data?.status){
+      .then(({ data }) => {
+        console.log("data", data);
+        if (data?.status) {
           localStorage.setItem("imageBaseURL", JSON.stringify(data.urls));
+          setDataLoaded(false);
         }
-      })
-
+      });
   }, [dispatch]);
 
-  return (
+  return isDataLoaded ? (
+    <LinearProgress />
+  ) : (
     <ThemeProvider theme={theme}>
       <ToastContainer />
       <Switch>
@@ -136,8 +141,16 @@ const App = () => {
         <Route exact path="/contributor/revision" component={Revision} />
         <Route exact path="/contributor/reject" component={RejectFiles} />
         <Route exact path="/contributor/publish" component={Publish} />
-        <Route exact path="/contributor/earnings" component={EarningManagement} />
-        <Route exact path="/contributor/contributorPricePlan" component={ContributorPricePlan} />
+        <Route
+          exact
+          path="/contributor/earnings"
+          component={EarningManagement}
+        />
+        <Route
+          exact
+          path="/contributor/contributorPricePlan"
+          component={ContributorPricePlan}
+        />
         <Route exact path="/contributor/guidLine" component={GuidLine} />
         <Route exact path="/contributor/settings" component={AccountSettings} />
         <Route exact path="/contributor/join" component={JoinNow} />
@@ -148,7 +161,11 @@ const App = () => {
         <PrivateRoute exact path="/user/downloads" component={DownloadItems} />
         <PrivateRoute exact path="/user/following" component={UserFollowing} />
         <PrivateRoute exact path="/user/devices" component={DeviceActivity} />
-        <PrivateRoute exact path="/user/subscription" component={UserSubscription} />
+        <PrivateRoute
+          exact
+          path="/user/subscription"
+          component={UserSubscription}
+        />
 
         {/* Footer pages */}
         <Route exact path="/termsConditions" component={TermsConditions} />
@@ -184,7 +201,11 @@ const App = () => {
         <Route exact path="/subscription" component={Subscription} />
         {/* <Route exact path="/sellers" component={Sellers} /> */}
         <Route exact path="/categories" component={Categories} />
-        <Route exact path="/search/trending-search" component={TrendingSearch} />
+        <Route
+          exact
+          path="/search/trending-search"
+          component={TrendingSearch}
+        />
 
         {/* Recent or Popular pages */}
         <Route exact path="/recentImage/recent-images" component={Recent} />
