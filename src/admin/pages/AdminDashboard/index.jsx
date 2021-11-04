@@ -40,7 +40,7 @@ const AdminDashboard = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
 
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [topFiles, setTopFiles] = useState([]);
   const [authorFiles, setAuthorFiles] = useState([]);
   const [earnCurrentMonth, setEarnCurrentMonth] = useState({});
@@ -60,8 +60,6 @@ const AdminDashboard = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
-
     // Author current month earning API integration
     if(user?.isLoggedIn && user?.role === "contributor"){
       var newDate = new Date();

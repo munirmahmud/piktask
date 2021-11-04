@@ -1,12 +1,10 @@
-import { Box, Container, Grid, Tab, Typography } from "@material-ui/core";
+import { Box, Grid, Tab, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Spacing from "../../components/Spacing";
 import Footer from "../../components/ui/Footer";
-import HeroSection from "../../components/ui/Hero";
 import Layout from "../../Layout";
 import useStyles from "./guidLine.styles";
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
-import Header from "../../components/ui/Header";
 import VectorImage from "../../assets/guidLine-Images/vector.jpg";
 import PSDImage from "../../assets/guidLine-Images/psd.jpg";
 import PhotoImage from "../../assets/guidLine-Images/photo.jpg";

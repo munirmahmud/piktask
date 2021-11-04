@@ -8,11 +8,11 @@ import { Link } from "react-router-dom";
 import SectionHeading from "../Heading";
 import useStyles from "./Hero.styles";
 import Search from "../Search";
-import ContributorSignUp from "../../../admin/pages/ContributorSignUp";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import CustomPopper from "../CustomPopper";
 import { useSelector } from "react-redux";
+import SignUpModal from "../../../pages/Authentication/SignUpModal";
 
 const HeroSection = (props) => {
   const classes = useStyles();
@@ -42,6 +42,7 @@ const HeroSection = (props) => {
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [open, setOpen] = useState(false);
+  const [role, setRole] = useState("");
 
   // const [menuSate, setMenuSate] = useState({ mobileView: false });
   // const { mobileView } = menuSate;
@@ -80,6 +81,11 @@ const HeroSection = (props) => {
     }
   };
 
+  const handleClick = (e) => {
+    setRole(e.currentTarget.value);
+    setOpenAuthModal(true)
+  }
+
   return (
     <>
       {contributorUser ? (
@@ -108,7 +114,7 @@ const HeroSection = (props) => {
                   aria-haspopup="true"
                   ref={anchorRef}
                 >
-                  {user?.token && user?.avatar ? (
+                  {user?.isLoggedIn && user?.avatar ? (
                     <img
                       className={classes.avatar}
                       src={user?.avatar}
@@ -122,7 +128,8 @@ const HeroSection = (props) => {
               ) : (
                 <Button
                   className={classes.contributorLogin}
-                  onClick={() => setOpenAuthModal(true)}
+                  onClick={handleClick}
+                  value="contributor"
                 >
                   Login or Join Now
                 </Button>
@@ -136,7 +143,8 @@ const HeroSection = (props) => {
                 </Typography>
                 <Button
                   className={classes.joinNowBtn}
-                  onClick={() => setOpenAuthModal(true)}
+                  onClick={handleClick}
+                  value="contributor"
                 >
                   JOIN NOW
                 </Button>
@@ -144,9 +152,10 @@ const HeroSection = (props) => {
             </div>
           </Container>
 
-          <ContributorSignUp
+          <SignUpModal
             openAuthModal={openAuthModal}
             setOpenAuthModal={setOpenAuthModal}
+            role={role}
           />
 
           <CustomPopper
