@@ -31,7 +31,7 @@ const SearchKeyWords = (props) => {
             Popular Search :
           </Typography>
           {popularSearchKeywords?.map((keyWord, index) => (
-            <Link key={index} to={`/tag/${keyWord}`}>
+            <Link key={index} to={`/tag/${keyWord.toLowerCase().replace(/\s/g , "-")}`}>
               <Typography variant="h5" className={classes.searchTitle}>
                 {keyWord},
               </Typography>

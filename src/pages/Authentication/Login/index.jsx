@@ -24,14 +24,9 @@ const Login = ({ history }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();
-  const pathHistory = useHistory();
   const { from } = location.state || { from: { pathname: "/" } };
 
-  const previousLocation = location.search;
-  const params = new URLSearchParams(previousLocation);
-  const previousPage = params.get("url");
-
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -49,8 +44,6 @@ const Login = ({ history }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
     axios
       .post(`${process.env.REACT_APP_API_URL}/auth/login`, {
         username,
@@ -73,22 +66,26 @@ const Login = ({ history }) => {
               },
             });
           }
-          if (previousPage) {
-            pathHistory.push(previousPage);
+          if(decodedToken.role === "contributor"){
+            history.push("/contributor/dashboard");
+          } else if (decodedToken.role === "user") {
+            history.push("/");
           } else {
-            pathHistory.push(from);
+            history.replace(from);
           }
+          setLoading(false);
         }
       })
       .catch((error) => {
         toast.error(error.response.data.message);
         setUsername("");
         setPassword("");
+        setLoading(false);
       });
   };
 
   return (
-    <Layout title={"Login || Piktask"}>
+    <Layout title="Login | Piktask">
       <Header />
       <div className={classes.rootContainer}>
         <Spacing space={{ height: "5rem" }} />

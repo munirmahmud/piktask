@@ -7,17 +7,7 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import AccountSettings from "./admin/pages/AccountSettings";
-import AdminDashboard from "./admin/pages/AdminDashboard";
-import ContributorPricePlan from "./admin/pages/ContributorPricePlan";
-import EarningManagement from "./admin/pages/EarningManagement";
-import JoinNow from "./admin/pages/JoinNow";
-import PendingFiles from "./admin/pages/PendingFiles";
 // import Sellers from "./pages/Sellers";
-import Publish from "./admin/pages/Publish";
-import RejectFiles from "./admin/pages/RejectFiles";
-import Revision from "./admin/pages/Revision";
-import UploadFiles from "./admin/pages/UploadFiles";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import theme from "./components/ui/Theme";
 import {
@@ -44,6 +34,22 @@ import AllBlogs from "./pages/AllBlogs";
 import CompleteRegistration from "./pages/Authentication/EmailVerification";
 import AuthorProfile from "./pages/AuthorProfile";
 import Categories from "./pages/Categories";
+import AccountSettings from "./pages/Dashboard/Contributor/AccountSettings";
+import AdminDashboard from "./pages/Dashboard/Contributor/AdminDashboard";
+import ContributorPricePlan from "./pages/Dashboard/Contributor/ContributorPricePlan";
+import EarningManagement from "./pages/Dashboard/Contributor/EarningManagement";
+import JoinNow from "./pages/Dashboard/Contributor/JoinNow";
+import PendingFiles from "./pages/Dashboard/Contributor/PendingFiles";
+import Publish from "./pages/Dashboard/Contributor/Publish";
+import RejectFiles from "./pages/Dashboard/Contributor/RejectFiles";
+import Revision from "./pages/Dashboard/Contributor/Revision";
+import UploadFiles from "./pages/Dashboard/Contributor/UploadFiles";
+import DeviceActivity from "./pages/Dashboard/User/DeviceActivity";
+import DownloadItems from "./pages/Dashboard/User/DownloadItems";
+import FavoriteItems from "./pages/Dashboard/User/FavoriteItems";
+import UserFollowing from "./pages/Dashboard/User/UserFollowing";
+import UserProfile from "./pages/Dashboard/User/UserProfile";
+import UserSubscription from "./pages/Dashboard/User/UserSubscription";
 import GuidLine from "./pages/GuidLine";
 import Home from "./pages/Home";
 import SearchResults from "./pages/SearchResults";
@@ -51,12 +57,6 @@ import SingleBlogPost from "./pages/SingleBlogPost";
 import SingleProductDetails from "./pages/SingleProductDetails";
 import Subscription from "./pages/Subscription";
 import TagRelatedProducts from "./pages/TagRelatedProducts";
-import DeviceActivity from "./userDashboard/pages/DeviceActivity";
-import DownloadItems from "./userDashboard/pages/DownloadItems";
-import FavoriteItems from "./userDashboard/pages/FavoriteItems";
-import UserFollowing from "./userDashboard/pages/UserFollowing";
-import UserProfile from "./userDashboard/pages/UserProfile";
-import UserSubscription from "./userDashboard/pages/UserSubscription";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -138,16 +138,8 @@ const App = () => {
         <Route exact path="/contributor/revision" component={Revision} />
         <Route exact path="/contributor/reject" component={RejectFiles} />
         <Route exact path="/contributor/publish" component={Publish} />
-        <Route
-          exact
-          path="/contributor/earnings"
-          component={EarningManagement}
-        />
-        <Route
-          exact
-          path="/contributor/contributorPricePlan"
-          component={ContributorPricePlan}
-        />
+        <Route exact path="/contributor/earnings" component={EarningManagement} />
+        <Route exact path="/contributor/contributorPricePlan" component={ContributorPricePlan} />
         <Route exact path="/contributor/guidLine" component={GuidLine} />
         <Route exact path="/contributor/settings" component={AccountSettings} />
         <Route exact path="/contributor/join" component={JoinNow} />
@@ -158,11 +150,7 @@ const App = () => {
         <PrivateRoute exact path="/user/downloads" component={DownloadItems} />
         <PrivateRoute exact path="/user/following" component={UserFollowing} />
         <PrivateRoute exact path="/user/devices" component={DeviceActivity} />
-        <PrivateRoute
-          exact
-          path="/user/subscription"
-          component={UserSubscription}
-        />
+        <PrivateRoute exact path="/user/subscription" component={UserSubscription} />
 
         {/* Footer pages */}
         <Route exact path="/termsConditions" component={TermsConditions} />
@@ -196,11 +184,7 @@ const App = () => {
         <Route exact path="/subscription" component={Subscription} />
         {/* <Route exact path="/sellers" component={Sellers} /> */}
         <Route exact path="/categories" component={Categories} />
-        <Route
-          exact
-          path="/search/trending-search"
-          component={TrendingSearch}
-        />
+        <Route exact path="/search/trending-search" component={TrendingSearch} />
 
         {/* Recent or Popular pages */}
         <Route exact path="/recentImage/recent-images" component={Recent} />
