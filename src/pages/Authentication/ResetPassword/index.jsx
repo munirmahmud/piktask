@@ -1,17 +1,17 @@
 import { Button, Container, Grid, Typography } from "@material-ui/core";
-import { CustomBtn, InputField } from "../../../components/InputField";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import HeroSection from "../../../components/ui/Hero";
+import { toast } from "react-toastify";
+import { CustomBtn, InputField } from "../../../components/InputField";
+import Spacing from "../../../components/Spacing";
 import Footer from "../../../components/ui/Footer";
 import Header from "../../../components/ui/Header";
-import React, { useEffect, useState } from "react";
-import Spacing from "../../../components/Spacing";
-import useStyles from "./ResetPassword.styles";
-import { toast } from "react-toastify";
-import axios from "axios";
+import HeroSection from "../../../components/ui/Hero";
 import Layout from "../../../Layout";
+import useStyles from "./ResetPassword.styles";
 
-export const ResetPassword = () => {
+const ResetPassword = () => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
@@ -51,19 +51,19 @@ export const ResetPassword = () => {
 
     if (email && !passwordChange) {
       axios
-      .post(`${process.env.REACT_APP_API_URL}/auth/forgot-password`, {
-        email,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success(res.data.message);
-        }
-      })
-      .catch((error) => {
-        setPasswordChange(false);
-        setEmail("");
-        toast.error("No user found with this email", error.message);
-      });
+        .post(`${process.env.REACT_APP_API_URL}/auth/forgot-password`, {
+          email,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success(res.data.message);
+          }
+        })
+        .catch((error) => {
+          setPasswordChange(false);
+          setEmail("");
+          toast.error("No user found with this email", error.message);
+        });
     }
     setIsLoading(false);
   };
@@ -111,23 +111,23 @@ export const ResetPassword = () => {
 
     if (passwordChange && token && password && confirmPassword) {
       axios
-      .post(`${process.env.REACT_APP_API_URL}/auth/reset-password`, {
-        token,
-        password,
-        confirmPassword,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success(res.data.message);
-          history.replace(from);
-        }
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message);
-        setToken("");
-        setPassword("");
-        setConfirmPassword("");
-      });
+        .post(`${process.env.REACT_APP_API_URL}/auth/reset-password`, {
+          token,
+          password,
+          confirmPassword,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success(res.data.message);
+            history.replace(from);
+          }
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message);
+          setToken("");
+          setPassword("");
+          setConfirmPassword("");
+        });
     }
     setIsLoading(false);
   };
@@ -135,12 +135,12 @@ export const ResetPassword = () => {
   return (
     <Layout title={"ResetPassword | Piktask"}>
       <Header />
-      <HeroSection/>
+      <HeroSection />
       <Spacing space={{ height: "3.5rem" }} />
 
       <Container>
         <Grid container spacing={0} justify="center">
-          <Grid >
+          <Grid>
             <div className={classes.cardWrapper} style={{ padding: "2.5rem" }}>
               <div className={classes.cardHeadingWrapper}>
                 <Typography className={classes.cardHeading} variant="h2">
@@ -246,3 +246,5 @@ export const ResetPassword = () => {
     </Layout>
   );
 };
+
+export default ResetPassword;

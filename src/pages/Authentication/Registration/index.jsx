@@ -5,28 +5,28 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
-import formIconBottom from "../../../assets/formIconBottom.png";
-import formIconTop from "../../../assets/formIconTop.png";
-import { useDispatch, useSelector } from "react-redux";
-import lockIcon from "../../../assets/password.png";
-import Footer from "../../../components/ui/Footer";
-import Header from "../../../components/ui/Header";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import Spacing from "../../../components/Spacing";
 import FacebookLogin from "react-facebook-login";
 import GoogleLogin from "react-google-login";
-import { auth } from "../../../database";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import useStyles from "../Auth.styles";
-import jwt_decode from "jwt-decode";
+import formIconBottom from "../../../assets/formIconBottom.png";
+import formIconTop from "../../../assets/formIconTop.png";
+import lockIcon from "../../../assets/password.png";
+import Spacing from "../../../components/Spacing";
+import Footer from "../../../components/ui/Footer";
+import Header from "../../../components/ui/Header";
+import { auth } from "../../../database";
 import Layout from "../../../Layout";
-import axios from "axios";
+import useStyles from "../Auth.styles";
 
 const clientId =
   "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
 
-export const Registration = ({ history }) => {
+const Registration = ({ history }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -141,15 +141,18 @@ export const Registration = ({ history }) => {
 
   //login with google
   const handleGoogleLogin = async (googleData) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/google_login`, {
-      method: "POST",
-      body: JSON.stringify({
-        token: googleData.tokenId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `${process.env.REACT_APP_API_URL}/auth/google_login`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          token: googleData.tokenId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     // store returned user somehow
     if (data.status) {
@@ -239,7 +242,7 @@ export const Registration = ({ history }) => {
                   />
 
                   <Spacing space={{ margin: "0 0.5rem" }} />
-                  
+
                   <div className={classes.facebookBtn}>
                     <FacebookLogin
                       // className={classes.facebookBtn}
@@ -360,3 +363,5 @@ export const Registration = ({ history }) => {
     </Layout>
   );
 };
+
+export default Registration;
