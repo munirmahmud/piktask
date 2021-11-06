@@ -8,8 +8,8 @@ import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import VectorImage from "../../assets/guidLine-Images/vector.jpg";
 import PSDImage from "../../assets/guidLine-Images/psd.jpg";
 import PhotoImage from "../../assets/guidLine-Images/photo.jpg";
-import Sidebar from "../../admin/components/Sidebar";
-import AdminHeader from "../../admin/components/Header";
+import Sidebar from "../../components/ui/Dashboard/Contributor/Sidebar";
+import AdminHeader from "../../components/ui/Dashboard/Contributor/Header";
 
 const GuidLine = () => {
   const classes = useStyles();
