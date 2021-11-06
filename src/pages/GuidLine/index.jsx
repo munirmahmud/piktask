@@ -1,15 +1,15 @@
 import { Box, Grid, Tab, Typography } from "@material-ui/core";
+import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
+import AdminHeader from "../../admin/components/Header";
+import Sidebar from "../../admin/components/Sidebar";
+import PhotoImage from "../../assets/guidLine-Images/photo.jpg";
+import PSDImage from "../../assets/guidLine-Images/psd.jpg";
+import VectorImage from "../../assets/guidLine-Images/vector.jpg";
 import Spacing from "../../components/Spacing";
 import Footer from "../../components/ui/Footer";
 import Layout from "../../Layout";
 import useStyles from "./guidLine.styles";
-import { TabContext, TabList, TabPanel } from "@material-ui/lab";
-import VectorImage from "../../assets/guidLine-Images/vector.jpg";
-import PSDImage from "../../assets/guidLine-Images/psd.jpg";
-import PhotoImage from "../../assets/guidLine-Images/photo.jpg";
-import Sidebar from "../../admin/components/Sidebar";
-import AdminHeader from "../../admin/components/Header";
 
 const GuidLine = () => {
   const classes = useStyles();
@@ -59,9 +59,24 @@ const GuidLine = () => {
                         aria-label="lab API tabs example"
                         classes={{ indicator: classes.menuUnderline }}
                       >
-                        <Tab className={classes.guidLineMenuItem} disableRipple label="Vector" value="1" />
-                        <Tab className={classes.guidLineMenuItem} disableRipple label="PSD" value="2" />
-                        <Tab className={classes.guidLineMenuItem} disableRipple label="Photo" value="3" />
+                        <Tab
+                          className={classes.guidLineMenuItem}
+                          disableRipple
+                          label="Vector"
+                          value="1"
+                        />
+                        <Tab
+                          className={classes.guidLineMenuItem}
+                          disableRipple
+                          label="PSD"
+                          value="2"
+                        />
+                        <Tab
+                          className={classes.guidLineMenuItem}
+                          disableRipple
+                          label="Photo"
+                          value="3"
+                        />
                       </TabList>
                     </Box>
                     <Spacing space={{ height: "2rem" }} />

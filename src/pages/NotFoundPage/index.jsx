@@ -1,9 +1,9 @@
 import { Container } from "@material-ui/core";
 import React from "react";
+import PageNotFound from "../../assets/banner/page-not-found.png";
 import useStyles from "./NotFoundPage.styles";
-import PageNotFound from "../../assets/banner/page-not-found.png"
 
-export const NotFoundPage = () => {
+const NotFoundPage = () => {
   const classes = useStyles();
   return (
     <>
@@ -17,3 +17,5 @@ export const NotFoundPage = () => {
     </>
   );
 };
+
+export default NotFoundPage;

@@ -7,7 +7,7 @@ import HeroSection from "../../components/ui/Hero";
 import Layout from "../../Layout";
 import useStyles from "./TermsConditions.style";
 
-export const TermsConditions = () => {
+const TermsConditions = () => {
   const classes = useStyles();
   return (
     <Layout title=" Terms &amp; conditions | Piktask">
@@ -55,3 +55,5 @@ export const TermsConditions = () => {
     </Layout>
   );
 };
+
+export default TermsConditions;

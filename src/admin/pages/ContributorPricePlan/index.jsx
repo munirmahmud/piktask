@@ -8,19 +8,18 @@ import {
   styled,
   Typography,
 } from "@material-ui/core";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
 import React, { useEffect, useState } from "react";
+import pricePlanImage from "../../../assets/banner/profile-banner.jpg";
 import Spacing from "../../../components/Spacing";
 import Footer from "../../../components/ui/Footer";
 import Layout from "../../../Layout";
 import AdminHeader from "../../components/Header";
+import Heading from "../../components/Heading";
 import Sidebar from "../../components/Sidebar";
 import useStyles from "./ContributorPricePlan.styles";
-
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import pricePlanImage from "../../../assets/banner/profile-banner.jpg";
-import Heading from "../../components/Heading";
 
 const ContributorPricePlan = () => {
   const classes = useStyles();
@@ -63,7 +62,7 @@ const ContributorPricePlan = () => {
           <AdminHeader />
           <div className={classes.pricePlanGridContainer}>
             <Heading tag="h2">Contributor Price Plan</Heading>
-            <Spacing space={{height: "2rem"}} />
+            <Spacing space={{ height: "2rem" }} />
             <div>
               <Grid container spacing={2}>
                 <Grid item sm={4} md={4} xs={12}>

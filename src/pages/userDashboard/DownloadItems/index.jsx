@@ -1,5 +1,4 @@
-import { Container, Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { Container, Grid, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -11,8 +10,8 @@ import Loader from "../../../components/ui/Loader";
 import Paginations from "../../../components/ui/Pagination";
 import ProductNotFound from "../../../components/ui/ProductNotFound";
 import Product from "../../../components/ui/Products/Product";
+import UserSideBar from "../../../components/UserSideBar";
 import Layout from "../../../Layout";
-import UserSideBar from "../../components/UserSideBar";
 
 const useStyles = makeStyles({
   cardItem: {
@@ -23,38 +22,37 @@ const useStyles = makeStyles({
   },
 });
 
-const FavoriteItems = () => {
+const DownloadItems = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  
-  const [favoriteProducts, setFavoriteProducts] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [downloadsItem, setDownloadsItem] = useState([]);
   const [pageCount, setPageCount] = useState(1);
-  var limit = 6;
-  // const displayCount = Math.ceil(favoriteProducts?.length / limit);
+  var downloadItem = 6;
 
   useEffect(() => {
     setLoading(true);
-    if(user?.isLoggedIn){
+    if (user?.isLoggedIn) {
       axios
-      .get(`${process.env.REACT_APP_API_URL}/user/favourite_image/?limit=${limit}&page=${pageCount}`,
-        { headers: { Authorization: user?.token } }
-      )
-      .then(({ data }) => {
-        if (data?.status) {
-          setFavoriteProducts(data?.images);
+        .get(
+          `${process.env.REACT_APP_API_URL}/user/downloads?limit=${downloadItem}&page=${pageCount}`,
+          { headers: { Authorization: user?.token } }
+        )
+        .then(({ data }) => {
+          if (data?.status) {
+            setDownloadsItem(data?.downloads);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log("Category products error:", error);
           setLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.log("Category products error:", error);
-        setLoading(false);
-      });
+        });
     }
-  }, [user?.isLoggedIn, user?.token, pageCount, limit]);
+  }, [user?.isLoggedIn, user?.token, pageCount, downloadItem]);
 
   return (
-    <Layout title="Favorite Items | Piktask">
+    <Layout title="Downloads | Piktask">
       <Header />
       <Spacing space={{ height: "5rem" }} />
       <Container>
@@ -63,7 +61,7 @@ const FavoriteItems = () => {
             <UserSideBar />
           </Grid>
           <Grid item md={9} sm={9} xs={12} className={classes.cardItem}>
-            <SectionHeading title="Favorite" large />
+            <SectionHeading title="Download" large />
             <Grid
               classes={{ container: classes.container }}
               container
@@ -73,10 +71,10 @@ const FavoriteItems = () => {
                 <Loader />
               ) : (
                 <>
-                  {favoriteProducts?.length ? (
-                    favoriteProducts?.map((photo) => (
+                  {downloadsItem?.length ? (
+                    downloadsItem?.map((photo) => (
                       <Grid
-                        key={photo?.like_id}
+                        key={photo.image_id}
                         item
                         xs={6}
                         sm={4}
@@ -87,13 +85,13 @@ const FavoriteItems = () => {
                       </Grid>
                     ))
                   ) : (
-                    <ProductNotFound noCollection="Favorite" />
+                    <ProductNotFound noCollection="Downloads" />
                   )}
                 </>
               )}
             </Grid>
-            {/* {favoriteProducts?.length > 5 && ( */}
-              <Paginations pageCount={pageCount} setPageCount={setPageCount} />
+            {/* {downloadsItem?.length >5 && ( */}
+            <Paginations pageCount={pageCount} setPageCount={setPageCount} />
             {/* )} */}
           </Grid>
         </Grid>
@@ -104,4 +102,4 @@ const FavoriteItems = () => {
   );
 };
 
-export default FavoriteItems;
+export default DownloadItems;

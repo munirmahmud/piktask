@@ -144,23 +144,27 @@ const RejectFiles = () => {
                             />
                           </div>
                           <CardContent className={classes.cardContent}>
-                            <Typography variant="h3">{product?.original_name}</Typography>
+                            <Typography variant="h3">
+                              {product?.original_name}
+                            </Typography>
                           </CardContent>
                         </Card>
                       </Grid>
                     ))
                   ) : (
-                    <div 
+                    <div
                       className={classes.noItemsFound}
                       style={{
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
                         margin: "0 auto",
-                        height: 300
+                        height: 300,
                       }}
                     >
-                      <Typography variant="h3">No products are in pending</Typography>
+                      <Typography variant="h3">
+                        No products are in pending
+                      </Typography>
                     </div>
                   )}
                 </>

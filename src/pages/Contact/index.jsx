@@ -19,8 +19,7 @@ import Layout from "../../Layout";
 import useStyles from "./Contact.style";
 
 const problemCategory = [
- 
-  {label: " Select a problem category" },
+  { label: " Select a problem category" },
   { value: "Advertise with us", label: "Advertise with us" },
   { value: "Collaboration Offer", label: "Collaboration Offer" },
   { value: "Download Issue", label: "Download Issue" },
@@ -29,7 +28,7 @@ const problemCategory = [
   { value: "Suggestions", label: "Suggestions" },
   { value: "Others", label: "Others" },
 ];
-export const Contact = () => {
+const Contact = () => {
   const classes = useStyles();
   const [isLoading, setLoading] = useState(false);
   const [name, setName] = useState("");
@@ -187,7 +186,9 @@ export const Contact = () => {
                   </TextField>
                 </FormControl>
                 <FormControl fullWidth className={classes.fieldWrapper}>
-                  <label htmlFor="description">Description <span>*</span></label>
+                  <label htmlFor="description">
+                    Description <span>*</span>
+                  </label>
                   <TextareaAutosize
                     id="description"
                     className={classes.formDescription}
@@ -219,3 +220,5 @@ export const Contact = () => {
     </Layout>
   );
 };
+
+export default Contact;

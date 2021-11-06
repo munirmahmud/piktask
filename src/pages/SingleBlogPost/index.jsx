@@ -6,20 +6,11 @@ import {
   TextareaAutosize,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import Footer from "../../components/ui/Footer";
-import Header from "../../components/ui/Header";
-import HeroSection from "../../components/ui/Hero";
-import Layout from "../../Layout";
-import useStyles from "./SinglePost.styles";
-import Spacing from "../../components/Spacing";
 import axios from "axios";
-import RelatedBlogs from "../../components/ui/Blog/RelatedBlogs";
-import Post from "../../components/ui/Blog/Post";
-import SectionHeading from "../../components/ui/Heading";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 import {
   EmailIcon,
   EmailShareButton,
@@ -34,9 +25,18 @@ import {
   TwitterIcon,
   TwitterShareButton,
 } from "react-share";
-import SignUpModal from "../Authentication/SignUpModal";
-import moment from "moment";
+import { toast } from "react-toastify";
+import Spacing from "../../components/Spacing";
+import Post from "../../components/ui/Blog/Post";
+import RelatedBlogs from "../../components/ui/Blog/RelatedBlogs";
+import Footer from "../../components/ui/Footer";
+import Header from "../../components/ui/Header";
+import SectionHeading from "../../components/ui/Heading";
+import HeroSection from "../../components/ui/Hero";
 import { getBaseURL } from "../../helpers";
+import Layout from "../../Layout";
+import SignUpModal from "../Authentication/SignUpModal";
+import useStyles from "./SinglePost.styles";
 
 const SingleBlogPost = () => {
   const classes = useStyles();
@@ -119,7 +119,14 @@ const SingleBlogPost = () => {
         <Grid container spacing={3} className={classes.blogContainer}>
           <Grid item sm={8} md={8} xs={12} className={classes.blogsItem}>
             <div className={classes.blogImageWrapper}>
-              <img src={getBaseURL().bucket_base_url + getBaseURL().blog_images + blogDetails?.thumbnail} alt={blogDetails?.category} />
+              <img
+                src={
+                  getBaseURL().bucket_base_url +
+                  getBaseURL().blog_images +
+                  blogDetails?.thumbnail
+                }
+                alt={blogDetails?.category}
+              />
             </div>
 
             <Spacing space={{ height: "2rem" }} />
@@ -185,7 +192,8 @@ const SingleBlogPost = () => {
               </div>
               <Typography variant="h2">{blogDetails?.title}</Typography>
               <Typography>
-                By {blogDetails?.username} <span>{moment(blogDetails?.createdAt).format("LL")}</span>
+                By {blogDetails?.username}{" "}
+                <span>{moment(blogDetails?.createdAt).format("LL")}</span>
               </Typography>
             </div>
 
@@ -196,7 +204,14 @@ const SingleBlogPost = () => {
             <Spacing space={{ height: "3rem" }} />
 
             <div className={classes.blogImageWrapper}>
-              <img src={getBaseURL().bucket_base_url + getBaseURL().blog_images + blogDetails?.thumbnail} alt={blogDetails?.category} />
+              <img
+                src={
+                  getBaseURL().bucket_base_url +
+                  getBaseURL().blog_images +
+                  blogDetails?.thumbnail
+                }
+                alt={blogDetails?.category}
+              />
             </div>
             <Spacing space={{ height: "4rem" }} />
             <div className={classes.blogContent}>

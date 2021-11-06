@@ -12,29 +12,29 @@ import {
   TableRow,
   Typography,
 } from "@material-ui/core";
+// import premiumFileSell from '../../../assets/icons/crownEnterpriseIcon.svg';
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+// import { TopSeller } from "../../../components/ui/TopSeller";
+// import SectionHeading from "../../../components/ui/Heading";
+import { Link } from "react-router-dom";
+import authorPhoto from "../../../assets/author.png";
+import authorBadge from "../../../assets/badge.png";
+import box from "../../../assets/dashboardicons/box.svg";
 import arrowDown from "../../../assets/dashboardicons/icon1.svg";
 import moneyIcon from "../../../assets/dashboardicons/money.svg";
-import box from "../../../assets/dashboardicons/box.svg";
-import authorBadge from "../../../assets/badge.png";
+import followerIcon from "../../../assets/icons/followerIcon.png";
+import Spacing from "../../../components/Spacing";
+import Blog from "../../../components/ui/Blog";
 import Footer from "../../../components/ui/Footer";
+import { getBaseURL } from "../../../helpers";
+import Layout from "../../../Layout";
 import AdminHeader from "../../components/Header";
 import Heading from "../../components/Heading";
 import Sidebar from "../../components/Sidebar";
 import useStyles from "./admin.styles";
-import React, { useEffect, useState } from "react";
-import Layout from "../../../Layout";
-import Blog from "../../../components/ui/Blog";
-// import { TopSeller } from "../../../components/ui/TopSeller";
-// import SectionHeading from "../../../components/ui/Heading";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import followerIcon from '../../../assets/icons/followerIcon.png';
-import authorPhoto from "../../../assets/author.png";
-import Spacing from "../../../components/Spacing";
-// import premiumFileSell from '../../../assets/icons/crownEnterpriseIcon.svg';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import { getBaseURL } from "../../../helpers";
 
 const AdminDashboard = () => {
   const classes = useStyles();
@@ -61,74 +61,93 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     // Author current month earning API integration
-    if(user?.isLoggedIn && user?.role === "contributor"){
+    if (user?.isLoggedIn && user?.role === "contributor") {
       var newDate = new Date();
-      var firstDayCurrentMonth = new Date(newDate.getFullYear(), newDate.getMonth(), 2);
+      var firstDayCurrentMonth = new Date(
+        newDate.getFullYear(),
+        newDate.getMonth(),
+        2
+      );
       var firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
       var todayCurrentMonth = newDate.toISOString().substring(0, 10);
-      
-      axios
-      .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/summery/?start=${firstDay}&end=${todayCurrentMonth}`,
-        { headers: {Authorization: user?.token},}
-      )
-      .then(({data}) => {
-        if(data?.status){
-          setEarnCurrentMonth(data?.user_statistics);
-          setLoading(false);
-        }
-      })
-    }
-    
-    // Author previous month earning API integration
-    if(user?.isLoggedIn && user?.role === "contributor"){
-      var previousDate = new Date();
-      var previousMonthFirstDay = new Date(previousDate.getFullYear(), previousDate.getMonth() - 1, 2);
-      var previousFirstDays = previousMonthFirstDay.toISOString().substring(0, 10);
-      
-      const previousMonthLastDay = new Date(previousDate.getFullYear(), previousDate.getMonth(), 1);
-      var previousFirstDay = previousMonthLastDay.toISOString().substring(0, 10);
 
       axios
-      .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/summery/?start=${previousFirstDays}&end=${previousFirstDay}`,
-        { headers: {Authorization: user?.token},}
-      )
-      .then(({data}) => {
-        if(data?.status){
-          setEarnPreviousMonth(data?.user_statistics);
-          setLoading(false);
-        }
-      })
+        .get(
+          `${process.env.REACT_APP_API_URL}/contributor/dashboard/summery/?start=${firstDay}&end=${todayCurrentMonth}`,
+          { headers: { Authorization: user?.token } }
+        )
+        .then(({ data }) => {
+          if (data?.status) {
+            setEarnCurrentMonth(data?.user_statistics);
+            setLoading(false);
+          }
+        });
+    }
+
+    // Author previous month earning API integration
+    if (user?.isLoggedIn && user?.role === "contributor") {
+      var previousDate = new Date();
+      var previousMonthFirstDay = new Date(
+        previousDate.getFullYear(),
+        previousDate.getMonth() - 1,
+        2
+      );
+      var previousFirstDays = previousMonthFirstDay
+        .toISOString()
+        .substring(0, 10);
+
+      const previousMonthLastDay = new Date(
+        previousDate.getFullYear(),
+        previousDate.getMonth(),
+        1
+      );
+      var previousFirstDay = previousMonthLastDay
+        .toISOString()
+        .substring(0, 10);
+
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/contributor/dashboard/summery/?start=${previousFirstDays}&end=${previousFirstDay}`,
+          { headers: { Authorization: user?.token } }
+        )
+        .then(({ data }) => {
+          if (data?.status) {
+            setEarnPreviousMonth(data?.user_statistics);
+            setLoading(false);
+          }
+        });
     }
 
     // Author last file API integration
-    if(user?.isLoggedIn && user?.role === "contributor"){
+    if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-      .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=5`,
-        { headers: { Authorization: user?.token },}
-      )
-      .then(({data}) => {
-        if(data?.status) {
-          setAuthorFiles(data?.images);
-          setLoading(false);
-        }
-      })
+        .get(
+          `${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=5`,
+          { headers: { Authorization: user?.token } }
+        )
+        .then(({ data }) => {
+          if (data?.status) {
+            setAuthorFiles(data?.images);
+            setLoading(false);
+          }
+        });
     }
 
     // Piktask top file API  integration
-    if(user?.isLoggedIn && user?.role === "contributor"){
+    if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-      .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/top_files?limit=5`,
-        { headers: { Authorization: user?.token }}
-      )
-      .then(({data}) => {
-        if(data?.status) {
-          setTopFiles(data?.images);
-          setLoading(false);
-        }
-      })
+        .get(
+          `${process.env.REACT_APP_API_URL}/contributor/dashboard/top_files?limit=5`,
+          { headers: { Authorization: user?.token } }
+        )
+        .then(({ data }) => {
+          if (data?.status) {
+            setTopFiles(data?.images);
+            setLoading(false);
+          }
+        });
     }
-  }, [user?.token, user?.role, user?.isLoggedIn])
-
+  }, [user?.token, user?.role, user?.isLoggedIn]);
 
   return (
     <Layout title="Dashboard | Piktask">
@@ -140,16 +159,20 @@ const AdminDashboard = () => {
           <div className={classes.dashboardGridContainer}>
             <div className={classes.totalStatus}>
               <Heading tag="h2">Current Month</Heading>
-              <Button 
+              <Button
                 className={classes.loadMoreBtn}
                 component={Link}
                 to={`/contributor/earnings`}
-              >More status</Button>
+              >
+                More status
+              </Button>
             </div>
             <Grid container>
               <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
                 <CardContent className={classes.statisticsContent}>
-                  <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`} >
+                  <div
+                    className={`${classes.arrowIcon} ${classes.statisticsIcon}`}
+                  >
                     <img src={moneyIcon} alt="Money" />
                   </div>
                   <Typography className={classes.totalCount} variant="h1">
@@ -157,14 +180,16 @@ const AdminDashboard = () => {
                     <span>Earning</span>
                   </Typography>
                   <Typography className={classes.lastTotalCount}>
-                      Last month: {earnPreviousMonth?.total_earning}
+                    Last month: {earnPreviousMonth?.total_earning}
                   </Typography>
                 </CardContent>
               </Grid>
 
               <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
                 <CardContent className={classes.statisticsContent}>
-                  <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`} >
+                  <div
+                    className={`${classes.arrowIcon} ${classes.statisticsIcon}`}
+                  >
                     <img src={arrowDown} alt="Download" />
                   </div>
                   <Typography className={classes.totalCount} variant="h1">
@@ -179,7 +204,9 @@ const AdminDashboard = () => {
 
               <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
                 <CardContent className={classes.statisticsContent}>
-                  <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`} >
+                  <div
+                    className={`${classes.arrowIcon} ${classes.statisticsIcon}`}
+                  >
                     <img src={followerIcon} alt="followerIcon" />
                   </div>
                   <Typography className={classes.totalCount} variant="h1">
@@ -212,16 +239,13 @@ const AdminDashboard = () => {
           </div>
 
           {/* Map & country wise earning statistics */}
-          <Grid
-            container
-            className={classes.dashboardGridContainer}
-          >
+          <Grid container className={classes.dashboardGridContainer}>
             <Grid item xs={12} sm={12} md={6} className={classes.loaderItem}>
               <Card className={classes.cardRoot}>
                 <CardContent className={classes.authorCard}>
                   <div className={classes.cardHeading}>
                     <Heading tag="h2">Your Last File's</Heading>
-                    <Button 
+                    <Button
                       className={classes.loadMoreBtn}
                       component={Link}
                       to={`/contributor/publish`}
@@ -240,9 +264,15 @@ const AdminDashboard = () => {
                       <TableHead>
                         <TableRow className={classes.tableHead}>
                           <TableCell className={classes.tableCell}></TableCell>
-                          <TableCell className={classes.tableCell}>Type</TableCell>
-                          <TableCell className={classes.tableCell}>Download</TableCell>
-                          <TableCell className={classes.tableCell}>Earning</TableCell>
+                          <TableCell className={classes.tableCell}>
+                            Type
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            Download
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            Earning
+                          </TableCell>
                         </TableRow>
                       </TableHead>
 
@@ -252,15 +282,29 @@ const AdminDashboard = () => {
                             key={authLastFile?.id}
                             className={classes.tableRowContent}
                           >
-                            <TableCell className={`${classes.tableCell} ${classes.authProductWrapper}`}>
-                              <Link to={encodeURI(`/images/${authLastFile?.title.toLowerCase().replace(/\s/g , "-")}&id=${authLastFile?.id}`)}>
+                            <TableCell
+                              className={`${classes.tableCell} ${classes.authProductWrapper}`}
+                            >
+                              <Link
+                                to={encodeURI(
+                                  `/images/${authLastFile?.title
+                                    .toLowerCase()
+                                    .replace(/\s/g, "-")}&id=${
+                                    authLastFile?.id
+                                  }`
+                                )}
+                              >
                                 <img
                                   className={classes.earningImg}
-                                  src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + authLastFile?.preview)}
+                                  src={encodeURI(
+                                    getBaseURL().bucket_base_url +
+                                      getBaseURL().images +
+                                      authLastFile?.preview
+                                  )}
                                   alt={"Contributor last file"}
                                 />
                               </Link>
-                              
+
                               {/* {authLastFile?.item_for_sale === "sale" && (
                                 <div className={classes.premiumIcon}>
                                   <img src={encodeURI(premiumFileSell)} alt="Premium Product" />
@@ -274,7 +318,8 @@ const AdminDashboard = () => {
                               {authLastFile?.total_downloads}
                             </TableCell>
                             <TableCell className={classes.tableCell}>
-                              <AttachMoneyIcon />{authLastFile?.earn_per_image}
+                              <AttachMoneyIcon />
+                              {authLastFile?.earn_per_image}
                             </TableCell>
                           </TableRow>
                         ))}
@@ -289,7 +334,9 @@ const AdminDashboard = () => {
               <Card className={classes.cardRoot}>
                 <CardContent className={classes.authorCard}>
                   <div className={classes.cardHeading}>
-                    <Heading style={{padding: "0.4rem 0rem"}} tag="h2">Piktask Top File's</Heading>
+                    <Heading style={{ padding: "0.4rem 0rem" }} tag="h2">
+                      Piktask Top File's
+                    </Heading>
                   </div>
 
                   <TableContainer
@@ -303,9 +350,15 @@ const AdminDashboard = () => {
                       <TableHead>
                         <TableRow className={classes.tableHead}>
                           <TableCell className={classes.tableCell}></TableCell>
-                          <TableCell className={classes.tableCell}>Type</TableCell>
-                          <TableCell className={classes.tableCell}>Downloads</TableCell>
-                          <TableCell className={classes.tableCell}>Author</TableCell>
+                          <TableCell className={classes.tableCell}>
+                            Type
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            Downloads
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            Author
+                          </TableCell>
                         </TableRow>
                       </TableHead>
 
@@ -315,11 +368,23 @@ const AdminDashboard = () => {
                             key={topFile?.id}
                             className={classes.tableRowContent}
                           >
-                            <TableCell className={`${classes.tableCell} ${classes.authProductWrapper}`}>
-                              <Link to={encodeURI(`/images/${topFile?.title.toLowerCase().replace(/\s/g , "-")}&id=${topFile?.id}`)}>
+                            <TableCell
+                              className={`${classes.tableCell} ${classes.authProductWrapper}`}
+                            >
+                              <Link
+                                to={encodeURI(
+                                  `/images/${topFile?.title
+                                    .toLowerCase()
+                                    .replace(/\s/g, "-")}&id=${topFile?.id}`
+                                )}
+                              >
                                 <img
                                   className={classes.earningImg}
-                                  src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + topFile?.preview)}
+                                  src={encodeURI(
+                                    getBaseURL().bucket_base_url +
+                                      getBaseURL().images +
+                                      topFile?.preview
+                                  )}
                                   alt={"Piktask top file"}
                                 />
                               </Link>
@@ -369,7 +434,7 @@ const AdminDashboard = () => {
             </Grid>
           </Grid>
 
-          <Spacing space={{height: "2rem"}} />
+          <Spacing space={{ height: "2rem" }} />
 
           {/* <Container>
             <SectionHeading title="Top Selling Author" large>

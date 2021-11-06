@@ -1,23 +1,23 @@
-import { Button, Container, Grid } from '@material-ui/core';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Spacing from '../../components/Spacing';
-import Blog from '../../components/ui/Blog';
-import CallToAction from '../../components/ui/CallToAction';
-import Footer from '../../components/ui/Footer';
-import Header from '../../components/ui/Header';
-import SectionHeading from '../../components/ui/Heading';
-import HeroSection from '../../components/ui/Hero';
-import Loader from '../../components/ui/Loader';
-import ProductNotFound from '../../components/ui/ProductNotFound';
-import Product from '../../components/ui/Products/Product';
-import { TopSeller } from '../../components/ui/TopSeller';
-import Layout from '../../Layout';
-import useStyles from './Popular.style';
+import { Button, Container, Grid } from "@material-ui/core";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import Spacing from "../../components/Spacing";
+import Blog from "../../components/ui/Blog";
+import CallToAction from "../../components/ui/CallToAction";
+import Footer from "../../components/ui/Footer";
+import Header from "../../components/ui/Header";
+import SectionHeading from "../../components/ui/Heading";
+import HeroSection from "../../components/ui/Hero";
+import Loader from "../../components/ui/Loader";
+import ProductNotFound from "../../components/ui/ProductNotFound";
+import Product from "../../components/ui/Products/Product";
+import { TopSeller } from "../../components/ui/TopSeller";
+import Layout from "../../Layout";
+import useStyles from "./Popular.style";
 
-export const PopularImages = () => {
+const PopularImages = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
   const [isLoading, setLoading] = useState(false);
@@ -112,3 +112,5 @@ export const PopularImages = () => {
     </Layout>
   );
 };
+
+export default PopularImages;

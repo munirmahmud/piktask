@@ -7,35 +7,35 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Link as MuiLink,
   List,
   ListItem,
   TextField,
   Typography,
-  Link as MuiLink
 } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
-import React, { useEffect, useState } from "react";
-import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
-import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import GetAppIcon from "@material-ui/icons/GetApp";
-import shutterstockIcon from "../../../assets/icons/shutterstock.svg";
-import instagramIcon from "../../../assets/icons/instagram.svg";
-import facebookIcon from "../../../assets/icons/facebook.svg";
-import linkedinIcon from "../../../assets/icons/linkedin.svg";
-import twitterIcon from "../../../assets/icons/twitter.svg";
-import freepikIcon from "../../../assets/icons/freepik.svg";
-import behanceIcon from "../../../assets/icons/behance.svg";
-import dribbleIcon from "../../../assets/icons/dribble.svg";
-import authorPhoto from "../../../assets/author.png";
-import useStyles from "./UserSideBar.style";
+import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
+import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { getBaseURL } from "../../../helpers";
+import authorPhoto from "../../assets/author.png";
+import behanceIcon from "../../assets/icons/behance.svg";
+import dribbleIcon from "../../assets/icons/dribble.svg";
+import facebookIcon from "../../assets/icons/facebook.svg";
+import freepikIcon from "../../assets/icons/freepik.svg";
+import instagramIcon from "../../assets/icons/instagram.svg";
+import linkedinIcon from "../../assets/icons/linkedin.svg";
+import shutterstockIcon from "../../assets/icons/shutterstock.svg";
+import twitterIcon from "../../assets/icons/twitter.svg";
+import { getBaseURL } from "../../helpers";
+import useStyles from "./UserSideBar.style";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -65,7 +65,7 @@ const UserSideBar = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  
+
   const [profilePicture, setProfilePicture] = useState("");
   const [alertDialog, setAlertDialog] = useState(false);
   const [userProfile, setUserProfile] = useState({});
@@ -110,8 +110,12 @@ const UserSideBar = () => {
   }, [user?.token, user?.isLoggedIn]);
 
   //close account modal
-  const handleDialogOpen = () => { setAlertDialog(true);};
-  const handleDialogClose = () => { setAlertDialog(false);};
+  const handleDialogOpen = () => {
+    setAlertDialog(true);
+  };
+  const handleDialogClose = () => {
+    setAlertDialog(false);
+  };
 
   const handleChangeTab = () => {
     return tabIndex === 0 ? setTabIndex(1) : tabIndex === 1 && setTabIndex(0);
@@ -128,7 +132,10 @@ const UserSideBar = () => {
       setValue(3);
     } else if (window.location.pathname === "/user/devices" && value !== 4) {
       setValue(4);
-    } else if (window.location.pathname === "/user/subscription" && value !== 5) {
+    } else if (
+      window.location.pathname === "/user/subscription" &&
+      value !== 5
+    ) {
       setValue(5);
     }
   }, [value]);
@@ -203,9 +210,9 @@ const UserSideBar = () => {
           localStorage.setItem("profileImage", res.data.image);
           dispatch({
             type: "SET_USER",
-              payload: {
-                avatar: res.data.image,
-              },
+            payload: {
+              avatar: res.data.image,
+            },
           });
         }
       })
@@ -219,10 +226,18 @@ const UserSideBar = () => {
     <>
       {mobileView ? (
         <div>
-          <Button component={Link} to="/user/profile"><PersonOutlineIcon /></Button>
-          <Button component={Link} to="/user/favorites"><FavoriteBorderIcon /></Button>
-          <Button component={Link} to="/user/downloads"><GetAppIcon /></Button>
-          <Button component={Link} to="/user/following"><PeopleOutlineIcon /></Button>
+          <Button component={Link} to="/user/profile">
+            <PersonOutlineIcon />
+          </Button>
+          <Button component={Link} to="/user/favorites">
+            <FavoriteBorderIcon />
+          </Button>
+          <Button component={Link} to="/user/downloads">
+            <GetAppIcon />
+          </Button>
+          <Button component={Link} to="/user/following">
+            <PeopleOutlineIcon />
+          </Button>
         </div>
       ) : (
         <>
@@ -231,7 +246,10 @@ const UserSideBar = () => {
               <div className={classes.profileImage}>
                 {profilePicture ? (
                   <div>
-                    <img src={getBaseURL().bucket_base_url + "/" + profilePicture} alt="UserProfile" />
+                    <img
+                      src={getBaseURL().bucket_base_url + "/" + profilePicture}
+                      alt="UserProfile"
+                    />
                   </div>
                 ) : (
                   <img src={authorPhoto} alt="UserProfile" />
@@ -259,42 +277,77 @@ const UserSideBar = () => {
               <div className={classes.socialMedia}>
                 {userProfile?.facebook && (
                   <MuiLink href={`${userProfile?.facebook}`} target="_blank">
-                    <img src={facebookIcon} className={classes.facebookIcon} alt="facebookIcon"/>
+                    <img
+                      src={facebookIcon}
+                      className={classes.facebookIcon}
+                      alt="facebookIcon"
+                    />
                   </MuiLink>
                 )}
                 {userProfile?.twitter && (
                   <MuiLink href={`${userProfile?.twitter}`} target="_blank">
-                    <img src={twitterIcon} className={classes.twitterIcon} alt="twitterIcon"/>
+                    <img
+                      src={twitterIcon}
+                      className={classes.twitterIcon}
+                      alt="twitterIcon"
+                    />
                   </MuiLink>
                 )}
                 {userProfile?.linkedin && (
                   <MuiLink href={`${userProfile?.linkedin}`} target="_blank">
-                    <img src={linkedinIcon} className={classes.linkedinIcon} alt="linkedinIcon"/>
+                    <img
+                      src={linkedinIcon}
+                      className={classes.linkedinIcon}
+                      alt="linkedinIcon"
+                    />
                   </MuiLink>
                 )}
                 {userProfile?.instagram && (
                   <MuiLink href={`${userProfile?.instagram}`} target="_blank">
-                    <img src={instagramIcon} className={classes.instagramIcon} alt="instagramIcon"/>
+                    <img
+                      src={instagramIcon}
+                      className={classes.instagramIcon}
+                      alt="instagramIcon"
+                    />
                   </MuiLink>
                 )}
                 {userProfile?.shutterstock && (
-                  <MuiLink href={`${userProfile?.shutterstock}`} target="_blank">
-                    <img src={shutterstockIcon} className={classes.shutterstockIcon} alt="shutterstockIcon"/>
+                  <MuiLink
+                    href={`${userProfile?.shutterstock}`}
+                    target="_blank"
+                  >
+                    <img
+                      src={shutterstockIcon}
+                      className={classes.shutterstockIcon}
+                      alt="shutterstockIcon"
+                    />
                   </MuiLink>
                 )}
                 {userProfile?.freepik && (
                   <MuiLink href={`${userProfile?.freepik}`} target="_blank">
-                    <img src={freepikIcon} className={classes.freepikIcon} alt="freepikIcon"/>
+                    <img
+                      src={freepikIcon}
+                      className={classes.freepikIcon}
+                      alt="freepikIcon"
+                    />
                   </MuiLink>
                 )}
                 {userProfile?.behance && (
                   <MuiLink href={`${userProfile?.behance}`} target="_blank">
-                    <img src={behanceIcon} className={classes.behanceIcon} alt="behanceIcon"/>
+                    <img
+                      src={behanceIcon}
+                      className={classes.behanceIcon}
+                      alt="behanceIcon"
+                    />
                   </MuiLink>
                 )}
                 {userProfile?.dribble && (
                   <MuiLink href={`${userProfile?.dribble}`} target="_blank">
-                    <img src={dribbleIcon} className={classes.dribbleIcon} alt="dribbleIcon"/>
+                    <img
+                      src={dribbleIcon}
+                      className={classes.dribbleIcon}
+                      alt="dribbleIcon"
+                    />
                   </MuiLink>
                 )}
               </div>
@@ -333,9 +386,7 @@ const UserSideBar = () => {
                   selected={value === 2}
                 >
                   <GetAppIcon />
-                  <span>
-                    Downloads
-                  </span>
+                  <span>Downloads</span>
                 </ListItem>
 
                 <ListItem

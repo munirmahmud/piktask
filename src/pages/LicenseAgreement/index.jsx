@@ -7,7 +7,7 @@ import HeroSection from "../../components/ui/Hero";
 import Layout from "../../Layout";
 import useStyles from "./LicenseAgreement.style";
 
-export const LicenseAgreement = () => {
+const LicenseAgreement = () => {
   const classes = useStyles();
   return (
     <Layout title=" License Agreement | Piktask">
@@ -101,3 +101,5 @@ export const LicenseAgreement = () => {
     </Layout>
   );
 };
+
+export default LicenseAgreement;

@@ -19,11 +19,11 @@ import linkedinIcon from "../../../assets/icons/linkedin.svg";
 import shutterstockIcon from "../../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../../assets/icons/twitter.svg";
 import Footer from "../../../components/ui/Footer";
+import allCountry from "../../../data/countryList.json";
 import Layout from "../../../Layout";
 import AdminHeader from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import useStyles from "./AccountSettings.styles";
-import allCountry from "../../../data/countryList.json";
 
 const AccountSettings = () => {
   const classes = useStyles();

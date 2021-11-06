@@ -30,7 +30,6 @@ const EarningManagement = () => {
   const [earningData, setEarningData] = useState(0);
   const [isLoading, setLoading] = useState(true);
   const [openWithdrawModal, setWithdrawModal] = useState(false);
-  
 
   const [chartData, setChartData] = useState({});
   const [selectName, setSelectName] = useState("earning");
@@ -52,9 +51,9 @@ const EarningManagement = () => {
     // Total earning summary API integration
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/summary`, 
-          { headers: { Authorization: user?.token },}
-        )
+        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/summary`, {
+          headers: { Authorization: user?.token },
+        })
         .then(({ data }) => {
           if (data?.status) {
             setTotalSummery(data?.summery);
@@ -69,14 +68,18 @@ const EarningManagement = () => {
       let labelCount = [];
 
       var newDate = new Date();
-      var firstDayCurrentMonth = new Date( newDate.getFullYear(), newDate.getMonth(),2 );
+      var firstDayCurrentMonth = new Date(
+        newDate.getFullYear(),
+        newDate.getMonth(),
+        2
+      );
       var firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
       var todayCurrentMonth = newDate.toISOString().substring(0, 10);
 
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${firstDay}&end=${todayCurrentMonth}&status=earning`,
-          { headers: { Authorization: user?.token },}
+          { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.status) {
@@ -170,7 +173,7 @@ const EarningManagement = () => {
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${fromDates}&end=${toDates}&status=${selectName}`,
-          { headers: { Authorization: user?.token },}
+          { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.status) {
@@ -207,7 +210,7 @@ const EarningManagement = () => {
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${fromDates}&end=${toDates}&status=${selectedName}`,
-          { headers: { Authorization: user?.token }, }
+          { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.status) {
@@ -290,7 +293,7 @@ const EarningManagement = () => {
   const [totalBalance, setTotalBalance] = useState("");
   const [minWithdraw, setMinWithdraw] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
-  
+
   const handleWithdrawInfo = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
@@ -316,7 +319,7 @@ const EarningManagement = () => {
           setLoading(false);
         });
     }
-  }
+  };
 
   return (
     <Layout title="Earning Management | Piktask">
@@ -328,10 +331,9 @@ const EarningManagement = () => {
           <div className={classes.earningManagementWrapper}>
             <div className={classes.headingWrapper}>
               <Heading tag="h2">Earning Management</Heading>
-              <Button 
-                className={classes.withdrawBtn} 
+              <Button
+                className={classes.withdrawBtn}
                 onClick={() => {
-                  
                   handleWithdrawInfo();
                 }}
               >
@@ -597,15 +599,15 @@ const EarningManagement = () => {
               </TabPanel>
             </div>
           </div>
-          <WithdrawModal 
-            openWithdrawModal={openWithdrawModal} 
+          <WithdrawModal
+            openWithdrawModal={openWithdrawModal}
             setWithdrawModal={setWithdrawModal}
             username={username}
             paymentGateway={paymentGateway}
-            paypalAccount={paypalAccount} 
+            paypalAccount={paypalAccount}
             payoneerAccount={payoneerAccount}
             accountNumber={accountNumber}
-            totalBalance={totalBalance} 
+            totalBalance={totalBalance}
             minWithdraw={minWithdraw}
           />
           <Footer />
