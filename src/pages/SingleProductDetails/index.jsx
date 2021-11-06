@@ -61,7 +61,6 @@ const SingleProductDetails = () => {
   const location = useLocation();
   const shareUrl = window.location.href;
   const user = useSelector((state) => state.user);
-
   const imageID = location.pathname.split("=").pop();
 
   // const [downloadLicenseDialog, setDownloadLicenseDialog] = useState(false);
@@ -177,7 +176,7 @@ const SingleProductDetails = () => {
       setRole(e.currentTarget.value);
       setOpenAuthModal(true);
     } else if (!user?.isLoggedIn && window.innerWidth < 900) {
-      history.push(`/login?url=${location.pathname}`);
+      history.push(`/login?user`);
     } else if (
       user?.id !== imageDetails?.user_id &&
       user &&
@@ -206,7 +205,7 @@ const SingleProductDetails = () => {
       setRole(e.currentTarget.value);
       setOpenAuthModal(true);
     } else if (!user?.isLoggedIn && window.innerWidth < 900) {
-      history.push(`/login?url=${location.pathname}`);
+      history.push(`/login?user`);
     } else if (
       user?.id !== imageDetails?.user_id &&
       user &&

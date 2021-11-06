@@ -14,7 +14,7 @@ const ConfirmSignup = () => {
   const classes = useStyles();
 
   const [isRedirectTo, setRedirectTo] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [token, setToken] = useState("");
   const [role, setRole] = useState("");
 
@@ -29,7 +29,7 @@ const ConfirmSignup = () => {
   //For Set Password
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
+    setLoading(false);
 
     if (!token) {
       setLoading(false);

@@ -7,21 +7,36 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import AccountSettings from "./admin/pages/AccountSettings";
-import AdminDashboard from "./admin/pages/AdminDashboard";
-import ContributorPricePlan from "./admin/pages/ContributorPricePlan";
-import EarningManagement from "./admin/pages/EarningManagement";
-import JoinNow from "./admin/pages/JoinNow";
-import PendingFiles from "./admin/pages/PendingFiles";
 // import Sellers from "./pages/Sellers";
-import Publish from "./admin/pages/Publish";
-import RejectFiles from "./admin/pages/RejectFiles";
-import Revision from "./admin/pages/Revision";
-import UploadFiles from "./admin/pages/UploadFiles";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import theme from "./components/ui/Theme";
 import Home from "./pages/Home";
 
+const Publish = lazy(() => import("./pages/Dashboard/Contributor/Publish"));
+const RejectFiles = lazy(() =>
+  import("./pages/Dashboard/Contributor/RejectFiles")
+);
+const Revision = lazy(() => import("./pages/Dashboard/Contributor/Revision"));
+const UploadFiles = lazy(() =>
+  import("./pages/Dashboard/Contributor/UploadFiles")
+);
+const UserProfile = lazy(() => import("./pages/Dashboard/User/UserProfile"));
+const PendingFiles = lazy(() =>
+  import("./pages/Dashboard/Contributor/PendingFiles")
+);
+const JoinNow = lazy(() => import("./pages/Dashboard/Contributor/JoinNow"));
+const EarningManagement = lazy(() =>
+  import("./pages/Dashboard/Contributor/EarningManagement")
+);
+const ContributorPricePlan = lazy(() =>
+  import("./pages/Dashboard/Contributor/ContributorPricePlan")
+);
+const AccountSettings = lazy(() =>
+  import("./pages/Dashboard/Contributor/AccountSettings")
+);
+const AdminDashboard = lazy(() =>
+  import("./pages/Dashboard/Contributor/AdminDashboard")
+);
 const SingleBlogPost = lazy(() => import("./pages/SingleBlogPost"));
 const Category = lazy(() => import("./pages/Category"));
 const ConfirmSignup = lazy(() =>
@@ -52,14 +67,19 @@ const SingleProductDetails = lazy(() => import("./pages/SingleProductDetails"));
 const Subscription = lazy(() => import("./pages/Subscription"));
 const TagRelatedProducts = lazy(() => import("./pages/TagRelatedProducts"));
 const DeviceActivity = lazy(() =>
-  import("./pages/userDashboard/DeviceActivity")
+  import("./pages/Dashboard/User/DeviceActivity")
 );
-const DownloadItems = lazy(() => import("./pages/userDashboard/DownloadItems"));
-const FavoriteItems = lazy(() => import("./pages/userDashboard/FavoriteItems"));
-const UserFollowing = lazy(() => import("./pages/userDashboard/UserFollowing"));
-const UserProfile = lazy(() => import("./pages/userDashboard/UserProfile"));
+const DownloadItems = lazy(() =>
+  import("./pages/Dashboard/User/DownloadItems")
+);
+const FavoriteItems = lazy(() =>
+  import("./pages/Dashboard/User/FavoriteItems")
+);
+const UserFollowing = lazy(() =>
+  import("./pages/Dashboard/User/UserFollowing")
+);
 const UserSubscription = lazy(() =>
-  import("./pages/userDashboard/UserSubscription")
+  import("./pages/Dashboard/User/UserSubscription")
 );
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const AllBlogs = lazy(() => import("./pages/AllBlogs"));

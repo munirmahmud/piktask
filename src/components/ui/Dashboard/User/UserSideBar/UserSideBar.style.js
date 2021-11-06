@@ -1,9 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-<<<<<<< HEAD:src/components/UserSideBar/UserSideBar.style.js
-import userBackground from "../../assets/user/user-background.png";
-=======
 import userBackground from "../../../../../assets/user/user-background.png";
->>>>>>> master:src/components/ui/Dashboard/User/UserSideBar/UserSideBar.style.js
 
 const useStyles = makeStyles((theme) => ({
   userProfile: {
