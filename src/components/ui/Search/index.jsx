@@ -8,18 +8,18 @@ import {
   Popper,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { useDebounce } from "../../../lib/hooks/debounceHook";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
+import CloseIcon from "@material-ui/icons/Close";
+import axios from "axios";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import { useClickOutside } from "react-click-outside-hook";
-import { AnimatePresence, motion } from "framer-motion";
-import searchIcon from "../../../assets/search.svg";
-import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import searchIcon from "../../../assets/search.svg";
+import { useDebounce } from "../../../lib/hooks/debounceHook";
 import useStyles from "./Search.styles";
 import SearchItem from "./SearchItem";
-import axios from "axios";
-import { toast } from "react-toastify";
 
 const containerVariants = {
   expanded: {
@@ -60,7 +60,6 @@ const Search = () => {
   const { mobileView } = menuSate;
 
   useEffect(() => {
-
     const setResponsiveness = () => {
       return window.innerWidth < 576
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
@@ -71,9 +70,15 @@ const Search = () => {
     window.addEventListener("resize", () => setResponsiveness());
   }, []);
 
-  const expandContainer = () => { setIsExpanded(true); };
-  const handleSearchToggle = () => { SearchCategory((prevOpen) => !prevOpen); };
-  const handleCloseCatSearch = () => { SearchCategory(false) };
+  const expandContainer = () => {
+    setIsExpanded(true);
+  };
+  const handleSearchToggle = () => {
+    SearchCategory((prevOpen) => !prevOpen);
+  };
+  const handleCloseCatSearch = () => {
+    SearchCategory(false);
+  };
 
   const handleClose = (e) => {
     if (anchorRef.current && anchorRef?.current.contains(e.target)) {
@@ -143,14 +148,14 @@ const Search = () => {
   const loadCategories = () => {
     if (categories.length === 0) {
       axios
-      .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
-      .then(({ data }) => {
-        if (data?.status) {
-          const sortedData = data?.categories.sort((a, b) => a.id - b.id);
-          setCategories(sortedData);
-        }
-      })
-      .catch((error) => console.log("Categories loading error: ", error));
+        .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
+        .then(({ data }) => {
+          if (data?.status) {
+            const sortedData = data?.categories.sort((a, b) => a.id - b.id);
+            setCategories(sortedData);
+          }
+        })
+        .catch((error) => console.log("Categories loading error: ", error));
     }
   };
 
@@ -163,24 +168,34 @@ const Search = () => {
     e.preventDefault();
     if (!searchQuery) {
       toast.error("The search field is required");
-      return
-    };
+      return;
+    }
 
     searchPhotos();
     setSearchQuery("");
     setIsExpanded(false);
 
-    if(searchCategoryID) {
-      history.push(`/search/title=${searchQuery.toLowerCase().replace(/\s/g , "-")}&category_id=${searchCategoryID}`);
+    if (searchCategoryID) {
+      history.push(
+        `/search/title=${searchQuery
+          .toLowerCase()
+          .replace(/\s/g, "-")}&category_id=${searchCategoryID}`
+      );
     } else {
-      history.push(`/search/title=${searchQuery.toLowerCase().replace(/\s/g , "-")}`);
+      history.push(
+        `/search/title=${searchQuery.toLowerCase().replace(/\s/g, "-")}`
+      );
     }
   };
-  
 
   return (
     <>
-      <form action="" autoComplete="off" onSubmit={handleSearch} className={classes.formSubmit}>
+      <form
+        action=""
+        autoComplete="off"
+        onSubmit={handleSearch}
+        className={classes.formSubmit}
+      >
         <motion.div
           className={classes.searchWrapper}
           variants={containerVariants}
@@ -267,7 +282,7 @@ const Search = () => {
                                 className={classes.categoryList}
                                 onClick={(e) => {
                                   handleCategoryItem(e);
-                                  handleCloseCatSearch()
+                                  handleCloseCatSearch();
                                 }}
                               >
                                 {category?.name}

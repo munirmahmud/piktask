@@ -158,9 +158,10 @@ const App = () => {
   ) : (
     <ThemeProvider theme={theme}>
       <ToastContainer />
-      <Suspense fallback={<div>Loading...</div>}>
-        <Switch>
-          <Route exact path="/" component={Home} />
+      <Switch>
+        <Route exact path="/" component={Home} />
+
+        <Suspense fallback={<LinearProgress />}>
           {/* Contributor Dashboard */}
           <Route
             exact
@@ -267,10 +268,10 @@ const App = () => {
           <Route exact path="/author/:username" component={AuthorProfile} />
           <Route exact path="/category/:catName" component={Category} />
           <Route exact path="/images/:id" component={SingleProductDetails} />
+        </Suspense>
 
-          <Route path="*" component={NotFoundPage} />
-        </Switch>
-      </Suspense>
+        <Route path="*" component={NotFoundPage} />
+      </Switch>
     </ThemeProvider>
   );
 };
