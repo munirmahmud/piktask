@@ -28,9 +28,9 @@ import moneyIcon from "../../../../assets/dashboardicons/money.svg";
 import followerIcon from "../../../../assets/icons/followerIcon.png";
 import Spacing from "../../../../components/Spacing";
 import Blog from "../../../../components/ui/Blog";
-import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
-import Heading from "../../../../components/ui/Dashboard/Contributor/Heading";
-import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
+import AdminHeader from "../../../../components/ui/dashboard/Contributor/Header";
+import Heading from "../../../../components/ui/dashboard/Contributor/Heading";
+import Sidebar from "../../../../components/ui/dashboard/Contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
@@ -150,7 +150,7 @@ const AdminDashboard = () => {
   }, [user?.token, user?.role, user?.isLoggedIn]);
 
   return (
-    <Layout title="Dashboard | Piktask">
+    <Layout title="dashboard | Piktask">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 

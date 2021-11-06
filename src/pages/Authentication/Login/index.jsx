@@ -77,7 +77,7 @@ const Login = ({ history }) => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message, { autoClose: 500,});
         setUsername("");
         setPassword("");
         setLoading(false);

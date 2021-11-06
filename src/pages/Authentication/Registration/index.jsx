@@ -66,39 +66,39 @@ const Registration = ({ history }) => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (username.length < 3 || username.length > 15) {
-      toast.error("Username must be between 3 and 15 characters long");
+      toast.error("Username must be between 3 and 15 characters long", { autoClose: 500,});
       setIsLoading(false);
       return;
     } else if (!/^[a-z0-9_.]+$/.test(username)) {
       toast.error(
-        "Username can only use lowercase letters, numbers, underscores, and dots"
+        "Username can only use lowercase letters, numbers, underscores, and dots", { autoClose: 500,}
       );
       setIsLoading(false);
       return;
     } else if (username.match(/^_/)) {
-      toast.error("Username can not use only underscore. Ex: james_bond");
+      toast.error("Username can not use only underscore. Ex: james_bond", { autoClose: 500,});
       setIsLoading(false);
       return;
     } else if (username.match(/^\./)) {
-      toast.error("Username can not use only dot. Ex: james.bond");
+      toast.error("Username can not use only dot. Ex: james.bond", { autoClose: 500,});
       setIsLoading(false);
       return;
     } else if (username.match(/^[0-9]/)) {
-      toast.error("Username can not be a number. Ex: bond007");
+      toast.error("Username can not be a number. Ex: bond007", { autoClose: 500,});
       setIsLoading(false);
       return;
     } else if (email && !validateEmail.test(String(email))) {
-      toast.error("Your email is invalid");
+      toast.error("Your email is invalid", { autoClose: 500,});
       setIsLoading(false);
       return;
     } else if (password.length < 6) {
-      toast.error("Password should be at least 6 characters");
+      toast.error("Password should be at least 6 characters", { autoClose: 500,});
       setIsLoading(false);
       return;
     }
 
     //   else if(password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/)){
-    //     toast.error("Password should contain at least a number, lowercase, uppercase and a special character @,#,%,& etc.");
+    //     toast.error("Password should contain at least a number, lowercase, uppercase and a special character @,#,%,& etc.", { autoClose: 500,});
     //     setIsLoading(false);
     //     return;
     // }
@@ -119,7 +119,7 @@ const Registration = ({ history }) => {
 
           // Show success message to the user
           toast.success(
-            `An email has been sent to ${email}. Please check and confirm your registration`
+            `An email has been sent to ${email}. Please check and confirm your registration`, { autoClose: 500,}
           );
 
           setUsername("");
@@ -132,7 +132,7 @@ const Registration = ({ history }) => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+        toast.error(error.response.data.message, { autoClose: 500,});
         setUsername("");
         setEmail("");
         setPassword("");
@@ -169,7 +169,7 @@ const Registration = ({ history }) => {
           },
         });
       }
-      toast.success(data.message);
+      toast.success(data.message, { autoClose: 500,});
       pathHistory.replace(from);
     }
   };
@@ -201,7 +201,7 @@ const Registration = ({ history }) => {
           },
         });
       }
-      toast.success(data.message);
+      toast.success(data.message, { autoClose: 500,});
       pathHistory.replace(from);
     }
   };

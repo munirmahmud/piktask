@@ -34,22 +34,22 @@ const ConfirmSignup = () => {
     if (!token) {
       setLoading(false);
       setToken("");
-      toast.error("Field should not be empty. ");
+      toast.error("Field should not be empty. ", { autoClose: 500,});
       return;
     } else if (!token.match(/^(?=.*[0-9])/)) {
       setLoading(false);
       setToken("");
-      toast.error("Token only contains numeric value");
+      toast.error("Token only contains numeric value", { autoClose: 500,});
       return;
     } else if (token.match(/^(?=.*[0-9])/) && token.match(/^(?=.*[a-zA-Z])/)) {
       setLoading(false);
       setToken("");
-      toast.error("Token only contains numeric values");
+      toast.error("Token only contains numeric values", { autoClose: 500,});
       return;
     } else if (token.length < 8 || token.length > 8) {
       setLoading(false);
       setToken("");
-      toast.error("Token should be 8 digit number");
+      toast.error("Token should be 8 digit number", { autoClose: 500,});
       return;
     }
 
@@ -58,7 +58,7 @@ const ConfirmSignup = () => {
         .post(`${process.env.REACT_APP_API_URL}/auth/verify/account`, { token })
         .then((res) => {
           if (res.status === 200) {
-            toast.success(res.data.message);
+            toast.success(res.data.message, { autoClose: 500,});
             setLoading(false);
             setRole(res?.data.role);
             setToken("");

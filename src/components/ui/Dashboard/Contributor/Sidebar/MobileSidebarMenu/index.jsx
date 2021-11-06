@@ -78,7 +78,7 @@ const MobileSidebarMenu = () => {
           to="/contributor/dashboard"
           selected={value === 0}
         >
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary="dashboard" />
         </ListItem>
         <ListItem
           classes={{

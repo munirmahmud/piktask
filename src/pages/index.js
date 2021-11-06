@@ -10,7 +10,7 @@ import CookiesPolicy from "./CookiesPolicy";
 import CopyrightInfo from "./CopyrightInfo";
 import GuidLine from "./GuidLine";
 import Help from "./Help";
-import Home from "./Home";
+import Home fro./Dashboard/Contributor/GuidLine;
 import LicenseAgreement from "./LicenseAgreement";
 import NotFoundPage from "./NotFoundPage";
 import PopularImages from "./PopularImages";

@@ -46,16 +46,16 @@ const EditItem = (props) => {
     });
 
     if (!categoryName) {
-      toast.error("Please select a category");
+      toast.error("Please select a category", { autoClose: 500,});
       return;
     } else if(!title){
-      toast.error("The Title field is required.");
+      toast.error("The Title field is required.", { autoClose: 500,});
       return;
     } else if (title.length < 3 || title.length > 200) {
-      toast.error("Title must be between 3 and 200 characters");
+      toast.error("Title must be between 3 and 200 characters", { autoClose: 500,});
       return;
     } else if (tagsValue.length === 0) {
-      toast.error("The tag field is required");
+      toast.error("The tag field is required", { autoClose: 500,});
       return;
     }
 
@@ -81,16 +81,16 @@ const EditItem = (props) => {
           setCategoryName("");
           setTitle("");
           setTagsValue([]);
-          toast.success(response.data.message || "Product update successfully");
+          toast.success(response.data.message || "Product update successfully", { autoClose: 500,});
         }
       } catch (error) {
         if(error.response?.data?.errors){
           Object.entries(error.response.data.errors).forEach(([key, value]) => {
             console.log(`${key} ${value}`);
-            toast.error(value);
+            toast.error(value, { autoClose: 500,});
           });
         } else if (error.response?.data?.message){
-          toast.error(error.response.data.message);
+          toast.error(error.response.data.message, { autoClose: 500,});
         }
       }
     }

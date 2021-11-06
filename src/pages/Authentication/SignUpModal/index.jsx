@@ -157,39 +157,39 @@ const SignUpModal = (props) => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (authData.userName.length < 3 || authData.userName.length > 15) {
-      toast.error("Username must be between 3 and 15 characters long");
+      toast.error("Username must be between 3 and 15 characters long", { autoClose: 500,});
       setLoading(false);
       return;
     } else if (!/^[a-z0-9_.]+$/.test(authData.userName)) {
       toast.error(
-        "Username can only use lowercase letters, numbers, underscores, and dots"
+        "Username can only use lowercase letters, numbers, underscores, and dots", { autoClose: 500,}
       );
       setLoading(false);
       return;
     } else if (authData.userName.match(/^_/)) {
-      toast.error("Username can not use only underscore. Ex: james_bond");
+      toast.error("Username can not use only underscore. Ex: james_bond", { autoClose: 500,});
       setLoading(false);
       return;
     } else if (authData.userName.match(/^\./)) {
-      toast.error("Username can not use only dot. Ex: james.bond");
+      toast.error("Username can not use only dot. Ex: james.bond", { autoClose: 500,});
       setLoading(false);
       return;
     } else if (authData.userName.match(/^[0-9]/)) {
-      toast.error("Username can not be a number. Ex: bond007");
+      toast.error("Username can not be a number. Ex: bond007", { autoClose: 500,});
       setLoading(false);
       return;
     } else if (authData.email && !validateEmail.test(String(authData.email))) {
-      toast.error("Your email is invalid");
+      toast.error("Your email is invalid", { autoClose: 500,});
       setLoading(false);
       return;
     } else if (authData.password.length < 6) {
-      toast.error("Password should be at least 6 characters");
+      toast.error("Password should be at least 6 characters", { autoClose: 500,});
       setLoading(false);
       return;
     }
 
     //   else if(!authData.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/)){
-    //     toast.error("Password should contain at least a number, lowercase, uppercase and a special character @,#,%,& etc.");
+    //     toast.error("Password should contain at least a number, lowercase, uppercase and a special character @,#,%,& etc.", { autoClose: 500,});
     //     setLoading(false);
     //     return;
     // }

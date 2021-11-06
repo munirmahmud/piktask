@@ -78,7 +78,7 @@ const SingleBlogPost = () => {
     e.preventDefault();
 
     if (!comment) {
-      toast.error("Comment field is required");
+      toast.error("Comment field is required", { autoClose: 500,});
       return;
     }
     if (!user?.token) {
@@ -95,7 +95,7 @@ const SingleBlogPost = () => {
       })
         .then((res) => {
           if (res?.status) {
-            toast.success(res.data.message);
+            toast.success(res.data.message, { autoClose: 500,});
             setComment("");
             setLoading(false);
           }
@@ -103,7 +103,7 @@ const SingleBlogPost = () => {
         .catch((error) => {
           const { errors } = error.response.data;
           for (let key in errors) {
-            toast.error(errors[key]);
+            toast.error(errors[key], { autoClose: 500,});
           }
           setLoading(false);
         });

@@ -85,7 +85,7 @@ const Sidebar = () => {
           selected={value === 0}
         >
           <DashboardIcon />
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary="dashboard" />
         </ListItem>
         <ListItem
           classes={{

@@ -14,9 +14,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
-import Heading from "../../../../components/ui/Dashboard/Contributor/Heading";
-import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
+import AdminHeader from "../../../../components/ui/dashboard/Contributor/Header";
+import Heading from "../../../../components/ui/dashboard/Contributor/Heading";
+import Sidebar from "../../../../components/ui/dashboard/Contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
@@ -127,12 +127,12 @@ const PendingFiles = () => {
   const handleWorkInfo = () => {
     if (selectedProducts.length > 0) {
       if (selectedProducts.length > 12) {
-        toast.error("You can not select more than 12");
+        toast.error("You can not select more than 12", { autoClose: 500,});
         return;
       }
       setOpenModal(true);
     } else {
-      toast.error("Please select at list 1 product");
+      toast.error("Please select at list 1 product", { autoClose: 500,});
       setOpenModal(false);
     }
   };

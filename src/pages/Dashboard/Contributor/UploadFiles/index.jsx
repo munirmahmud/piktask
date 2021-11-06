@@ -14,9 +14,9 @@ import fileThumbnail from "../../../../assets/icons/fileThumpnail.png";
 import Footer from "../../../../components/ui/Footer";
 import Layout from "../../../../Layout";
 import useStyles from "./UploadFiles.styles";
-import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
-import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
-import Heading from "../../../../components/ui/Dashboard/Contributor/Heading";
+import Sidebar from "../../../../components/ui/dashboard/Contributor/Sidebar";
+import AdminHeader from "../../../../components/ui/dashboard/Contributor/Header";
+import Heading from "../../../../components/ui/dashboard/Contributor/Heading";
 import Spacing from "../../../../components/Spacing";
 
 function LinearProgressWithLabel(props) {
@@ -146,7 +146,7 @@ const UploadFiles = () => {
           })
             .then((response) => {
               if (response.errors) {
-                toast.error(response.errors);
+                toast.error(response.errors, { autoClose: 500,});
                 // return;
               } else if (response.status) {
                 tokenMatch[fileName] = response.token_id;
@@ -176,7 +176,7 @@ const UploadFiles = () => {
 
           //   console.log("response", response);
           //   if (response.errors) {
-          //     toast.error(response.errors);
+          //     toast.error(response.errors, { autoClose: 500,});
           //     // return;
           //   } else if (response.status) {
           //     tokenMatch[fileName] = response.token_id;
@@ -278,7 +278,7 @@ const UploadFiles = () => {
 
   const handleUpload = async (e) => {
     if (files.length === 0) {
-      toast.error("Sorry, you did not upload any files.");
+      toast.error("Sorry, you did not upload any files.", { autoClose: 500,});
       return;
     }
 
