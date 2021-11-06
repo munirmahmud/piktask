@@ -55,7 +55,6 @@ const PendingFiles = () => {
           { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
-          console.log("data", data);
           if (data?.images.length > 0) {
             setPendingProducts(data.images);
             setLoading(false);
@@ -71,26 +70,24 @@ const PendingFiles = () => {
 
   }, [user?.isLoggedIn, user?.token, user?.role]);
 
-  const handleDelete = (id) => {
+  const handleDelete = (image_id) => {
     if(user?.isLoggedIn && user?.role === "contributor"){
       axios
-        .delete(`${process.env.REACT_APP_API_URL}/images/${id}`, {
+        .delete(`${process.env.REACT_APP_API_URL}/images/${image_id}`, {
           headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
-            const index = pendingProducts.findIndex(
-              (item) => item.token_id === id
-            );
+            const index = pendingProducts.findIndex((item) => item.token_id === image_id);
             pendingProducts.splice(index, 1);
             setPendingProducts([...pendingProducts]);
-            toast.success(data.message, {
-              autoClose: 500,
-            });
+            setLoading(false);
+            toast.success(data.message, { autoClose: 500, });
           }
         }) 
         .catch ((error) => {
           console.log("Product delete", error);
+          setLoading(false);
         })
     }
   };
