@@ -1,21 +1,20 @@
-import { CategoryCarousel } from "../../components/ui/Carousel";
-import CallToAction from "../../components/ui/CallToAction";
-// import { TopSeller } from "../../components/ui/TopSeller";
-import SectionHeading from "../../components/ui/Heading";
 import { Button, Container } from "@material-ui/core";
-import Products from "../../components/ui/Products";
-import HeroSection from "../../components/ui/Hero";
-import Footer from "../../components/ui/Footer";
-import Header from "../../components/ui/Header";
-import Spacing from "../../components/Spacing";
-import Blog from "../../components/ui/Blog";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import useStyles from "./Home.styles";
+import Spacing from "../../components/Spacing";
+import Blog from "../../components/ui/Blog";
+import CallToAction from "../../components/ui/CallToAction";
+import { CategoryCarousel } from "../../components/ui/Carousel";
+import Footer from "../../components/ui/Footer";
+import Header from "../../components/ui/Header";
+// import { TopSeller } from "../../components/ui/TopSeller";
+import SectionHeading from "../../components/ui/Heading";
+import HeroSection from "../../components/ui/Hero";
+import Products from "../../components/ui/Products";
 import Layout from "../../Layout";
-import { useState } from "react";
-
-export const Home = () => {
+import useStyles from "./Home.styles";
+const Home = () => {
   const classes = useStyles();
   const categories = useSelector((state) => state.popularCategories);
   const [popularCats, setPopularCats] = useState([]);
@@ -27,7 +26,11 @@ export const Home = () => {
     setScrolling(window.pageYOffset);
     let currentPosition = scrolling;
 
-    if (categories.length && currentPosition % 50 > 30 && index < categories.length) {
+    if (
+      categories.length &&
+      currentPosition % 50 > 30 &&
+      index < categories.length
+    ) {
       const category = categories[index];
       setIndex((index) => index + 1);
       popularCats.push(category);
@@ -40,12 +43,14 @@ export const Home = () => {
       description="Graphic Resources for Free Download"
     >
       <Header />
+      {/* <Suspense fallback={<h1>Loading...</h1>}> */}
       <HeroSection
         size="large"
         popularKeywords
         heroButton
         title="Graphic Resources for Free Download"
       />
+      {/* </Suspense> */}
       <Container>
         <Spacing space={{ height: "3rem" }} />
         <SectionHeading title="Popular Album Collection" large>
@@ -67,7 +72,12 @@ export const Home = () => {
       {popularCats?.length &&
         popularCats.map((category, index) => (
           <Container key={category?.id}>
-            <Products key={category?.id} category={category} showHeading count={8} />
+            <Products
+              key={category?.id}
+              category={category}
+              showHeading
+              count={8}
+            />
           </Container>
         ))}
       ;
@@ -97,3 +107,5 @@ export const Home = () => {
     </Layout>
   );
 };
+
+export default Home;

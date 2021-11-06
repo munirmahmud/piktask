@@ -5,22 +5,22 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import formIconBottom from "../../../assets/formIconBottom.png";
 import formIconTop from "../../../assets/formIconTop.png";
-import { useDispatch } from "react-redux";
 import lockIcon from "../../../assets/password.png";
-import React, { useEffect, useState } from "react";
+import Spacing from "../../../components/Spacing";
 import Footer from "../../../components/ui/Footer";
 import Header from "../../../components/ui/Header";
-import Spacing from "../../../components/Spacing";
-import useStyles from "../Auth.styles";
-import { toast } from "react-toastify";
 import Layout from "../../../Layout";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
+import useStyles from "../Auth.styles";
 
-export const Login = ({ history }) => {
+const Login = ({ history }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -185,3 +185,5 @@ export const Login = ({ history }) => {
     </Layout>
   );
 };
+
+export default Login;
