@@ -1,24 +1,24 @@
 import { Container, Grid, Typography } from "@material-ui/core";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router";
+import Spacing from "../../components/Spacing";
 // import TagButtons from "../../components/ui/TagButtons/index";
 import CallToAction from "../../components/ui/CallToAction";
-import Product from "../../components/ui/Products/Product";
-import useStyles from "./TagRelatedProducts.style";
-import HeroSection from "../../components/ui/Hero";
-import React, { useEffect, useState } from "react";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
-import { useLocation, useParams } from "react-router";
-import Layout from "../../Layout";
-import axios from "axios";
-import ProductNotFound from "../../components/ui/ProductNotFound";
+import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
-import Spacing from "../../components/Spacing";
+import ProductNotFound from "../../components/ui/ProductNotFound";
+import Product from "../../components/ui/Products/Product";
+import Layout from "../../Layout";
+import useStyles from "./TagRelatedProducts.style";
 
 const TagTemplate = () => {
   const classes = useStyles();
   const { tagName } = useParams();
   const location = useLocation();
-  const keywords = location.pathname.split("/tag/").pop().replace(/-/g, ' ');
+  const keywords = location.pathname.split("/tag/").pop().replace(/-/g, " ");
   const [isLoading, setLoading] = useState(false);
   const [tagRelatedProducts, setTagRelatedProducts] = useState([]);
 
@@ -41,11 +41,14 @@ const TagTemplate = () => {
       <HeroSection size="medium" />
       <Container>
         <Typography className={classes.totalResources} variant="h4">
-          {`${tagRelatedProducts.length} Resources for "${tagName.replace(/-/g, ' ')}"`}
+          {`${tagRelatedProducts.length} Resources for "${tagName.replace(
+            /-/g,
+            " "
+          )}"`}
         </Typography>
         <Grid classes={{ container: classes.container }} container spacing={2}>
           {isLoading ? (
-            <Loader/>
+            <Loader />
           ) : (
             <>
               {tagRelatedProducts.length ? (
@@ -69,7 +72,7 @@ const TagTemplate = () => {
         </Grid>
       </Container>
 
-      <Spacing space= {{height:"5rem"}} />
+      <Spacing space={{ height: "5rem" }} />
 
       <CallToAction
         title="Join Designhill designer team"

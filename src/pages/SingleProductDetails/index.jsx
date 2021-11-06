@@ -177,8 +177,12 @@ const SingleProductDetails = () => {
       setOpenAuthModal(true);
     } else if (!user?.isLoggedIn && window.innerWidth < 900) {
       history.push(`/login?user`);
-    } else if ( user?.id !== imageDetails?.user_id && user && user?.isLoggedIn && user?.role === "user" ) 
-    {
+    } else if (
+      user?.id !== imageDetails?.user_id &&
+      user &&
+      user?.isLoggedIn &&
+      user?.role === "user"
+    ) {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/contributor/followers/${imageDetails?.user_id}`,
@@ -192,7 +196,7 @@ const SingleProductDetails = () => {
           }
         });
     } else {
-      toast.error("You can't follow yourself", { autoClose: 500,});
+      toast.error("You can't follow yourself", { autoClose: 500 });
     }
   };
 
@@ -202,8 +206,12 @@ const SingleProductDetails = () => {
       setOpenAuthModal(true);
     } else if (!user?.isLoggedIn && window.innerWidth < 900) {
       history.push(`/login?user`);
-    } else if ( user?.id !== imageDetails?.user_id && user && user?.isLoggedIn && user?.role === "user" ) 
-      {
+    } else if (
+      user?.id !== imageDetails?.user_id &&
+      user &&
+      user?.isLoggedIn &&
+      user?.role === "user"
+    ) {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/images/${imageID}/like`,
@@ -215,7 +223,7 @@ const SingleProductDetails = () => {
             setLike(true);
             setLoading(false);
           } else if (!data?.status) {
-            toast.error(data.message, {autoClose: 500,});
+            toast.error(data.message, { autoClose: 500 });
             setLike(true);
             setLoading(false);
           } else {
@@ -225,7 +233,7 @@ const SingleProductDetails = () => {
         })
         .catch((error) => console.log("Like error: ", error));
     } else {
-      toast.error("You can't like yourself", {autoClose: 500,});
+      toast.error("You can't like yourself", { autoClose: 500 });
     }
   };
 
@@ -247,9 +255,9 @@ const SingleProductDetails = () => {
     };
 
     if (user && user?.isLoggedIn) {
-      if(user?.role === "user"){
+      if (user?.role === "user") {
         downloadAPI.headers = { Authorization: user?.token };
-      } else{
+      } else {
         setRole(e.currentTarget.value);
         setOpenAuthModal(true);
         return;
@@ -284,9 +292,9 @@ const SingleProductDetails = () => {
       .catch((error) => {
         console.log("catch", error.response);
         if (user?.isLoggedIn) {
-          toast.error(error.response.data.message, {autoClose: 500,});
+          toast.error(error.response.data.message, { autoClose: 500 });
         } else {
-          toast.error(error.response.data.message, {autoClose: 500,});
+          toast.error(error.response.data.message, { autoClose: 500 });
           setRole(e.currentTarget.value);
           setOpenAuthModal(true);
         }
@@ -325,7 +333,11 @@ const SingleProductDetails = () => {
               <img
                 title={imageDetails.title}
                 className={classes.image}
-                src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + imageDetails?.preview)}
+                src={encodeURI(
+                  getBaseURL().bucket_base_url +
+                    getBaseURL().images +
+                    imageDetails?.preview
+                )}
                 alt={imageDetails?.original_name}
               />
             </div>
@@ -489,7 +501,11 @@ const SingleProductDetails = () => {
                       {imageDetails?.user?.avatar ? (
                         <img
                           className={classes.authorImg}
-                          src={getBaseURL().bucket_base_url + getBaseURL().profiles + imageDetails?.user?.avatar}
+                          src={
+                            getBaseURL().bucket_base_url +
+                            getBaseURL().profiles +
+                            imageDetails?.user?.avatar
+                          }
                           alt={imageDetails?.user?.username}
                         />
                       ) : (
@@ -608,14 +624,14 @@ const SingleProductDetails = () => {
                     //       Download
                     //     </Button>
                     //   ) : (
-                        <Button
-                          className={classes.downloadBtn}
-                          onClick={handleDownload}
-                          value="user"
-                        >
-                          <img src={downArrowIconWhite} alt="Download" />
-                          Download
-                        </Button>
+                    <Button
+                      className={classes.downloadBtn}
+                      onClick={handleDownload}
+                      value="user"
+                    >
+                      <img src={downArrowIconWhite} alt="Download" />
+                      Download
+                    </Button>
                     //   )}
                     // </>
                   )}

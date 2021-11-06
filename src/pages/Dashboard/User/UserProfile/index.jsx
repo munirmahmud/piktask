@@ -1,50 +1,48 @@
+import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Container,
   FormControl,
+  FormControlLabel,
   Grid,
   TextField,
   Typography,
-  FormControlLabel,
 } from "@material-ui/core";
-import { toast } from "react-toastify";
+import Switch from "@mui/material/Switch";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import Footer from "../../../../components/ui/Footer";
-import Spacing from "../../../../components/Spacing";
-import Layout from "../../../../Layout";
-import useStyles from "./UserProfile.style";
-import shutterstockLogo from "../../../../assets/icons/shutterstock.svg";
-import instagramLogo from "../../../../assets/icons/instagram.svg";
-import facebookLogo from "../../../../assets/icons/facebook.svg";
-import linkedinLogo from "../../../../assets/icons/linkedin.svg";
-import dribbbleIcon from "../../../../assets/icons/dribble.svg";
-import freepikIcon from "../../../../assets/icons/freepik.svg";
-import behanceIcon from "../../../../assets/icons/behance.svg";
-import twitterLogo from "../../../../assets/icons/twitter.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
-import Switch from '@mui/material/Switch';
-import Header from "../../../../components/ui/Header";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import behanceIcon from "../../../../assets/icons/behance.svg";
+import dribbbleIcon from "../../../../assets/icons/dribble.svg";
+import facebookLogo from "../../../../assets/icons/facebook.svg";
+import freepikIcon from "../../../../assets/icons/freepik.svg";
+import instagramLogo from "../../../../assets/icons/instagram.svg";
+import linkedinLogo from "../../../../assets/icons/linkedin.svg";
+import shutterstockLogo from "../../../../assets/icons/shutterstock.svg";
+import twitterLogo from "../../../../assets/icons/twitter.svg";
+import Spacing from "../../../../components/Spacing";
 import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
-
+import Footer from "../../../../components/ui/Footer";
+import Header from "../../../../components/ui/Header";
+import Layout from "../../../../Layout";
+import useStyles from "./UserProfile.style";
 const clientId =
   "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
 
-const   UserProfile = () => {
+const UserProfile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const pathHistory = useHistory();
   const location = useLocation();
   const user = useSelector((state) => state.user);
   const { from } = location.state || { from: { pathname: "/" } };
-  
+
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -69,7 +67,6 @@ const   UserProfile = () => {
     setChecked(event.target.checked);
   };
 
-
   //mobile view
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -87,34 +84,34 @@ const   UserProfile = () => {
   useEffect(() => {
     setLoading(true);
 
-    if(user?.isLoggedIn){
+    if (user?.isLoggedIn) {
       axios
-      .get(`${process.env.REACT_APP_API_URL}/user/profile`, {
-        headers: { Authorization: user?.token },
-      })
-      .then(({ data }) => {
-        if (data?.status) {
-          setName(data.user.name);
-          setUsername(data.user.username);
-          setEmail (data.user.email);
-          setLocationAddress(data.user.location);
-          setJob_position(data.user.job_position);
-          setPhone(data.user.phone);
-          setWebsite(data.user.website);
-          setShutterstock(data.user.shutterstock);
-          setFreepik(data.user.freepik);
-          setBehance(data.user.behance);
-          setDribble(data.user.dribble);
-          setFacebook(data.user.facebook);
-          setTwitter(data.user.twitter);
-          setLinkedin(data.user.linkedin);
-          setInstagram(data.user.instagram);
-          setLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+        .get(`${process.env.REACT_APP_API_URL}/user/profile`, {
+          headers: { Authorization: user?.token },
+        })
+        .then(({ data }) => {
+          if (data?.status) {
+            setName(data.user.name);
+            setUsername(data.user.username);
+            setEmail(data.user.email);
+            setLocationAddress(data.user.location);
+            setJob_position(data.user.job_position);
+            setPhone(data.user.phone);
+            setWebsite(data.user.website);
+            setShutterstock(data.user.shutterstock);
+            setFreepik(data.user.freepik);
+            setBehance(data.user.behance);
+            setDribble(data.user.dribble);
+            setFacebook(data.user.facebook);
+            setTwitter(data.user.twitter);
+            setLinkedin(data.user.linkedin);
+            setInstagram(data.user.instagram);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
     }
   }, [user?.token, user?.isLoggedIn]);
 
@@ -124,59 +121,59 @@ const   UserProfile = () => {
 
     const formData = new FormData();
     let emptyFieldCheck = 0;
-    if(name){
+    if (name) {
       formData.append("name", name);
       emptyFieldCheck++;
     }
-    if(locationAddress){
+    if (locationAddress) {
       formData.append("location", locationAddress);
       emptyFieldCheck++;
     }
-    if(job_position){
+    if (job_position) {
       formData.append("job_position", job_position);
       emptyFieldCheck++;
     }
-    if(phone){
+    if (phone) {
       formData.append("phone", phone);
       emptyFieldCheck++;
     }
-    if(website){
+    if (website) {
       formData.append("website", website);
       emptyFieldCheck++;
     }
-    if(shutterstock){
+    if (shutterstock) {
       formData.append("shutterstock", shutterstock);
       emptyFieldCheck++;
     }
-    if(freepik){
+    if (freepik) {
       formData.append("freepik", freepik);
       emptyFieldCheck++;
     }
-    if(behance){
+    if (behance) {
       formData.append("behance", behance);
       emptyFieldCheck++;
     }
-    if(dribble){
+    if (dribble) {
       formData.append("dribble", dribble);
       emptyFieldCheck++;
     }
-    if(facebook){
+    if (facebook) {
       formData.append("facebook", facebook);
       emptyFieldCheck++;
     }
-    if(twitter){
+    if (twitter) {
       formData.append("twitter", twitter);
       emptyFieldCheck++;
     }
-    if(instagram){
+    if (instagram) {
       formData.append("instagram", instagram);
     }
-    if(linkedin){
+    if (linkedin) {
       formData.append("linkedin", linkedin);
       emptyFieldCheck++;
     }
 
-    if(emptyFieldCheck){
+    if (emptyFieldCheck) {
       const url = `${process.env.REACT_APP_API_URL}/user/profile`;
       axios({
         method: "put",
@@ -197,8 +194,8 @@ const   UserProfile = () => {
           const { errors } = error.response.data;
           setErrors(errors);
         });
-    }else{
-      toast.error("Please insert profile info")
+    } else {
+      toast.error("Please insert profile info");
     }
   };
 
@@ -211,7 +208,7 @@ const   UserProfile = () => {
         body: JSON.stringify({
           token: googleData.tokenId,
         }),
-        headers: {"Content-Type": "application/json",},
+        headers: { "Content-Type": "application/json" },
       }
     );
     const data = await res.json();
@@ -261,7 +258,6 @@ const   UserProfile = () => {
       pathHistory.replace(from);
     }
   };
-
 
   return (
     <Layout title="UserProfile | Piktask">
@@ -711,10 +707,10 @@ const   UserProfile = () => {
                     <FormControlLabel
                       control={
                         <Switch
-                        checked={checked}
-                        onChange={handleChange}
-                        inputProps={{ 'aria-label': 'controlled' }}
-                      />
+                          checked={checked}
+                          onChange={handleChange}
+                          inputProps={{ "aria-label": "controlled" }}
+                        />
                       }
                       label="Primary"
                     />

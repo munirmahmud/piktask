@@ -1,25 +1,25 @@
 import { Container, Grid, Typography } from "@material-ui/core";
-import CallToAction from "../../components/ui/CallToAction";
-import Product from "../../components/ui/Products/Product";
-import SignUpModal from "../Authentication/SignUpModal";
-import React, { useEffect, useState } from "react";
-import HeroSection from "../../components/ui/Hero";
-import Header from "../../components/ui/Header";
-import Loader from "../../components/ui/Loader";
-import Footer from "../../components/ui/Footer";
-import { useLocation } from "react-router-dom";
-import useStyles from "./SearchResults.styles";
-import { useSelector } from "react-redux";
-import Layout from "../../Layout";
 import axios from "axios";
-import ProductNotFound from "../../components/ui/ProductNotFound";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import Spacing from "../../components/Spacing";
+import CallToAction from "../../components/ui/CallToAction";
+import Footer from "../../components/ui/Footer";
+import Header from "../../components/ui/Header";
+import HeroSection from "../../components/ui/Hero";
+import Loader from "../../components/ui/Loader";
+import ProductNotFound from "../../components/ui/ProductNotFound";
+import Product from "../../components/ui/Products/Product";
+import Layout from "../../Layout";
+import SignUpModal from "../Authentication/SignUpModal";
+import useStyles from "./SearchResults.styles";
 
 const SearchResults = () => {
   const classes = useStyles();
   const { pathname } = useLocation();
   const location = useLocation();
-  const keywords = location.pathname.split("=").pop().replace(/-/g, ' ');
+  const keywords = location.pathname.split("=").pop().replace(/-/g, " ");
   const user = useSelector((state) => state.user);
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
@@ -44,16 +44,16 @@ const SearchResults = () => {
   useEffect(() => {
     const URL = prepareSearchQuery();
     axios
-    .get(URL)
-    .then(({ data }) => {
-      if (data?.status) {
-        setSearchResults(data.results);
-        setLoading(false);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .get(URL)
+      .then(({ data }) => {
+        if (data?.status) {
+          setSearchResults(data.results);
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [pathname]);
 
   const handleJoinUsButton = () => {
@@ -73,7 +73,10 @@ const SearchResults = () => {
 
       <Container>
         <Typography className={classes.totalResources} variant="h3">
-          {`${searchResults.length} Resources for "${keywords.replace(/-/g, ' ')}"`}
+          {`${searchResults.length} Resources for "${keywords.replace(
+            /-/g,
+            " "
+          )}"`}
         </Typography>
         <Grid classes={{ container: classes.container }} container spacing={2}>
           {isLoading ? (
@@ -94,7 +97,7 @@ const SearchResults = () => {
                   </Grid>
                 ))
               ) : (
-                <ProductNotFound keywords={keywords}/>
+                <ProductNotFound keywords={keywords} />
               )}
             </>
           )}

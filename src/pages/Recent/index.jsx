@@ -16,7 +16,7 @@ import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
 import useStyles from "./Recent.style";
 
-export const Recent = () => {
+const Recent = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -42,7 +42,7 @@ export const Recent = () => {
           dispatch({
             type: "RECENT_PHOTOS",
             payload: [...data?.images],
-          })
+          });
           setLoading(false);
         } else {
           setLoading(false);
@@ -83,7 +83,6 @@ export const Recent = () => {
   //     }
   //   };
   // }, []);
-
 
   return (
     <Layout title="Recent Images | Piktask" description="Recent Images">
@@ -156,3 +155,5 @@ export const Recent = () => {
     </Layout>
   );
 };
+
+export default Recent;

@@ -50,10 +50,9 @@ const PendingFiles = () => {
   useEffect(() => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/images/not_submit`,
-          { headers: { Authorization: user?.token } }
-        )
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/not_submit`, {
+          headers: { Authorization: user?.token },
+        })
         .then(({ data }) => {
           if (data?.images.length > 0) {
             setPendingProducts(data.images);
@@ -62,33 +61,37 @@ const PendingFiles = () => {
             setLoading(false);
           }
         })
-      .catch ((error) => {
-        console.log("Not submit", error);
-        setLoading(false);
-      })
+        .catch((error) => {
+          console.log("Not submit", error);
+          setLoading(false);
+        });
     }
-
   }, [user?.isLoggedIn, user?.token, user?.role]);
 
   const handleDelete = (image_id) => {
-    if(user?.isLoggedIn && user?.role === "contributor"){
+    if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .delete(`${process.env.REACT_APP_API_URL}/images/${image_id}`, {
           headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
-            const index = pendingProducts.findIndex((item) => item.token_id === image_id);
+            const index = pendingProducts.findIndex(
+              (item) => item.token_id === image_id
+            );
             pendingProducts.splice(index, 1);
             setPendingProducts([...pendingProducts]);
             setLoading(false);
-            toast.success(data.message, { autoClose: 500, });
+            toast.success(data.message, { autoClose: 500 });
           }
-        }) 
-        .catch ((error) => {
+        })
+        .catch((error) => {
           console.log("Product delete", error);
           setLoading(false);
         })
+        .catch((error) => {
+          console.log("Product delete", error);
+        });
     }
   };
 
@@ -204,7 +207,11 @@ const PendingFiles = () => {
                           ref={cardRef}
                         >
                           <img
-                            src={ getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file }
+                            src={
+                              getBaseURL().bucket_base_url +
+                              getBaseURL().images +
+                              product?.original_file
+                            }
                             alt={product?.original_name}
                           />
                           <CardContent>
@@ -220,17 +227,19 @@ const PendingFiles = () => {
                       </Grid>
                     ))
                   ) : (
-                    <div 
+                    <div
                       className={classes.noItemsFound}
                       style={{
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
                         margin: "0 auto",
-                        height: 250
+                        height: 250,
                       }}
                     >
-                      <Typography variant="h3">No products are in pending</Typography>
+                      <Typography variant="h3">
+                        No products are in pending
+                      </Typography>
                     </div>
                   )}
                 </>

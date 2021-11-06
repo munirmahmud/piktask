@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 const FavoriteItems = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  
+
   const [favoriteProducts, setFavoriteProducts] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(1);
@@ -35,21 +35,22 @@ const FavoriteItems = () => {
 
   useEffect(() => {
     setLoading(true);
-    if(user?.isLoggedIn){
+    if (user?.isLoggedIn) {
       axios
-      .get(`${process.env.REACT_APP_API_URL}/user/favourite_image/?limit=${limit}&page=${pageCount}`,
-        { headers: { Authorization: user?.token } }
-      )
-      .then(({ data }) => {
-        if (data?.status) {
-          setFavoriteProducts(data?.images);
+        .get(
+          `${process.env.REACT_APP_API_URL}/user/favourite_image/?limit=${limit}&page=${pageCount}`,
+          { headers: { Authorization: user?.token } }
+        )
+        .then(({ data }) => {
+          if (data?.status) {
+            setFavoriteProducts(data?.images);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log("Category products error:", error);
           setLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.log("Category products error:", error);
-        setLoading(false);
-      });
+        });
     }
   }, [user?.isLoggedIn, user?.token, pageCount, limit]);
 
@@ -93,7 +94,7 @@ const FavoriteItems = () => {
               )}
             </Grid>
             {/* {favoriteProducts?.length > 5 && ( */}
-              <Paginations pageCount={pageCount} setPageCount={setPageCount} />
+            <Paginations pageCount={pageCount} setPageCount={setPageCount} />
             {/* )} */}
           </Grid>
         </Grid>

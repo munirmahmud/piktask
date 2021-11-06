@@ -104,29 +104,40 @@ const Revision = () => {
                         <Card className={classes.cardWrapper}>
                           <div className={classes.cardImage}>
                             <img
-                              src={ getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file }
+                              src={
+                                getBaseURL().bucket_base_url +
+                                getBaseURL().images +
+                                product?.original_file
+                              }
                               alt={product.original_name}
                             />
                           </div>
                           <CardContent className={classes.cardContent}>
-                            <Typography variant="h3">{product.original_name}</Typography>
-                            <Typography>File Size:{" "}{(product.size / 1024 / 1024).toFixed(2)} MB</Typography>
+                            <Typography variant="h3">
+                              {product.original_name}
+                            </Typography>
+                            <Typography>
+                              File Size:{" "}
+                              {(product.size / 1024 / 1024).toFixed(2)} MB
+                            </Typography>
                           </CardContent>
                         </Card>
                       </Grid>
                     ))
                   ) : (
-                    <div 
+                    <div
                       className={classes.noItemsFound}
                       style={{
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
                         margin: "0 auto",
-                        height: 300
+                        height: 300,
                       }}
                     >
-                      <Typography variant="h3">No products are in pending</Typography>
+                      <Typography variant="h3">
+                        No products are in pending
+                      </Typography>
                     </div>
                   )}
                 </>

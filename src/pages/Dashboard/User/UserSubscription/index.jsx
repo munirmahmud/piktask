@@ -10,7 +10,7 @@ const UserSubscription = () => {
   return (
     <Layout title="Subscription | Piktask">
       <Header />
-      
+
       <Spacing space={{ height: "5rem" }} />
       <Container>
         <Grid container spacing={4}>
@@ -18,14 +18,18 @@ const UserSubscription = () => {
             <UserSideBar />
           </Grid>
           <Grid item md={9} sm={9} xs={12}>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo ut inventore nesciunt laborum error a voluptatem, quam cum dolore officiis deserunt iste facere tenetur incidunt?</p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo ut
+              inventore nesciunt laborum error a voluptatem, quam cum dolore
+              officiis deserunt iste facere tenetur incidunt?
+            </p>
           </Grid>
         </Grid>
       </Container>
       <Spacing space={{ height: "5rem" }} />
       <Footer />
     </Layout>
-  )
+  );
 };
 
 export default UserSubscription;

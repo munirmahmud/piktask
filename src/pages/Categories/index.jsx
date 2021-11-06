@@ -1,17 +1,17 @@
+import { Button, Container, Grid } from "@material-ui/core";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Spacing from "../../components/Spacing";
+import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
-import Layout from "../../Layout";
-import useStyles from "./Categories.style";
-import { Button, Container, Grid } from "@material-ui/core";
-import CallToAction from "../../components/ui/CallToAction";
-import Spacing from "../../components/Spacing";
-import { Link } from "react-router-dom";
 import CategoryItemLoader from "../../components/ui/Loader/CategoryItemLoader";
-import axios from "axios";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../helpers";
+import Layout from "../../Layout";
+import useStyles from "./Categories.style";
 const Categories = () => {
   const classes = useStyles();
   const [isLoading, setLoading] = useState(true);
@@ -63,7 +63,11 @@ const Categories = () => {
                         <Link to={`/category/${photo.slug}`}>
                           <img
                             className={classes.catImage}
-                            src={getBaseURL().bucket_base_url + getBaseURL().categories + photo?.thumbnail}
+                            src={
+                              getBaseURL().bucket_base_url +
+                              getBaseURL().categories +
+                              photo?.thumbnail
+                            }
                             alt="thumbnail images"
                           />
                         </Link>

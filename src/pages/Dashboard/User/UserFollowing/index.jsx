@@ -6,21 +6,21 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import authorImg from "../../../../assets/user/userProfile.jpg";
 import Spacing from "../../../../components/Spacing";
+import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import SectionHeading from "../../../../components/ui/Heading";
-import Layout from "../../../../Layout";
-import authorImg from "../../../../assets/user/userProfile.jpg";
-import useStyles from "./UserFollowing.style";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import Paginations from "../../../../components/ui/Pagination";
+import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
-import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
+import Layout from "../../../../Layout";
+import useStyles from "./UserFollowing.style";
 
 const UserFollowing = () => {
   const classes = useStyles();
@@ -34,21 +34,22 @@ const UserFollowing = () => {
   useEffect(() => {
     setLoading(true);
 
-    if(user?.isLoggedIn){
+    if (user?.isLoggedIn) {
       axios
-      .get(`${process.env.REACT_APP_API_URL}/user/following_list?limit=${followerItem}&page=${pageCount}`,
-        { headers: { Authorization: user?.token } }
-      )
-      .then(({ data }) => {
-        if (data?.status) {
-          setFollowersItem(data?.following);
+        .get(
+          `${process.env.REACT_APP_API_URL}/user/following_list?limit=${followerItem}&page=${pageCount}`,
+          { headers: { Authorization: user?.token } }
+        )
+        .then(({ data }) => {
+          if (data?.status) {
+            setFollowersItem(data?.following);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log("Category products error:", error);
           setLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.log("Category products error:", error);
-        setLoading(false);
-      });
+        });
     }
   }, [user?.isLoggedIn, user?.token, pageCount, followerItem]);
 
@@ -131,7 +132,14 @@ const UserFollowing = () => {
                                 key={followerResource?.id}
                                 className={classes.followerFiles}
                               >
-                                <img src={getBaseURL().bucket_base_url + getBaseURL().images + followerResource?.preview} alt="" />
+                                <img
+                                  src={
+                                    getBaseURL().bucket_base_url +
+                                    getBaseURL().images +
+                                    followerResource?.preview
+                                  }
+                                  alt=""
+                                />
                               </Card>
                             ))}
                           </div>
@@ -144,7 +152,7 @@ const UserFollowing = () => {
                 <ProductNotFound noCollection="User Following" />
               )}
               {/* {followersItem.length > 5 && ( */}
-                <Paginations pageCount={pageCount} setPageCount={setPageCount} />
+              <Paginations pageCount={pageCount} setPageCount={setPageCount} />
               {/* )} */}
             </Grid>
           </Grid>

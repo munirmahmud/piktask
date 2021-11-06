@@ -1,13 +1,13 @@
 import { Container, Grid } from "@material-ui/core";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import useStyles from "./Sellers.style";
-import Layout from "../../Layout";
 import Spacing from "../../components/Spacing";
-import HeroSection from "../../components/ui/Hero";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
-import axios from "axios";
+import HeroSection from "../../components/ui/Hero";
 import SellerInfo from "../../components/ui/TopSeller/SellerInfo";
+import Layout from "../../Layout";
+import useStyles from "./Sellers.style";
 
 const Sellers = () => {
   const classes = useStyles();
@@ -16,16 +16,17 @@ const Sellers = () => {
 
   //data loading
   useEffect(() => {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/top/`)
-        .then(({ data }) => {
-          if (data?.success) {
-            setTopSeller(data.sellers);
-            setIsLoading(false);
-          }
-        }).catch((error)=>{
-      console.log(error.message);
-    })
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/contributor/top/`)
+      .then(({ data }) => {
+        if (data?.success) {
+          setTopSeller(data.sellers);
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   }, []);
 
   return (
@@ -40,17 +41,17 @@ const Sellers = () => {
           ) : (
             <>
               {topSeller?.map((photo) => (
-                  <Grid
-                    key={photo.id}
-                    item
-                    xs={6}
-                    sm={4}
-                    md={3}
-                    className={classes.productItem}
-                  >
-                    <SellerInfo photo={photo} />
-                  </Grid>
-                ))}
+                <Grid
+                  key={photo.id}
+                  item
+                  xs={6}
+                  sm={4}
+                  md={3}
+                  className={classes.productItem}
+                >
+                  <SellerInfo photo={photo} />
+                </Grid>
+              ))}
             </>
           )}
         </Grid>

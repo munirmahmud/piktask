@@ -7,7 +7,7 @@ import HeroSection from "../../components/ui/Hero";
 import Layout from "../../Layout";
 import useStyles from "./Support.style";
 
-export const Support = () => {
+const Support = () => {
   const classes = useStyles();
 
   return (
@@ -125,3 +125,5 @@ export const Support = () => {
     </Layout>
   );
 };
+
+export default Support;

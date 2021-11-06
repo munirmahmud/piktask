@@ -18,12 +18,12 @@ import instagramIcon from "../../../../assets/icons/instagram.svg";
 import linkedinIcon from "../../../../assets/icons/linkedin.svg";
 import shutterstockIcon from "../../../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../../../assets/icons/twitter.svg";
+import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
+import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
+import allCountry from "../../../../data/countryList.json";
 import Layout from "../../../../Layout";
 import useStyles from "./AccountSettings.styles";
-import allCountry from "../../../../data/countryList.json";
-import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
-import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
 
 const AccountSettings = () => {
   const classes = useStyles();

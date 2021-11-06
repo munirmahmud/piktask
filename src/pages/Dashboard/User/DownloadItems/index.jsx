@@ -32,21 +32,22 @@ const DownloadItems = () => {
 
   useEffect(() => {
     setLoading(true);
-    if(user?.isLoggedIn){
+    if (user?.isLoggedIn) {
       axios
-      .get(`${process.env.REACT_APP_API_URL}/user/downloads?limit=${downloadItem}&page=${pageCount}`,
-        { headers: { Authorization: user?.token }, }
-      )
-      .then(({ data }) => {
-        if (data?.status) {
-          setDownloadsItem(data?.downloads);
+        .get(
+          `${process.env.REACT_APP_API_URL}/user/downloads?limit=${downloadItem}&page=${pageCount}`,
+          { headers: { Authorization: user?.token } }
+        )
+        .then(({ data }) => {
+          if (data?.status) {
+            setDownloadsItem(data?.downloads);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log("Category products error:", error);
           setLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.log("Category products error:", error);
-        setLoading(false);
-      });
+        });
     }
   }, [user?.isLoggedIn, user?.token, pageCount, downloadItem]);
 
@@ -90,7 +91,7 @@ const DownloadItems = () => {
               )}
             </Grid>
             {/* {downloadsItem?.length >5 && ( */}
-              <Paginations pageCount={pageCount} setPageCount={setPageCount} />
+            <Paginations pageCount={pageCount} setPageCount={setPageCount} />
             {/* )} */}
           </Grid>
         </Grid>

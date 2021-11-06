@@ -6,7 +6,7 @@ import HeroSection from "../../components/ui/Hero";
 import PopularKeyWords from "../../components/ui/PopularKeyWords";
 import Layout from "../../Layout";
 
-export const TrendingSearch = () => {
+const TrendingSearch = () => {
   return (
     <Layout>
       <Header />
@@ -26,3 +26,5 @@ export const TrendingSearch = () => {
     </Layout>
   );
 };
+
+export default TrendingSearch;

@@ -1,14 +1,17 @@
-import HeroSection from "../../components/ui/Hero";
+import React from "react";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
-import useStyles from "./Subscription.style";
+import HeroSection from "../../components/ui/Hero";
 import Layout from "../../Layout";
-import React from "react";
+import useStyles from "./Subscription.style";
 
 const Subscription = () => {
-    const classes = useStyles();
+  const classes = useStyles();
   return (
-    <Layout title="Subscription page piktask" description="This is subscription page">
+    <Layout
+      title="Subscription page piktask"
+      description="This is subscription page"
+    >
       <Header />
       <HeroSection />
       <h1 className={classes.headerText}>

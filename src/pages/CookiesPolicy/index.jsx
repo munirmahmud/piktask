@@ -7,7 +7,7 @@ import HeroSection from "../../components/ui/Hero";
 import Layout from "../../Layout";
 import useStyles from "./CookiesPolicy.style";
 
-export const CookiesPolicy = () => {
+const CookiesPolicy = () => {
   const classes = useStyles();
   return (
     <Layout title={"Cookies policy || Piktask"}>
@@ -56,3 +56,5 @@ export const CookiesPolicy = () => {
     </Layout>
   );
 };
+
+export default CookiesPolicy;

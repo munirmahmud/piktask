@@ -1,21 +1,21 @@
 import { Button, Container, Grid, Typography } from "@material-ui/core";
-import CallToAction from "../../components/ui/CallToAction";
-import AuthorItems from "../../components/ui/AuthorItems";
-import SocialShare from "../../components/ui/SocialShare";
-import heroBanner from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
-import SignUpModal from "../Authentication/SignUpModal";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import authorImg from "../../assets/author.png";
-import Footer from "../../components/ui/Footer";
-import Header from "../../components/ui/Header";
-import useStyles from "./AuthorProfile.styles";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router";
-import Layout from "../../Layout";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { getBaseURL } from "../../helpers";
+import authorImg from "../../assets/author.png";
+import heroBanner from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
 import Spacing from "../../components/Spacing";
+import AuthorItems from "../../components/ui/AuthorItems";
+import CallToAction from "../../components/ui/CallToAction";
+import Footer from "../../components/ui/Footer";
+import Header from "../../components/ui/Header";
+import SocialShare from "../../components/ui/SocialShare";
+import { getBaseURL } from "../../helpers";
+import Layout from "../../Layout";
+import SignUpModal from "../Authentication/SignUpModal";
+import useStyles from "./AuthorProfile.styles";
 
 const AuthorProfile = () => {
   const classes = useStyles();
@@ -47,7 +47,7 @@ const AuthorProfile = () => {
               axios
                 .get(
                   `${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.profile.id}`,
-                  { headers: { Authorization: user.token }}
+                  { headers: { Authorization: user.token } }
                 )
                 .then((response) => {
                   if (response.data.status) {
@@ -80,7 +80,7 @@ const AuthorProfile = () => {
         .post(
           `${process.env.REACT_APP_API_URL}/contributor/followers/${profileInfo?.id}`,
           {},
-          { headers: { Authorization: user.token }}
+          { headers: { Authorization: user.token } }
         )
         .then((response) => {
           if (response?.status === 200) {
@@ -91,7 +91,6 @@ const AuthorProfile = () => {
       toast.error("You can't follow yourself");
     }
   };
-
 
   return (
     <Layout title={`${profileInfo?.username} | Piktask`}>
@@ -108,9 +107,13 @@ const AuthorProfile = () => {
               {profileInfo ? (
                 <Grid container className={classes.profileWrapper}>
                   <div className={classes.authorImg}>
-                    {profileInfo?.avatar ? (  
+                    {profileInfo?.avatar ? (
                       <img
-                        src={getBaseURL().bucket_base_url + getBaseURL().profiles + profileInfo?.avatar}
+                        src={
+                          getBaseURL().bucket_base_url +
+                          getBaseURL().profiles +
+                          profileInfo?.avatar
+                        }
                         alt={profileInfo?.username}
                       />
                     ) : (
