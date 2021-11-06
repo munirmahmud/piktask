@@ -12,80 +12,53 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import theme from "./components/ui/Theme";
 import Home from "./pages/Home";
 
-const Publish = lazy(() => import("./pages/Dashboard/Contributor/Publish"));
-const RejectFiles = lazy(() =>
-  import("./pages/Dashboard/Contributor/RejectFiles")
-);
-const Revision = lazy(() => import("./pages/Dashboard/Contributor/Revision"));
-const UploadFiles = lazy(() =>
-  import("./pages/Dashboard/Contributor/UploadFiles")
-);
-const UserProfile = lazy(() => import("./pages/Dashboard/User/UserProfile"));
-const PendingFiles = lazy(() =>
-  import("./pages/Dashboard/Contributor/PendingFiles")
-);
-const JoinNow = lazy(() => import("./pages/Dashboard/Contributor/JoinNow"));
-const EarningManagement = lazy(() =>
-  import("./pages/Dashboard/Contributor/EarningManagement")
-);
-const ContributorPricePlan = lazy(() =>
-  import("./pages/Dashboard/Contributor/ContributorPricePlan")
-);
-const AccountSettings = lazy(() =>
-  import("./pages/Dashboard/Contributor/AccountSettings")
-);
-const AdminDashboard = lazy(() =>
-  import("./pages/Dashboard/Contributor/AdminDashboard")
-);
-const SingleBlogPost = lazy(() => import("./pages/SingleBlogPost"));
-const Category = lazy(() => import("./pages/Category"));
-const ConfirmSignup = lazy(() =>
-  import("./pages/Authentication/ConfirmSignup")
-);
-const Contact = lazy(() => import("./pages/Contact"));
-const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
-const CopyrightInfo = lazy(() => import("./pages/CopyrightInfo"));
-const Help = lazy(() => import("./pages/Help"));
+const Publish = lazy(() => import("./pages/dashboard/contributor/Publish"));
+const JoinNow = lazy(() => import("./pages/dashboard/contributor/JoinNow"));
+const Revision = lazy(() => import("./pages/dashboard/contributor/Revision"));
+const GuidLine = lazy(() => import("./pages/dashboard/contributor/GuidLine"));
+const UploadFiles = lazy(() => import("./pages/dashboard/contributor/UploadFiles"));
+const RejectFiles = lazy(() => import("./pages/dashboard/contributor/RejectFiles"));
+const PendingFiles = lazy(() => import("./pages/dashboard/contributor/PendingFiles"));
+const AdminDashboard = lazy(() => import("./pages/dashboard/contributor/AdminDashboard"));
+const AccountSettings = lazy(() => import("./pages/dashboard/contributor/AccountSettings"));
+const EarningManagement = lazy(() => import("./pages/dashboard/contributor/EarningManagement"));
+const ContributorPricePlan = lazy(() => import("./pages/dashboard/contributor/ContributorPricePlan"));
+
+const UserProfile = lazy(() => import("./pages/dashboard/user/UserProfile"));
+const FavoriteItems = lazy(() => import("./pages/dashboard/user/FavoriteItems"));
+const DownloadItems = lazy(() => import("./pages/dashboard/user/DownloadItems"));
+const UserFollowing = lazy(() => import("./pages/dashboard/user/UserFollowing"));
+const DeviceActivity = lazy(() => import("./pages/dashboard/user/DeviceActivity"));
+const UserSubscription = lazy(() => import("./pages/dashboard/user/UserSubscription"));
+
+const SingleProductDetails = lazy(() => import("./pages/SingleProductDetails"));
+const TagRelatedProducts = lazy(() => import("./pages/TagRelatedProducts"));
 const LicenseAgreement = lazy(() => import("./pages/LicenseAgreement"));
-const Login = lazy(() => import("./pages/Authentication/Login"));
-const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
-const PopularImages = lazy(() => import("./pages/PopularImages"));
-const Pricing = lazy(() => import("./pages/Pricing"));
-const Recent = lazy(() => import("./pages/Recent"));
-const Registration = lazy(() => import("./pages/Authentication/Registration"));
-const ResetPassword = lazy(() =>
-  import("./pages/Authentication/ResetPassword")
-);
-const Support = lazy(() => import("./pages/Support"));
 const TermsConditions = lazy(() => import("./pages/TermsConditions"));
 const TrendingSearch = lazy(() => import("./pages/TrendingSearch"));
+const SingleBlogPost = lazy(() => import("./pages/SingleBlogPost"));
 const AuthorProfile = lazy(() => import("./pages/AuthorProfile"));
-const Categories = lazy(() => import("./pages/Categories"));
-const GuidLine = lazy(() => import("./pages/GuidLine"));
+const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
+const CopyrightInfo = lazy(() => import("./pages/CopyrightInfo"));
+const PopularImages = lazy(() => import("./pages/PopularImages"));
 const SearchResults = lazy(() => import("./pages/SearchResults"));
-const SingleProductDetails = lazy(() => import("./pages/SingleProductDetails"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const Subscription = lazy(() => import("./pages/Subscription"));
-const TagRelatedProducts = lazy(() => import("./pages/TagRelatedProducts"));
-const DeviceActivity = lazy(() =>
-  import("./pages/Dashboard/User/DeviceActivity")
-);
-const DownloadItems = lazy(() =>
-  import("./pages/Dashboard/User/DownloadItems")
-);
-const FavoriteItems = lazy(() =>
-  import("./pages/Dashboard/User/FavoriteItems")
-);
-const UserFollowing = lazy(() =>
-  import("./pages/Dashboard/User/UserFollowing")
-);
-const UserSubscription = lazy(() =>
-  import("./pages/Dashboard/User/UserSubscription")
-);
-const AboutUs = lazy(() => import("./pages/AboutUs"));
+const Categories = lazy(() => import("./pages/Categories"));
+const Category = lazy(() => import("./pages/Category"));
 const AllBlogs = lazy(() => import("./pages/AllBlogs"));
-const CompleteRegistration = lazy(() =>
-  import("./pages/Authentication/EmailVerification")
-);
+const Contact = lazy(() => import("./pages/Contact"));
+const Support = lazy(() => import("./pages/Support"));
+const AboutUs = lazy(() => import("./pages/AboutUs"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const Recent = lazy(() => import("./pages/Recent"));
+const Help = lazy(() => import("./pages/Help"));
+
+const Login = lazy(() => import("./pages/Authentication/Login"));
+const Registration = lazy(() => import("./pages/Authentication/Registration"));
+const ResetPassword = lazy(() => import("./pages/Authentication/ResetPassword"));
+const ConfirmSignup = lazy(() => import("./pages/Authentication/ConfirmSignup"));
+const CompleteRegistration = lazy(() => import("./pages/Authentication/EmailVerification"));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -158,10 +131,10 @@ const App = () => {
   ) : (
     <ThemeProvider theme={theme}>
       <ToastContainer />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LinearProgress />}>
         <Switch>
           <Route exact path="/" component={Home} />
-          {/* Contributor Dashboard */}
+          {/* Contributor dashboard */}
           <Route
             exact
             path="/contributor/dashboard"
@@ -190,7 +163,7 @@ const App = () => {
           />
           <Route exact path="/contributor/join" component={JoinNow} />
 
-          {/* User Dashboard */}
+          {/* User dashboard */}
           <PrivateRoute exact path="/user/profile" component={UserProfile} />
           <PrivateRoute
             exact

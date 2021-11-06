@@ -15,9 +15,9 @@ import Footer from "../../../../components/ui/Footer";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./RejectFiles.styles";
-import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
-import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
-import Heading from "../../../../components/ui/Dashboard/Contributor/Heading";
+import Sidebar from "../../../../components/ui/dashboard/Contributor/Sidebar";
+import AdminHeader from "../../../../components/ui/dashboard/Contributor/Header";
+import Heading from "../../../../components/ui/dashboard/Contributor/Heading";
 import Spacing from "../../../../components/Spacing";
 
 const RejectFiles = () => {
@@ -66,12 +66,12 @@ const RejectFiles = () => {
 
   const handleClick = (product) => {
     // Reject API integration
-    if (product?.id) {
+    if (product?.token_id) {
       setOpenModal(true);
       try {
         axios
           .get(
-            `${process.env.REACT_APP_API_URL}/contributor/images/rejected/${product?.id}`,
+            `${process.env.REACT_APP_API_URL}/contributor/images/rejected/${product?.token_id}`,
             {
               headers: { Authorization: user?.token },
             }

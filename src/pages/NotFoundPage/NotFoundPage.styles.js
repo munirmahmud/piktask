@@ -1,8 +1,12 @@
 import { makeStyles } from "@material-ui/styles";
+import pageNotFound from "../../assets/banner/page-not-found.jpg"
 
 const useStyles = makeStyles((theme) => ({
   pageNotFound: {
-    background: "#001c30",
+    backgroundImage: `url(${pageNotFound})`,
+    backgroundPosition: "center center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
     height: "100vh",
   },
   pageNotFoundImg: {

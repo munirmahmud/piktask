@@ -165,7 +165,7 @@ const UserSideBar = () => {
       })
       .then((res) => {
         if (res.status) {
-          toast.success("Your account are successfully deleted");
+          toast.success("Your account are successfully deleted", { autoClose: 500,});
           history.push("/");
           localStorage.removeItem("token");
           dispatch({
@@ -178,7 +178,7 @@ const UserSideBar = () => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data?.message);
+        toast.error(error.response.data?.message, { autoClose: 500,});
       });
   };
 
@@ -186,7 +186,7 @@ const UserSideBar = () => {
     e.preventDefault();
     const file = e.target.files[0];
     if (!file?.name?.match(/\.(jpg|jpeg|png|gif)$/) && file !== undefined) {
-      toast.error("You can only upload .jpg, .jpeg, .png, .gif etc");
+      toast.error("You can only upload .jpg, .jpeg, .png, .gif etc", { autoClose: 500,});
       return;
     }
 
@@ -205,7 +205,7 @@ const UserSideBar = () => {
     })
       .then((res) => {
         if (res.status) {
-          toast.success(res.data.message);
+          toast.success(res.data.message, { autoClose: 500,});
           setProfilePicture(res.data.image);
           localStorage.setItem("profileImage", res.data.image);
           dispatch({

@@ -43,7 +43,7 @@ const ResetPassword = () => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (email && !validateEmail.test(String(email))) {
-      toast.error("Your email is invalid");
+      toast.error("Your email is invalid", { autoClose: 500,});
       setPasswordChange(false);
       setIsLoading(false);
       return;
@@ -56,13 +56,13 @@ const ResetPassword = () => {
         })
         .then((res) => {
           if (res.status === 200) {
-            toast.success(res.data.message);
+            toast.success(res.data.message, { autoClose: 500,});
           }
         })
         .catch((error) => {
           setPasswordChange(false);
           setEmail("");
-          toast.error("No user found with this email", error.message);
+          toast.error("No user found with this email", error.message, { autoClose: 500,});
         });
     }
     setIsLoading(false);
@@ -72,28 +72,28 @@ const ResetPassword = () => {
   const handleSetPassword = () => {
     if (!token || !password || !confirmPassword) {
       setIsLoading(false);
-      toast.error("All fields are required");
+      toast.error("All fields are required", { autoClose: 500,});
       return;
     } else if (!token.match(/^(?=.*[0-9])/)) {
       setIsLoading(false);
       setToken("");
-      toast.error("Token only contains numeric values");
+      toast.error("Token only contains numeric values", { autoClose: 500,});
       return;
     } else if (token.match(/^(?=.*[0-9])/) && token.match(/^(?=.*[a-zA-Z])/)) {
       setIsLoading(false);
       setToken("");
-      toast.error("Token only contains numeric values");
+      toast.error("Token only contains numeric values", { autoClose: 500,});
       return;
     } else if (token.length < 8 || token.length > 8) {
       setIsLoading(false);
       setToken("");
-      toast.error("Token should be 8 digit number");
+      toast.error("Token should be 8 digit number", { autoClose: 500,});
       return;
     } else if (password.length < 6) {
       setIsLoading(false);
       setPassword("");
       setConfirmPassword("");
-      toast.error("Password should be at least 6 characters");
+      toast.error("Password should be at least 6 characters", { autoClose: 500,});
       return;
     }
     //   else if(!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/)){
@@ -105,7 +105,7 @@ const ResetPassword = () => {
       setIsLoading(false);
       setPassword("");
       setConfirmPassword("");
-      toast.error("Password not match");
+      toast.error("Password not match", { autoClose: 500,});
       return;
     }
 
@@ -118,12 +118,12 @@ const ResetPassword = () => {
         })
         .then((res) => {
           if (res.status === 200) {
-            toast.success(res.data.message);
+            toast.success(res.data.message, { autoClose: 500,});
             history.replace(from);
           }
         })
         .catch((error) => {
-          toast.error(error.response.data.message);
+          toast.error(error.response.data.message, { autoClose: 500,});
           setToken("");
           setPassword("");
           setConfirmPassword("");
