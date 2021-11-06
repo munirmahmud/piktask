@@ -8,36 +8,19 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD:src/pages/userDashboard/UserFollowing/index.jsx
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import authorImg from "../../../assets/user/userProfile.jpg";
-import Spacing from "../../../components/Spacing";
-import Footer from "../../../components/ui/Footer";
-import Header from "../../../components/ui/Header";
-import SectionHeading from "../../../components/ui/Heading";
-import Paginations from "../../../components/ui/Pagination";
-import ProductNotFound from "../../../components/ui/ProductNotFound";
-import UserSideBar from "../../../components/UserSideBar";
-import { getBaseURL } from "../../../helpers";
-import Layout from "../../../Layout";
-import useStyles from "./UserFollowing.style";
-=======
+import authorImg from "../../../../assets/user/userProfile.jpg";
 import Spacing from "../../../../components/Spacing";
+import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import SectionHeading from "../../../../components/ui/Heading";
-import Layout from "../../../../Layout";
-import authorImg from "../../../../assets/user/userProfile.jpg";
-import useStyles from "./UserFollowing.style";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import Paginations from "../../../../components/ui/Pagination";
+import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
-import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
->>>>>>> master:src/pages/Dashboard/User/UserFollowing/index.jsx
+import Layout from "../../../../Layout";
+import useStyles from "./UserFollowing.style";
 
 const UserFollowing = () => {
   const classes = useStyles();

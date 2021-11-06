@@ -18,43 +18,24 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import PeopleOutlineIcon from "@material-ui/icons/PeopleOutline";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
-<<<<<<< HEAD:src/components/UserSideBar/index.jsx
-import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import authorPhoto from "../../assets/author.png";
-import behanceIcon from "../../assets/icons/behance.svg";
-import dribbleIcon from "../../assets/icons/dribble.svg";
-import facebookIcon from "../../assets/icons/facebook.svg";
-import freepikIcon from "../../assets/icons/freepik.svg";
-import instagramIcon from "../../assets/icons/instagram.svg";
-import linkedinIcon from "../../assets/icons/linkedin.svg";
-import shutterstockIcon from "../../assets/icons/shutterstock.svg";
-import twitterIcon from "../../assets/icons/twitter.svg";
-import { getBaseURL } from "../../helpers";
-import useStyles from "./UserSideBar.style";
-=======
-import GetAppIcon from "@material-ui/icons/GetApp";
-import shutterstockIcon from "../../../../../assets/icons/shutterstock.svg";
-import instagramIcon from "../../../../../assets/icons/instagram.svg";
-import facebookIcon from "../../../../../assets/icons/facebook.svg";
-import linkedinIcon from "../../../../../assets/icons/linkedin.svg";
-import twitterIcon from "../../../../../assets/icons/twitter.svg";
-import freepikIcon from "../../../../../assets/icons/freepik.svg";
+import authorPhoto from "../../../../../assets/author.png";
 import behanceIcon from "../../../../../assets/icons/behance.svg";
 import dribbleIcon from "../../../../../assets/icons/dribble.svg";
-import authorPhoto from "../../../../../assets/author.png";
-import useStyles from "./UserSideBar.style";
-import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import axios from "axios";
+import facebookIcon from "../../../../../assets/icons/facebook.svg";
+import freepikIcon from "../../../../../assets/icons/freepik.svg";
+import instagramIcon from "../../../../../assets/icons/instagram.svg";
+import linkedinIcon from "../../../../../assets/icons/linkedin.svg";
+import shutterstockIcon from "../../../../../assets/icons/shutterstock.svg";
+import twitterIcon from "../../../../../assets/icons/twitter.svg";
 import { getBaseURL } from "../../../../../helpers";
->>>>>>> master:src/components/ui/Dashboard/User/UserSideBar/index.jsx
+import useStyles from "./UserSideBar.style";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;

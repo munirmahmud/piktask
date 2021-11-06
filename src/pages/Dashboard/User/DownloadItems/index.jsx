@@ -2,18 +2,6 @@ import { Container, Grid, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-<<<<<<< HEAD:src/pages/userDashboard/DownloadItems/index.jsx
-import Spacing from "../../../components/Spacing";
-import Footer from "../../../components/ui/Footer";
-import Header from "../../../components/ui/Header";
-import SectionHeading from "../../../components/ui/Heading";
-import Loader from "../../../components/ui/Loader";
-import Paginations from "../../../components/ui/Pagination";
-import ProductNotFound from "../../../components/ui/ProductNotFound";
-import Product from "../../../components/ui/Products/Product";
-import UserSideBar from "../../../components/UserSideBar";
-import Layout from "../../../Layout";
-=======
 import Spacing from "../../../../components/Spacing";
 import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
@@ -24,7 +12,6 @@ import Paginations from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import Product from "../../../../components/ui/Products/Product";
 import Layout from "../../../../Layout";
->>>>>>> master:src/pages/Dashboard/User/DownloadItems/index.jsx
 
 const useStyles = makeStyles({
   cardItem: {

@@ -1,18 +1,10 @@
 import { Container, Grid } from "@material-ui/core";
 import React from "react";
-<<<<<<< HEAD:src/pages/userDashboard/DeviceActivity/index.jsx
-import Spacing from "../../../components/Spacing";
-import Footer from "../../../components/ui/Footer";
-import Header from "../../../components/ui/Header";
-import UserSideBar from "../../../components/UserSideBar";
-import Layout from "../../../Layout";
-=======
 import Spacing from "../../../../components/Spacing";
 import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import Layout from "../../../../Layout";
->>>>>>> master:src/pages/Dashboard/User/DeviceActivity/index.jsx
 
 const DeviceActivity = () => {
   return (

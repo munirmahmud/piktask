@@ -17,47 +17,21 @@ import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props
 import GoogleLogin from "react-google-login";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
-<<<<<<< HEAD:src/pages/userDashboard/UserProfile/index.jsx
 import { toast } from "react-toastify";
-import behanceIcon from "../../../assets/icons/behance.svg";
-import dribbbleIcon from "../../../assets/icons/dribble.svg";
-import facebookLogo from "../../../assets/icons/facebook.svg";
-import freepikIcon from "../../../assets/icons/freepik.svg";
-import instagramLogo from "../../../assets/icons/instagram.svg";
-import linkedinLogo from "../../../assets/icons/linkedin.svg";
-import shutterstockLogo from "../../../assets/icons/shutterstock.svg";
-import twitterLogo from "../../../assets/icons/twitter.svg";
-import Spacing from "../../../components/Spacing";
-import Footer from "../../../components/ui/Footer";
-import Header from "../../../components/ui/Header";
-import UserSideBar from "../../../components/UserSideBar";
-import Layout from "../../../Layout";
-import useStyles from "./UserProfile.style";
-=======
-import Footer from "../../../../components/ui/Footer";
+import behanceIcon from "../../../../assets/icons/behance.svg";
+import dribbbleIcon from "../../../../assets/icons/dribble.svg";
+import facebookLogo from "../../../../assets/icons/facebook.svg";
+import freepikIcon from "../../../../assets/icons/freepik.svg";
+import instagramLogo from "../../../../assets/icons/instagram.svg";
+import linkedinLogo from "../../../../assets/icons/linkedin.svg";
+import shutterstockLogo from "../../../../assets/icons/shutterstock.svg";
+import twitterLogo from "../../../../assets/icons/twitter.svg";
 import Spacing from "../../../../components/Spacing";
+import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
+import Footer from "../../../../components/ui/Footer";
+import Header from "../../../../components/ui/Header";
 import Layout from "../../../../Layout";
 import useStyles from "./UserProfile.style";
-import shutterstockLogo from "../../../../assets/icons/shutterstock.svg";
-import instagramLogo from "../../../../assets/icons/instagram.svg";
-import facebookLogo from "../../../../assets/icons/facebook.svg";
-import linkedinLogo from "../../../../assets/icons/linkedin.svg";
-import dribbbleIcon from "../../../../assets/icons/dribble.svg";
-import freepikIcon from "../../../../assets/icons/freepik.svg";
-import behanceIcon from "../../../../assets/icons/behance.svg";
-import twitterLogo from "../../../../assets/icons/twitter.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import GoogleLogin from "react-google-login";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
-import Switch from '@mui/material/Switch';
-import Header from "../../../../components/ui/Header";
-import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
->>>>>>> master:src/pages/Dashboard/User/UserProfile/index.jsx
-
 const clientId =
   "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
 
