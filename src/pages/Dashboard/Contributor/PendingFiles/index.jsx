@@ -32,6 +32,7 @@ const PendingFiles = () => {
   const [pendingProducts, setPendingProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setLoading] = useState(true);
+  const [addProductDetails, setAddProductDetails] = useState(false);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -48,6 +49,7 @@ const PendingFiles = () => {
   }, []);
 
   useEffect(() => {
+    setAddProductDetails(!true);
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/images/not_submit`, {
@@ -66,7 +68,7 @@ const PendingFiles = () => {
           setLoading(false);
         });
     }
-  }, [user?.isLoggedIn, user?.token, user?.role]);
+  }, [user?.isLoggedIn, user?.token, user?.role, addProductDetails]);
 
   const handleDelete = (image_id) => {
     if (user?.isLoggedIn && user?.role === "contributor") {
@@ -268,6 +270,8 @@ const PendingFiles = () => {
               setSelectedProducts={setSelectedProducts}
               setOpenModal={setOpenModal}
               products={selectedProducts}
+              setAddProductDetails={setAddProductDetails}
+              pendingProducts={pendingProducts}
             />
           </Drawer>
           <Footer />

@@ -47,6 +47,7 @@ import Header from "../../components/ui/Header";
 import SectionHeading from "../../components/ui/Heading";
 import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
+import Paginations from "../../components/ui/Pagination";
 import Product from "../../components/ui/Products/Product";
 import TagButtons from "../../components/ui/TagButtons";
 import { getBaseURL } from "../../helpers";
@@ -78,6 +79,11 @@ const SingleProductDetails = () => {
   const [downloadCount, setDownloadCount] = useState();
   const [imageLink, setImageLink] = useState("");
   const [role, setRole] = useState("");
+
+  const [pageCount, setPageCount] = useState(1);
+  const [totalProduct, setTotalProduct] = useState();
+  let limit = 8;
+  const count = Math.ceil(totalProduct / limit);
 
   const handleTooltipClose = () => {
     setOpenCopyLink(false);
@@ -153,15 +159,16 @@ const SingleProductDetails = () => {
     let relatedImageURL;
 
     if (user?.isLoggedIn && user?.id && user?.role === "user") {
-      relatedImageURL = `${process.env.REACT_APP_API_URL}/images/${imageID}/related_image?user_id=${user?.id}`;
+      relatedImageURL = `${process.env.REACT_APP_API_URL}/images/${imageID}/related_image?limit=${limit}&page=${pageCount}&user_id=${user?.id}`;
     } else {
-      relatedImageURL = `${process.env.REACT_APP_API_URL}/images/${imageID}/related_image`;
+      relatedImageURL = `${process.env.REACT_APP_API_URL}/images/${imageID}/related_image?limit=${limit}&page=${pageCount}`;
     }
     axios
       .get(relatedImageURL)
       .then(({ data }) => {
         if (data?.status) {
-          setRelatedImage(data.images);
+          setRelatedImage(data?.images);
+          setTotalProduct(data?.total)
           setLoading(false);
         }
       })
@@ -169,7 +176,7 @@ const SingleProductDetails = () => {
         console.log("Related image error: ", error);
         setLoading(false);
       });
-  }, [imageID, user?.id, user?.isLoggedIn, user?.role]);
+  }, [imageID, user?.id, user?.isLoggedIn, user?.role, limit, pageCount]);
 
   const handleFollower = (e) => {
     if (!user?.isLoggedIn && window.innerWidth > 900) {
@@ -707,6 +714,9 @@ const SingleProductDetails = () => {
             ))
           )}
         </Grid>
+        {totalProduct > 8 && (
+          <Paginations productPagination count={count} pageCount={pageCount} setPageCount={setPageCount} />
+        )}
 
         {/* BUTTONS OF TAGS */}
         <TagButtons allTags={allTags} />

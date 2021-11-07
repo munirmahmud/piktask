@@ -11,39 +11,40 @@ import useStyles from "./EditItem.styles";
 const EditItem = (props) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const { products, setOpenModal, setSelectedProducts } = props;
+  const { products, setOpenModal, setSelectedProducts, setAddProductDetails, pendingProducts } = props;
 
   const [categoryName, setCategoryName] = useState("");
   const [tagsValue, setTagsValue] = useState([]);
   const [category, setCategory] = useState([]);
   const [title, setTitle] = useState("");
   
-  const handleCategoryChange = () => {
-    axios
-    .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
-    .then(({ data }) => {
-      if (data?.status) {
-        const sortedData = data?.categories.sort((a, b) => a.id - b.id);
-        setCategory(sortedData);
-      }
-    })
-    .catch((error) => console.log("Categories loading error: ", error));
+  const handleCategoryItem = () => {
+    if(user?.isLoggedIn && user?.role === "contributor"){
+      axios
+      .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
+      .then(({ data }) => {
+        if (data?.status) {
+          const sortedData = data?.categories.sort((a, b) => a.id - b.id);
+          setCategory(sortedData);
+        }
+      })
+      .catch((error) => console.log("Categories loading error: ", error));
+    }
   };
   
   const keyWords = [
     // { title: "Business Card" },
   ];
   
+  const images = [];
+  products.forEach(element => {
+    images.push(element.token_id)
+  });
   
   
   const handleProductSubmit = async (e) => {
     e.preventDefault();
-    const images = [];
     const action = e.currentTarget.value
-    
-    products.forEach(element => {
-      images.push(element.token_id)
-    });
 
     if (!categoryName) {
       toast.error("Please select a category", { autoClose: 500,});
@@ -60,7 +61,7 @@ const EditItem = (props) => {
     }
 
     // API integration for set product details 
-    if(user?.isLoggedIn){
+    if(user?.isLoggedIn && user?.role === "contributor"){
       const url = `${process.env.REACT_APP_API_URL}/images?action=${action}`;
       try {
         const response = await axios({
@@ -81,6 +82,7 @@ const EditItem = (props) => {
           setCategoryName("");
           setTitle("");
           setTagsValue([]);
+          setAddProductDetails(pendingProducts)
           toast.success(response.data.message || "Product update successfully", { autoClose: 500,});
         }
       } catch (error) {
@@ -107,9 +109,9 @@ const EditItem = (props) => {
         autoComplete="off"
       >
         <div className={classes.imgWrapper}>
-          {products.length > 0 &&
-            products.map((product) => (
-              <div key={product.id} className={classes.productItem}>
+          {products?.length > 0 &&
+            products?.map((product) => (
+              <div key={product?.id} className={classes.productItem}>
                 <img
                   className={classes.editItemImage}
                   src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file}
@@ -125,9 +127,9 @@ const EditItem = (props) => {
             id="category"
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
-            onClick={() => handleCategoryChange()}
+            onClick={handleCategoryItem}
           >
-            {category.length !== 0 ? (
+            {category.length > 0 ? (
               category.map((categoryItem) => (
                 <option key={categoryItem.id} value={categoryItem.id}>
                   {categoryItem?.name}

@@ -2,6 +2,7 @@ import { Container, Grid } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import Spacing from "../../components/Spacing";
 import Blog from "../../components/ui/Blog";
 import CallToAction from "../../components/ui/CallToAction";
@@ -19,12 +20,16 @@ import useStyles from "./Recent.style";
 const Recent = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const location = useLocation();
   const user = useSelector((state) => state.user);
+  const locationPath = location.pathname;
 
   const [recentProduct, setRecentProduct] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(1);
-  var limit = 52;
+  const [totalProduct, setTotalProduct] = useState();
+  let limit = 48;
+  const count = Math.ceil(totalProduct / limit);
 
   //Recent images API integration
   useEffect(() => {
@@ -39,6 +44,7 @@ const Recent = () => {
       .then(({ data }) => {
         if (data?.images.length > 0) {
           setRecentProduct(data?.images);
+          setTotalProduct(data?.total);
           dispatch({
             type: "RECENT_PHOTOS",
             payload: [...data?.images],
@@ -120,7 +126,9 @@ const Recent = () => {
             </>
           )}
         </Grid>
-        <Paginations pageCount={pageCount} setPageCount={setPageCount} />
+        {totalProduct > 48 && (
+          <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+        )}
       </Container>
 
       <Spacing space={{ height: "3.5rem" }} />

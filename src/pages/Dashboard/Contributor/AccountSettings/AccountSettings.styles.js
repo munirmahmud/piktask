@@ -123,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
   inputField: {
     "& label": {
       color: "#114960",
-      fontSize: "1.6rem",
+      fontSize: "1.3rem",
     },
     "& .MuiInputLabel-shrink": {
       transform: "translate(14px, 2px) scale(0.90)",
