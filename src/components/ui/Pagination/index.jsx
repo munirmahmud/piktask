@@ -5,7 +5,7 @@ import useStyles from "./Pagination.style";
 
 const Paginations = (props) => {
   const classes = useStyles();
-  const { pageCount, setPageCount } = props;
+  const { pageCount, setPageCount, count } = props;
 
   const handleClick = (value) => {
     window.scrollTo(0, 0);
@@ -18,7 +18,7 @@ const Paginations = (props) => {
       <div className={classes.pagination}>
         <Pagination
           onChange={(event, value) => handleClick(value)}
-          count={10}
+          count={count}
           defaultPage={pageCount}
           variant="outlined"
           shape="rounded"
