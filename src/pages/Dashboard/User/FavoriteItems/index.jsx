@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import Spacing from "../../../../components/Spacing";
 import UserSideBar from "../../../../components/ui/dashboard/User/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
@@ -25,15 +26,16 @@ const useStyles = makeStyles({
 
 const FavoriteItems = () => {
   const classes = useStyles();
+  const location = useLocation();
   const user = useSelector((state) => state.user);
+  const locationPath = location.pathname;
 
   const [favoriteProducts, setFavoriteProducts] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  let limit = 6;
-  const count = (totalProduct / limit);
-  // const displayCount = Math.ceil(favoriteProducts?.length / limit);
+  let limit = 15;
+  const count = Math.ceil(totalProduct / limit);
 
   useEffect(() => {
     setLoading(true);
@@ -96,9 +98,9 @@ const FavoriteItems = () => {
                 </>
               )}
             </Grid>
-            {/* {favoriteProducts?.length > 5 && ( */}
-            <Paginations count={count} pageCount={pageCount} setPageCount={setPageCount} />
-            {/* )} */}
+            {totalProduct > 15 && (
+            <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+            )} 
           </Grid>
         </Grid>
       </Container>

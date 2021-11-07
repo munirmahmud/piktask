@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import authorImg from "../../../../assets/user/userProfile.jpg";
 import Spacing from "../../../../components/Spacing";
@@ -25,11 +26,15 @@ import useStyles from "./UserFollowing.style";
 const UserFollowing = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
+  const location = useLocation();
+  const locationPath = location.pathname;
 
   const [followersItem, setFollowersItem] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(1);
-  var followerItem = 6;
+  const [totalProduct, setTotalProduct] = useState();
+  let limit = 15;
+  const count = Math.ceil(totalProduct / limit);
 
   useEffect(() => {
     setLoading(true);
@@ -37,12 +42,13 @@ const UserFollowing = () => {
     if (user?.isLoggedIn) {
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/user/following_list?limit=${followerItem}&page=${pageCount}`,
+          `${process.env.REACT_APP_API_URL}/user/following_list?limit=${limit}&page=${pageCount}`,
           { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.status) {
             setFollowersItem(data?.following);
+            setTotalProduct(data?.total);
             setLoading(false);
           }
         })
@@ -51,7 +57,7 @@ const UserFollowing = () => {
           setLoading(false);
         });
     }
-  }, [user?.isLoggedIn, user?.token, pageCount, followerItem]);
+  }, [user?.isLoggedIn, user?.token, pageCount, limit]);
 
   return (
     <Layout title="Followings | Piktask">
@@ -151,9 +157,9 @@ const UserFollowing = () => {
               ) : (
                 <ProductNotFound noCollection="User Following" />
               )}
-              {/* {followersItem.length > 5 && ( */}
-              <Paginations pageCount={pageCount} setPageCount={setPageCount} />
-              {/* )} */}
+              {totalProduct > 15 && (
+              <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+              )}
             </Grid>
           </Grid>
         </Grid>

@@ -62,7 +62,7 @@ const Products = (props) => {
           dispatch({
             type: "CATEGORY_BASED_ITEMS",
             payload: {
-              totalImages: data.total_image_count.total_image,
+              totalImages: data.total,
               images: data.category_image,
             },
           });

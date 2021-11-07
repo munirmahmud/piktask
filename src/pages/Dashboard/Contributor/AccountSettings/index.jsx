@@ -641,7 +641,7 @@ const AccountSettings = () => {
                           >
                             <TextField
                               id="bankCountry"
-                              label="Bank Country"
+                              label="Country"
                               variant="outlined"
                               className={`${classes.inputField}`}
                               placeholder="Bank Country"

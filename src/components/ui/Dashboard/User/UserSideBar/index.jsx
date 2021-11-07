@@ -256,13 +256,13 @@ const UserSideBar = () => {
                 )}
                 <div className={classes.avatarOverlay}>
                   <div className={classes.bgOverlay}>
-                    <label htmlFor="image" for="upload-photo">
+                    <label htmlFor="upload_photo">
                       <PhotoCameraIcon className={classes.uploadIcon} />
                       <input
                         type="file"
                         name="profile_picture"
                         accept="image/*"
-                        id="upload-photo"
+                        id="upload_photo"
                         style={{ display: "none" }}
                         onChange={handleUpdateImage}
                       />
