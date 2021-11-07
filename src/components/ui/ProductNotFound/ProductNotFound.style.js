@@ -11,12 +11,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   notFoundImage: {
-    // minHeight: "10rem",
-    width: "65rem",
     "& img": {
-      // width: "65rem",
-      // height: "40rem",
-      width: "100%",
+      width: "45rem",
       objectFit: "cover",
     },
   },

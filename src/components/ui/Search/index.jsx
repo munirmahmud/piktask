@@ -167,7 +167,7 @@ const Search = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchQuery) {
-      toast.error("The search field is required");
+      toast.error("The search field is required", { autoClose: 500 });
       return;
     }
 

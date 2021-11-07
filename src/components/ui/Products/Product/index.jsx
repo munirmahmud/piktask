@@ -50,7 +50,7 @@ const Product = ({ photo = null }) => {
             setLike(true);
             setLikeCount((prevState) => prevState + 1);
           } else if (!data?.status) {
-            toast.error(data.message);
+            toast.error(data.message, { autoClose: 500,});
             setLike(true);
           } else {
             console.log("Something wrong with the like");

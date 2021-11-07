@@ -12,9 +12,9 @@ import Footer from "../../../../components/ui/Footer";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./Revision.styles";
-import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
-import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
-import Heading from "../../../../components/ui/Dashboard/Contributor/Heading";
+import Sidebar from "../../../../components/ui/dashboard/Contributor/Sidebar";
+import AdminHeader from "../../../../components/ui/dashboard/Contributor/Header";
+import Heading from "../../../../components/ui/dashboard/Contributor/Heading";
 import Spacing from "../../../../components/Spacing";
 
 const Revision = () => {

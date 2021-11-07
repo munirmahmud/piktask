@@ -3,8 +3,9 @@ import { makeStyles } from "@material-ui/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import Spacing from "../../../../components/Spacing";
-import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
+import UserSideBar from "../../../../components/ui/dashboard/User/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import SectionHeading from "../../../../components/ui/Heading";
@@ -25,13 +26,16 @@ const useStyles = makeStyles({
 
 const FavoriteItems = () => {
   const classes = useStyles();
+  const location = useLocation();
   const user = useSelector((state) => state.user);
+  const locationPath = location.pathname;
 
   const [favoriteProducts, setFavoriteProducts] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(1);
-  var limit = 6;
-  // const displayCount = Math.ceil(favoriteProducts?.length / limit);
+  const [totalProduct, setTotalProduct] = useState();
+  let limit = 15;
+  const count = Math.ceil(totalProduct / limit);
 
   useEffect(() => {
     setLoading(true);
@@ -44,6 +48,7 @@ const FavoriteItems = () => {
         .then(({ data }) => {
           if (data?.status) {
             setFavoriteProducts(data?.images);
+            setTotalProduct(data?.total);
             setLoading(false);
           }
         })
@@ -93,9 +98,9 @@ const FavoriteItems = () => {
                 </>
               )}
             </Grid>
-            {/* {favoriteProducts?.length > 5 && ( */}
-            <Paginations pageCount={pageCount} setPageCount={setPageCount} />
-            {/* )} */}
+            {totalProduct > 15 && (
+            <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+            )} 
           </Grid>
         </Grid>
       </Container>

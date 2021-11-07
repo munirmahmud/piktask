@@ -18,8 +18,8 @@ import instagramIcon from "../../../../assets/icons/instagram.svg";
 import linkedinIcon from "../../../../assets/icons/linkedin.svg";
 import shutterstockIcon from "../../../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../../../assets/icons/twitter.svg";
-import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
-import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
+import AdminHeader from "../../../../components/ui/dashboard/Contributor/Header";
+import Sidebar from "../../../../components/ui/dashboard/Contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
 import allCountry from "../../../../data/countryList.json";
 import Layout from "../../../../Layout";
@@ -248,7 +248,7 @@ const AccountSettings = () => {
       })
         .then((res) => {
           if (res?.status === 200) {
-            toast.success(res.data.message);
+            toast.success(res.data.message, { autoClose: 500,});
             setErrors({});
           }
         })
@@ -257,7 +257,7 @@ const AccountSettings = () => {
           setErrors(errors);
         });
     } else {
-      toast.error("Please insert profile info");
+      toast.error("Please insert profile info", { autoClose: 500,});
     }
   };
 
@@ -288,7 +288,7 @@ const AccountSettings = () => {
           <AdminHeader />
           <div className={classes.profileContentWrapper}>
             <div className={classes.settingsHero}>
-              <Typography variant="h1">Your Account Dashboard</Typography>
+              <Typography variant="h1">Your Account dashboard</Typography>
             </div>
             {/* Ends Hero */}
 
@@ -356,8 +356,6 @@ const AccountSettings = () => {
                         classes={{ fullWidth: classes.fullWidth }}
                       >
                         <TextField
-                          // error={!!errors.website}
-                          // helperText={errors.website}
                           fullWidth
                           variant="outlined"
                           label="Website"
@@ -643,7 +641,7 @@ const AccountSettings = () => {
                           >
                             <TextField
                               id="bankCountry"
-                              label="Bank Country"
+                              label="Country"
                               variant="outlined"
                               className={`${classes.inputField}`}
                               placeholder="Bank Country"

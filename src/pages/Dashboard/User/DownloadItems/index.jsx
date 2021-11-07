@@ -2,8 +2,9 @@ import { Container, Grid, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import Spacing from "../../../../components/Spacing";
-import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
+import UserSideBar from "../../../../components/ui/dashboard/User/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import SectionHeading from "../../../../components/ui/Heading";
@@ -24,23 +25,29 @@ const useStyles = makeStyles({
 
 const DownloadItems = () => {
   const classes = useStyles();
+  const location = useLocation();
   const user = useSelector((state) => state.user);
+  const locationPath = location.pathname;
+
   const [isLoading, setLoading] = useState(true);
   const [downloadsItem, setDownloadsItem] = useState([]);
   const [pageCount, setPageCount] = useState(1);
-  var downloadItem = 6;
+  const [totalProduct, setTotalProduct] = useState();
+  let limit = 15;
+  const count = Math.ceil(totalProduct / limit);
 
   useEffect(() => {
     setLoading(true);
     if (user?.isLoggedIn) {
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/user/downloads?limit=${downloadItem}&page=${pageCount}`,
+          `${process.env.REACT_APP_API_URL}/user/downloads?limit=${limit}&page=${pageCount}`,
           { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.status) {
             setDownloadsItem(data?.downloads);
+            setTotalProduct(data?.total);
             setLoading(false);
           }
         })
@@ -49,7 +56,7 @@ const DownloadItems = () => {
           setLoading(false);
         });
     }
-  }, [user?.isLoggedIn, user?.token, pageCount, downloadItem]);
+  }, [user?.isLoggedIn, user?.token, pageCount, limit]);
 
   return (
     <Layout title="Downloads | Piktask">
@@ -90,9 +97,9 @@ const DownloadItems = () => {
                 </>
               )}
             </Grid>
-            {/* {downloadsItem?.length >5 && ( */}
-            <Paginations pageCount={pageCount} setPageCount={setPageCount} />
-            {/* )} */}
+            {totalProduct > 15 && (
+            <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+            )}
           </Grid>
         </Grid>
       </Container>

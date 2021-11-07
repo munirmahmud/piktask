@@ -11,9 +11,9 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import fileThumbnail from "../../../../assets/icons/fileThumpnail.png";
 import Spacing from "../../../../components/Spacing";
-import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
-import Heading from "../../../../components/ui/Dashboard/Contributor/Heading";
-import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
+import AdminHeader from "../../../../components/ui/dashboard/Contributor/Header";
+import Heading from "../../../../components/ui/dashboard/Contributor/Heading";
+import Sidebar from "../../../../components/ui/dashboard/Contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
 import Layout from "../../../../Layout";
 import useStyles from "./UploadFiles.styles";
@@ -322,7 +322,7 @@ const UploadFiles = () => {
 
   const handleUpload = async (e) => {
     if (files.length === 0) {
-      toast.error("Sorry, you did not upload any files.");
+      toast.error("Sorry, you did not upload any files.", { autoClose: 500 });
       return;
     }
 

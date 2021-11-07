@@ -11,56 +11,57 @@ import useStyles from "./EditItem.styles";
 const EditItem = (props) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const { products, setOpenModal, setSelectedProducts } = props;
+  const { products, setOpenModal, setSelectedProducts, setAddProductDetails, pendingProducts } = props;
 
   const [categoryName, setCategoryName] = useState("");
   const [tagsValue, setTagsValue] = useState([]);
   const [category, setCategory] = useState([]);
   const [title, setTitle] = useState("");
   
-  const handleCategoryChange = () => {
-    axios
-    .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
-    .then(({ data }) => {
-      if (data?.status) {
-        const sortedData = data?.categories.sort((a, b) => a.id - b.id);
-        setCategory(sortedData);
-      }
-    })
-    .catch((error) => console.log("Categories loading error: ", error));
+  const handleCategoryItem = () => {
+    if(user?.isLoggedIn && user?.role === "contributor"){
+      axios
+      .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
+      .then(({ data }) => {
+        if (data?.status) {
+          const sortedData = data?.categories.sort((a, b) => a.id - b.id);
+          setCategory(sortedData);
+        }
+      })
+      .catch((error) => console.log("Categories loading error: ", error));
+    }
   };
   
   const keyWords = [
     // { title: "Business Card" },
   ];
   
+  const images = [];
+  products.forEach(element => {
+    images.push(element.token_id)
+  });
   
   
   const handleProductSubmit = async (e) => {
     e.preventDefault();
-    const images = [];
     const action = e.currentTarget.value
-    
-    products.forEach(element => {
-      images.push(element.token_id)
-    });
 
     if (!categoryName) {
-      toast.error("Please select a category");
+      toast.error("Please select a category", { autoClose: 500,});
       return;
     } else if(!title){
-      toast.error("The Title field is required.");
+      toast.error("The Title field is required.", { autoClose: 500,});
       return;
     } else if (title.length < 3 || title.length > 200) {
-      toast.error("Title must be between 3 and 200 characters");
+      toast.error("Title must be between 3 and 200 characters", { autoClose: 500,});
       return;
     } else if (tagsValue.length === 0) {
-      toast.error("The tag field is required");
+      toast.error("The tag field is required", { autoClose: 500,});
       return;
     }
 
     // API integration for set product details 
-    if(user?.isLoggedIn){
+    if(user?.isLoggedIn && user?.role === "contributor"){
       const url = `${process.env.REACT_APP_API_URL}/images?action=${action}`;
       try {
         const response = await axios({
@@ -81,16 +82,17 @@ const EditItem = (props) => {
           setCategoryName("");
           setTitle("");
           setTagsValue([]);
-          toast.success(response.data.message || "Product update successfully");
+          setAddProductDetails(pendingProducts)
+          toast.success(response.data.message || "Product update successfully", { autoClose: 500,});
         }
       } catch (error) {
         if(error.response?.data?.errors){
           Object.entries(error.response.data.errors).forEach(([key, value]) => {
             console.log(`${key} ${value}`);
-            toast.error(value);
+            toast.error(value, { autoClose: 500,});
           });
         } else if (error.response?.data?.message){
-          toast.error(error.response.data.message);
+          toast.error(error.response.data.message, { autoClose: 500,});
         }
       }
     }
@@ -107,9 +109,9 @@ const EditItem = (props) => {
         autoComplete="off"
       >
         <div className={classes.imgWrapper}>
-          {products.length > 0 &&
-            products.map((product) => (
-              <div key={product.id} className={classes.productItem}>
+          {products?.length > 0 &&
+            products?.map((product) => (
+              <div key={product?.id} className={classes.productItem}>
                 <img
                   className={classes.editItemImage}
                   src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file}
@@ -125,9 +127,9 @@ const EditItem = (props) => {
             id="category"
             value={categoryName}
             onChange={(e) => setCategoryName(e.target.value)}
-            onClick={() => handleCategoryChange()}
+            onClick={handleCategoryItem}
           >
-            {category.length !== 0 ? (
+            {category.length > 0 ? (
               category.map((categoryItem) => (
                 <option key={categoryItem.id} value={categoryItem.id}>
                   {categoryItem?.name}

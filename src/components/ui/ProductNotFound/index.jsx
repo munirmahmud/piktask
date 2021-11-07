@@ -16,7 +16,7 @@ const ProductNotFound = ({ keywords, noCollection }) => {
         <div>
           <Typography className={classes.title} variant="body1">
             {keywords ? (
-              `Sorry, did not find the "${keywords}" related images.`
+              `Sorry, did not find "${keywords}".`
             ) : (
               <>
                 {noCollection

@@ -1,14 +1,14 @@
 import { Box, Grid, Tab, Typography } from "@material-ui/core";
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
-import PhotoImage from "../../assets/guidLine-Images/photo.jpg";
-import PSDImage from "../../assets/guidLine-Images/psd.jpg";
-import VectorImage from "../../assets/guidLine-Images/vector.jpg";
-import Spacing from "../../components/Spacing";
-import AdminHeader from "../../components/ui/Dashboard/Contributor/Header";
-import Sidebar from "../../components/ui/Dashboard/Contributor/Sidebar";
-import Footer from "../../components/ui/Footer";
-import Layout from "../../Layout";
+import PhotoImage from "../../../../assets/guidLine-Images/photo.jpg";
+import PSDImage from "../../../../assets/guidLine-Images/psd.jpg";
+import VectorImage from "../../../../assets/guidLine-Images/vector.jpg";
+import Spacing from "../../../../components/Spacing";
+import AdminHeader from "../../../../components/ui/dashboard/Contributor/Header";
+import Sidebar from "../../../../components/ui/dashboard/Contributor/Sidebar";
+import Footer from "../../../../components/ui/Footer";
+import Layout from "../../../../Layout";
 import useStyles from "./guidLine.styles";
 
 const GuidLine = () => {

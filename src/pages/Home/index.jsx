@@ -41,7 +41,7 @@ const Home = () => {
 
   return (
     <Layout
-      title="Graphic Resources for Free Download || Piktask"
+      title="Graphic Resources for Free Download | Piktask"
       description="Graphic Resources for Free Download"
     >
       <Header />

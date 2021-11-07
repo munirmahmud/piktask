@@ -14,9 +14,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
-import Heading from "../../../../components/ui/Dashboard/Contributor/Heading";
-import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
+import AdminHeader from "../../../../components/ui/dashboard/Contributor/Header";
+import Heading from "../../../../components/ui/dashboard/Contributor/Heading";
+import Sidebar from "../../../../components/ui/dashboard/Contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
@@ -32,6 +32,7 @@ const PendingFiles = () => {
   const [pendingProducts, setPendingProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setLoading] = useState(true);
+  const [addProductDetails, setAddProductDetails] = useState(false);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -48,6 +49,7 @@ const PendingFiles = () => {
   }, []);
 
   useEffect(() => {
+    setAddProductDetails(!true);
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/images/not_submit`, {
@@ -66,7 +68,7 @@ const PendingFiles = () => {
           setLoading(false);
         });
     }
-  }, [user?.isLoggedIn, user?.token, user?.role]);
+  }, [user?.isLoggedIn, user?.token, user?.role, addProductDetails]);
 
   const handleDelete = (image_id) => {
     if (user?.isLoggedIn && user?.role === "contributor") {
@@ -127,12 +129,12 @@ const PendingFiles = () => {
   const handleWorkInfo = () => {
     if (selectedProducts.length > 0) {
       if (selectedProducts.length > 12) {
-        toast.error("You can not select more than 12");
+        toast.error("You can not select more than 12", { autoClose: 500,});
         return;
       }
       setOpenModal(true);
     } else {
-      toast.error("Please select at list 1 product");
+      toast.error("Please select at list 1 product", { autoClose: 500,});
       setOpenModal(false);
     }
   };
@@ -268,6 +270,8 @@ const PendingFiles = () => {
               setSelectedProducts={setSelectedProducts}
               setOpenModal={setOpenModal}
               products={selectedProducts}
+              setAddProductDetails={setAddProductDetails}
+              pendingProducts={pendingProducts}
             />
           </Drawer>
           <Footer />

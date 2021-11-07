@@ -27,7 +27,7 @@ import linkedinLogo from "../../../../assets/icons/linkedin.svg";
 import shutterstockLogo from "../../../../assets/icons/shutterstock.svg";
 import twitterLogo from "../../../../assets/icons/twitter.svg";
 import Spacing from "../../../../components/Spacing";
-import UserSideBar from "../../../../components/ui/Dashboard/User/UserSideBar";
+import UserSideBar from "../../../../components/ui/dashboard/User/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import Layout from "../../../../Layout";
@@ -186,7 +186,7 @@ const UserProfile = () => {
       })
         .then((res) => {
           if (res?.status === 200) {
-            toast.success(res.data.message);
+            toast.success(res.data.message, { autoClose: 500,});
             setErrors({});
           }
         })
@@ -195,7 +195,7 @@ const UserProfile = () => {
           setErrors(errors);
         });
     } else {
-      toast.error("Please insert profile info");
+      toast.error("Please insert profile info", { autoClose: 500,});
     }
   };
 
@@ -225,7 +225,7 @@ const UserProfile = () => {
           },
         });
       }
-      toast.success(data.message);
+      toast.success(data.message, { autoClose: 500,});
       pathHistory.replace(from);
     }
   };
@@ -254,7 +254,7 @@ const UserProfile = () => {
           },
         });
       }
-      toast.success(data.message);
+      toast.success(data.message, { autoClose: 500,});
       pathHistory.replace(from);
     }
   };

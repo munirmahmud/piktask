@@ -1,31 +1,80 @@
-import { Pagination } from "@material-ui/lab";
-import React from "react";
+import { Button } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import Spacing from "../../Spacing";
 import useStyles from "./Pagination.style";
 
 const Paginations = (props) => {
   const classes = useStyles();
-  const { pageCount, setPageCount } = props;
+  const history = useHistory();
+  const { pageCount, setPageCount, count, locationPath, productPagination } = props;
+  const [selected, setSelected] = useState(false);
 
-  const handleClick = (value) => {
+  useEffect(() => {
+    if (pageCount === 1) {
+      setSelected(pageCount);
+    } else {
+      setSelected(pageCount);
+    }
+
+    if(productPagination) return;
+
+    if (pageCount) {
+      history.push(`${locationPath}?page=${pageCount}`);
+    }
+  }, [pageCount, count, history, locationPath, productPagination]);
+
+  const handlePreviousBtn = () => {
     window.scrollTo(0, 0);
-    setPageCount(value);
-  }
+    if(productPagination){
+      if (pageCount <= 1) {
+        setPageCount(pageCount);
+      } else {
+        setPageCount(pageCount - 1);
+      }
+    } else {
+      if (pageCount <= 1) {
+        setPageCount(pageCount);
+      } else {
+        setPageCount(pageCount - 1);
+        history.push(`${locationPath}?page=${pageCount}`);
+      }
+    }
+    
+  };
+  const handleNextBtn = () => {
+    window.scrollTo(0, 0);
+    if(productPagination) {
+      setPageCount(pageCount + 1);
+    } else {
+      setPageCount(pageCount + 1);
+      history.push(`${locationPath}?page=${pageCount}`);
+    }
+  };
 
   return (
     <>
       <Spacing space={{ height: "3rem" }} />
       <div className={classes.pagination}>
-        <Pagination
-          onChange={(event, value) => handleClick(value)}
-          count={10}
-          defaultPage={pageCount}
-          variant="outlined"
-          shape="rounded"
-          color="primary"
-          size="medium"
-          pageCount={pageCount}
-        />
+        <Button
+          onClick={handlePreviousBtn}
+          disabled={selected === 1 ? true : false}
+          className={classes.prevButton}
+        >
+          Previous
+        </Button>
+        <div>
+          <span>
+            {pageCount} / {count}
+          </span>
+        </div>
+        <Button
+          onClick={handleNextBtn}
+          disabled={selected === count ? true : false}
+          className={classes.nextButton}
+        >
+          Next
+        </Button>
       </div>
     </>
   );

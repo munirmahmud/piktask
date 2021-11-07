@@ -88,7 +88,7 @@ const AuthorProfile = () => {
           }
         });
     } else {
-      toast.error("You can't follow yourself");
+      toast.error("You can't follow yourself", { autoClose: 500,});
     }
   };
 

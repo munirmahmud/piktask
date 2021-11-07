@@ -73,10 +73,7 @@ const SearchResults = () => {
 
       <Container>
         <Typography className={classes.totalResources} variant="h3">
-          {`${searchResults.length} Resources for "${keywords.replace(
-            /-/g,
-            " "
-          )}"`}
+          {`${searchResults.length} Resources for "${keywords.replace(/-/g, " ")}"`}
         </Typography>
         <Grid classes={{ container: classes.container }} container spacing={2}>
           {isLoading ? (
