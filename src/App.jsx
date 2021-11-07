@@ -16,20 +16,44 @@ const Publish = lazy(() => import("./pages/dashboard/contributor/Publish"));
 const JoinNow = lazy(() => import("./pages/dashboard/contributor/JoinNow"));
 const Revision = lazy(() => import("./pages/dashboard/contributor/Revision"));
 const GuidLine = lazy(() => import("./pages/dashboard/contributor/GuidLine"));
-const UploadFiles = lazy(() => import("./pages/dashboard/contributor/UploadFiles"));
-const RejectFiles = lazy(() => import("./pages/dashboard/contributor/RejectFiles"));
-const PendingFiles = lazy(() => import("./pages/dashboard/contributor/PendingFiles"));
-const AdminDashboard = lazy(() => import("./pages/dashboard/contributor/AdminDashboard"));
-const AccountSettings = lazy(() => import("./pages/dashboard/contributor/AccountSettings"));
-const EarningManagement = lazy(() => import("./pages/dashboard/contributor/EarningManagement"));
-const ContributorPricePlan = lazy(() => import("./pages/dashboard/contributor/ContributorPricePlan"));
+const UploadFiles = lazy(() =>
+  import("./pages/dashboard/contributor/UploadFiles")
+);
+const RejectFiles = lazy(() =>
+  import("./pages/dashboard/contributor/RejectFiles")
+);
+const PendingFiles = lazy(() =>
+  import("./pages/dashboard/contributor/PendingFiles")
+);
+const AdminDashboard = lazy(() =>
+  import("./pages/dashboard/contributor/AdminDashboard")
+);
+const AccountSettings = lazy(() =>
+  import("./pages/dashboard/contributor/AccountSettings")
+);
+const EarningManagement = lazy(() =>
+  import("./pages/dashboard/contributor/EarningManagement")
+);
+const ContributorPricePlan = lazy(() =>
+  import("./pages/dashboard/contributor/ContributorPricePlan")
+);
 
 const UserProfile = lazy(() => import("./pages/dashboard/user/UserProfile"));
-const FavoriteItems = lazy(() => import("./pages/dashboard/user/FavoriteItems"));
-const DownloadItems = lazy(() => import("./pages/dashboard/user/DownloadItems"));
-const UserFollowing = lazy(() => import("./pages/dashboard/user/UserFollowing"));
-const DeviceActivity = lazy(() => import("./pages/dashboard/user/DeviceActivity"));
-const UserSubscription = lazy(() => import("./pages/dashboard/user/UserSubscription"));
+const FavoriteItems = lazy(() =>
+  import("./pages/dashboard/user/FavoriteItems")
+);
+const DownloadItems = lazy(() =>
+  import("./pages/dashboard/user/DownloadItems")
+);
+const UserFollowing = lazy(() =>
+  import("./pages/dashboard/user/UserFollowing")
+);
+const DeviceActivity = lazy(() =>
+  import("./pages/dashboard/user/DeviceActivity")
+);
+const UserSubscription = lazy(() =>
+  import("./pages/dashboard/user/UserSubscription")
+);
 
 const SingleProductDetails = lazy(() => import("./pages/SingleProductDetails"));
 const TagRelatedProducts = lazy(() => import("./pages/TagRelatedProducts"));
@@ -56,9 +80,15 @@ const Help = lazy(() => import("./pages/Help"));
 
 const Login = lazy(() => import("./pages/Authentication/Login"));
 const Registration = lazy(() => import("./pages/Authentication/Registration"));
-const ResetPassword = lazy(() => import("./pages/Authentication/ResetPassword"));
-const ConfirmSignup = lazy(() => import("./pages/Authentication/ConfirmSignup"));
-const CompleteRegistration = lazy(() => import("./pages/Authentication/EmailVerification"));
+const ResetPassword = lazy(() =>
+  import("./pages/Authentication/ResetPassword")
+);
+const ConfirmSignup = lazy(() =>
+  import("./pages/Authentication/ConfirmSignup")
+);
+const CompleteRegistration = lazy(() =>
+  import("./pages/Authentication/EmailVerification")
+);
 
 const App = () => {
   const dispatch = useDispatch();
@@ -131,10 +161,11 @@ const App = () => {
   ) : (
     <ThemeProvider theme={theme}>
       <ToastContainer />
-      <Suspense fallback={<LinearProgress />}>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          {/* Contributor dashboard */}
+      <Switch>
+        <Route exact path="/" component={Home} />
+
+        <Suspense fallback={<LinearProgress />}>
+          {/* Contributor Dashboard */}
           <Route
             exact
             path="/contributor/dashboard"
@@ -240,10 +271,10 @@ const App = () => {
           <Route exact path="/author/:username" component={AuthorProfile} />
           <Route exact path="/category/:catName" component={Category} />
           <Route exact path="/images/:id" component={SingleProductDetails} />
+        </Suspense>
 
-          <Route path="*" component={NotFoundPage} />
-        </Switch>
-      </Suspense>
+        <Route path="*" component={NotFoundPage} />
+      </Switch>
     </ThemeProvider>
   );
 };

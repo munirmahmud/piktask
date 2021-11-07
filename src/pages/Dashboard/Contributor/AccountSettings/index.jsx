@@ -18,8 +18,8 @@ import instagramIcon from "../../../../assets/icons/instagram.svg";
 import linkedinIcon from "../../../../assets/icons/linkedin.svg";
 import shutterstockIcon from "../../../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../../../assets/icons/twitter.svg";
-import AdminHeader from "../../../../components/ui/dashboard/Contributor/Header";
-import Sidebar from "../../../../components/ui/dashboard/Contributor/Sidebar";
+import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
+import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
 import allCountry from "../../../../data/countryList.json";
 import Layout from "../../../../Layout";
@@ -248,7 +248,7 @@ const AccountSettings = () => {
       })
         .then((res) => {
           if (res?.status === 200) {
-            toast.success(res.data.message, { autoClose: 500,});
+            toast.success(res.data.message, { autoClose: 500 });
             setErrors({});
           }
         })
@@ -257,7 +257,7 @@ const AccountSettings = () => {
           setErrors(errors);
         });
     } else {
-      toast.error("Please insert profile info", { autoClose: 500,});
+      toast.error("Please insert profile info", { autoClose: 500 });
     }
   };
 

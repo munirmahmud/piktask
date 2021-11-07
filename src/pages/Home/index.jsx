@@ -1,19 +1,21 @@
 import { Button, Container } from "@material-ui/core";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Spacing from "../../components/Spacing";
-import Blog from "../../components/ui/Blog";
-import CallToAction from "../../components/ui/CallToAction";
 import { CategoryCarousel } from "../../components/ui/Carousel";
-import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
-// import { TopSeller } from "../../components/ui/TopSeller";
 import SectionHeading from "../../components/ui/Heading";
 import HeroSection from "../../components/ui/Hero";
-import Products from "../../components/ui/Products";
+import Loader from "../../components/ui/Loader";
 import Layout from "../../Layout";
 import useStyles from "./Home.styles";
+
+const Blog = lazy(() => import("../../components/ui/Blog"));
+const Footer = lazy(() => import("../../components/ui/Footer"));
+const Products = lazy(() => import("../../components/ui/Products"));
+const CallToAction = lazy(() => import("../../components/ui/CallToAction"));
+
 const Home = () => {
   const classes = useStyles();
   const categories = useSelector((state) => state.popularCategories);
@@ -63,47 +65,63 @@ const Home = () => {
           </Button>
         </SectionHeading>
       </Container>
+
       <Spacing space={{ height: "1.2rem" }} />
+
       {/* Carousel with Categories */}
       <CategoryCarousel />
-      <Container>
-        <Products category={categories[0]} showHeading count={8} />
-      </Container>
-      {popularCats?.length &&
-        popularCats.map((category, index) => (
-          <Container key={category?.id}>
-            <Products
-              key={category?.id}
-              category={category}
-              showHeading
-              count={8}
-            />
-          </Container>
-        ))}
-      ;
-      <CallToAction
-        title="Daily 10 image/photos Download"
-        subtitle="Top website templates with the highest sales volume."
-        // buttonLink="/subscription"
-        buttonText="Get Started"
-      />
+
+      <Suspense fallback={<Loader />}>
+        <Container>
+          <Products category={categories[0]} showHeading count={8} />
+        </Container>
+      </Suspense>
+
+      <Suspense fallback={<Loader />}>
+        {popularCats?.length &&
+          popularCats.map((category, index) => (
+            <Container key={category?.id}>
+              <Products
+                key={category?.id}
+                category={category}
+                showHeading
+                count={8}
+              />
+            </Container>
+          ))}
+      </Suspense>
+
+      <Suspense fallback={<Loader />}>
+        <CallToAction
+          title="Daily 10 image/photos Download"
+          subtitle="Top website templates with the highest sales volume."
+          // buttonLink="/subscription"
+          buttonText="Get Started"
+        />
+      </Suspense>
+
       <Spacing space={{ height: "2.5rem" }} />
       {/* <Container>
         <SectionHeading title="Top Selling Author" large>
-          <Button
-            className={classes.headingButton}
-            component={Link}
+        <Button
+        className={classes.headingButton}
+        component={Link}
             to="/sellers"
-          >
+            >
             See More
-          </Button>
-        </SectionHeading>
-      </Container>
-      Top selling author 
-      <TopSeller homeTopSeller /> */}
+            </Button>
+            </SectionHeading>
+            </Container>
+            Top selling author 
+          <TopSeller homeTopSeller /> */}
       {/* BLOG SECTION */}
-      <Blog />
-      <Footer />
+      <Suspense fallback={<Loader />}>
+        <Blog />
+      </Suspense>
+
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };

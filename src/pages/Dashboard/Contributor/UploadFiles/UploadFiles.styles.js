@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   imageErrorText: {
     color: "red",
     fontWeight: "bold",
-    fontSize: "3rem",
+    fontSize: "1.6rem",
   },
   photoUploadText: {
     fontSize: "2.5rem",
@@ -503,8 +503,8 @@ const useStyles = makeStyles((theme) => ({
     //   width: "100%",
     // }
   },
-  rejectFileWrapper:{
-    width:"86%",
+  rejectFileWrapper: {
+    width: "86%",
   },
   rejectFile: {
     height: "5.3rem",
