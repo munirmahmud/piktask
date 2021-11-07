@@ -4,20 +4,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { Box, LinearProgress } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import fileThumbnail from "../../../../assets/icons/fileThumpnail.png";
+import Spacing from "../../../../components/Spacing";
+import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
+import Heading from "../../../../components/ui/Dashboard/Contributor/Heading";
+import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
 import Layout from "../../../../Layout";
 import useStyles from "./UploadFiles.styles";
-import Sidebar from "../../../../components/ui/Dashboard/Contributor/Sidebar";
-import AdminHeader from "../../../../components/ui/Dashboard/Contributor/Header";
-import Heading from "../../../../components/ui/Dashboard/Contributor/Heading";
-import Spacing from "../../../../components/Spacing";
 
 function LinearProgressWithLabel(props) {
   return (
@@ -38,13 +37,12 @@ const UploadFiles = () => {
   const user = useSelector((state) => state.user);
 
   const [description, setDescription] = useState("");
-  const [imageError, setImageError] = useState("");
+  const [imageError, setImageError] = useState({});
 
   const [isLoading, setLoading] = useState(false);
   let isUploadBtnDisabled = true;
 
   //for tag element
-  const [tags, setTags] = useState([]);
   const [files, setFiles] = useState([]);
   const [thumbImage, setThumbImage] = useState("");
   const [menuSate, setMenuSate] = useState({ mobileView: false });
@@ -52,7 +50,6 @@ const UploadFiles = () => {
   const [progress, setProgress] = useState(0);
 
   const { mobileView } = menuSate;
-
   //mobile responsive
   useEffect(() => {
     const setResponsiveness = () => {
@@ -101,7 +98,6 @@ const UploadFiles = () => {
   const uploadFile = (file) => {
     const chunkSize = 5242880;
     const url = `${process.env.REACT_APP_API_URL}/images/upload`;
-
     const element = file;
     const fileName = element.name.split(".")[0];
 
@@ -121,7 +117,6 @@ const UploadFiles = () => {
           const headers = {
             Authorization: user.token,
             "content-type": "application/octet-stream",
-            "content-length": fileSize,
             start: true,
             end: true,
             "file-name": element.name,
@@ -131,63 +126,30 @@ const UploadFiles = () => {
             headers["token-id"] = tokenMatch[fileName];
           }
 
-          axios({
-            url,
-            method: "POST",
-            headers,
-            data: ev.target.result,
-
-            onUploadProgress: (progressEvent) => {
-              const { loaded, total } = progressEvent;
-
-              let percent = Math.round((loaded / total) * 100);
-              setProgress(percent);
-            },
-          })
-            .then((response) => {
-              if (response.errors) {
-                toast.error(response.errors);
-                // return;
-              } else if (response.status) {
-                tokenMatch[fileName] = response.token_id;
-                toast.success(
-                  "File uploaded successfully. Please add your files meta."
-                );
-
-                setTimeout(() => {
-                  setFiles([]);
-                }, 600);
-                resolve();
-              }
-            })
-            .catch((error) => {
-              console.log("Single file upload error", error);
-              reject();
+          try {
+            const data = await fetch(url, {
+              method: "POST",
+              headers,
+              body: ev.target.result,
             });
 
-          // try {
-          //   const data = await fetch(url, {
-          //     method: "POST",
-          //     headers,
-          //     body: ev.target.result,
-          //   });
+            const response = await data.json();
 
-          //   const response = await data.json();
-
-          //   console.log("response", response);
-          //   if (response.errors) {
-          //     toast.error(response.errors);
-          //     // return;
-          //   } else if (response.status) {
-          //     tokenMatch[fileName] = response.token_id;
-          //     resolve();
-          //   }
-          // } catch (error) {
-          //   console.log("File upload error", error);
-          //   reject();
-          // }
+            if (response.errors) {
+              toast.error(response.errors);
+              // return;
+            } else if (response.status) {
+              tokenMatch[fileName] = response.token_id;
+              resolve();
+            }
+          } catch (error) {
+            console.log("File upload error", error);
+            reject();
+          }
         } else {
           let uploadId;
+          let uploadedData = 0;
+
           for (let i = 0; i < fileSize / chunkSize + 1; i++) {
             const chunk = ev.target.result.slice(
               i * chunkSize,
@@ -195,13 +157,9 @@ const UploadFiles = () => {
             );
 
             if (!i) {
-              console.log("start");
-              console.log("token match from 2nd con", tokenMatch);
-
               const headers = {
                 Authorization: user.token,
                 "content-type": "application/octet-stream",
-                "content-length": chunk.byteLength,
                 start: true,
                 "file-name": element.name,
               };
@@ -209,6 +167,29 @@ const UploadFiles = () => {
               if (tokenMatch[fileName]) {
                 headers["token-id"] = tokenMatch[fileName];
               }
+
+              // axios({
+              //   url,
+              //   method: "POST",
+              //   headers,
+              //   data: chunk,
+
+              //   onUploadProgress: (progressEvent) => {
+              //     const { loaded, total } = progressEvent;
+
+              //     let percent = Math.round((loaded / total) * 100);
+              //     setProgress(percent);
+              //   },
+              // })
+              //   .then((response) => {
+              //     console.log("response", response);
+              //     tokenMatch[fileName] = response.token_id;
+              //     uploadId = response.upload_id;
+              //   })
+              //   .catch((error) => {
+              //     console.error(error);
+              //     reject();
+              //   });
 
               try {
                 let response = await fetch(url, {
@@ -220,19 +201,47 @@ const UploadFiles = () => {
                 response = await response.json();
                 tokenMatch[fileName] = response.token_id;
                 uploadId = response.upload_id;
-                console.log("response token 2nd", tokenMatch);
               } catch (error) {
                 console.error(error);
                 reject();
               }
             } else if (i === Math.ceil(fileSize / chunkSize + 1) - 1) {
+              // axios({
+              //   url,
+              //   method: "POST",
+              //   headers: {
+              //     Authorization: user.token,
+              //     "content-type": "application/octet-stream",
+              //     "upload-id": uploadId,
+              //     "part-number": i + 1,
+              //     "file-name": element.name,
+              //     end: true,
+              //   },
+              //   data: chunk,
+
+              //   onUploadProgress: (progressEvent) => {
+              //     const { loaded, total } = progressEvent;
+
+              //     let percent = Math.round((loaded / total) * 100);
+              //     setProgress(percent);
+              //   },
+              // })
+              //   .then((response) => {
+              //     // if (response.status) {
+              //     //   tokenMatch[fileName] = response.token_id;
+              //     //   uploadId = response.upload_id;
+              //     // }
+              //   })
+              //   .catch((error) => {
+              //     console.error(error);
+              //   });
+
               try {
                 let response = await fetch(url, {
                   method: "POST",
                   headers: {
                     Authorization: user.token,
                     "content-type": "application/octet-stream",
-                    "content-length": chunk.byteLength,
                     "upload-id": uploadId,
                     "part-number": i + 1,
                     "file-name": element.name,
@@ -241,20 +250,45 @@ const UploadFiles = () => {
                   body: chunk,
                 });
                 response = await response.json();
-                console.log("last response", response);
               } catch (error) {
                 console.error(error);
               }
-              console.log("last value", i);
             } else {
-              console.log("middle");
+              // axios({
+              //   url,
+              //   method: "POST",
+              //   headers: {
+              //     Authorization: user.token,
+              //     "content-type": "application/octet-stream",
+              //     "upload-id": uploadId,
+              //     "part-number": i + 1,
+              //     "file-name": element.name,
+              //   },
+              //   data: chunk,
+
+              //   onUploadProgress: (progressEvent) => {
+              //     const { loaded, total } = progressEvent;
+
+              //     let percent = Math.round((loaded / total) * 100);
+              //     setProgress(percent);
+              //   },
+              // })
+              //   .then((response) => {
+              //     // if (response.status) {
+              //     //   tokenMatch[fileName] = response.token_id;
+              //     //   uploadId = response.upload_id;
+              //     // }
+              //   })
+              //   .catch((error) => {
+              //     console.error(error);
+              //   });
+
               try {
                 let response = await fetch(url, {
                   method: "POST",
                   headers: {
                     Authorization: user.token,
                     "content-type": "application/octet-stream",
-                    "content-length": chunk.byteLength,
                     "upload-id": uploadId,
                     "part-number": i + 1,
                     "file-name": element.name,
@@ -262,10 +296,20 @@ const UploadFiles = () => {
                   body: chunk,
                 });
                 response = await response.json();
-                console.log("middle response", response);
               } catch (error) {
                 console.error(error);
               }
+            }
+
+            uploadedData += chunk.byteLength;
+            const percentage = Math.round((uploadedData / fileSize) * 100);
+            setProgress(percentage);
+            if (percentage === 100) {
+              setTimeout(() => {
+                setFiles([]);
+                setProgress(0);
+                setImageError({});
+              }, 600);
             }
           }
           resolve();
@@ -369,7 +413,7 @@ const UploadFiles = () => {
               </Typography>
 
               <Box className={classes.progressBar}>
-                <LinearProgressWithLabel value={progress} />
+                <LinearProgressWithLabel value={progress || 0} />
               </Box>
               <div
                 className={classes.deleteBtnError}
@@ -402,7 +446,7 @@ const UploadFiles = () => {
               </Typography>
 
               <Box className={classes.progressBar}>
-                <LinearProgressWithLabel value={progress} />
+                <LinearProgressWithLabel value={progress || 0} />
               </Box>
               <div
                 className={classes.deleteBtn}
@@ -418,6 +462,16 @@ const UploadFiles = () => {
         )}
       </div>
     ));
+  };
+
+  const displayErrors = () => {
+    if (Object.keys(imageError)) {
+      for (let key in imageError) {
+        if (imageError.hasOwnProperty(key)) {
+          return <p className={classes.imageErrorText}>{imageError[key]}</p>;
+        }
+      }
+    }
   };
 
   return (
@@ -571,7 +625,10 @@ const UploadFiles = () => {
                 />
                 <FontAwesomeIcon icon={faCloudUploadAlt} />
 
-                <h2 className={classes.imageErrorText}>{imageError}</h2>
+                {/* <p className={classes.imageErrorText}> */}
+                {/* {imageError} */}
+                {displayErrors()}
+                {/* </p> */}
 
                 <Typography className={classes.photoUploadText} variant="body1">
                   Drag and drop or click to upload an photo

@@ -1,13 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SectionHeading from "../Heading";
-import Product from "./Product";
 import Loader from "../Loader";
-import axios from "axios";
 import ProductNotFound from "../ProductNotFound";
+import Product from "./Product";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -62,8 +62,8 @@ const Products = (props) => {
           dispatch({
             type: "CATEGORY_BASED_ITEMS",
             payload: {
-              totalImages: data.total_image_count.total_image,
-              images: data.category_image,
+              totalImages: data?.total,
+              images: data?.category_image,
             },
           });
         }
