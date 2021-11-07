@@ -248,7 +248,6 @@ const SingleProductDetails = () => {
   //Handle download image
   const handleDownload = (e) => {
     e.preventDefault();
-
     const downloadAPI = {
       url: `${process.env.REACT_APP_API_URL}/images/${imageID}/download/`,
       method: "get",

@@ -30,7 +30,9 @@ const FavoriteItems = () => {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(1);
-  var limit = 6;
+  const [totalProduct, setTotalProduct] = useState();
+  let limit = 6;
+  const count = (totalProduct / limit);
   // const displayCount = Math.ceil(favoriteProducts?.length / limit);
 
   useEffect(() => {
@@ -44,6 +46,7 @@ const FavoriteItems = () => {
         .then(({ data }) => {
           if (data?.status) {
             setFavoriteProducts(data?.images);
+            setTotalProduct(data?.total);
             setLoading(false);
           }
         })
@@ -94,7 +97,7 @@ const FavoriteItems = () => {
               )}
             </Grid>
             {/* {favoriteProducts?.length > 5 && ( */}
-            <Paginations pageCount={pageCount} setPageCount={setPageCount} />
+            <Paginations count={count} pageCount={pageCount} setPageCount={setPageCount} />
             {/* )} */}
           </Grid>
         </Grid>
