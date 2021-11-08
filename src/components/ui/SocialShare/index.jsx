@@ -55,7 +55,7 @@ const SocialShare = ({ title, textCase, socialMedias, position, profileInfo }) =
       </List>
 
       <List>
-        {socialMedias && socialMedias.map((media, index) => (
+        {socialMedias && socialMedias?.map((media, index) => (
           <a key={index} href={media.url} target="_blank">
             <img
               className={classes.socialIcon}

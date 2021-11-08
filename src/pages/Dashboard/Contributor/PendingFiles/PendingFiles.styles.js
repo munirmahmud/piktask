@@ -109,6 +109,27 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "1.2rem",
     },
   },
+  successProductItem: {
+    border: "2px solid",
+    borderColor: "green",
+    position: "relative",
+    padding: "3.5rem 1rem 0",
+    // border: "2px solid transparent",
+
+    "& img": {
+      width: "100%",
+      height: "10rem",
+      borderRadius: theme.shape.borderRadius,
+      objectFit: "cover",
+    },
+    "& h3": {
+      fontSize: "1.4rem",
+      marginBottom: "1rem",
+    },
+    "& p": {
+      fontSize: "1.2rem",
+    },
+  },
   btnWrapper: {
     position: "absolute",
     top: "1.5rem",

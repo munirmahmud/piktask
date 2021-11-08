@@ -34,9 +34,7 @@ const AuthorProfile = () => {
     setLoading(true);
     try {
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/${username}/statistics`
-        )
+        .get(`${process.env.REACT_APP_API_URL}/contributor/${username}/statistics`)
         .then(({ data }) => {
           if (data?.status) {
             setProfileInfo(data?.profile);
@@ -47,7 +45,7 @@ const AuthorProfile = () => {
               axios
                 .get(
                   `${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.profile.id}`,
-                  { headers: { Authorization: user.token } }
+                  { headers: { Authorization: user?.token } }
                 )
                 .then((response) => {
                   if (response.data.status) {
@@ -71,16 +69,16 @@ const AuthorProfile = () => {
   };
 
   const handleFollower = () => {
-    if (!user.token && window.innerWidth > 900) {
+    if (!user?.isLoggedIn && window.innerWidth > 900) {
       setOpenAuthModal(true);
-    } else if (!user.token && window.innerWidth < 900) {
-      history.push(`/login?url=${location.pathname}`);
-    } else if (user.token) {
+    } else if (!user?.isLoggedIn && window.innerWidth < 900) {
+      history.push(`/login?user`);
+    } else if (user?.isLoggedIn) {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/contributor/followers/${profileInfo?.id}`,
           {},
-          { headers: { Authorization: user.token } }
+          { headers: { Authorization: user?.token } }
         )
         .then((response) => {
           if (response?.status === 200) {
@@ -137,7 +135,7 @@ const AuthorProfile = () => {
                         Downloads
                         <span>{profileInfo?.total_downloads}</span>
                       </Typography>
-                      {user.id !== profileInfo?.id && (
+                      {user?.id !== profileInfo?.id && (
                         <div>
                           <Button
                             className={classes.followBtn}
@@ -149,16 +147,9 @@ const AuthorProfile = () => {
                       )}
                     </div>
                     <div className={classes.authorSocials}>
-                      {profileInfo.facebook ||
-                      profileInfo.instagram ||
-                      profileInfo.twitter ? (
-                        <>
-                          <SocialShare
-                            title="Follow this author:"
-                            profileInfo={profileInfo}
-                          />
-                        </>
-                      ) : null}
+                      {(profileInfo?.facebook || profileInfo?.instagram || profileInfo?.twitter) && (
+                        <SocialShare title="Follow this author:" profileInfo={profileInfo} />
+                      ) }
                     </div>
                   </div>
                 </Grid>

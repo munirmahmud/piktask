@@ -10,15 +10,15 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     paddingBottom: "5rem",
     paddingTop: "5rem",
-    [theme.breakpoints.down(900)]:{
+    [theme.breakpoints.down(769)]:{
       display: "none",
     },
   },
   footerWrapper: {
-    paddingLeft: "11rem !important",
+    // paddingLeft: "11rem !important",
 
     "@media (max-width: 1200px)": {
-      paddingLeft: "5rem",
+      // paddingLeft: "5rem",
     },
 
     "@media (max-width: 769px)": {
@@ -28,9 +28,12 @@ export const useStyles = makeStyles((theme) => ({
     "@media (max-width: 576px)": {
       maxWidth: "100%",
       flexBasis: "100%",
-      paddingLeft: "2rem",
+      // paddingLeft: "2rem",
       marginTop: "2rem",
     },
+  },
+  customFooterWrapper: {
+    paddingLeft: "3rem !important",
   },
   footerHeading: {
     textTransform: "uppercase",
@@ -68,8 +71,38 @@ export const useStyles = makeStyles((theme) => ({
   },
   // mobile version
   collapseRoot:{
+    backgroundColor: "#001c30",
     width: "100%",
-    padding:"2rem 0",
+    padding:"2rem 0rem",
+    color: "#ddd",
+  },
+  listItemBtn: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding:"2rem",
+    borderBottom: "1px solid #023458",
+    "&:last-child": {
+      borderBottom: "transparent",
+    },
+  },
+  collapseInfo: {
+    backgroundColor: "#023458",
+    // padding: "2rem",
+  },
+  collapseNavLink: {
+    color: "#ddd",
+    fontSize: "1.5rem",
+    textDecoration: "none",
+    fontWeight: 400,
+    padding: "2rem 4rem 0",
+    fontFamily: "'Roboto', sans-serif",
+    transition: "color 0.3s linear",
+    cursor: "pointer",
+    "&:hover": {
+      textDecoration: "none",
+      color: theme.palette.secondary.main,
+    },
   },
   listItemIcon:{
     minWidth:"0 !important",
