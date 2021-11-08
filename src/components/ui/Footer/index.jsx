@@ -1,20 +1,20 @@
 import {
+  Collapse,
   Container,
   Grid,
   List,
   ListItem,
-  Typography,
   ListItemIcon,
-  Collapse,
+  Typography,
 } from "@material-ui/core";
-import ListItemButton from "@mui/material/ListItemButton";
 import ExpandLessRoundedIcon from "@mui/icons-material/ExpandLessRounded";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
+import ListItemButton from "@mui/material/ListItemButton";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Copyright from "./CopyRight";
 import { useStyles } from "./Footer.styles";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const Footer = () => {
   const classes = useStyles();
@@ -25,10 +25,18 @@ const Footer = () => {
   const [legal, setLegal] = useState(true);
   const [open, setOpen] = useState(true);
 
-  const handleClick = () => { setOpen(!open); };
-  const handleLegal = () => { setLegal(!legal); };
-  const handleContact = () => { setContact(!contact); };
-  const handleInformation = () => { setInformation(!information); };
+  const handleClick = () => {
+    setOpen(!open);
+  };
+  const handleLegal = () => {
+    setLegal(!legal);
+  };
+  const handleContact = () => {
+    setContact(!contact);
+  };
+  const handleInformation = () => {
+    setInformation(!information);
+  };
 
   //mobile responsive
   const [menuSate, setMenuSate] = useState({ mobileView: false });
@@ -55,12 +63,18 @@ const Footer = () => {
 
               <List className={classes.menuWrapper}>
                 <ListItem className={classes.navItem}>
-                  <Link className={classes.navLink} to="/category/business-card-mockup">
-                  Business Card Mockup
+                  <Link
+                    className={classes.navLink}
+                    to="/category/business-card-mockup"
+                  >
+                    Business Card Mockup
                   </Link>
                 </ListItem>
                 <ListItem className={classes.navItem}>
-                  <Link className={classes.navLink} to="/category/social-media-banner">
+                  <Link
+                    className={classes.navLink}
+                    to="/category/social-media-banner"
+                  >
                     Social Media Banner
                   </Link>
                 </ListItem>
@@ -132,15 +146,18 @@ const Footer = () => {
                   </Link>
                 </ListItem>
                 <ListItem className={classes.navItem}>
-                {user?.isLoggedIn && user?.role === "contributor" ? (
-                  <Link className={classes.navLink} to="/contributor/dashboard">
-                    Sell your content
-                  </Link>
-                ) : (
-                  <Link className={classes.navLink} to="/contributor/join">
-                    Sell your content
-                  </Link>
-                )}
+                  {user?.isLoggedIn && user?.role === "contributor" ? (
+                    <Link
+                      className={classes.navLink}
+                      to="/contributor/dashboard"
+                    >
+                      Sell your content
+                    </Link>
+                  ) : (
+                    <Link className={classes.navLink} to="/contributor/join">
+                      Sell your content
+                    </Link>
+                  )}
                 </ListItem>
                 <ListItem className={classes.navItem}>
                   <Link className={classes.navLink} to="/support">
@@ -202,12 +219,18 @@ const Footer = () => {
           <Collapse in={!open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/category/business-card-mockup">
+                <Link
+                  className={classes.navLink}
+                  to="/category/business-card-mockup"
+                >
                   Business Card Mockup
                 </Link>
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/category/social-media-banner">
+                <Link
+                  className={classes.navLink}
+                  to="/category/social-media-banner"
+                >
                   Social Media Banner
                 </Link>
               </ListItemButton>
@@ -313,22 +336,38 @@ const Footer = () => {
           <Collapse in={!legal} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/termsConditions">
+                <Link
+                  className={classes.navLink}
+                  to="/termsConditions"
+                  rel="noreferrer"
+                >
                   Terms &amp; conditions
                 </Link>
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/licenseAgreement">
+                <Link
+                  className={classes.navLink}
+                  to="/licenseAgreement"
+                  rel="noreferrer"
+                >
                   License Agreement
                 </Link>
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/copyrightInformation">
+                <Link
+                  className={classes.navLink}
+                  to="/copyrightInformation"
+                  rel="noreferrer"
+                >
                   Copyright information
                 </Link>
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/cookiesPolicy">
+                <Link
+                  className={classes.navLink}
+                  to="/cookiesPolicy"
+                  rel="noreferrer"
+                >
                   Cookies policy
                 </Link>
               </ListItemButton>
