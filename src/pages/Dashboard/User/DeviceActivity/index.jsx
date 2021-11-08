@@ -1,7 +1,7 @@
 import { Container, Grid } from "@material-ui/core";
 import React from "react";
 import Spacing from "../../../../components/Spacing";
-import UserSideBar from "../../../../components/ui/dashboard/User/UserSideBar";
+import UserSideBar from "../../../../components/ui/dashboard/user/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import Layout from "../../../../Layout";

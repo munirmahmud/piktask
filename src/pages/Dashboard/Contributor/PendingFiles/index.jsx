@@ -186,47 +186,93 @@ const PendingFiles = () => {
                 <>
                   {pendingProducts?.length > 0 ? (
                     pendingProducts?.map((product) => (
-                      <Grid
-                        key={product?.id}
-                        item
-                        xs={4}
-                        sm={3}
-                        md={2}
-                        className={classes.productItem}
-                      >
-                        <div className={classes.btnWrapper}>
-                          <DeleteIcon
-                            onClick={() => handleDelete(product?.token_id)}
-                            className={classes.deleteIcon}
-                          />
-                        </div>
-                        <Card
-                          className={classes.pendingFileCard}
-                          onClick={(e) => {
-                            selectedProduct(e, product);
-                          }}
-                          classes={{ root: classes.root }}
-                          ref={cardRef}
-                        >
-                          <img
-                            src={
-                              getBaseURL().bucket_base_url +
-                              getBaseURL().images +
-                              product?.original_file
-                            }
-                            alt={product?.original_name}
-                          />
-                          <CardContent>
-                            <Typography variant="h3">
-                              {product?.original_name}
-                            </Typography>
-                            <Typography variant="body2">
-                              File Size:{" "}
-                              {(product.size / 1024 / 1024).toFixed(2)} MB
-                            </Typography>
-                          </CardContent>
-                        </Card>
-                      </Grid>
+                      <>
+                        {product?.is_save === 1 ? (
+                          <Grid
+                            key={product?.id}
+                            item
+                            xs={4}
+                            sm={3}
+                            md={2}
+                            className={classes.productItem}
+                          >
+                            <div className={classes.btnWrapper}>
+                              <DeleteIcon
+                                onClick={() => handleDelete(product?.token_id)}
+                                className={classes.deleteIcon}
+                              />
+                            </div>
+                            <Card
+                              className={classes.successProductItem}
+                              onClick={(e) => {
+                                selectedProduct(e, product);
+                              }}
+                              classes={{ root: classes.root }}
+                              ref={cardRef}
+                            >
+                              <img
+                                src={
+                                  getBaseURL().bucket_base_url +
+                                  getBaseURL().images +
+                                  product?.original_file
+                                }
+                                alt={product?.original_name}
+                              />
+                              <CardContent>
+                                <Typography variant="h3">
+                                  {product?.original_name}
+                                </Typography>
+                                <Typography variant="body2">
+                                  File Size:{" "}
+                                  {(product.size / 1024 / 1024).toFixed(2)} MB
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                          </Grid>
+                        ) : (
+                          <Grid
+                            key={product?.id}
+                            item
+                            xs={4}
+                            sm={3}
+                            md={2}
+                            className={classes.productItem}
+                          >
+                            <div className={classes.btnWrapper}>
+                              <DeleteIcon
+                                onClick={() => handleDelete(product?.token_id)}
+                                className={classes.deleteIcon}
+                              />
+                            </div>
+                            <Card
+                              className={classes.pendingFileCard}
+                              onClick={(e) => {
+                                selectedProduct(e, product);
+                              }}
+                              classes={{ root: classes.root }}
+                              ref={cardRef}
+                            >
+                              <img
+                                src={
+                                  getBaseURL().bucket_base_url +
+                                  getBaseURL().images +
+                                  product?.original_file
+                                }
+                                alt={product?.original_name}
+                              />
+                              <CardContent>
+                                <Typography variant="h3">
+                                  {product?.original_name}
+                                </Typography>
+                                <Typography variant="body2">
+                                  File Size:{" "}
+                                  {(product.size / 1024 / 1024).toFixed(2)} MB
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                          </Grid>
+                        )}
+                      </>
                     ))
                   ) : (
                     <div

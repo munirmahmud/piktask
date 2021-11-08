@@ -10,11 +10,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import { useLocation } from "react-router";
 import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
+import Paginations from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
@@ -23,31 +25,37 @@ import useStyles from "./Category.styles";
 const Category = () => {
   const classes = useStyles();
   const { catName } = useParams();
+  const location = useLocation();
+  const locationPath = location.pathname;
   const user = useSelector((state) => state.user);
 
   const [popularSearchKeywords, setPopularSearchKeywords] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState([]);
-  const [totalImageCount, setTotalImageCount] = useState("");
   const [categories, setCategories] = useState([]);
   const [isLoading, setLoading] = useState(true);
+
+  const [pageCount, setPageCount] = useState(1);
+  const [totalProduct, setTotalProduct] = useState();
+  
+  let limit = 32;
+  const count = Math.ceil(totalProduct / limit);
 
   const categoryItem = categories.find((item) => item?.slug === catName);
 
   useEffect(() => {
-    setLoading(true);
     getCategories();
     getCategoriesWithId();
     popularKeyWords();
-  }, [categoryItem?.id]);
+  }, [categoryItem?.id, pageCount]);
 
   const getCategoriesWithId = () => {
     if (categoryItem?.id) {
       let relatedImageURL;
 
       if (user && user?.id) {
-        relatedImageURL = `${process.env.REACT_APP_API_URL}/categories/${categoryItem?.id}?user_id=${user?.id}&limit=52`;
+        relatedImageURL = `${process.env.REACT_APP_API_URL}/categories/${categoryItem?.id}?limit=${limit}&page=${pageCount}&user_id=${user?.id}`;
       } else {
-        relatedImageURL = `${process.env.REACT_APP_API_URL}/categories/${categoryItem?.id}?limit=52`;
+        relatedImageURL = `${process.env.REACT_APP_API_URL}/categories/${categoryItem?.id}?limit=${limit}&page=${pageCount}`;
       }
 
       axios
@@ -55,7 +63,7 @@ const Category = () => {
         .then(({ data }) => {
           if (data?.status) {
             setCategoryProducts(data?.category_image);
-            setTotalImageCount(data?.total);
+            setTotalProduct(data?.total);
             setLoading(false);
           }
         })
@@ -77,6 +85,7 @@ const Category = () => {
         if (data?.status) {
           const popularSearch = data?.keywords;
           setPopularSearchKeywords(popularSearch.filter((e) => e));
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -91,6 +100,7 @@ const Category = () => {
       .then(({ data }) => {
         if (data?.status) {
           setCategories(data.categories);
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -105,12 +115,13 @@ const Category = () => {
     if (categoryItem?.id) {
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/categories/${categoryItem?.id}?${product}=1&limit=50`
+          `${process.env.REACT_APP_API_URL}/categories/${categoryItem?.id}?${product}=1&limit=${limit}&page=${pageCount}`
         )
         .then(({ data }) => {
           if (data?.status) {
             setCategoryProducts(data?.category_image);
-            setTotalImageCount(data?.total);
+            setTotalProduct(data?.total);
+            setLoading(false);
           }
         })
         .catch((error) => {
@@ -160,7 +171,7 @@ const Category = () => {
 
       <Container>
         <Typography className={classes.totalResources} variant="h3">
-          {`${totalImageCount} Resources`}
+          {`${totalProduct} Resources`}
         </Typography>
 
         <Grid classes={{ container: classes.container }} container spacing={2}>
@@ -187,6 +198,9 @@ const Category = () => {
             </>
           )}
         </Grid>
+        {totalProduct > 32 && (
+          <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+        )} 
       </Container>
 
       <div className={classes.tagWrapper}>

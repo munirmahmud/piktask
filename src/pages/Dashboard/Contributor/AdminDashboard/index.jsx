@@ -449,7 +449,7 @@ const AdminDashboard = () => {
           </Container>
           <TopSeller adminDashBoard /> */}
           <Blog />
-          <Footer />
+          <Footer contributorFooter />
         </main>
       </div>
     </Layout>
