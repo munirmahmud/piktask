@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   logoWrapper: {
     display:"flex",
-    justifyContent:"center",
+    // justifyContent:"center",
     "@media (max-width: 992px)": {
       marginRight: "2rem",
     },

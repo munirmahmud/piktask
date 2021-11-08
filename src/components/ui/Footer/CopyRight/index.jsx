@@ -40,7 +40,7 @@ const CopyRight = () => {
       <Container className={classes.root}>
         <div>
           <Grid className={classes.gridRoot}>
-            <Grid item xs={12} sm={1} md={2} className={classes.logoWrapper}>
+            <Grid item xs={12} sm={3} md={3} className={classes.logoWrapper}>
               <Link to="/">
                 <img className={classes.logo} src={logo} alt="Piktask" />
               </Link>
