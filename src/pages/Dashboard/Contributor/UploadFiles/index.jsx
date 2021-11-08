@@ -41,13 +41,15 @@ const UploadFiles = () => {
 
   const [isLoading, setLoading] = useState(false);
   let isUploadBtnDisabled = true;
+  const [disableDeleteBtn, setDisableDeleteBtn] = useState(false);
+  const [disabledBtn, setDisabledBtn] = useState(false);
 
   //for tag element
   const [files, setFiles] = useState([]);
   const [thumbImage, setThumbImage] = useState("");
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const [isImageDimensionOkay, setImageDimensionOkay] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState([]);
 
   const { mobileView } = menuSate;
   //mobile responsive
@@ -95,18 +97,13 @@ const UploadFiles = () => {
 
   //upload file
   let tokenMatch = {};
-  const uploadFile = (file) => {
+  const uploadFile = (file, index) => {
     const chunkSize = 5242880;
     const url = `${process.env.REACT_APP_API_URL}/images/upload`;
     const element = file;
     const fileName = element.name.split(".")[0];
 
     let timer = null;
-    // timer = setInterval(() => {
-    //   setProgress((prevProgress) =>
-    //     prevProgress >= 100 ? 10 : prevProgress + 10
-    //   );
-    // }, 600);
 
     return new Promise((resolve, reject) => {
       var fr = new FileReader();
@@ -140,6 +137,9 @@ const UploadFiles = () => {
               // return;
             } else if (response.status) {
               tokenMatch[fileName] = response.token_id;
+              let temp_files = [...files];
+              temp_files[index].progress = 100;
+              setFiles(temp_files);
               resolve();
             }
           } catch (error) {
@@ -168,29 +168,6 @@ const UploadFiles = () => {
                 headers["token-id"] = tokenMatch[fileName];
               }
 
-              // axios({
-              //   url,
-              //   method: "POST",
-              //   headers,
-              //   data: chunk,
-
-              //   onUploadProgress: (progressEvent) => {
-              //     const { loaded, total } = progressEvent;
-
-              //     let percent = Math.round((loaded / total) * 100);
-              //     setProgress(percent);
-              //   },
-              // })
-              //   .then((response) => {
-              //     console.log("response", response);
-              //     tokenMatch[fileName] = response.token_id;
-              //     uploadId = response.upload_id;
-              //   })
-              //   .catch((error) => {
-              //     console.error(error);
-              //     reject();
-              //   });
-
               try {
                 let response = await fetch(url, {
                   method: "POST",
@@ -206,36 +183,6 @@ const UploadFiles = () => {
                 reject();
               }
             } else if (i === Math.ceil(fileSize / chunkSize + 1) - 1) {
-              // axios({
-              //   url,
-              //   method: "POST",
-              //   headers: {
-              //     Authorization: user.token,
-              //     "content-type": "application/octet-stream",
-              //     "upload-id": uploadId,
-              //     "part-number": i + 1,
-              //     "file-name": element.name,
-              //     end: true,
-              //   },
-              //   data: chunk,
-
-              //   onUploadProgress: (progressEvent) => {
-              //     const { loaded, total } = progressEvent;
-
-              //     let percent = Math.round((loaded / total) * 100);
-              //     setProgress(percent);
-              //   },
-              // })
-              //   .then((response) => {
-              //     // if (response.status) {
-              //     //   tokenMatch[fileName] = response.token_id;
-              //     //   uploadId = response.upload_id;
-              //     // }
-              //   })
-              //   .catch((error) => {
-              //     console.error(error);
-              //   });
-
               try {
                 let response = await fetch(url, {
                   method: "POST",
@@ -254,35 +201,6 @@ const UploadFiles = () => {
                 console.error(error);
               }
             } else {
-              // axios({
-              //   url,
-              //   method: "POST",
-              //   headers: {
-              //     Authorization: user.token,
-              //     "content-type": "application/octet-stream",
-              //     "upload-id": uploadId,
-              //     "part-number": i + 1,
-              //     "file-name": element.name,
-              //   },
-              //   data: chunk,
-
-              //   onUploadProgress: (progressEvent) => {
-              //     const { loaded, total } = progressEvent;
-
-              //     let percent = Math.round((loaded / total) * 100);
-              //     setProgress(percent);
-              //   },
-              // })
-              //   .then((response) => {
-              //     // if (response.status) {
-              //     //   tokenMatch[fileName] = response.token_id;
-              //     //   uploadId = response.upload_id;
-              //     // }
-              //   })
-              //   .catch((error) => {
-              //     console.error(error);
-              //   });
-
               try {
                 let response = await fetch(url, {
                   method: "POST",
@@ -303,11 +221,15 @@ const UploadFiles = () => {
 
             uploadedData += chunk.byteLength;
             const percentage = Math.round((uploadedData / fileSize) * 100);
-            setProgress(percentage);
-            if (percentage === 100) {
+
+            let temp_files = [...files];
+            temp_files[index].progress = percentage;
+            setFiles(temp_files);
+
+            if (file.progress === 100) {
               setTimeout(() => {
-                setFiles([]);
-                setProgress(0);
+                // files.splice(index, 1);
+                // setFiles(files);
                 setImageError({});
               }, 600);
             }
@@ -326,8 +248,15 @@ const UploadFiles = () => {
       return;
     }
 
+    isUploadBtnDisabled = true;
+    setDisableDeleteBtn(true);
+    setDisabledBtn(true);
+
     for (let i = 0; i < files.length; i++) {
-      await uploadFile(files[i]);
+      let temp_files = [...files];
+      temp_files[i].progress = 0;
+      setFiles(temp_files);
+      await uploadFile(files[i], i);
     }
   };
 
@@ -388,80 +317,84 @@ const UploadFiles = () => {
   const getUploadFiles = () => {
     checkFileSize();
 
-    return files?.map((file, index) => (
-      <div className="files-wrapper" key={file.name}>
-        {(file.name.match(/\.(jpg|jpeg|png|gif)$/) && file.size < 524288) ||
-        file.size > 83886080 ||
-        (file.name.match(/\.(eps)$/) && file.size > 83886080) ||
-        (file.name.match(/\.(psd)$/) && file.size < 1572864) ? (
-          <div className={classes.thumbError}>
-            <div className={classes.thumbInnerError}>
-              <div className={classes.thumbImg}>
-                {file?.name?.match(/\.(ai|eps|psd|svg)$/) ? (
-                  <img
-                    src={fileThumbnail}
-                    alt="thumbnail"
-                    className={classes.fileThumbnail}
-                  />
-                ) : (
-                  <img src={file.preview} alt="thumbnail" />
-                )}
-              </div>
-              <Typography className={classes.imageTitleError}>
-                {file.name} <br />{" "}
-                <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
-              </Typography>
+    return files?.map((file, index) => {
+      return (
+        <div className="files-wrapper" key={file.name}>
+          {(file.name.match(/\.(jpg|jpeg|png|gif)$/) && file.size < 524288) ||
+          file.size > 83886080 ||
+          (file.name.match(/\.(eps)$/) && file.size > 83886080) ||
+          (file.name.match(/\.(psd)$/) && file.size < 1572864) ? (
+            <div className={classes.thumbError}>
+              <div className={classes.thumbInnerError}>
+                <div className={classes.thumbImg}>
+                  {file?.name?.match(/\.(ai|eps|psd|svg)$/) ? (
+                    <img
+                      src={fileThumbnail}
+                      alt="thumbnail"
+                      className={classes.fileThumbnail}
+                    />
+                  ) : (
+                    <img src={file.preview} alt="thumbnail" />
+                  )}
+                </div>
+                <Typography className={classes.imageTitleError}>
+                  {file.name} <br />{" "}
+                  <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                </Typography>
 
-              <Box className={classes.progressBar}>
-                <LinearProgressWithLabel value={progress || 0} />
-              </Box>
-              <div
-                className={classes.deleteBtnError}
-                onClick={(e) => removeFile(file, index)}
-              >
-                <FontAwesomeIcon
-                  className={classes.deleteIcon}
-                  icon={faTrashAlt}
-                />
+                <Box className={classes.progressBar}>
+                  <LinearProgressWithLabel value={file.progress || 0} />
+                </Box>
+                <button
+                  className={classes.deleteBtnError}
+                  onClick={(e) => removeFile(file, index)}
+                  disabled={disableDeleteBtn}
+                >
+                  <FontAwesomeIcon
+                    className={classes.deleteIcon}
+                    icon={faTrashAlt}
+                  />
+                </button>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className={classes.thumb}>
-            <div className={classes.thumbInner}>
-              <div className={classes.thumbImg}>
-                {file?.name?.match(/\.(ai|eps|psd|svg)$/) ? (
-                  <img
-                    src={fileThumbnail}
-                    alt="thumbnail"
-                    className={classes.fileThumbnail}
-                  />
-                ) : (
-                  <img src={file.preview} alt="thumbnail" />
-                )}
-              </div>
-              <Typography className={classes.imageTitle}>
-                {file.name} <br />{" "}
-                <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
-              </Typography>
+          ) : (
+            <div className={classes.thumb}>
+              <div className={classes.thumbInner}>
+                <div className={classes.thumbImg}>
+                  {file?.name?.match(/\.(ai|eps|psd|svg)$/) ? (
+                    <img
+                      src={fileThumbnail}
+                      alt="thumbnail"
+                      className={classes.fileThumbnail}
+                    />
+                  ) : (
+                    <img src={file.preview} alt="thumbnail" />
+                  )}
+                </div>
+                <Typography className={classes.imageTitle}>
+                  {file.name} <br />{" "}
+                  <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                </Typography>
 
-              <Box className={classes.progressBar}>
-                <LinearProgressWithLabel value={progress || 0} />
-              </Box>
-              <div
-                className={classes.deleteBtn}
-                onClick={(e) => removeFile(file, index)}
-              >
-                <FontAwesomeIcon
-                  className={classes.deleteIcon}
-                  icon={faTrashAlt}
-                />
+                <Box className={classes.progressBar}>
+                  <LinearProgressWithLabel value={file.progress || 0} />
+                </Box>
+                <button
+                  className={classes.deleteBtn}
+                  onClick={(e) => removeFile(file, index)}
+                  disabled={disableDeleteBtn}
+                >
+                  <FontAwesomeIcon
+                    className={classes.deleteIcon}
+                    icon={faTrashAlt}
+                  />
+                </button>
               </div>
             </div>
-          </div>
-        )}
-      </div>
-    ));
+          )}
+        </div>
+      );
+    });
   };
 
   const displayErrors = () => {

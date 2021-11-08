@@ -1,18 +1,21 @@
 import { List, Typography } from "@material-ui/core";
 import React from "react";
+import facebookLogo from "../../../assets/icons/facebook-round.svg";
+import instagramLogo from "../../../assets/icons/instagram-round.svg";
+import twitterLogo from "../../../assets/icons/twitter-round.svg";
 import useStyles from "./SocialShare.styles";
-import facebookLogo from '../../../assets/icons/facebook-round.svg';
-import instagramLogo from '../../../assets/icons/instagram-round.svg';
-import twitterLogo from '../../../assets/icons/twitter-round.svg';
 
-
-const SocialShare = ({ title, textCase, socialMedias, position, profileInfo }) => {
+const SocialShare = ({
+  title,
+  textCase,
+  socialMedias,
+  position,
+  profileInfo,
+}) => {
   const classes = useStyles();
 
   return (
-    <div
-      className={classes.container}
-    >
+    <div className={classes.container}>
       <Typography
         className={classes.title}
         style={{
@@ -55,15 +58,16 @@ const SocialShare = ({ title, textCase, socialMedias, position, profileInfo }) =
       </List>
 
       <List>
-        {socialMedias && socialMedias.map((media, index) => (
-          <a key={index} href={media.url} target="_blank">
-            <img
-              className={classes.socialIcon}
-              src={media.image}
-              alt={media.name}
-            />
-          </a>
-        ))}
+        {socialMedias &&
+          socialMedias.map((media, index) => (
+            <a key={index} href={media.url} target="_blank">
+              <img
+                className={classes.socialIcon}
+                src={media.image}
+                alt={media.name}
+              />
+            </a>
+          ))}
       </List>
     </div>
   );
