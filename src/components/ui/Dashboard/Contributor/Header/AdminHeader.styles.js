@@ -35,7 +35,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex", 
     margin: "0rem 1.5rem",
     justifyContent: "space-between", 
-    alignItems: "center"
+    alignItems: "center",
+    [theme.breakpoints.down(769)]: {
+      margin: "0rem",
+    },
   },
   item: {
     height: "100%",

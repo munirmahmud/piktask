@@ -59,6 +59,7 @@ const Search = () => {
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
 
+
   useEffect(() => {
     const setResponsiveness = () => {
       return window.innerWidth < 576
@@ -175,16 +176,9 @@ const Search = () => {
     setSearchQuery("");
     setIsExpanded(false);
 
-    if (searchCategoryID) {
-      history.push(
-        `/search/title=${searchQuery
-          .toLowerCase()
-          .replace(/\s/g, "-")}&category_id=${searchCategoryID}`
-      );
+    if (searchCategoryID) { history.push(`/search/title=${searchQuery.toLowerCase().replace(/\s/g, "-")}&category_id=${searchCategoryID}`);
     } else {
-      history.push(
-        `/search/title=${searchQuery.toLowerCase().replace(/\s/g, "-")}`
-      );
+      history.push(`/search/title=${searchQuery.toLowerCase().replace(/\s/g, "-")}`);
     }
   };
 

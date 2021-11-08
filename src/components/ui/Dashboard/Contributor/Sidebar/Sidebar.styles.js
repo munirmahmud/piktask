@@ -1,7 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-
 const drawerWidth = 280;
-
 const useStyles = makeStyles((theme) => ({
   sidebarWrapper: {
     backgroundColor: "#001c30",
@@ -85,7 +83,6 @@ const useStyles = makeStyles((theme) => ({
     overflowX: "hidden",
     width: theme.spacing(7) + 1,
     [theme.breakpoints.up("sm")]: {
-      // width: theme.spacing(9) + 1,
       width: 0,
     },
   },
@@ -138,10 +135,6 @@ const useStyles = makeStyles((theme) => ({
       cursor: "pointer",
     },
   },
-  // submenuWrapper: {
-  //   backgroundColor: "#114960",
-  // },
-
   tabMenu: {
     padding: "0 3.5rem",
     color: "#114960",
@@ -150,7 +143,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     minHeight: "5.5rem",
     transition: `background-color 0.5s linear`,
-
     "&:hover": {
       backgroundColor: "#114960",
       color: theme.palette.common.white,
@@ -174,13 +166,9 @@ const useStyles = makeStyles((theme) => ({
 
   // Submenu
   submenuContainer: {
-    // backgroundColor: "rgb(17 73 96 / 9%)",
     backgroundColor: "#023458",
-    // #062338de
-
     "& a": {
       paddingLeft: "6rem",
-
       "& span": {
         color: "#fff",
       },
@@ -191,7 +179,6 @@ const useStyles = makeStyles((theme) => ({
       color: "#91999D",
     },
   },
-
   gutters: {
     paddingLeft: "3.6rem",
     color: "#fff",

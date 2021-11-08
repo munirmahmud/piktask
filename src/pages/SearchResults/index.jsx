@@ -9,6 +9,7 @@ import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
+import Paginations from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
@@ -20,11 +21,18 @@ const SearchResults = () => {
   const { pathname } = useLocation();
   const location = useLocation();
   const keywords = location.pathname.split("=").pop().replace(/-/g, " ");
+  const locationPath = location.pathname;
   const user = useSelector((state) => state.user);
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setLoading] = useState(false);
+
+  const [pageCount, setPageCount] = useState(1);
+  const [totalProduct, setTotalProduct] = useState();
+  
+  let limit = 32;
+  const count = Math.ceil(totalProduct / limit);
 
   const searchQuery = pathname.split("=");
   // const keywords = searchQuery[1];
@@ -33,28 +41,29 @@ const SearchResults = () => {
   const prepareSearchQuery = () => {
     let url;
     if (searchCategoryID) {
-      url = `${process.env.REACT_APP_API_URL}/client/search/?title=${keywords}&category_id=${searchCategoryID}&limit=12`;
+      url = `${process.env.REACT_APP_API_URL}/client/search/?title=${keywords}&category_id=${searchCategoryID}&limit=${limit}&page=${pageCount}`;
     } else {
-      url = `${process.env.REACT_APP_API_URL}/client/search/?title=${keywords}&limit=12`;
+      url = `${process.env.REACT_APP_API_URL}/client/search/?title=${keywords}&limit=${limit}&page=${pageCount}`;
     }
 
     return encodeURI(url);
   };
 
   useEffect(() => {
-    const URL = prepareSearchQuery();
+    const url = prepareSearchQuery();
     axios
-      .get(URL)
+      .get(url)
       .then(({ data }) => {
         if (data?.status) {
-          setSearchResults(data.results);
+          setSearchResults(data?.results);
+          setTotalProduct(data?.total);
           setLoading(false);
         }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [pathname]);
+  }, [pathname, pageCount]);
 
   const handleJoinUsButton = () => {
     if (!user.token) {
@@ -73,7 +82,7 @@ const SearchResults = () => {
 
       <Container>
         <Typography className={classes.totalResources} variant="h3">
-          {`${searchResults.length} Resources for "${keywords.replace(/-/g, " ")}"`}
+          {`${totalProduct} Resources for "${keywords.replace(/-/g, " ")}"`}
         </Typography>
         <Grid classes={{ container: classes.container }} container spacing={2}>
           {isLoading ? (
@@ -99,6 +108,9 @@ const SearchResults = () => {
             </>
           )}
         </Grid>
+        {totalProduct > 32 && (
+          <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+        )} 
       </Container>
       <Spacing space={{ height: "3rem" }} />
 

@@ -13,7 +13,7 @@ import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import authorImg from "../../../../assets/user/userProfile.jpg";
 import Spacing from "../../../../components/Spacing";
-import UserSideBar from "../../../../components/ui/dashboard/User/UserSideBar";
+import UserSideBar from "../../../../components/ui/dashboard/user/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import SectionHeading from "../../../../components/ui/Heading";

@@ -36,14 +36,14 @@ const Product = ({ photo = null }) => {
   const [isLike, setLike] = useState(false);
 
   const handleLikeBtn = () => {
-    if (!user.token) {
+    if (!user.isLoggedIn) {
       setOpenAuthModal(true);
-    } else if (user.id !== photo?.user_id && user.token) {
+    } else if (user?.id !== photo?.user_id && user?.isLoggedIn) {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/images/${photo?.image_id}/like`,
           {},
-          { headers: { Authorization: user.token },}
+          { headers: { Authorization: user?.token },}
         )
         .then(({ data }) => {
           if (data?.status) {

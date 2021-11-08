@@ -43,7 +43,7 @@ const Footer = () => {
   const { mobileView } = menuSate;
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -207,7 +207,11 @@ const Footer = () => {
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
-          <ListItemButton onClick={handleClick}>
+          <ListItemButton
+            className={classes.listItemBtn}
+            disableRipple
+            onClick={handleClick}
+          >
             <ListItemIcon className={classes.listItemIcon} />
             <ListItem className={classes.title}>CATEGORIES</ListItem>
             {open ? (
@@ -216,38 +220,47 @@ const Footer = () => {
               <ExpandLessRoundedIcon className={classes.arrowIcon} />
             )}
           </ListItemButton>
-          <Collapse in={!open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+          <Collapse
+            className={classes.collapseInfo}
+            in={!open}
+            timeout="auto"
+            unmountOnExit
+          >
+            <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
                 <Link
-                  className={classes.navLink}
+                  className={classes.collapseNavLink}
                   to="/category/business-card-mockup"
                 >
                   Business Card Mockup
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
                 <Link
-                  className={classes.navLink}
+                  className={classes.collapseNavLink}
                   to="/category/social-media-banner"
                 >
                   Social Media Banner
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/category/logo-mockup">
+                <Link className={classes.collapseNavLink} to="/category/logo-mockup">
                   Logo Mockup
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/category/text-effect">
+                <Link className={classes.collapseNavLink} to="/category/text-effect">
                   Text Effect
                 </Link>
               </ListItemButton>
             </List>
           </Collapse>
 
-          <ListItemButton onClick={handleContact}>
+          <ListItemButton
+            className={classes.listItemBtn}
+            disableRipple
+            onClick={handleContact}
+          >
             <ListItemIcon className={classes.listItemIcon} />
             <ListItem className={classes.title}>CONTENT</ListItem>
             {contact ? (
@@ -256,35 +269,39 @@ const Footer = () => {
               <ExpandLessRoundedIcon className={classes.arrowIcon} />
             )}
           </ListItemButton>
-          <Collapse in={!contact} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+          <Collapse className={classes.collapseInfo} in={!contact} timeout="auto" unmountOnExit>
+            <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
                 <Link
-                  className={classes.navLink}
+                  className={classes.collapseNavLink}
                   to="/recentImage/recent-images"
                 >
                   New resources
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/images/popular-images">
+                <Link className={classes.collapseNavLink} to="/images/popular-images">
                   The most popular content
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/search/trending-search">
+                <Link className={classes.collapseNavLink} to="/search/trending-search">
                   Search trends
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/allBlogs/blogs">
+                <Link className={classes.collapseNavLink} to="/allBlogs/blogs">
                   Blog
                 </Link>
               </ListItemButton>
             </List>
           </Collapse>
 
-          <ListItemButton onClick={handleInformation}>
+          <ListItemButton
+            className={classes.listItemBtn}
+            disableRipple
+            onClick={handleInformation}
+          >
             <ListItemIcon className={classes.listItemIcon} />
             <ListItem className={classes.title}>INFORMATION</ListItem>
             {information ? (
@@ -293,38 +310,42 @@ const Footer = () => {
               <ExpandLessRoundedIcon className={classes.arrowIcon} />
             )}
           </ListItemButton>
-          <Collapse in={!information} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+          <Collapse className={classes.collapseInfo} in={!information} timeout="auto" unmountOnExit>
+            <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/aboutUs">
+                <Link className={classes.collapseNavLink} to="/aboutUs">
                   About us
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
                 {user?.isLoggedIn && user?.role === "contributor" ? (
-                  <Link className={classes.navLink} to="/contributor/dashboard">
+                  <Link className={classes.collapseNavLink} to="/contributor/dashboard">
                     Sell your content
                   </Link>
                 ) : (
-                  <Link className={classes.navLink} to="/contributor/join">
+                  <Link className={classes.collapseNavLink} to="/contributor/join">
                     Sell your content
                   </Link>
                 )}
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/support">
+                <Link className={classes.collapseNavLink} to="/support">
                   Support
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.navLink} to="/contact">
+                <Link className={classes.collapseNavLink} to="/contact">
                   Contact
                 </Link>
               </ListItemButton>
             </List>
           </Collapse>
 
-          <ListItemButton onClick={handleLegal}>
+          <ListItemButton
+            className={classes.listItemBtn}
+            disableRipple
+            onClick={handleLegal}
+          >
             <ListItemIcon className={classes.listItemIcon} />
             <ListItem className={classes.title}>LEGAL</ListItem>
             {legal ? (
@@ -333,38 +354,38 @@ const Footer = () => {
               <ExpandLessRoundedIcon className={classes.arrowIcon} />
             )}
           </ListItemButton>
-          <Collapse in={!legal} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+          <Collapse className={classes.collapseInfo} in={!legal} timeout="auto" unmountOnExit>
+            <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
                 <Link
-                  className={classes.navLink}
+                  className={classes.collapseNavLink}
                   to="/termsConditions"
                   rel="noreferrer"
                 >
                   Terms &amp; conditions
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
                 <Link
-                  className={classes.navLink}
+                  className={classes.collapseNavLink}
                   to="/licenseAgreement"
                   rel="noreferrer"
                 >
                   License Agreement
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
                 <Link
-                  className={classes.navLink}
+                  className={classes.collapseNavLink}
                   to="/copyrightInformation"
                   rel="noreferrer"
                 >
                   Copyright information
                 </Link>
-              </ListItemButton>
+              </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
                 <Link
-                  className={classes.navLink}
+                  className={classes.collapseNavLink}
                   to="/cookiesPolicy"
                   rel="noreferrer"
                 >
