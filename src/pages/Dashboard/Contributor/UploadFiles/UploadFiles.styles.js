@@ -448,11 +448,19 @@ const useStyles = makeStyles((theme) => ({
     transition: "all 0.2s linear",
     marginLeft: "2rem",
     cursor: "pointer",
+    border: "none",
+
     "&:hover": {
       backgroundColor: "#d1d1d1",
     },
     "& svg": {
       fontSize: "1.8rem",
+    },
+
+    "&:disabled": {
+      color: "#ddd",
+      cursor: "default",
+      pointerEvent: "none",
     },
   },
   deleteBtnError: {
@@ -467,6 +475,15 @@ const useStyles = makeStyles((theme) => ({
     "& svg": {
       color: "red",
       fontSize: "1.8rem",
+    },
+    "&:hover": {
+      color: "red",
+      pointerEvent: "none",
+    },
+    "&:disabled": {
+      color: "#ddd",
+      cursor: "default",
+      pointerEvent: "none",
     },
   },
   imageTitle: {
