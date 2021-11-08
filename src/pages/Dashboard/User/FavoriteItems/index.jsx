@@ -34,6 +34,7 @@ const FavoriteItems = () => {
   const [isLoading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
+  
   let limit = 15;
   const count = Math.ceil(totalProduct / limit);
 
@@ -99,7 +100,7 @@ const FavoriteItems = () => {
               )}
             </Grid>
             {totalProduct > 15 && (
-            <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+              <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
             )} 
           </Grid>
         </Grid>

@@ -55,12 +55,12 @@ const Category = () => {
         .then(({ data }) => {
           if (data?.status) {
             setCategoryProducts(data?.category_image);
-            setTotalImageCount(data?.total_image_count?.total_image);
+            setTotalImageCount(data?.total);
             setLoading(false);
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.log("Categories products", error);
           setLoading(false);
         });
     } else {
@@ -110,7 +110,7 @@ const Category = () => {
         .then(({ data }) => {
           if (data?.status) {
             setCategoryProducts(data?.category_image);
-            setTotalImageCount(data?.total_image_count?.total_image);
+            setTotalImageCount(data?.total);
           }
         })
         .catch((error) => {
