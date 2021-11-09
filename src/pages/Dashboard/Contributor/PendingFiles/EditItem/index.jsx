@@ -11,7 +11,7 @@ import useStyles from "./EditItem.styles";
 const EditItem = (props) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const { products, setOpenModal, setSelectedProducts, setAddProductDetails, pendingProducts } = props;
+  const { products, setOpenModal, setSelectedProducts, setAddProductDetails, pendingProducts, setSuccessProduct } = props;
 
   const [categoryName, setCategoryName] = useState("");
   const [tagsValue, setTagsValue] = useState([]);
@@ -36,27 +36,28 @@ const EditItem = (props) => {
     // { title: "Business Card" },
   ];
   
-  const images = [];
-  products.forEach(element => {
-    images.push(element.token_id)
-  });
   
   
   const handleProductSubmit = async (e) => {
     e.preventDefault();
-    const action = e.currentTarget.value
+    const action = e.currentTarget.value;
+
+    const images = [];
+    products.forEach(element => {
+      images.push(element.token_id)
+    });
 
     if (!categoryName) {
-      toast.error("Please select a category", { autoClose: 500,});
+      toast.error("Please select a category");
       return;
     } else if(!title){
-      toast.error("The Title field is required.", { autoClose: 500,});
+      toast.error("The Title field is required.");
       return;
     } else if (title.length < 3 || title.length > 200) {
-      toast.error("Title must be between 3 and 200 characters", { autoClose: 500,});
+      toast.error("Title must be between 3 and 200 characters");
       return;
     } else if (tagsValue.length === 0) {
-      toast.error("The tag field is required", { autoClose: 500,});
+      toast.error("The tag field is required");
       return;
     }
 
@@ -83,6 +84,7 @@ const EditItem = (props) => {
           setTitle("");
           setTagsValue([]);
           setAddProductDetails(pendingProducts)
+          // setSuccessProduct(pendingProducts)
           toast.success(response.data.message || "Product update successfully", { autoClose: 500,});
         }
       } catch (error) {
