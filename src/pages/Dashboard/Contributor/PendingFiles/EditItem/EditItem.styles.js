@@ -169,6 +169,33 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: "500",
     },
   },
+
+  tags: {
+    display: "flex",
+    alignSelf: "flex-start",
+    listStyle: "none",
+
+    "& li": {
+      margin: 3,
+      padding: "4px 10px",
+      border: "1px solid #ddd",
+      borderRadius: 20,
+      fontSize: 14,
+      display: "flex",
+      alignItems: "center",
+
+      "& svg": {
+        marginLeft: 5,
+      },
+
+      "&:hover": {
+        background: "#F2F2F2",
+      },
+      "& svg": {
+        cursor: "pointer",
+      },
+    },
+  },
 }));
 
 export default useStyles;

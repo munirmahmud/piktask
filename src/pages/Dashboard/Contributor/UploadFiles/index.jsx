@@ -41,6 +41,7 @@ const UploadFiles = () => {
 
   const [isLoading, setLoading] = useState(false);
   let isUploadBtnDisabled = true;
+  let disableUploadButton;
   const [disableDeleteBtn, setDisableDeleteBtn] = useState(false);
   const [disabledBtn, setDisabledBtn] = useState(false);
 
@@ -54,14 +55,13 @@ const UploadFiles = () => {
   const { mobileView } = menuSate;
   //mobile responsive
   useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 900
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-
-    setResponsiveness();
-    window.addEventListener("resize", setResponsiveness);
+    // const setResponsiveness = () => {
+    //   return window.innerWidth < 900
+    //     ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
+    //     : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
+    // };
+    // setResponsiveness();
+    // window.addEventListener("resize", setResponsiveness);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive, fileRejections } =
@@ -236,10 +236,10 @@ const UploadFiles = () => {
 
   const handleUpload = async (e) => {
     if (files.length === 0) {
-      toast.error("Sorry, you did not upload any files.", { autoClose: 500 });
+      toast.error("Sorry, you did not upload any files.", { autoClose: 2200 });
       return;
     }
-
+    disableUploadButton = true;
     isUploadBtnDisabled = true;
     setDisableDeleteBtn(true);
     setDisabledBtn(true);
@@ -298,7 +298,6 @@ const UploadFiles = () => {
 
   const getUploadFiles = () => {
     checkFileSize();
-
     return files?.map((file, index) => {
       return (
         <div className="files-wrapper" key={file.name}>
@@ -570,6 +569,7 @@ const UploadFiles = () => {
             {!isImageDimensionOkay}
 
             {getUploadFiles()}
+            {console.log("disableUploadButton", disableUploadButton)}
 
             <div className={classes.singleBorder}></div>
             <div className={classes.uploadBtnRoot}>
@@ -580,7 +580,7 @@ const UploadFiles = () => {
                 variant="contained"
                 className={classes.uploadBtn}
                 type="submit"
-                disabled={isUploadBtnDisabled}
+                disabled={disableDeleteBtn || isUploadBtnDisabled}
                 onClick={handleUpload}
               >
                 <FontAwesomeIcon
