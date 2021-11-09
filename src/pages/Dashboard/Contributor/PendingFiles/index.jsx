@@ -19,11 +19,11 @@ import AdminHeader from "../../../../components/ui/dashboard/contributor/Header"
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
+import Paginations from "../../../../components/ui/Pagination";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import EditItem from "./EditItem";
 import useStyles from "./PendingFiles.styles";
-import Paginations from "../../../../components/ui/Pagination";
 
 const PendingFiles = () => {
   const classes = useStyles();
@@ -41,7 +41,7 @@ const PendingFiles = () => {
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  
+
   let limit = 12;
   const count = Math.ceil(totalProduct / limit);
 
@@ -64,13 +64,16 @@ const PendingFiles = () => {
     setSuccessProduct(!true);
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/images/not_submit?limit=${limit}&page=${pageCount}`, {
-          headers: { Authorization: user?.token },
-        })
+        .get(
+          `${process.env.REACT_APP_API_URL}/contributor/images/not_submit?limit=${limit}&page=${pageCount}`,
+          {
+            headers: { Authorization: user?.token },
+          }
+        )
         .then(({ data }) => {
           if (data?.images.length > 0) {
             setPendingProducts(data?.images);
-            setTotalProduct(data?.total)
+            setTotalProduct(data?.total);
             setLoading(false);
           } else {
             setLoading(false);
@@ -81,9 +84,15 @@ const PendingFiles = () => {
           setLoading(false);
         });
     }
-  }, [user?.isLoggedIn, user?.token, user?.role, addProductDetails, successProduct, pageCount, limit]);
-
-
+  }, [
+    user?.isLoggedIn,
+    user?.token,
+    user?.role,
+    addProductDetails,
+    successProduct,
+    pageCount,
+    limit,
+  ]);
 
   const handleDelete = (image_id) => {
     if (user?.isLoggedIn && user?.role === "contributor") {
@@ -150,25 +159,27 @@ const PendingFiles = () => {
 
   const handleSubmit = async () => {
     let token_ids = [];
-    pendingProducts.map((item) => item.is_save === 1 && token_ids.push(item.token_id))
+    pendingProducts.map(
+      (item) => item.is_save === 1 && token_ids.push(item.token_id)
+    );
 
-    if(token_ids?.length === 0){
-      toast.error("No submit ready product found.")
-      return ;
+    if (token_ids?.length === 0) {
+      toast.error("No submit ready product found.");
+      return;
     }
 
-    if(user?.isLoggedIn && user?.role === "contributor"){
+    if (user?.isLoggedIn && user?.role === "contributor") {
       const url = `${process.env.REACT_APP_API_URL}/images/submit`;
       try {
         const response = await axios({
           method: "put",
           url,
-          headers: { 
+          headers: {
             Authorization: user?.token,
             "Content-Type": "application/json",
           },
-          data: {images : token_ids}
-        })
+          data: { images: token_ids },
+        });
         if (response.data?.status) {
           // const index = pendingProducts.findIndex((item) => item.token_id === image_id);
           // pendingProducts.forEach(element => {
@@ -182,14 +193,16 @@ const PendingFiles = () => {
           // console.log("index", index);
           // pendingProducts.splice(index, 1);
           // setPendingProducts([...pendingProducts]);
-          toast.success(response.data?.message || "Image submitted successfully");
+          toast.success(
+            response.data?.message || "Image submitted successfully"
+          );
         }
       } catch (error) {
         console.log("Submit image", error);
         toast.success(error.response.data?.message || "Image submitted fail");
       }
     }
-  }
+  };
 
   return (
     <Layout title="Pending | Piktask">
@@ -259,7 +272,11 @@ const PendingFiles = () => {
                           />
                         </div>
                         <Card
-                          className={product?.is_save === 1 ? `${classes.successProductItem}` : `${classes.pendingFileCard}`}
+                          className={
+                            product?.is_save === 1
+                              ? `${classes.successProductItem}`
+                              : `${classes.pendingFileCard}`
+                          }
                           onClick={(e) => {
                             selectedProduct(e, product);
                           }}
@@ -305,9 +322,14 @@ const PendingFiles = () => {
                 </>
               )}
             </Grid>
-            {totalProduct > 12 && (
-              <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
-            )} 
+            {totalProduct > limit && (
+              <Paginations
+                locationPath={locationPath}
+                count={count}
+                pageCount={pageCount}
+                setPageCount={setPageCount}
+              />
+            )}
           </div>
 
           <Drawer
