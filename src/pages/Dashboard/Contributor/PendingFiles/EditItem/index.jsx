@@ -17,7 +17,6 @@ const EditItem = (props) => {
     setSelectedProducts,
     setAddProductDetails,
     pendingProducts,
-    setSuccessProduct,
   } = props;
 
   const [categoryName, setCategoryName] = useState("");
@@ -43,26 +42,28 @@ const EditItem = (props) => {
     // { title: "Business Card" },
   ];
 
+  const images = [];
+  products.forEach((element) => {
+    images.push(element.token_id);
+  });
+
   const handleProductSubmit = async (e) => {
     e.preventDefault();
     const action = e.currentTarget.value;
 
-    const images = [];
-    products.forEach((element) => {
-      images.push(element.token_id);
-    });
-
     if (!categoryName) {
-      toast.error("Please select a category");
+      toast.error("Please select a category", { autoClose: 500 });
       return;
     } else if (!title) {
-      toast.error("The Title field is required.");
+      toast.error("The Title field is required.", { autoClose: 500 });
       return;
     } else if (title.length < 3 || title.length > 200) {
-      toast.error("Title must be between 3 and 200 characters");
+      toast.error("Title must be between 3 and 200 characters", {
+        autoClose: 500,
+      });
       return;
     } else if (tagsValue.length === 0) {
-      toast.error("The tag field is required");
+      toast.error("The tag field is required", { autoClose: 500 });
       return;
     }
 
@@ -89,10 +90,9 @@ const EditItem = (props) => {
           setTitle("");
           setTagsValue([]);
           setAddProductDetails(pendingProducts);
-          // setSuccessProduct(pendingProducts)
           toast.success(
-            response.data.message || "Product updated successfully",
-            { autoClose: 2200 }
+            response.data.message || "Product update successfully",
+            { autoClose: 500 }
           );
         }
       } catch (error) {
@@ -108,18 +108,6 @@ const EditItem = (props) => {
     }
     setSelectedProducts([]);
     setOpenModal(false);
-  };
-
-  const getTags = () => {
-    // tagsValue.length > 0 ? (
-    //   <>
-    //   return tagsValue.map((tag, index) => {
-    //     return <li key={index}>{tag}</li>;
-    //   });
-    //   </>
-    // ) : (
-    //   null
-    // )
   };
 
   return (
@@ -219,8 +207,6 @@ const EditItem = (props) => {
             }}
           />
         </div>
-
-        {/* {getTags()} */}
 
         <hr className={classes.seperator} />
 
