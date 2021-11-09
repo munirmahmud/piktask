@@ -119,7 +119,6 @@ const SignUpModal = (props) => {
           const token = res.data.token;
           localStorage.setItem("token", token);
           const decodedToken = jwt_decode(token.split(" ")[1]);
-          console.log("decodedToken", decodedToken.role);
           localStorage.setItem("profileImage", decodedToken.avatar);
 
           if (decodedToken.email) {

@@ -174,7 +174,7 @@ const RejectFiles = () => {
                       }}
                     >
                       <Typography variant="h3">
-                        It should be "There is no rejected files."
+                        There is no rejected files.
                       </Typography>
                     </div>
                   )}

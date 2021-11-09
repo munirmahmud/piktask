@@ -13,13 +13,13 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
 import Paginations from "../../../../components/ui/Pagination";
+import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import EditItem from "./EditItem";
@@ -66,9 +66,7 @@ const PendingFiles = () => {
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/contributor/images/not_submit?limit=${limit}&page=${pageCount}`,
-          {
-            headers: { Authorization: user?.token },
-          }
+          { headers: { Authorization: user?.token }, }
         )
         .then(({ data }) => {
           if (data?.images.length > 0) {
@@ -213,50 +211,57 @@ const PendingFiles = () => {
           <AdminHeader />
           <div className={classes.dashboardGridContainer}>
             <div className={classes.headingWrapper}>
-              <Heading tag="h2">Not submitted yet</Heading>
+              <div>
+                <Heading tag="h2">Not submitted yet</Heading>
+                <Typography variant="h5">This is your first upload!</Typography>
+                <Typography>Upload and send your 20 best resources. Our team will review them to ensure they <br /> meet our requirements, so make sure they show your true potential.</Typography>
+              </div>
               <div>
                 {/* <Button onClick={() => deleteSelectionProduct()} className={`${classes.actionBtn} ${classes.deleteBtn}`}>
                   Delete File
                 </Button> */}
-                <Button
-                  className={`${classes.actionBtn} ${classes.submitBtn}`}
-                  onClick={() => handleSubmit()}
-                >
-                  Submit
-                </Button>
-                <Button
+                {pendingProducts.length > 0 && (
+                  <Button
+                    className={`${classes.actionBtn} ${classes.addFileBtn}`}
+                    onClick={() => handleSubmit()}
+                  >
+                    Submit
+                  </Button>
+                )}
+                {/* <Button
                   to={`/contributor/upload`}
                   component={Link}
                   className={`${classes.actionBtn} ${classes.addFileBtn}`}
                 >
                   Add File
-                </Button>
-                <Button
-                  className={`${classes.actionBtn} ${classes.workInfoBtn}`}
-                  onClick={() => handleWorkInfo()}
-                >
-                  Add Work Information
-                </Button>
+                </Button> */}
+                {pendingProducts.length > 0 && (
+                  <Button
+                    className={`${classes.actionBtn} ${classes.workInfoBtn}`}
+                    onClick={() => handleWorkInfo()}
+                  >
+                    Add Work Information
+                  </Button>
+                )}
               </div>
             </div>
 
-            <Grid container spacing={2}>
-              {isLoading ? (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    margin: "0 auto",
-                    height: 300,
-                  }}
-                >
-                  <CircularProgress color="primary" />
-                </div>
-              ) : (
-                <>
-                  {pendingProducts?.length > 0 ? (
-                    pendingProducts?.map((product) => (
+            {isLoading ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "0 auto",
+                  height: 300,
+                }}
+              >
+                <CircularProgress color="primary" />
+              </div>
+            ) : (
+              <Grid container spacing={2}>
+                {pendingProducts?.length > 0 ? (
+                  pendingProducts?.map((product) => (
                       <Grid
                         key={product?.id}
                         item
@@ -302,26 +307,12 @@ const PendingFiles = () => {
                           </CardContent>
                         </Card>
                       </Grid>
-                    ))
+                  ))
                   ) : (
-                    <div
-                      className={classes.noItemsFound}
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        margin: "0 auto",
-                        height: 250,
-                      }}
-                    >
-                      <Typography variant="h3">
-                        No products are in pending
-                      </Typography>
-                    </div>
+                    <ProductNotFound contributorProductNotFound />
                   )}
-                </>
-              )}
-            </Grid>
+              </Grid>
+            )}
             {totalProduct > limit && (
               <Paginations
                 locationPath={locationPath}

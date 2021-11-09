@@ -31,6 +31,7 @@ import { getBaseURL, getWords } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./Publish.styles";
 import Paginations from "../../../../components/ui/Pagination";
+import ProductNotFound from "../../../../components/ui/ProductNotFound";
 
 const Publish = () => {
   const classes = useStyles();
@@ -45,7 +46,7 @@ const Publish = () => {
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
   
-  let limit = 1;
+  let limit = 20;
   const count = Math.ceil(totalProduct / limit);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
@@ -60,11 +61,13 @@ const Publish = () => {
 
     setResponsiveness();
     window.addEventListener("resize", () => setResponsiveness());
+  }, []);
 
+  useEffect(() => {
     // Author last file API
-    if (user?.token) {
+    if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=${limit}&page=${pageCount}`, {
+        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images/?limit=${limit}&page=${pageCount}`, {
           headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
@@ -72,16 +75,12 @@ const Publish = () => {
             setAllPublishProduct(data?.images);
             setTotalProduct(data?.total)
             setLoading(false);
-            dispatch({
-              type: "TOTAL_IMAGE_EARNING",
-              payload: [...data?.images],
-            });
           } else {
             setLoading(false);
           }
         });
     }
-  }, [user?.token, dispatch,  pageCount, limit]);
+  }, [user?.token, dispatch,  pageCount, limit, user?.isLoggedIn, user?.role])
 
   // Date wise API integration
 
@@ -135,13 +134,11 @@ const Publish = () => {
     const toDates = fromYear + "-" + toDateMonths + "-" + toCurrentDate;
 
     // Current date wise publish product
-    if (user?.token) {
+    if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/contributor/earning/images/?start=${fromDates}&end=${toDates}`,
-          {
-            headers: { Authorization: user?.token },
-          }
+          `${process.env.REACT_APP_API_URL}/contributor/earning/images/?start=${fromDates}&end=${toDates}&limit=${limit}&page=${pageCount}`,
+          { headers: { Authorization: user?.token }, }
         )
         .then(({ data }) => {
           if (data?.status) {
@@ -319,148 +316,133 @@ const Publish = () => {
             </div>
 
             <Grid container className={classes.publishGridContainer}>
-              <Grid item xs={12} sm={12} md={12} className={classes.loaderItem}>
-                <Card className={classes.cardRoot}>
-                  <CardContent className={classes.productCard}>
-                    <TableContainer
-                      className={classes.tableContainer}
-                      component={Paper}
-                    >
-                      <Table
-                        className={classes.table}
-                        aria-label="publish data table"
-                      >
-                        <TableHead>
-                          <TableRow className={classes.tableHead}>
-                            <TableCell
-                              className={classes.tableCell}
-                            ></TableCell>
-                            <TableCell
-                              style={{ textAlign: "left" }}
-                              className={classes.tableCell}
+              {isLoading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "0 auto",
+                    height: 300,
+                  }}
+                >
+                  <CircularProgress color="primary" />
+                </div>
+              ) : (
+                <>
+                  {allPublishProduct?.length > 0 ? (
+                    <Grid item xs={12} sm={12} md={12} className={classes.loaderItem}>
+                      <Card className={classes.cardRoot}>
+                        <CardContent className={classes.productCard}>
+                          <TableContainer
+                            className={classes.tableContainer}
+                            component={Paper}
+                          >
+                            <Table
+                              className={classes.table}
+                              aria-label="publish data table"
                             >
-                              Title
-                            </TableCell>
-                            <TableCell className={classes.tableCell}>
-                              Type
-                            </TableCell>
-                            <TableCell className={classes.tableCell}>
-                              Like
-                            </TableCell>
-                            <TableCell className={classes.tableCell}>
-                              Download
-                            </TableCell>
-                            <TableCell className={classes.tableCell}>
-                              Earning
-                            </TableCell>
-                            <TableCell className={classes.tableCell}>
-                              Date
-                            </TableCell>
-                          </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                          {isLoading ? (
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                margin: "0 auto",
-                                height: 300,
-                              }}
-                            >
-                              <CircularProgress color="primary" />
-                            </div>
-                          ) : (
-                            <>
-                              {allPublishProduct?.length > 0 ? (
-                                allPublishProduct?.map((product) => (
-                                  <TableRow
-                                    key={product?.id}
-                                    className={classes.tableRowContent}
+                              <TableHead>
+                                <TableRow className={classes.tableHead}>
+                                  <TableCell
+                                    className={classes.tableCell}
+                                  ></TableCell>
+                                  <TableCell
+                                    style={{ textAlign: "left" }}
+                                    className={classes.tableCell}
                                   >
-                                    <TableCell
-                                      className={`${classes.tableCell} ${classes.authProductWrapper}`}
-                                    >
-                                      <Link
-                                        to={`/images/${product?.title.replace(
-                                          / /g,
-                                          "_"
-                                        )}&id=${product?.id}`}
-                                      >
-                                        <img
-                                          className={classes.publishImg}
-                                          src={
-                                            getBaseURL().bucket_base_url +
-                                            getBaseURL().images +
-                                            product?.preview
-                                          }
-                                          alt={product?.preview}
-                                        />
-                                      </Link>
+                                    Title
+                                  </TableCell>
+                                  <TableCell className={classes.tableCell}>
+                                    Type
+                                  </TableCell>
+                                  <TableCell className={classes.tableCell}>
+                                    Like
+                                  </TableCell>
+                                  <TableCell className={classes.tableCell}>
+                                    Download
+                                  </TableCell>
+                                  <TableCell className={classes.tableCell}>
+                                    Earning
+                                  </TableCell>
+                                  <TableCell className={classes.tableCell}>
+                                    Date
+                                  </TableCell>
+                                </TableRow>
+                              </TableHead>
 
-                                      {/* {product?.item_for_sale === "sale" && (
-                                        <div className={classes.premiumIcon}>
-                                          <img src={premiumFileSell} alt="Premium Product" />
-                                        </div>
-                                      )} */}
-                                    </TableCell>
-                                    <TableCell
-                                      style={{ textAlign: "left" }}
-                                      className={classes.tableCell}
+                              <TableBody>
+                                {allPublishProduct?.map((product) => (
+                                    <TableRow
+                                      key={product?.id}
+                                      className={classes.tableRowContent}
                                     >
-                                      {product?.title.split(" ").length > 4 ? (
-                                        <>{getWords(4, product?.title)}...</>
-                                      ) : (
-                                        <>{product?.title}</>
-                                      )}
-                                    </TableCell>
-                                    <TableCell className={classes.tableCell}>
-                                      {product?.extension}
-                                    </TableCell>
-                                    <TableCell className={classes.tableCell}>
-                                      {product?.total_likes}
-                                    </TableCell>
-                                    <TableCell className={classes.tableCell}>
-                                      {product?.total_downloads}
-                                    </TableCell>
-                                    <TableCell className={classes.tableCell}>
-                                      <AttachMoneyIcon />
-                                      {product?.earn_per_image}
-                                    </TableCell>
-                                    <TableCell className={classes.tableCell}>
-                                      {moment(product?.createdAt).format("LL")}
-                                    </TableCell>
-                                  </TableRow>
-                                ))
-                              ) : (
-                                <div
-                                  className={classes.noItemsFound}
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    margin: "0 auto",
-                                    height: 300,
-                                  }}
-                                >
-                                  <Typography variant="h3">
-                                    No products are in pending
-                                  </Typography>
-                                </div>
+                                      <TableCell
+                                        className={`${classes.tableCell} ${classes.authProductWrapper}`}
+                                      >
+                                        <Link
+                                          to={`/images/${product?.title.replace(/ /g, "_")}&id=${product?.id}`}
+                                        >
+                                          <img
+                                            className={classes.publishImg}
+                                            src={
+                                              getBaseURL().bucket_base_url +
+                                              getBaseURL().images +
+                                              product?.preview
+                                            }
+                                            alt={product?.preview}
+                                          />
+                                        </Link>
+
+                                        {/* {product?.item_for_sale === "sale" && (
+                                          <div className={classes.premiumIcon}>
+                                            <img src={premiumFileSell} alt="Premium Product" />
+                                          </div>
+                                        )} */}
+                                      </TableCell>
+                                      <TableCell
+                                        style={{ textAlign: "left" }}
+                                        className={classes.tableCell}
+                                      >
+                                        {product?.title.split(" ").length > 4 ? (
+                                          <>{getWords(4, product?.title)}...</>
+                                        ) : (
+                                          <>{product?.title}</>
+                                        )}
+                                      </TableCell>
+                                      <TableCell className={classes.tableCell}>
+                                        {product?.extension}
+                                      </TableCell>
+                                      <TableCell className={classes.tableCell}>
+                                        {product?.total_likes}
+                                      </TableCell>
+                                      <TableCell className={classes.tableCell}>
+                                        {product?.total_downloads}
+                                      </TableCell>
+                                      <TableCell className={classes.tableCell}>
+                                        <AttachMoneyIcon />
+                                        {product?.earn_per_image}
+                                      </TableCell>
+                                      <TableCell className={classes.tableCell}>
+                                        {moment(product?.createdAt).format("LL")}
+                                      </TableCell>
+                                    </TableRow>
+                                  ))
+                                }
+                              </TableBody>
+                              {totalProduct > limit && (
+                                <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
                               )}
-                            </>
-                          )}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    {totalProduct > limit && (
-                      <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
-                    )}
-                  </CardContent>
-                </Card>
-              </Grid>
+                            </Table>
+                          </TableContainer>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ) : (
+                    <ProductNotFound contributorProductNotFound />
+                  )}
+                </>
+              ) }
             </Grid>
           </div>
           <Footer />

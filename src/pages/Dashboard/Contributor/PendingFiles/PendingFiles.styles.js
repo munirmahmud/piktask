@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
   },
   headingWrapper: {
     display: "flex",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "space-between",
     marginTop: "2rem",
-    marginBottom: "4.5rem",
+    marginBottom: "3rem",
 
     "@media (max-width: 990px)": {
       flexDirection: "column",
@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
       "& h2": {
         marginBottom: "1.5rem",
       },
+      // "& p": {
+      //   lineHeight: "5rem",
+      // },
     },
   },
   actionBtn: {
@@ -67,14 +70,14 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 0,
     },
   },
-  submitBtn: {
-    backgroundColor: "#0773c5",
-    transition: "all 0.3s linear",
-    "&:hover": {
-      backgroundColor: "#0773c5",
-      color: "#fff",
-    },
-  },
+  // submitBtn: {
+  //   backgroundColor: "#0773c5",
+  //   transition: "all 0.3s linear",
+  //   "&:hover": {
+  //     backgroundColor: "#0773c5",
+  //     color: "#fff",
+  //   },
+  // },
   addFileBtn: {
     backgroundColor: "#0088f2",
     transition: "all 0.3s linear",
