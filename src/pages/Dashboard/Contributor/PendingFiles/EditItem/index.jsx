@@ -11,93 +11,116 @@ import useStyles from "./EditItem.styles";
 const EditItem = (props) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const { products, setOpenModal, setSelectedProducts, setAddProductDetails, pendingProducts } = props;
+  const {
+    products,
+    setOpenModal,
+    setSelectedProducts,
+    setAddProductDetails,
+    pendingProducts,
+  } = props;
 
   const [categoryName, setCategoryName] = useState("");
   const [tagsValue, setTagsValue] = useState([]);
   const [category, setCategory] = useState([]);
   const [title, setTitle] = useState("");
-  
+
   const handleCategoryItem = () => {
-    if(user?.isLoggedIn && user?.role === "contributor"){
+    if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-      .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
-      .then(({ data }) => {
-        if (data?.status) {
-          const sortedData = data?.categories.sort((a, b) => a.id - b.id);
-          setCategory(sortedData);
-        }
-      })
-      .catch((error) => console.log("Categories loading error: ", error));
+        .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
+        .then(({ data }) => {
+          if (data?.status) {
+            const sortedData = data?.categories.sort((a, b) => a.id - b.id);
+            setCategory(sortedData);
+          }
+        })
+        .catch((error) => console.log("Categories loading error: ", error));
     }
   };
-  
+
+  console.log("tagsValue", tagsValue);
   const keyWords = [
     // { title: "Business Card" },
   ];
-  
+
   const images = [];
-  products.forEach(element => {
-    images.push(element.token_id)
+  products.forEach((element) => {
+    images.push(element.token_id);
   });
-  
-  
+
   const handleProductSubmit = async (e) => {
     e.preventDefault();
-    const action = e.currentTarget.value
+    const action = e.currentTarget.value;
 
     if (!categoryName) {
-      toast.error("Please select a category", { autoClose: 500,});
+      toast.error("Please select a category", { autoClose: 500 });
       return;
-    } else if(!title){
-      toast.error("The Title field is required.", { autoClose: 500,});
+    } else if (!title) {
+      toast.error("The Title field is required.", { autoClose: 500 });
       return;
     } else if (title.length < 3 || title.length > 200) {
-      toast.error("Title must be between 3 and 200 characters", { autoClose: 500,});
+      toast.error("Title must be between 3 and 200 characters", {
+        autoClose: 500,
+      });
       return;
     } else if (tagsValue.length === 0) {
-      toast.error("The tag field is required", { autoClose: 500,});
+      toast.error("The tag field is required", { autoClose: 500 });
       return;
     }
 
-    // API integration for set product details 
-    if(user?.isLoggedIn && user?.role === "contributor"){
+    // API integration for set product details
+    if (user?.isLoggedIn && user?.role === "contributor") {
       const url = `${process.env.REACT_APP_API_URL}/images?action=${action}`;
       try {
         const response = await axios({
           method: "put",
           url,
-          headers: { 
+          headers: {
             Authorization: user?.token,
             "Content-Type": "application/json",
           },
           data: {
             images,
             title,
-            categories_id:  categoryName,
+            categories_id: categoryName,
             tags: tagsValue,
-          }
-        })
+          },
+        });
         if (response.data?.status) {
           setCategoryName("");
           setTitle("");
           setTagsValue([]);
-          setAddProductDetails(pendingProducts)
-          toast.success(response.data.message || "Product update successfully", { autoClose: 500,});
+          setAddProductDetails(pendingProducts);
+          toast.success(
+            response.data.message || "Product update successfully",
+            { autoClose: 500 }
+          );
         }
       } catch (error) {
-        if(error.response?.data?.errors){
+        if (error.response?.data?.errors) {
           Object.entries(error.response.data.errors).forEach(([key, value]) => {
             console.log(`${key} ${value}`);
-            toast.error(value, { autoClose: 500,});
+            toast.error(value, { autoClose: 500 });
           });
-        } else if (error.response?.data?.message){
-          toast.error(error.response.data.message, { autoClose: 500,});
+        } else if (error.response?.data?.message) {
+          toast.error(error.response.data.message, { autoClose: 500 });
         }
       }
     }
     setSelectedProducts([]);
     setOpenModal(false);
+  };
+
+  const getTags = () => {
+    // tagsValue.length > 0 ? (
+    //   <>
+    //   return tagsValue.map((tag, index) => {
+    //     return <li key={index}>{tag}</li>;
+    //   });
+    //   </>
+    // ) : (
+    //   null
+    // )
   };
 
   return (
@@ -114,7 +137,11 @@ const EditItem = (props) => {
               <div key={product?.id} className={classes.productItem}>
                 <img
                   className={classes.editItemImage}
-                  src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file}
+                  src={
+                    getBaseURL().bucket_base_url +
+                    getBaseURL().images +
+                    product?.original_file
+                  }
                   alt={product?.original_name}
                 />
               </div>
@@ -194,13 +221,24 @@ const EditItem = (props) => {
           />
         </div>
 
+        {/* {getTags()} */}
+
         <hr className={classes.seperator} />
 
         <div className={classes.buttonsWrapper}>
-          <Button onClick={handleProductSubmit} value="submit" type="submit" className={`${classes.actionBtn} ${classes.submitBtn}`}>
+          <Button
+            onClick={handleProductSubmit}
+            value="submit"
+            type="submit"
+            className={`${classes.actionBtn} ${classes.submitBtn}`}
+          >
             Submit
           </Button>
-          <Button onClick={handleProductSubmit} value="save" className={`${classes.actionBtn} ${classes.saveBtn}`}>
+          <Button
+            onClick={handleProductSubmit}
+            value="save"
+            className={`${classes.actionBtn} ${classes.saveBtn}`}
+          >
             Save
           </Button>
           <Button

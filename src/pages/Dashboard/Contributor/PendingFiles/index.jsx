@@ -97,12 +97,6 @@ const PendingFiles = () => {
     }
   };
 
-  // const deleteSelectionProduct = () => {
-  //   const filteredProducts = products.filter(product => !product.isSelected);
-  //   setProducts(filteredProducts);
-  //   setSelectedProducts([]);
-  // }
-
   const selectedProduct = (e, product) => {
     if (!product.isSelected) {
       product.isSelected = true;
