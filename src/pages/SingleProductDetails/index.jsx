@@ -82,7 +82,7 @@ const SingleProductDetails = () => {
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  let limit = 8;
+  let limit = 12;
   const count = Math.ceil(totalProduct / limit);
 
   const handleTooltipClose = () => {
@@ -714,7 +714,7 @@ const SingleProductDetails = () => {
             ))
           )}
         </Grid>
-        {totalProduct > 8 && (
+        {totalProduct > limit && (
           <Paginations productPagination count={count} pageCount={pageCount} setPageCount={setPageCount} />
         )}
 

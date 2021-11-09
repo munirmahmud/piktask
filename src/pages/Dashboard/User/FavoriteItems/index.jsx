@@ -99,7 +99,7 @@ const FavoriteItems = () => {
                 </>
               )}
             </Grid>
-            {totalProduct > 15 && (
+            {totalProduct > limit && (
               <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
             )} 
           </Grid>

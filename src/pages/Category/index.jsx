@@ -37,7 +37,7 @@ const Category = () => {
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
   
-  let limit = 32;
+  let limit = 24;
   const count = Math.ceil(totalProduct / limit);
 
   const categoryItem = categories.find((item) => item?.slug === catName);
@@ -198,7 +198,7 @@ const Category = () => {
             </>
           )}
         </Grid>
-        {totalProduct > 32 && (
+        {totalProduct > limit && (
           <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
         )} 
       </Container>
