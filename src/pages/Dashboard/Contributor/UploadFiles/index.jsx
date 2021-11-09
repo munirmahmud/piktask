@@ -225,14 +225,6 @@ const UploadFiles = () => {
             let temp_files = [...files];
             temp_files[index].progress = percentage;
             setFiles(temp_files);
-
-            if (file.progress === 100) {
-              setTimeout(() => {
-                // files.splice(index, 1);
-                // setFiles(files);
-                setImageError({});
-              }, 600);
-            }
           }
           resolve();
         }
@@ -258,19 +250,9 @@ const UploadFiles = () => {
       setFiles(temp_files);
       await uploadFile(files[i], i);
     }
-  };
 
-  //ProgressBar
-  // useCallback(() => {
-  //   const timer = setInterval(() => {
-  //     setProgress((prevProgress) =>
-  //       prevProgress >= 100 ? 10 : prevProgress + 10
-  //     );
-  //   }, 800);
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, [progress]);
+    history.push("/contributor/pending");
+  };
 
   //remove file function
   const removeFile = (file, itemIndex) => {
