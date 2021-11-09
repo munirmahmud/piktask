@@ -30,7 +30,7 @@ const Revision = () => {
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
   
-  let limit = 18;
+  let limit = 12;
   const count = Math.ceil(totalProduct / limit);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
@@ -154,7 +154,7 @@ const Revision = () => {
                 </>
               )}
             </Grid>
-            {totalProduct > 18 && (
+            {totalProduct > limit && (
               <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
             )}
           </div>

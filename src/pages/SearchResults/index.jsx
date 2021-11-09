@@ -31,7 +31,7 @@ const SearchResults = () => {
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
   
-  let limit = 32;
+  let limit = 24;
   const count = Math.ceil(totalProduct / limit);
 
   const searchQuery = pathname.split("=");
@@ -108,7 +108,7 @@ const SearchResults = () => {
             </>
           )}
         </Grid>
-        {totalProduct > 32 && (
+        {totalProduct > limit && (
           <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
         )} 
       </Container>
