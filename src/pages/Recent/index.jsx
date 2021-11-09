@@ -28,7 +28,7 @@ const Recent = () => {
   const [isLoading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  let limit = 48;
+  let limit = 32;
   const count = Math.ceil(totalProduct / limit);
 
   //Recent images API integration
@@ -126,7 +126,7 @@ const Recent = () => {
             </>
           )}
         </Grid>
-        {totalProduct > 48 && (
+        {totalProduct > limit && (
           <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
         )}
       </Container>

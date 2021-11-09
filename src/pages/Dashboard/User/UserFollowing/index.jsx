@@ -33,7 +33,7 @@ const UserFollowing = () => {
   const [isLoading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  let limit = 15;
+  let limit = 5;
   const count = Math.ceil(totalProduct / limit);
 
   useEffect(() => {
@@ -157,7 +157,7 @@ const UserFollowing = () => {
               ) : (
                 <ProductNotFound noCollection="User Following" />
               )}
-              {totalProduct > 15 && (
+              {totalProduct > limit && (
               <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
               )}
             </Grid>

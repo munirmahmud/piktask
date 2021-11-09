@@ -311,7 +311,7 @@ const PendingFiles = () => {
                 </>
               )}
             </Grid>
-            {totalProduct > 12 && (
+            {totalProduct > limit && (
               <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
             )} 
           </div>

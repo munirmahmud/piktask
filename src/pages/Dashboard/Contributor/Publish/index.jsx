@@ -455,7 +455,7 @@ const Publish = () => {
                         </TableBody>
                       </Table>
                     </TableContainer>
-                    {totalProduct > 1 && (
+                    {totalProduct > limit && (
                       <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
                     )}
                   </CardContent>
