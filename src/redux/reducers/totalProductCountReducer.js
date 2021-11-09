@@ -1,7 +1,7 @@
 const initialValue = [];
-export const totalPublishFileReducer = (state = initialValue, action) => {
+export const totalProductCountReducer = (state = initialValue, action) => {
     switch (action.type) {
-        case "TOTAL_IMAGE_EARNING":
+        case "TOTAL_PRODUCT_COUNT":
             return action.payload;
         default:
             return state;
