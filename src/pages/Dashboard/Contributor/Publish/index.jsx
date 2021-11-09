@@ -21,6 +21,7 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
@@ -29,14 +30,23 @@ import Footer from "../../../../components/ui/Footer";
 import { getBaseURL, getWords } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./Publish.styles";
+import Paginations from "../../../../components/ui/Pagination";
 
 const Publish = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const locationPath = location.pathname;
   const user = useSelector((state) => state.user);
 
   const [isLoading, setLoading] = useState(true);
   const [allPublishProduct, setAllPublishProduct] = useState([]);
+
+  const [pageCount, setPageCount] = useState(1);
+  const [totalProduct, setTotalProduct] = useState();
+  
+  let limit = 1;
+  const count = Math.ceil(totalProduct / limit);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -54,12 +64,13 @@ const Publish = () => {
     // Author last file API
     if (user?.token) {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images`, {
+        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=${limit}&page=${pageCount}`, {
           headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.images.length > 0) {
             setAllPublishProduct(data?.images);
+            setTotalProduct(data?.total)
             setLoading(false);
             dispatch({
               type: "TOTAL_IMAGE_EARNING",
@@ -70,7 +81,7 @@ const Publish = () => {
           }
         });
     }
-  }, [user?.token, dispatch]);
+  }, [user?.token, dispatch,  pageCount, limit]);
 
   // Date wise API integration
 
@@ -444,6 +455,9 @@ const Publish = () => {
                         </TableBody>
                       </Table>
                     </TableContainer>
+                    {totalProduct > 1 && (
+                      <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+                    )}
                   </CardContent>
                 </Card>
               </Grid>

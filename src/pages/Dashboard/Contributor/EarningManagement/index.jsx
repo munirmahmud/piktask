@@ -331,14 +331,24 @@ const EarningManagement = () => {
           <div className={classes.earningManagementWrapper}>
             <div className={classes.headingWrapper}>
               <Heading tag="h2">Earning Management</Heading>
-              <Button
-                className={classes.withdrawBtn}
-                onClick={() => {
-                  handleWithdrawInfo();
-                }}
-              >
-                Withdraw
-              </Button>
+              <div>
+                <Button
+                  className={classes.withdrawBtn}
+                  onClick={() => {
+                    handleWithdrawInfo();
+                  }}
+                >
+                  Withdraw
+                </Button>
+                <Button
+                  className={classes.withdrawBtn}
+                  onClick={() => {
+                    handleWithdrawInfo();
+                  }}
+                >
+                  Withdraw History
+                </Button>
+              </div>
             </div>
 
             <Grid container spacing={0}>

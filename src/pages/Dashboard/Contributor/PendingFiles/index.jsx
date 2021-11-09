@@ -12,6 +12,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
@@ -22,10 +23,13 @@ import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import EditItem from "./EditItem";
 import useStyles from "./PendingFiles.styles";
+import Paginations from "../../../../components/ui/Pagination";
 
 const PendingFiles = () => {
   const classes = useStyles();
   const cardRef = useRef();
+  const location = useLocation();
+  const locationPath = location.pathname;
   const user = useSelector((state) => state.user);
 
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -33,6 +37,13 @@ const PendingFiles = () => {
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [addProductDetails, setAddProductDetails] = useState(false);
+  const [successProduct, setSuccessProduct] = useState(false);
+
+  const [pageCount, setPageCount] = useState(1);
+  const [totalProduct, setTotalProduct] = useState();
+  
+  let limit = 12;
+  const count = Math.ceil(totalProduct / limit);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -50,14 +61,16 @@ const PendingFiles = () => {
 
   useEffect(() => {
     setAddProductDetails(!true);
+    setSuccessProduct(!true);
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/images/not_submit`, {
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/not_submit?limit=${limit}&page=${pageCount}`, {
           headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.images.length > 0) {
-            setPendingProducts(data.images);
+            setPendingProducts(data?.images);
+            setTotalProduct(data?.total)
             setLoading(false);
           } else {
             setLoading(false);
@@ -68,7 +81,9 @@ const PendingFiles = () => {
           setLoading(false);
         });
     }
-  }, [user?.isLoggedIn, user?.token, user?.role, addProductDetails]);
+  }, [user?.isLoggedIn, user?.token, user?.role, addProductDetails, successProduct, pageCount, limit]);
+
+
 
   const handleDelete = (image_id) => {
     if (user?.isLoggedIn && user?.role === "contributor") {
@@ -123,15 +138,58 @@ const PendingFiles = () => {
   const handleWorkInfo = () => {
     if (selectedProducts.length > 0) {
       if (selectedProducts.length > 12) {
-        toast.error("You can not select more than 12", { autoClose: 500 });
+        toast.error("You can not select more than 12");
         return;
       }
       setOpenModal(true);
     } else {
-      toast.error("Please select at list 1 product", { autoClose: 500 });
+      toast.error("Please select at least 1 product");
       setOpenModal(false);
     }
   };
+
+  const handleSubmit = async () => {
+    let token_ids = [];
+    pendingProducts.map((item) => item.is_save === 1 && token_ids.push(item.token_id))
+
+    if(token_ids?.length === 0){
+      toast.error("No submit ready product found.")
+      return ;
+    }
+
+    if(user?.isLoggedIn && user?.role === "contributor"){
+      const url = `${process.env.REACT_APP_API_URL}/images/submit`;
+      try {
+        const response = await axios({
+          method: "put",
+          url,
+          headers: { 
+            Authorization: user?.token,
+            "Content-Type": "application/json",
+          },
+          data: {images : token_ids}
+        })
+        if (response.data?.status) {
+          // const index = pendingProducts.findIndex((item) => item.token_id === image_id);
+          // pendingProducts.forEach(element => {
+          //   if(element.is_save === 1){
+          //     console.log("element", element.token_id);
+          //     // pendingProducts.splice(element.token_id, 1);
+          //     // setPendingProducts([...pendingProducts]);
+          //   }
+          // });
+          // const index = pendingProducts.map((item) => item);
+          // console.log("index", index);
+          // pendingProducts.splice(index, 1);
+          // setPendingProducts([...pendingProducts]);
+          toast.success(response.data?.message || "Image submitted successfully");
+        }
+      } catch (error) {
+        console.log("Submit image", error);
+        toast.success(error.response.data?.message || "Image submitted fail");
+      }
+    }
+  }
 
   return (
     <Layout title="Pending | Piktask">
@@ -147,6 +205,12 @@ const PendingFiles = () => {
                 {/* <Button onClick={() => deleteSelectionProduct()} className={`${classes.actionBtn} ${classes.deleteBtn}`}>
                   Delete File
                 </Button> */}
+                <Button
+                  className={`${classes.actionBtn} ${classes.submitBtn}`}
+                  onClick={() => handleSubmit()}
+                >
+                  Submit
+                </Button>
                 <Button
                   to={`/contributor/upload`}
                   component={Link}
@@ -180,93 +244,47 @@ const PendingFiles = () => {
                 <>
                   {pendingProducts?.length > 0 ? (
                     pendingProducts?.map((product) => (
-                      <>
-                        {product?.is_save === 1 ? (
-                          <Grid
-                            key={product?.id}
-                            item
-                            xs={4}
-                            sm={3}
-                            md={2}
-                            className={classes.productItem}
-                          >
-                            <div className={classes.btnWrapper}>
-                              <DeleteIcon
-                                onClick={() => handleDelete(product?.token_id)}
-                                className={classes.deleteIcon}
-                              />
-                            </div>
-                            <Card
-                              className={classes.successProductItem}
-                              onClick={(e) => {
-                                selectedProduct(e, product);
-                              }}
-                              classes={{ root: classes.root }}
-                              ref={cardRef}
-                            >
-                              <img
-                                src={
-                                  getBaseURL().bucket_base_url +
-                                  getBaseURL().images +
-                                  product?.original_file
-                                }
-                                alt={product?.original_name}
-                              />
-                              <CardContent>
-                                <Typography variant="h3">
-                                  {product?.original_name}
-                                </Typography>
-                                <Typography variant="body2">
-                                  File Size:{" "}
-                                  {(product.size / 1024 / 1024).toFixed(2)} MB
-                                </Typography>
-                              </CardContent>
-                            </Card>
-                          </Grid>
-                        ) : (
-                          <Grid
-                            key={product?.id}
-                            item
-                            xs={4}
-                            sm={3}
-                            md={2}
-                            className={classes.productItem}
-                          >
-                            <div className={classes.btnWrapper}>
-                              <DeleteIcon
-                                onClick={() => handleDelete(product?.token_id)}
-                                className={classes.deleteIcon}
-                              />
-                            </div>
-                            <Card
-                              className={classes.pendingFileCard}
-                              onClick={(e) => {
-                                selectedProduct(e, product);
-                              }}
-                              classes={{ root: classes.root }}
-                              ref={cardRef}
-                            >
-                              <img
-                                src={
-                                  getBaseURL().bucket_base_url +
-                                  getBaseURL().images +
-                                  product?.original_file
-                                }
-                                alt={product?.original_name}
-                              />
-                              <CardContent>
-                                <Typography variant="h3">
-                                  {product?.original_name}
-                                </Typography>
-                                <Typography variant="body2">
-                                  File Size:{" "}
-                                  {(product.size / 1024 / 1024).toFixed(2)} MB
-                                </Typography>
-                              </CardContent>
-                            </Card>
-                          </Grid>
-                        )}
-                      </>
+                      <Grid
+                        key={product?.id}
+                        item
+                        xs={4}
+                        sm={3}
+                        md={2}
+                        className={classes.productItem}
+                      >
+                        <div className={classes.btnWrapper}>
+                          <DeleteIcon
+                            onClick={() => handleDelete(product?.token_id)}
+                            className={classes.deleteIcon}
+                          />
+                        </div>
+                        <Card
+                          className={product?.is_save === 1 ? `${classes.successProductItem}` : `${classes.pendingFileCard}`}
+                          onClick={(e) => {
+                            selectedProduct(e, product);
+                          }}
+                          classes={{ root: classes.root }}
+                          ref={cardRef}
+                        >
+                          <img
+                            src={
+                              getBaseURL().bucket_base_url +
+                              getBaseURL().images +
+                              product?.original_file
+                            }
+                            alt={product?.original_name}
+                          />
+                          <CardContent>
+                            <Typography variant="h3">
+                              {product?.original_name}
+                            </Typography>
+                            <Typography variant="body2">
+                              File Size:{" "}
+                              {(product.size / 1024 / 1024).toFixed(2)} MB
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </Grid>
                     ))
                   ) : (
                     <div
@@ -287,6 +305,9 @@ const PendingFiles = () => {
                 </>
               )}
             </Grid>
+            {totalProduct > 12 && (
+              <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+            )} 
           </div>
 
           <Drawer
@@ -312,6 +333,7 @@ const PendingFiles = () => {
               products={selectedProducts}
               setAddProductDetails={setAddProductDetails}
               pendingProducts={pendingProducts}
+              setSuccessProduct={setSuccessProduct}
             />
           </Drawer>
           <Footer />

@@ -271,17 +271,17 @@ const SingleProductDetails = () => {
     }
     axios(downloadAPI)
       .then(({ data }) => {
-        if (data.url) {
+        if (data?.url) {
           setButtonLoading(true);
           axios
             .get(data.url, { responseType: "blob" })
             .then((response) => {
-              const url = window.URL.createObjectURL(new Blob([response.data]));
+              const url = window.URL.createObjectURL(new Blob([response?.data]));
               const link = document.createElement("a");
               link.href = url;
               link.setAttribute(
                 "download",
-                `${imageDetails?.title.replace(/\s/g, "-")}.${data.extension}`
+                `${imageDetails?.title.replace(/\s/g, "-")}.${data?.extension}`
               );
               document.body.appendChild(link);
               link.click();
