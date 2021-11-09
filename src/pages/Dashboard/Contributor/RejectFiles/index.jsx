@@ -11,6 +11,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import Spacing from "../../../../components/Spacing";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
@@ -19,14 +20,23 @@ import Footer from "../../../../components/ui/Footer";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./RejectFiles.styles";
+import Paginations from "../../../../components/ui/Pagination";
 
 const RejectFiles = () => {
   const classes = useStyles();
+  const location = useLocation();
+  const locationPath = location.pathname;
   const user = useSelector((state) => state.user);
   const [rejectMessage, setRejectMessage] = useState([]);
   const [rejectProduct, setRejectProduct] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setLoading] = useState(true);
+
+  const [pageCount, setPageCount] = useState(1);
+  const [totalProduct, setTotalProduct] = useState();
+  
+  let limit = 18;
+  const count = Math.ceil(totalProduct / limit);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
@@ -46,12 +56,13 @@ const RejectFiles = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
-          .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected`, {
+          .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected?limit=${limit}&page=${pageCount}`, {
             headers: { Authorization: user?.token },
           })
           .then(({ data }) => {
             if (data?.images.length > 0) {
-              setRejectProduct(data.images);
+              setRejectProduct(data?.images);
+              setTotalProduct(data?.total)
               setLoading(false);
             } else {
               setLoading(false);
@@ -62,7 +73,7 @@ const RejectFiles = () => {
         setLoading(false);
       }
     }
-  }, [user?.isLoggedIn, user?.role, user?.token]);
+  }, [user?.isLoggedIn, user?.role, user?.token, pageCount, limit]);
 
   const handleClick = (product) => {
     // Reject API integration
@@ -170,6 +181,9 @@ const RejectFiles = () => {
                 </>
               )}
             </Grid>
+            {totalProduct > 18 && (
+              <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+            )}
           </div>
           <Spacing space={{ height: "2.5rem" }} />
           <Footer />

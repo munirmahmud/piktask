@@ -67,6 +67,14 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 0,
     },
   },
+  submitBtn: {
+    backgroundColor: "#0773c5",
+    transition: "all 0.3s linear",
+    "&:hover": {
+      backgroundColor: "#0773c5",
+      color: "#fff",
+    },
+  },
   addFileBtn: {
     backgroundColor: "#0088f2",
     transition: "all 0.3s linear",
