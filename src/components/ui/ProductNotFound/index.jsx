@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import useStyles from "./ProductNotFound.style";
 import NotFoundImage from "../../../assets/banner/goto-home.png";
-import crownIcon from "../../../assets/icons/crown.svg";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const ProductNotFound = ({
   keywords,
@@ -26,11 +26,7 @@ const ProductNotFound = ({
               component={Link}
               to="/contributor/upload"
             >
-              <img
-                className={classes.ButtoncrownIcon}
-                src={crownIcon}
-                alt="Upload"
-              />
+              <CloudUploadIcon className={classes.ButtoncrownIcon} />
               Upload
             </Button>
           </div>

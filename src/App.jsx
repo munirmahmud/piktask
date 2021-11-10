@@ -255,7 +255,7 @@ const App = () => {
           <Route exact path="/categories" component={Categories} />
           <Route
             exact
-            path="/search/trending-search"
+            path="/search-key/trending-search"
             component={TrendingSearch}
           />
 

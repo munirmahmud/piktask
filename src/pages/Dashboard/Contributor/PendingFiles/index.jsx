@@ -106,7 +106,7 @@ const PendingFiles = () => {
             pendingProducts.splice(index, 1);
             setPendingProducts([...pendingProducts]);
             setLoading(false);
-            toast.success(data.message, { autoClose: 500 });
+            toast.success(data.message, { autoClose: 1500 });
           }
         })
         .catch((error) => {
@@ -212,7 +212,7 @@ const PendingFiles = () => {
           <div className={classes.dashboardGridContainer}>
             <div className={classes.headingWrapper}>
               <div>
-                <Heading tag="h2">Not submitted yet</Heading>
+                <Heading tag="h2">Not yet submitted</Heading>
                 <Typography variant="h5">This is your first upload!</Typography>
                 <Typography>Upload and send your 20 best resources. Our team will review them to ensure they <br /> meet our requirements, so make sure they show your true potential.</Typography>
               </div>

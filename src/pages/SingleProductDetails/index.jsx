@@ -203,7 +203,7 @@ const SingleProductDetails = () => {
           }
         });
     } else {
-      toast.error("You can't follow yourself", { autoClose: 500 });
+      toast.error("You can't follow yourself", { autoClose: 1500 });
     }
   };
 
@@ -230,7 +230,7 @@ const SingleProductDetails = () => {
             setLike(true);
             setLoading(false);
           } else if (!data?.status) {
-            toast.error(data.message, { autoClose: 500 });
+            toast.error(data.message, { autoClose: 1500 });
             setLike(true);
             setLoading(false);
           } else {
@@ -240,7 +240,7 @@ const SingleProductDetails = () => {
         })
         .catch((error) => console.log("Like error: ", error));
     } else {
-      toast.error("You can't like yourself", { autoClose: 500 });
+      toast.error("You can't like yourself", { autoClose: 1500 });
     }
   };
 
@@ -298,9 +298,9 @@ const SingleProductDetails = () => {
       .catch((error) => {
         console.log("catch", error.response);
         if (user?.isLoggedIn) {
-          toast.error(error.response.data.message, { autoClose: 500 });
+          toast.error(error.response.data.message, { autoClose: 1500 });
         } else {
-          toast.error(error.response.data.message, { autoClose: 500 });
+          toast.error(error.response.data.message, { autoClose: 1500 });
           setRole(e.currentTarget.value);
           setOpenAuthModal(true);
         }

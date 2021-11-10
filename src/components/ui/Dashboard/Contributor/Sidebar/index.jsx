@@ -104,7 +104,7 @@ const Sidebar = () => {
           // onClick={handleProductItem}
         >
           <CloudUploadIcon />
-          <ListItemText primary="Upload File" />
+          <ListItemText primary="Files" />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
 
@@ -120,7 +120,7 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 2}
             >
-              <ListItemText primary={`Submit File(${totalProductCount?.notSubmit})`} />
+              <ListItemText primary={`Not yet submitted(${totalProductCount?.notSubmit})`} />
             </ListItem>
             <ListItem
               component={Link}
@@ -136,7 +136,7 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 4}
             >
-              <ListItemText primary={`Reject File(${totalProductCount?.rejectCount})`} />
+              <ListItemText primary={`Rejections(${totalProductCount?.rejectCount})`} />
             </ListItem>
             <ListItem
               component={Link}
@@ -144,7 +144,7 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 5}
             >
-              <ListItemText primary={`Publish(${totalProductCount?.publishCount})`} />
+              <ListItemText primary={`Published(${totalProductCount?.publishCount})`} />
             </ListItem>
           </List>
         </Collapse>

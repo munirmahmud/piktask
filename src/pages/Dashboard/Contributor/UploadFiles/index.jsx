@@ -236,7 +236,7 @@ const UploadFiles = () => {
 
   const handleUpload = async (e) => {
     if (files.length === 0) {
-      toast.error("Sorry, you did not upload any files.", { autoClose: 2200 });
+      toast.error("Sorry, you did not upload any files.", { autoClose: 1500 });
       return;
     }
     disableUploadButton = true;
@@ -268,7 +268,7 @@ const UploadFiles = () => {
 
     files?.map((file) => {
       if (
-        (file.name.match(/\.(jpg|jpeg|png|gif)$/) && file.size < 524288) ||
+        (file.name.match(/\.(jpg|jpeg|png|gif)$/) && file.size < 104858) ||
         file.size > 83886080 ||
         (file.name.match(/\.(eps)$/) && file.size > 83886080) ||
         (file.name.match(/\.(psd)$/) && file.size < 1572864)
@@ -301,7 +301,7 @@ const UploadFiles = () => {
     return files?.map((file, index) => {
       return (
         <div className="files-wrapper" key={file.name}>
-          {(file.name.match(/\.(jpg|jpeg|png|gif)$/) && file.size < 524288) ||
+          {(file.name.match(/\.(jpg|jpeg|png|gif)$/) && file.size < 104858) ||
           file.size > 83886080 ||
           (file.name.match(/\.(eps)$/) && file.size > 83886080) ||
           (file.name.match(/\.(psd)$/) && file.size < 1572864) ? (

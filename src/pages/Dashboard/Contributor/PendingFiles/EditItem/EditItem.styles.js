@@ -47,6 +47,20 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     objectFit: "cover",
   },
+  closeIcon: {
+    cursor: "pointer",
+    color: "#000",
+    backgroundColor: "#ddd",
+    position: "absolute",
+    top: "8.1rem",
+  
+    "& svg": {
+      fontSize: "2rem",
+    },
+    // "&:hover": {
+    //   color: "#FB5252",
+    // },
+  },
   fieldGroup: {
     marginBottom: "1rem",
     width: "100%",

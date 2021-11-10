@@ -36,9 +36,9 @@ const Product = ({ photo = null }) => {
   const [isLike, setLike] = useState(false);
 
   const handleLikeBtn = () => {
-    if (!user.isLoggedIn) {
+    if (!user?.isLoggedIn && !user?.role === "user") {
       setOpenAuthModal(true);
-    } else if (user?.id !== photo?.user_id && user?.isLoggedIn) {
+    } else if (user?.id !== photo?.user_id && user?.isLoggedIn && user?.role === "user") {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/images/${photo?.image_id}/like`,
@@ -50,7 +50,7 @@ const Product = ({ photo = null }) => {
             setLike(true);
             setLikeCount((prevState) => prevState + 1);
           } else if (!data?.status) {
-            toast.error(data.message, { autoClose: 500,});
+            toast.error(data.message, { autoClose: 1500,});
             setLike(true);
           } else {
             console.log("Something wrong with the like");

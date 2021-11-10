@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   ButtoncrownIcon: {
-    width: "1.7rem",
+    fontSize: "2rem",
     marginRight: ".8rem",
   },
   notFoundSection: {

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getBaseURL } from "../../../../../helpers";
 import useStyles from "./EditItem.styles";
+import CloseIcon from "@material-ui/icons/Close";
 
 const EditItem = (props) => {
   const classes = useStyles();
@@ -110,6 +111,11 @@ const EditItem = (props) => {
     setOpenModal(false);
   };
 
+  const handleDeleteItem = (id) => {
+    setSelectedProducts(products.filter((item) => item.token_id !== id));
+    return;
+  }
+
   return (
     <div className={classes.editItemWrapper}>
       <form
@@ -131,6 +137,9 @@ const EditItem = (props) => {
                   }
                   alt={product?.original_name}
                 />
+                <div className={classes.closeIcon}>
+                  <CloseIcon onClick={() => handleDeleteItem(product?.token_id)} />
+              </div>
               </div>
             ))}
         </div>

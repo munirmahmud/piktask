@@ -137,7 +137,7 @@ const Publish = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/contributor/earning/images/?start=${fromDates}&end=${toDates}&limit=${limit}&page=${pageCount}`,
+          `${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${fromDates}&end=${toDates}&limit=${limit}&page=${pageCount}`,
           { headers: { Authorization: user?.token }, }
         )
         .then(({ data }) => {
@@ -381,7 +381,7 @@ const Publish = () => {
                                         className={`${classes.tableCell} ${classes.authProductWrapper}`}
                                       >
                                         <Link
-                                          to={`/images/${product?.title.replace(/ /g, "_")}&id=${product?.id}`}
+                                          to={`/images/${product?.title.toLowerCase().replace(/\s/g , "-")}&id=${product?.id}`}
                                         >
                                           <img
                                             className={classes.publishImg}

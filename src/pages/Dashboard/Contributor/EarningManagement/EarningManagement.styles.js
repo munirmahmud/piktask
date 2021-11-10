@@ -32,6 +32,20 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     border: ".2rem solid",
     borderColor: "#0088f2",
+    marginRight: "1rem",
+    transition: "all 0.3s linear",
+    "&:hover": {
+      backgroundColor: "#0773c5",
+      borderColor: "#0773c5",
+      color: "#fff",
+    },
+  },
+  withdrawHistoryBtn: {
+    padding: "0.2rem 3.5rem",
+    // backgroundColor: "#0088f2",
+    color: "#0088f2",
+    border: ".2rem solid",
+    borderColor: "#0088f2",
     transition: "all 0.3s linear",
     "&:hover": {
       backgroundColor: "#0773c5",

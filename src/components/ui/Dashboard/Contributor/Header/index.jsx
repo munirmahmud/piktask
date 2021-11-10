@@ -20,6 +20,7 @@ import CustomPopper from "../../../CustomPopper";
 import { getBaseURL } from "../../../../../helpers";
 import MobileSidebarMenu from "../Sidebar/MobileSidebarMenu";
 import useStyles from "./AdminHeader.styles";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const customStyles = makeStyles({
   menuWrapper: {
@@ -172,11 +173,12 @@ const AdminHeader = () => {
                   component={Link}
                   to="/contributor/upload"
                 >
-                  <img
+                  {/* <img
                     className={classes.ButtoncrownIcon}
                     src={crownIcon}
                     alt="Upload"
-                  />
+                  /> */}
+                   <CloudUploadIcon className={classes.ButtoncrownIcon} />
                   Upload
                 </Button>
               </div>

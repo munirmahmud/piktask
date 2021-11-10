@@ -334,17 +334,13 @@ const EarningManagement = () => {
               <div>
                 <Button
                   className={classes.withdrawBtn}
-                  onClick={() => {
-                    handleWithdrawInfo();
-                  }}
+                  onClick={() => handleWithdrawInfo()}
                 >
                   Withdraw
                 </Button>
                 <Button
-                  className={classes.withdrawBtn}
-                  onClick={() => {
-                    handleWithdrawInfo();
-                  }}
+                  className={classes.withdrawHistoryBtn}
+                  to="#!"
                 >
                   Withdraw History
                 </Button>
