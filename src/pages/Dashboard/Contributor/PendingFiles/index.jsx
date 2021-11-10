@@ -1,7 +1,6 @@
 import {
   Button,
   Card,
-  CardContent,
   Drawer,
   Grid,
   Typography,
@@ -38,11 +37,12 @@ const PendingFiles = () => {
   const [isLoading, setLoading] = useState(true);
   const [addProductDetails, setAddProductDetails] = useState(false);
   const [successProduct, setSuccessProduct] = useState(false);
+  const [productsSubmitted, setProductsSubmitted] = useState(false);
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
 
-  let limit = 12;
+  let limit = 36;
   const count = Math.ceil(totalProduct / limit);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
@@ -62,6 +62,7 @@ const PendingFiles = () => {
   useEffect(() => {
     setAddProductDetails(!true);
     setSuccessProduct(!true);
+    setProductsSubmitted(!true);
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(
@@ -90,6 +91,7 @@ const PendingFiles = () => {
     successProduct,
     pageCount,
     limit,
+    productsSubmitted,
   ]);
 
   const handleDelete = (image_id) => {
@@ -179,21 +181,14 @@ const PendingFiles = () => {
           data: { images: token_ids },
         });
         if (response.data?.status) {
-          // const index = pendingProducts.findIndex((item) => item.token_id === image_id);
-          // pendingProducts.forEach(element => {
-          //   if(element.is_save === 1){
-          //     console.log("element", element.token_id);
-          //     // pendingProducts.splice(element.token_id, 1);
-          //     // setPendingProducts([...pendingProducts]);
-          //   }
-          // });
-          // const index = pendingProducts.map((item) => item);
-          // console.log("index", index);
-          // pendingProducts.splice(index, 1);
-          // setPendingProducts([...pendingProducts]);
-          toast.success(
-            response.data?.message || "Image submitted successfully"
-          );
+          pendingProducts.forEach(element => {
+            if(element.is_save === 1){
+              setProductsSubmitted(pendingProducts);
+            }
+          });
+          // setPendingProducts(pendingProducts.find((item) => item.is_save === 1));
+          // setPendingProducts(pendingProducts.map((item) => item.is_save === 1));
+          toast.success(response.data?.message || "Image submitted successfully");
         }
       } catch (error) {
         console.log("Submit image", error);
@@ -296,7 +291,7 @@ const PendingFiles = () => {
                             }
                             alt={product?.original_name}
                           />
-                          <CardContent>
+                          <div className={classes.productInfo}>
                             <Typography variant="h3">
                               {product?.original_name}
                             </Typography>
@@ -304,7 +299,7 @@ const PendingFiles = () => {
                               File Size:{" "}
                               {(product.size / 1024 / 1024).toFixed(2)} MB
                             </Typography>
-                          </CardContent>
+                          </div>
                         </Card>
                       </Grid>
                   ))

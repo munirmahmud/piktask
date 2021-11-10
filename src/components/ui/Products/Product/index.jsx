@@ -135,8 +135,8 @@ const Product = ({ photo = null }) => {
               title={photo.title}
             >
               <Typography variant="h2" className={classes.title}>
-                {titleLength?.length > 6 ? (
-                  <>{getWords(6, photo?.title)}...</>
+                {titleLength?.length > 5 ? (
+                  <>{getWords(5, photo?.title)}...</>
                 ) : (
                   <>{photo?.title}</>
                 )}

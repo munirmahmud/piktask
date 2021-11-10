@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   productItem: {
     width: 96,
+    position: "relative",
     "& img": {
       width: "100%",
       height: "7rem",
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#000",
     backgroundColor: "#ddd",
     position: "absolute",
-    top: "8.1rem",
+    top: 0,
   
     "& svg": {
       fontSize: "2rem",
@@ -200,13 +201,11 @@ const useStyles = makeStyles((theme) => ({
 
       "& svg": {
         marginLeft: 5,
+        cursor: "pointer",
       },
 
       "&:hover": {
         background: "#F2F2F2",
-      },
-      "& svg": {
-        cursor: "pointer",
       },
     },
   },

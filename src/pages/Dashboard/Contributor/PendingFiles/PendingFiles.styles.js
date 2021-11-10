@@ -141,6 +141,9 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "1.2rem",
     },
   },
+  productInfo: {
+    padding: "1rem 0",
+  },
   btnWrapper: {
     position: "absolute",
     top: "1.5rem",

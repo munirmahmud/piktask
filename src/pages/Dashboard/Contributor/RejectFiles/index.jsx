@@ -35,7 +35,7 @@ const RejectFiles = () => {
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
   
-  let limit = 12;
+  let limit = 36;
   const count = Math.ceil(totalProduct / limit);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });

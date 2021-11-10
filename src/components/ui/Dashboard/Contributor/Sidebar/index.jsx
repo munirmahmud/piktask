@@ -62,10 +62,6 @@ const Sidebar = () => {
     setOpen(!open);
   };
 
-  const handleProductItem = () => {
-    console.log("click");
-  }
-
   return (
     <aside className={classes.sidebarWrapper}>
       <div className={classes.logoWrapper}>
@@ -97,11 +93,10 @@ const Sidebar = () => {
             selected: classes.selectedItem,
           }}
           className={classes.dropdownMenu}
-          onClick={() => {handleClick(); handleProductItem()}}
+          onClick={() => handleClick()}
           component={Link}
           to="/contributor/upload"
           selected={value === 1}
-          // onClick={handleProductItem}
         >
           <CloudUploadIcon />
           <ListItemText primary="Files" />
