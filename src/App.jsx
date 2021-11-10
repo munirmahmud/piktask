@@ -16,6 +16,7 @@ const Publish = lazy(() => import("./pages/dashboard/contributor/Publish"));
 const JoinNow = lazy(() => import("./pages/dashboard/contributor/JoinNow"));
 const Revision = lazy(() => import("./pages/dashboard/contributor/Revision"));
 const GuidLine = lazy(() => import("./pages/dashboard/contributor/GuidLine"));
+const WithdrawHistory = lazy(() => import("./pages/dashboard/contributor/WithdrawHistory"));
 const UploadFiles = lazy(() =>
   import("./pages/dashboard/contributor/UploadFiles")
 );
@@ -190,6 +191,7 @@ const App = () => {
             component={ContributorPricePlan}
           />
           <Route exact path="/contributor/guidLine" component={GuidLine} />
+          <Route exact path="/contributor/withdraw-history" component={WithdrawHistory} />
           <Route
             exact
             path="/contributor/settings"
