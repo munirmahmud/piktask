@@ -138,15 +138,21 @@ const AdminHeader = () => {
                       user?.role === "contributor" &&
                       user?.avatar &&
                       user?.avatar !== "null" ? (
-                        <img
-                          className={classes.adminPhoto}
-                          src={
-                            getBaseURL().bucket_base_url +
-                            getBaseURL().profiles +
-                            user?.avatar
-                          }
-                          alt="UserPhoto"
-                        />
+                        <>
+                          {user?.avatar_from === "own" ? (
+                            <img
+                              className={classes.avatar}
+                              src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
+                              alt="UserPhoto"
+                            />
+                          ) : (
+                            <img
+                              className={classes.avatar}
+                              src={user?.avatar}
+                              alt="UserPhoto"
+                            />
+                          )}
+                        </>
                       ) : (
                         <AccountCircleIcon className={classes.avatar} />
                       )}
@@ -198,15 +204,21 @@ const AdminHeader = () => {
                     user?.role === "contributor" &&
                     user?.avatar &&
                     user?.avatar !== "null" ? (
-                      <img
-                        className={classes.adminPhoto}
-                        src={
-                          getBaseURL().bucket_base_url +
-                          getBaseURL().profiles +
-                          user?.avatar
-                        }
-                        alt="UserPhoto"
-                      />
+                      <>
+                        {user?.avatar_from === "own" ? (
+                          <img
+                            className={classes.avatar}
+                            src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
+                            alt="UserPhoto"
+                          />
+                        ) : (
+                          <img
+                            className={classes.avatar}
+                            src={user?.avatar}
+                            alt="UserPhoto"
+                          />
+                        )}
+                      </>
                     ) : (
                       <AccountCircleIcon className={classes.avatar} />
                     )}

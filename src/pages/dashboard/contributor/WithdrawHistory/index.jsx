@@ -88,7 +88,7 @@ const WithdrawHistory = () => {
                           <TableRow className={classes.tableRowContent}>
                             <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
                             <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Lorem ipsum dolor sit amet.</TableCell>
+                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
                             <TableCell className={classes.tableCell}>(No reason)</TableCell>
                           </TableRow>
                         </TableBody>
@@ -96,7 +96,7 @@ const WithdrawHistory = () => {
                           <TableRow className={classes.tableRowContent}>
                             <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
                             <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Lorem ipsum dolor sit amet.</TableCell>
+                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
                             <TableCell className={classes.tableCell}>(No reason)</TableCell>
                           </TableRow>
                         </TableBody>
@@ -104,7 +104,7 @@ const WithdrawHistory = () => {
                           <TableRow className={classes.tableRowContent}>
                             <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
                             <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Lorem ipsum dolor sit amet.</TableCell>
+                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
                             <TableCell className={classes.tableCell}>(No reason)</TableCell>
                           </TableRow>
                         </TableBody>
@@ -112,7 +112,7 @@ const WithdrawHistory = () => {
                           <TableRow className={classes.tableRowContent}>
                             <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
                             <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Lorem ipsum dolor sit amet.</TableCell>
+                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
                             <TableCell className={classes.tableCell}>(No reason)</TableCell>
                           </TableRow>
                         </TableBody>
@@ -120,7 +120,7 @@ const WithdrawHistory = () => {
                           <TableRow className={classes.tableRowContent}>
                             <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
                             <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Lorem ipsum dolor sit amet.</TableCell>
+                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
                             <TableCell className={classes.tableCell}>(No reason)</TableCell>
                           </TableRow>
                         </TableBody>
@@ -128,7 +128,7 @@ const WithdrawHistory = () => {
                           <TableRow className={classes.tableRowContent}>
                             <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
                             <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Lorem ipsum dolor sit amet.</TableCell>
+                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
                             <TableCell className={classes.tableCell}>(No reason)</TableCell>
                           </TableRow>
                         </TableBody>

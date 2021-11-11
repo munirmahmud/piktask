@@ -42,6 +42,17 @@ const useStyles = makeStyles((theme) => ({
       // },
     },
   },
+  contentWrapper: {
+    "& h3": {
+      fontSize: "1.5rem",
+      fontWeight: 500,
+      margin: "1rem 0",
+      color: "#143340",
+    },
+    "& p": {
+      fontSize: "1.4rem",
+    },
+  },
   actionBtn: {
     ...theme.typography.button,
     padding: ".2rem 2rem",

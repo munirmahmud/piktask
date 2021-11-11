@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0.5rem 1.4rem",
     fontSize: "1.4rem",
     border: "2px solid",
+    marginTop: "1.5rem",
     borderColor: "transparent",
     transition: "all 0.3s linear",
     "&:hover": {

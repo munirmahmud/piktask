@@ -82,7 +82,7 @@ const SingleProductDetails = () => {
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  let limit = 12;
+  let limit = 32;
   const count = Math.ceil(totalProduct / limit);
 
   const handleTooltipClose = () => {
@@ -201,9 +201,15 @@ const SingleProductDetails = () => {
             setFollowing(!isFollowing);
             setLoading(false);
           }
-        });
+        })
+        .catch((error) => console.log("Followers error: ", error));
     } else {
-      toast.error("You can't follow yourself", { autoClose: 1500 });
+      if(user?.isLoggedIn && user?.role === "contributor"){
+        toast.error("Please, login as a user", { autoClose: 1500 });
+      } else {
+        // setOpenAuthModal(true);
+        toast.error("You can't follow yourself", { autoClose: 1500 });
+      }
     }
   };
 
@@ -240,7 +246,11 @@ const SingleProductDetails = () => {
         })
         .catch((error) => console.log("Like error: ", error));
     } else {
-      toast.error("You can't like yourself", { autoClose: 1500 });
+      if(user?.isLoggedIn && user?.role === "contributor"){
+        toast.error("Please, login as a user", { autoClose: 1500 });
+      } else {
+        toast.error("You can't like yourself", { autoClose: 1500 });
+      }
     }
   };
 
@@ -297,7 +307,9 @@ const SingleProductDetails = () => {
       })
       .catch((error) => {
         console.log("catch", error.response);
-        if (user?.isLoggedIn) {
+        if(user?.isLoggedIn && user?.role === "contributor"){
+          toast.error("Please, login as a user", { autoClose: 1500 });
+        } else if (user?.isLoggedIn && user?.role === "user") {
           toast.error(error.response.data.message, { autoClose: 1500 });
         } else {
           toast.error(error.response.data.message, { autoClose: 1500 });

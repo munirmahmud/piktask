@@ -19,7 +19,7 @@ const TotalCountHistory = () => {
         )
         .then(({ data }) => {
           if (data?.status) {
-            setTotalSummery(data?.summery);
+            setTotalSummery(data?.total_summery);
           }
         });
     }
@@ -32,9 +32,15 @@ const TotalCountHistory = () => {
           <Card className={classes.cardWrapper}>
             <div className={classes.graphBox}>
               <div className={classes.amount}>
-                {totalSummary?.total_earning}$
+                ${totalSummary?.total_earning}
               </div>
               <span className={classes.title}>Total Earning</span>
+            </div>
+            <div className={classes.graphBox}>
+              <div className={classes.amount}>
+                ${totalSummary?.balance}
+              </div>
+              <span className={classes.title}>Total Balance</span>
             </div>
             <div className={classes.graphBox}>
               <span

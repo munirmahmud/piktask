@@ -18,6 +18,7 @@ const EditItem = (props) => {
     setSelectedProducts,
     setAddProductDetails,
     pendingProducts,
+    setSuccessProduct
   } = props;
 
   const [categoryName, setCategoryName] = useState("");
@@ -47,6 +48,8 @@ const EditItem = (props) => {
   products.forEach((element) => {
     images.push(element.token_id);
   });
+
+  console.log("products", products);
 
   const handleProductSubmit = async (e) => {
     e.preventDefault();
@@ -91,19 +94,25 @@ const EditItem = (props) => {
           setTitle("");
           setTagsValue([]);
           setAddProductDetails(pendingProducts);
+          products.forEach(element => {
+            if(element.isSelected === true){
+              // element.isSelected = false;
+              setSuccessProduct(element.isSelected = false);
+            }
+          });
           toast.success(
             response.data.message || "Product update successfully",
-            { autoClose: 500 }
+            { autoClose: 1500 }
           );
         }
       } catch (error) {
         if (error.response?.data?.errors) {
           Object.entries(error.response.data.errors).forEach(([key, value]) => {
             console.log(`${key} ${value}`);
-            toast.error(value, { autoClose: 500 });
+            toast.error(value, { autoClose: 1500 });
           });
         } else if (error.response?.data?.message) {
-          toast.error(error.response.data.message, { autoClose: 500 });
+          toast.error(error.response.data.message, { autoClose: 1500 });
         }
       }
     }

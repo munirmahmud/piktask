@@ -186,8 +186,6 @@ const PendingFiles = () => {
               setProductsSubmitted(pendingProducts);
             }
           });
-          // setPendingProducts(pendingProducts.find((item) => item.is_save === 1));
-          // setPendingProducts(pendingProducts.map((item) => item.is_save === 1));
           toast.success(response.data?.message || "Image submitted successfully");
         }
       } catch (error) {
@@ -206,9 +204,9 @@ const PendingFiles = () => {
           <AdminHeader />
           <div className={classes.dashboardGridContainer}>
             <div className={classes.headingWrapper}>
-              <div>
+              <div className={classes.contentWrapper}>
                 <Heading tag="h2">Not yet submitted</Heading>
-                <Typography variant="h5">This is your first upload!</Typography>
+                <Typography variant="h3">This is your first upload!</Typography>
                 <Typography>Upload and send your 20 best resources. Our team will review them to ensure they <br /> meet our requirements, so make sure they show your true potential.</Typography>
               </div>
               <div>

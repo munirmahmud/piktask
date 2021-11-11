@@ -45,7 +45,7 @@ const Publish = () => {
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  let limit = 4;
+  let limit = 30;
   const count = Math.ceil(totalProduct / limit);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
@@ -104,9 +104,7 @@ const Publish = () => {
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${today}&end=${today}&limit=${limit}&page=${pageCount}`,
-          {
-            headers: { Authorization: user?.token },
-          }
+          { headers: { Authorization: user?.token },}
         )
         .then(({ data }) => {
           if (data?.images.length > 0) {
@@ -348,44 +346,44 @@ const Publish = () => {
                 >
                   <Card className={classes.cardRoot}>
                     <CardContent className={classes.productCard}>
-                      <TableContainer
-                        className={classes.tableContainer}
-                        component={Paper}
-                      >
-                        <Table
-                          className={classes.table}
-                          aria-label="publish data table"
+                      {allPublishProduct?.length > 0 ? (
+                        <TableContainer
+                          className={classes.tableContainer}
+                          component={Paper}
                         >
-                          <TableHead>
-                            <TableRow className={classes.tableHead}>
-                              <TableCell
-                                className={classes.tableCell}
-                              ></TableCell>
-                              <TableCell
-                                style={{ textAlign: "left" }}
-                                className={classes.tableCell}
-                              >
-                                Title
-                              </TableCell>
-                              <TableCell className={classes.tableCell}>
-                                Type
-                              </TableCell>
-                              <TableCell className={classes.tableCell}>
-                                Like
-                              </TableCell>
-                              <TableCell className={classes.tableCell}>
-                                Download
-                              </TableCell>
-                              <TableCell className={classes.tableCell}>
-                                Earning
-                              </TableCell>
-                              <TableCell className={classes.tableCell}>
-                                Date
-                              </TableCell>
-                            </TableRow>
-                          </TableHead>
-                          {allPublishProduct?.length > 0 ? (
-                            allPublishProduct?.map((product) => (
+                          <Table
+                            className={classes.table}
+                            aria-label="publish data table"
+                          >
+                            <TableHead>
+                              <TableRow className={classes.tableHead}>
+                                <TableCell
+                                  className={classes.tableCell}
+                                ></TableCell>
+                                <TableCell
+                                  style={{ textAlign: "left" }}
+                                  className={classes.tableCell}
+                                >
+                                  Title
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                  Type
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                  Like
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                  Download
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                  Earning
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                  Date
+                                </TableCell>
+                              </TableRow>
+                            </TableHead>
+                            {allPublishProduct?.map((product) => (
                               <TableBody key={product?.id}>
                                 <TableRow
                                   key={product?.id}
@@ -446,20 +444,20 @@ const Publish = () => {
                                   </TableCell>
                                 </TableRow>
                               </TableBody>
-                            ))
-                          ) : (
-                            <ProductNotFound contributorProductNotFound />
-                          )}
-                        </Table>
-                        {totalProduct > limit && (
-                          <Paginations
-                            locationPath={locationPath}
-                            count={count}
-                            pageCount={pageCount}
-                            setPageCount={setPageCount}
-                          />
-                        )}
-                      </TableContainer>
+                            ))}
+                          </Table>
+                        </TableContainer>
+                      ) : (
+                        <ProductNotFound publishContent contributorProductNotFound />
+                      )}
+                      {totalProduct > limit && (
+                        <Paginations
+                          locationPath={locationPath}
+                          count={count}
+                          pageCount={pageCount}
+                          setPageCount={setPageCount}
+                        />
+                      )}
                     </CardContent>
                   </Card>
                 </Grid>

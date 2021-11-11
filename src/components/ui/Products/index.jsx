@@ -39,20 +39,19 @@ const Products = (props) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  const { category, count, showHeading } = props;
+  const { category, count, showHeading, piktaskCollection } = props;
   const [images, setImages] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const [piktaskProduct, setPiktaskProduct] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   // Data load
   useEffect(() => {
-    setLoading(true);
-
     let categoryURL;
 
     if (user?.id && user?.role === "user") {
-      categoryURL = `${process.env.REACT_APP_API_URL}/categories/${category?.id}?user_id=${user?.id}&limit=8`;
+      categoryURL = `${process.env.REACT_APP_API_URL}/categories/${category?.id}?user_id=${user?.id}`;
     } else {
-      categoryURL = `${process.env.REACT_APP_API_URL}/categories/${category?.id}?limit=8`;
+      categoryURL = `${process.env.REACT_APP_API_URL}/categories/${category?.id}`;
     }
     if (category) {
       axios.get(categoryURL).then(({ data }) => {
@@ -73,48 +72,121 @@ const Products = (props) => {
     }
   }, [dispatch, category, user?.id, user?.role]);
 
+ 
+  useEffect(() => {
+    let categoryURL;
+
+    if (user?.id && user?.role === "user") {
+      categoryURL = `${process.env.REACT_APP_API_URL}/categories/53?user_id=${user?.id}`;
+    } else {
+      categoryURL = `${process.env.REACT_APP_API_URL}/categories/53`;
+    }
+    axios.get(categoryURL).then(({ data }) => {
+      if (data?.status) {
+        setPiktaskProduct(data?.category_image);
+        setLoading(false);
+      }
+    });
+  }, [user?.id, user?.role]);
+
+
   return (
     <>
-      {images.length !== 0 && showHeading && (
-        <SectionHeading title={category?.name} large>
-          <Button
-            className={classes.headingButton}
-            component={Link}
-            to={`category/${category?.slug}`}
-          >
-            See More
-          </Button>
-        </SectionHeading>
-      )}
+      {piktaskCollection ? (
+        <>
+          {piktaskProduct.length !== 0 &&  (
+            <SectionHeading title="Piktask Collection" large>
+              <Button
+                className={classes.headingButton}
+                component={Link}
+                to={"category/piktask-collection"}
+              >
+                See More
+              </Button>
+            </SectionHeading>
+          )}
 
-      <Grid classes={{ container: classes.container }} container spacing={2}>
-        {isLoading ? (
-          <Loader item={images} />
-        ) : (
-          <>
-            {images.length ? (
-              images?.slice(0, count).map((photo) => (
-                <Grid
-                  key={photo?.image_id}
-                  item
-                  xs={6}
-                  sm={4}
-                  md={3}
-                  className={classes.productItem}
-                >
-                  <Product
-                    key={photo?.image_id}
-                    catId={category?.id}
-                    photo={photo}
-                  />
-                </Grid>
-              ))
+          <Grid
+            classes={{ container: classes.container }}
+            container
+            spacing={2}
+          >
+            {isLoading ? (
+              <Loader item={images} />
             ) : (
-              <ProductNotFound />
+              <>
+                {piktaskProduct.length ? (
+                  piktaskProduct?.slice(0, 16).map((photo) => (
+                    <Grid
+                      key={photo?.image_id}
+                      item
+                      xs={6}
+                      sm={4}
+                      md={3}
+                      className={classes.productItem}
+                    >
+                      <Product
+                        key={photo?.image_id}
+                        catId={piktaskProduct?.id}
+                        photo={photo}
+                      />
+                    </Grid>
+                  ))
+                ) : (
+                  <ProductNotFound />
+                )}
+              </>
             )}
-          </>
-        )}
-      </Grid>
+          </Grid>
+        </>
+      ) : (
+        <>
+          {images.length !== 0 && showHeading && (
+            <SectionHeading title={category?.name} large>
+              <Button
+                className={classes.headingButton}
+                component={Link}
+                to={`category/${category?.slug}`}
+              >
+                See More
+              </Button>
+            </SectionHeading>
+          )}
+
+          <Grid
+            classes={{ container: classes.container }}
+            container
+            spacing={2}
+          >
+            {isLoading ? (
+              <Loader item={images} />
+            ) : (
+              <>
+                {images.length ? (
+                  images?.slice(0, count).map((photo) => (
+                    <Grid
+                      key={photo?.image_id}
+                      item
+                      xs={6}
+                      sm={4}
+                      md={3}
+                      className={classes.productItem}
+                    >
+                      <Product
+                        key={photo?.image_id}
+                        catId={category?.id}
+                        photo={photo}
+                      />
+                    </Grid>
+                  ))
+                ) : (
+                  <ProductNotFound />
+                )}
+              </>
+            )}
+          </Grid>
+        </>
+      )}
     </>
   );
 };

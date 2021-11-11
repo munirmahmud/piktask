@@ -187,7 +187,7 @@ const App = () => {
           />
           <Route
             exact
-            path="/contributor/contributorPricePlan"
+            path="/contributor/contributor-price-plan"
             component={ContributorPricePlan}
           />
           <Route exact path="/contributor/guidLine" component={GuidLine} />

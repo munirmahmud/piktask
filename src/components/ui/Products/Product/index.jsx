@@ -55,7 +55,15 @@ const Product = ({ photo = null }) => {
           } else {
             console.log("Something wrong with the like");
           }
-        });
+        })
+        .catch((error) => console.log("Like error: ", error));
+    } else {
+      if(user?.isLoggedIn && user?.role === "contributor"){
+        toast.error("Please, login as a user", { autoClose: 1500 });
+      } else {
+        toast.error("You can't Like yourself", { autoClose: 1500 });
+        setOpenAuthModal(true);
+      }
     }
   };
 
