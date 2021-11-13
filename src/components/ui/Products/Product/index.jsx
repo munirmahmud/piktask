@@ -72,8 +72,6 @@ const Product = ({ photo = null }) => {
   };
 
   function pikTaskEncodeURI(data) {
-    window.scrollTo(0, 0);
-
     if (data) {
       return encodeURI(
         `/images/${data?.title.toLowerCase().trim().replace(/\s/g, "-")}&id=${

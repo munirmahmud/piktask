@@ -96,6 +96,7 @@ const SingleProductDetails = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     // Match image ID
     axios
       .get(`${process.env.REACT_APP_API_URL}/images/${imageID}`)
@@ -274,14 +275,14 @@ const SingleProductDetails = () => {
       if (user?.role === "user") {
         downloadAPI.headers = { Authorization: user?.token };
       } else {
-        setRole(e.target.value);
+        setRole(e.target.closest("button").value);
         setOpenAuthModal(true);
         return;
       }
     }
+
     axios(downloadAPI)
       .then(({ data }) => {
-        console.log("download file", data);
         if (data?.url) {
           setButtonLoading(true);
           axios
@@ -311,14 +312,13 @@ const SingleProductDetails = () => {
         }
       })
       .catch((error) => {
-        console.log("catch", error.response);
         if (user?.isLoggedIn && user?.role === "contributor") {
           toast.error("Please, login as a user", { autoClose: 1500 });
         } else if (user?.isLoggedIn && user?.role === "user") {
           toast.error(error.response.data.message, { autoClose: 1500 });
         } else {
           toast.error(error.response.data.message, { autoClose: 1500 });
-          setRole(e.target.value);
+          setRole(e.target.closest("button").value);
           setOpenAuthModal(true);
         }
       });
@@ -667,6 +667,7 @@ const SingleProductDetails = () => {
                           )}
                     </div>
                   </div>
+
                   {user?.id !== imageDetails?.user_id && (
                     <>
                       {!isLike ? (
