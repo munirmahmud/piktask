@@ -281,6 +281,7 @@ const SingleProductDetails = () => {
     }
     axios(downloadAPI)
       .then(({ data }) => {
+        console.log("download file", data);
         if (data?.url) {
           setButtonLoading(true);
           axios
@@ -293,7 +294,9 @@ const SingleProductDetails = () => {
               link.href = url;
               link.setAttribute(
                 "download",
-                `${imageDetails?.title.replace(/\s/g, "-")}.${data?.extension}`
+                `${imageDetails?.title.trim().replace(/\s/g, "-")}.${
+                  data?.extension
+                }`
               );
               document.body.appendChild(link);
               link.click();
@@ -336,237 +339,238 @@ const SingleProductDetails = () => {
   };
 
   return (
-    <Layout
-      title={`${imageDetails?.title} | Piktask`}
-      description={`${imageDetails?.description} || Piktask`}
-    >
-      <Header />
-      <HeroSection size="medium" />
-      <Container className={classes.containerWrapper}>
-        <Grid
-          container
-          spacing={4}
-          classes={{ container: classes.itemDetailsContainer }}
-        >
-          <Grid item md={7} sm={6} xs={12} className={classes.productColumn}>
-            <div className={classes.imageWrapper}>
-              <img
-                title={imageDetails.title}
-                className={classes.image}
-                src={encodeURI(
-                  getBaseURL().bucket_base_url +
-                    getBaseURL().images +
-                    imageDetails?.preview
-                )}
-                alt={imageDetails?.original_name}
-              />
-            </div>
-          </Grid>
-          <Grid item md={5} sm={6} xs={12} className={classes.productColumn}>
-            <div className={classes.productDetails}>
-              <Typography className={classes.title} variant="h2">
-                {imageDetails?.title}
-              </Typography>
-
-              <div className={classes.buttons}>
-                <Typography className={classes.creationDate}>
-                  {imageDetails?.creation_ago}
-                </Typography>
-                <Button className={classes.button} onClick={handleClickOpen}>
-                  <img
-                    className={classes.buttonIcon}
-                    src={shareIcon}
-                    alt="Share"
-                  />
-                  Share
-                </Button>
-                <ClickAwayListener onClickAway={handleTooltipClose}>
-                  <div>
-                    <Tooltip
-                      PopperProps={{
-                        disablePortal: true,
-                      }}
-                      onClose={handleTooltipClose}
-                      open={openCopyLink}
-                      placement="top"
-                      arrow
-                      leaveDelay={1500}
-                      title="Copied successfully!"
-                      classes={{ tooltip: classes.tooltip }}
-                    >
-                      <Button
-                        className={classes.button}
-                        onClick={() => handleCopyUrl()}
-                      >
-                        <img
-                          className={classes.buttonIcon}
-                          src={copyIcon}
-                          alt="Copy Link"
-                        />
-                        Copy Link
-                      </Button>
-                    </Tooltip>
-                  </div>
-                </ClickAwayListener>
+    <>
+      <Layout
+        title={`${imageDetails?.title} | Piktask`}
+        description={`${imageDetails?.description} || Piktask`}
+      >
+        <Header />
+        <HeroSection size="medium" />
+        <Container className={classes.containerWrapper}>
+          <Grid
+            container
+            spacing={4}
+            classes={{ container: classes.itemDetailsContainer }}
+          >
+            <Grid item md={7} sm={6} xs={12} className={classes.productColumn}>
+              <div className={classes.imageWrapper}>
+                <img
+                  title={imageDetails.title}
+                  className={classes.image}
+                  src={encodeURI(
+                    getBaseURL().bucket_base_url +
+                      getBaseURL().images +
+                      imageDetails?.preview
+                  )}
+                  alt={imageDetails?.original_name}
+                />
               </div>
+            </Grid>
+            <Grid item md={5} sm={6} xs={12} className={classes.productColumn}>
+              <div className={classes.productDetails}>
+                <Typography className={classes.title} variant="h2">
+                  {imageDetails?.title}
+                </Typography>
 
-              <Grid container className={classes.detailsContainer}>
-                <Grid item xs={6} className={classes.gridItem}>
-                  <div className={classes.singleItem}>
-                    <Typography>
-                      <strong>Image ID: </strong>
-                      {imageDetails?.id}
-                    </Typography>
-                    <Typography>
-                      <strong>Image Size </strong>
-                      {imageDetails?.height} x {imageDetails?.width}
-                    </Typography>
-                  </div>
-                  <div className={classes.singleItem}>
-                    <Typography>
-                      <strong>Copyright Information: </strong>
-                      <br />
-                      Piktask
-                    </Typography>
-                  </div>
-                </Grid>
-
-                <Grid item xs={6} className={classes.gridItem}>
-                  <div className={classes.singleItem}>
-                    <Typography>
-                      <strong>Created: </strong>
-                      {moment(imageDetails?.createdAt).format("LL")}
-                    </Typography>
-                    <Typography>
-                      <strong>Category: </strong>
-                      {imageDetails?.category?.name}
-                    </Typography>
-                  </div>
-                  <div className={classes.singleItem}>
-                    <Typography>
-                      <strong>Scope of authorization: </strong>
-                      personal/enterprise
-                    </Typography>
-                  </div>
-                </Grid>
-              </Grid>
-
-              <Grid container>
-                <Grid item style={{ display: "flex", alignItems: "center" }}>
-                  <Typography>Share: </Typography>
-                  <div>
-                    <PinterestShareButton url={shareUrl} media={imageLink}>
-                      <PinterestIcon
-                        size={25}
-                        style={{ marginLeft: "1rem", cursor: "pointer" }}
-                        round={true}
-                      />
-                    </PinterestShareButton>
-
-                    <EmailShareButton url={shareUrl}>
-                      <EmailIcon
-                        size={25}
-                        style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                        round={true}
-                      />
-                    </EmailShareButton>
-
-                    <FacebookShareButton url={shareUrl}>
-                      <FacebookIcon
-                        size={25}
-                        style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                        round={true}
-                      />
-                    </FacebookShareButton>
-
-                    <FacebookMessengerShareButton url={shareUrl}>
-                      <FacebookMessengerIcon
-                        size={25}
-                        style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                        round={true}
-                      />
-                    </FacebookMessengerShareButton>
-
-                    <TwitterShareButton url={shareUrl}>
-                      <TwitterIcon
-                        size={25}
-                        style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                        round={true}
-                      />
-                    </TwitterShareButton>
-
-                    <LinkedinShareButton url={shareUrl}>
-                      <LinkedinIcon
-                        size={25}
-                        style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                        round={true}
-                      />
-                    </LinkedinShareButton>
-
-                    <TelegramShareButton url={shareUrl}>
-                      <TelegramIcon
-                        size={25}
-                        style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                        round={true}
-                      />
-                    </TelegramShareButton>
-                  </div>
-                </Grid>
-              </Grid>
-
-              <Grid container>
-                <Grid item className={classes.authorArea}>
-                  <div className={classes.authorProfile}>
-                    <Link to={`/author/${imageDetails?.user?.username}`}>
-                      {imageDetails?.user?.avatar ? (
-                        <img
-                          className={classes.authorImg}
-                          src={
-                            getBaseURL().bucket_base_url +
-                            getBaseURL().profiles +
-                            imageDetails?.user?.avatar
-                          }
-                          alt={imageDetails?.user?.username}
-                        />
-                      ) : (
-                        <img
-                          className={classes.authorImg}
-                          src={authorPhoto}
-                          alt="AuthorPhoto"
-                        />
-                      )}
-                    </Link>
-
+                <div className={classes.buttons}>
+                  <Typography className={classes.creationDate}>
+                    {imageDetails?.creation_ago}
+                  </Typography>
+                  <Button className={classes.button} onClick={handleClickOpen}>
+                    <img
+                      className={classes.buttonIcon}
+                      src={shareIcon}
+                      alt="Share"
+                    />
+                    Share
+                  </Button>
+                  <ClickAwayListener onClickAway={handleTooltipClose}>
                     <div>
-                      <Typography
-                        className={classes.profileName}
-                        variant="h3"
-                        component={Link}
-                        to={`/author/${imageDetails?.user?.username}`}
+                      <Tooltip
+                        PopperProps={{
+                          disablePortal: true,
+                        }}
+                        onClose={handleTooltipClose}
+                        open={openCopyLink}
+                        placement="top"
+                        arrow
+                        leaveDelay={1500}
+                        title="Copied successfully!"
+                        classes={{ tooltip: classes.tooltip }}
                       >
-                        {imageDetails?.user?.username}
+                        <Button
+                          className={classes.button}
+                          onClick={() => handleCopyUrl()}
+                        >
+                          <img
+                            className={classes.buttonIcon}
+                            src={copyIcon}
+                            alt="Copy Link"
+                          />
+                          Copy Link
+                        </Button>
+                      </Tooltip>
+                    </div>
+                  </ClickAwayListener>
+                </div>
+
+                <Grid container className={classes.detailsContainer}>
+                  <Grid item xs={6} className={classes.gridItem}>
+                    <div className={classes.singleItem}>
+                      <Typography>
+                        <strong>Image ID: </strong>
+                        {imageDetails?.id}
                       </Typography>
-                      <Typography
-                        className={classes.resourceInfo}
-                        variant="body2"
-                      >
-                        {imageDetails?.user?.total_resources} Resources
+                      <Typography>
+                        <strong>Image Size </strong>
+                        {imageDetails?.height} x {imageDetails?.width}
                       </Typography>
                     </div>
-                  </div>
-                  {user.id !== imageDetails?.user_id && (
-                    <Button
-                      className={`${classes.authorBtn} ${classes.followBtn}`}
-                      onClick={handleFollower}
-                      value="user"
-                    >
-                      {!isFollowing ? <>Follow</> : <>Following</>}
-                    </Button>
-                  )}
-                </Grid>
-              </Grid>
+                    <div className={classes.singleItem}>
+                      <Typography>
+                        <strong>Copyright Information: </strong>
+                        <br />
+                        Piktask
+                      </Typography>
+                    </div>
+                  </Grid>
 
-              {/* <div className={classes.premiumInfo}>
+                  <Grid item xs={6} className={classes.gridItem}>
+                    <div className={classes.singleItem}>
+                      <Typography>
+                        <strong>Created: </strong>
+                        {moment(imageDetails?.createdAt).format("LL")}
+                      </Typography>
+                      <Typography>
+                        <strong>Category: </strong>
+                        {imageDetails?.category?.name}
+                      </Typography>
+                    </div>
+                    <div className={classes.singleItem}>
+                      <Typography>
+                        <strong>Scope of authorization: </strong>
+                        personal/enterprise
+                      </Typography>
+                    </div>
+                  </Grid>
+                </Grid>
+
+                <Grid container>
+                  <Grid item style={{ display: "flex", alignItems: "center" }}>
+                    <Typography>Share: </Typography>
+                    <div>
+                      <PinterestShareButton url={shareUrl} media={imageLink}>
+                        <PinterestIcon
+                          size={25}
+                          style={{ marginLeft: "1rem", cursor: "pointer" }}
+                          round={true}
+                        />
+                      </PinterestShareButton>
+
+                      <EmailShareButton url={shareUrl}>
+                        <EmailIcon
+                          size={25}
+                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
+                          round={true}
+                        />
+                      </EmailShareButton>
+
+                      <FacebookShareButton url={shareUrl}>
+                        <FacebookIcon
+                          size={25}
+                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
+                          round={true}
+                        />
+                      </FacebookShareButton>
+
+                      <FacebookMessengerShareButton url={shareUrl}>
+                        <FacebookMessengerIcon
+                          size={25}
+                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
+                          round={true}
+                        />
+                      </FacebookMessengerShareButton>
+
+                      <TwitterShareButton url={shareUrl}>
+                        <TwitterIcon
+                          size={25}
+                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
+                          round={true}
+                        />
+                      </TwitterShareButton>
+
+                      <LinkedinShareButton url={shareUrl}>
+                        <LinkedinIcon
+                          size={25}
+                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
+                          round={true}
+                        />
+                      </LinkedinShareButton>
+
+                      <TelegramShareButton url={shareUrl}>
+                        <TelegramIcon
+                          size={25}
+                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
+                          round={true}
+                        />
+                      </TelegramShareButton>
+                    </div>
+                  </Grid>
+                </Grid>
+
+                <Grid container>
+                  <Grid item className={classes.authorArea}>
+                    <div className={classes.authorProfile}>
+                      <Link to={`/author/${imageDetails?.user?.username}`}>
+                        {imageDetails?.user?.avatar ? (
+                          <img
+                            className={classes.authorImg}
+                            src={
+                              getBaseURL().bucket_base_url +
+                              getBaseURL().profiles +
+                              imageDetails?.user?.avatar
+                            }
+                            alt={imageDetails?.user?.username}
+                          />
+                        ) : (
+                          <img
+                            className={classes.authorImg}
+                            src={authorPhoto}
+                            alt="AuthorPhoto"
+                          />
+                        )}
+                      </Link>
+
+                      <div>
+                        <Typography
+                          className={classes.profileName}
+                          variant="h3"
+                          component={Link}
+                          to={`/author/${imageDetails?.user?.username}`}
+                        >
+                          {imageDetails?.user?.username}
+                        </Typography>
+                        <Typography
+                          className={classes.resourceInfo}
+                          variant="body2"
+                        >
+                          {imageDetails?.user?.total_resources} Resources
+                        </Typography>
+                      </div>
+                    </div>
+                    {user.id !== imageDetails?.user_id && (
+                      <Button
+                        className={`${classes.authorBtn} ${classes.followBtn}`}
+                        onClick={handleFollower}
+                        value="user"
+                      >
+                        {!isFollowing ? <>Follow</> : <>Following</>}
+                      </Button>
+                    )}
+                  </Grid>
+                </Grid>
+
+                {/* <div className={classes.premiumInfo}>
                 <Typography variant="h4">
                   Premium User:
                   <Button
@@ -625,208 +629,213 @@ const SingleProductDetails = () => {
                 <Typography>&copy; Copyright : Piktask</Typography>
               </div> */}
 
-              <div className={classes.buttonGroup}>
-                <div className={classes.downloadWrapper}>
-                  {buttonLoading ? (
-                    <Button className={classes.downloadingBtn}>
-                      <img src={downArrowIconWhite} alt="Download" />
-                      Downloading...
-                    </Button>
-                  ) : (
-                    // <>
-                    //   {user?.role === "contributor" ? (
-                    //     <Button
-                    //       disabled
-                    //       className={classes.disabledBtn}
-                    //       onClick={handleDownload}
-                    //     >
-                    //       <img src={downArrowIconWhite} alt="Download" />
-                    //       Download
-                    //     </Button>
-                    //   ) : (
-                    <Button
-                      className={classes.downloadBtn}
-                      onClick={handleDownload}
-                      value="user"
-                    >
-                      <img src={downArrowIconWhite} alt="Download" />
-                      Download
-                    </Button>
-                    //   )}
-                    // </>
-                  )}
-                  <div className={classes.downloadedImage}>
-                    {downloadCount
-                      ? intToString(downloadCount)
-                      : intToString(
-                          imageDetails?.user?.images?.total_downloads
-                        )}
-                  </div>
-                </div>
-                {user?.id !== imageDetails?.user_id && (
-                  <>
-                    {!isLike ? (
-                      <Button
-                        className={classes.likeBtn}
-                        onClick={handleLikeBtn}
-                        value="user"
-                      >
-                        <img src={likeIcon} alt="like Button" />
+                <div className={classes.buttonGroup}>
+                  <div className={classes.downloadWrapper}>
+                    {buttonLoading ? (
+                      <Button className={classes.downloadingBtn}>
+                        <img src={downArrowIconWhite} alt="Download" />
+                        Downloading...
                       </Button>
                     ) : (
-                      <Tooltip
-                        title="You already liked the image."
-                        placement="top"
-                        arrow
-                        classes={{ tooltip: classes.tooltip }}
+                      // <>
+                      //   {user?.role === "contributor" ? (
+                      //     <Button
+                      //       disabled
+                      //       className={classes.disabledBtn}
+                      //       onClick={handleDownload}
+                      //     >
+                      //       <img src={downArrowIconWhite} alt="Download" />
+                      //       Download
+                      //     </Button>
+                      //   ) : (
+                      <Button
+                        className={classes.downloadBtn}
+                        onClick={handleDownload}
+                        value="user"
                       >
-                        <Button
-                          className={classes.likedBtn}
-                          onClick={handleLikeBtn}
-                        >
-                          <FavoriteIcon />
-                        </Button>
-                      </Tooltip>
+                        <img src={downArrowIconWhite} alt="Download" />
+                        Download
+                      </Button>
+                      //   )}
+                      // </>
                     )}
-                  </>
-                )}
+                    <div className={classes.downloadedImage}>
+                      {downloadCount
+                        ? intToString(downloadCount)
+                        : intToString(
+                            imageDetails?.user?.images?.total_downloads
+                          )}
+                    </div>
+                  </div>
+                  {user?.id !== imageDetails?.user_id && (
+                    <>
+                      {!isLike ? (
+                        <Button
+                          className={classes.likeBtn}
+                          onClick={handleLikeBtn}
+                          value="user"
+                        >
+                          <img src={likeIcon} alt="like Button" />
+                        </Button>
+                      ) : (
+                        <Tooltip
+                          title="You already liked the image."
+                          placement="top"
+                          arrow
+                          classes={{ tooltip: classes.tooltip }}
+                        >
+                          <Button
+                            className={classes.likedBtn}
+                            onClick={handleLikeBtn}
+                          >
+                            <FavoriteIcon />
+                          </Button>
+                        </Tooltip>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
+            </Grid>
           </Grid>
-        </Grid>
 
-        {/* Sign up modal section*/}
-        <SignUpModal
-          openAuthModal={openAuthModal}
-          setOpenAuthModal={setOpenAuthModal}
-          role={role}
-        />
-
-        <Spacing space={{ height: "2.5rem" }}></Spacing>
-        <SectionHeading
-          title="Related Products"
-          subtitle="Top website templates with the highest sales volume."
-          size="large"
-        />
-
-        {/* Products */}
-        <Grid classes={{ container: classes.container }} container spacing={2}>
-          {isLoading ? (
-            <Loader />
-          ) : (
-            relatedImage?.map((photo) => (
-              <Grid
-                key={photo.image_id}
-                item
-                xs={6}
-                sm={4}
-                md={3}
-                className={classes.productItem}
-              >
-                <Product photo={photo} />
-              </Grid>
-            ))
-          )}
-        </Grid>
-        {totalProduct > limit && (
-          <Paginations
-            productPagination
-            count={count}
-            pageCount={pageCount}
-            setPageCount={setPageCount}
+          {/* Sign up modal section*/}
+          <SignUpModal
+            openAuthModal={openAuthModal}
+            setOpenAuthModal={setOpenAuthModal}
+            role={role}
           />
-        )}
 
-        {/* BUTTONS OF TAGS */}
-        <TagButtons allTags={allTags} />
+          <Spacing space={{ height: "2.5rem" }}></Spacing>
+          <SectionHeading
+            title="Related Products"
+            subtitle="Top website templates with the highest sales volume."
+            size="large"
+          />
 
-        <Dialog
-          onClose={handleClose}
-          aria-labelledby="customized-dialog-title"
-          open={open}
-        >
-          <div className={classes.socialShareWrapper}>
-            <DialogTitle className={classes.socialShareTitle}>
-              {"Use image social link"}
-            </DialogTitle>
-            <IconButton
-              aria-label="close"
-              className={classes.closeButton}
-              onClick={handleClose}
-            >
-              <CloseIcon />
-            </IconButton>
-          </div>
-          <DialogContent dividers>
-            <div
-              style={{
-                padding: "2rem",
-                minWidth: "300px",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <PinterestShareButton url={shareUrl} media={imageLink}>
-                <PinterestIcon
-                  size={40}
-                  style={{ margin: "0.4rem" }}
-                  round={true}
-                />
-              </PinterestShareButton>
+          {/* Products */}
+          <Grid
+            classes={{ container: classes.container }}
+            container
+            spacing={2}
+          >
+            {isLoading ? (
+              <Loader />
+            ) : (
+              relatedImage?.map((photo) => (
+                <Grid
+                  key={photo.image_id}
+                  item
+                  xs={6}
+                  sm={4}
+                  md={3}
+                  className={classes.productItem}
+                >
+                  <Product photo={photo} />
+                </Grid>
+              ))
+            )}
+          </Grid>
+          {totalProduct > limit && (
+            <Paginations
+              productPagination
+              count={count}
+              pageCount={pageCount}
+              setPageCount={setPageCount}
+            />
+          )}
 
-              <EmailShareButton url={shareUrl}>
-                <EmailIcon
-                  size={40}
-                  style={{ margin: "0.4rem" }}
-                  round={true}
-                />
-              </EmailShareButton>
+          {/* BUTTONS OF TAGS */}
+          <TagButtons allTags={allTags} />
 
-              <FacebookShareButton url={shareUrl}>
-                <FacebookIcon
-                  size={40}
-                  style={{ margin: "0.4rem" }}
-                  round={true}
-                />
-              </FacebookShareButton>
-
-              <FacebookMessengerShareButton url={shareUrl}>
-                <FacebookMessengerIcon
-                  size={40}
-                  style={{ margin: "0.4rem" }}
-                  round={true}
-                />
-              </FacebookMessengerShareButton>
-
-              <TwitterShareButton url={shareUrl}>
-                <TwitterIcon
-                  size={40}
-                  style={{ margin: "0.4rem" }}
-                  round={true}
-                />
-              </TwitterShareButton>
-
-              <LinkedinShareButton url={shareUrl}>
-                <LinkedinIcon
-                  size={40}
-                  style={{ margin: "0.4rem" }}
-                  round={true}
-                />
-              </LinkedinShareButton>
-
-              <TelegramShareButton url={shareUrl}>
-                <TelegramIcon
-                  size={40}
-                  style={{ margin: "0.4rem" }}
-                  round={true}
-                />
-              </TelegramShareButton>
+          <Dialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={open}
+          >
+            <div className={classes.socialShareWrapper}>
+              <DialogTitle className={classes.socialShareTitle}>
+                {"Use image social link"}
+              </DialogTitle>
+              <IconButton
+                aria-label="close"
+                className={classes.closeButton}
+                onClick={handleClose}
+              >
+                <CloseIcon />
+              </IconButton>
             </div>
-          </DialogContent>
-        </Dialog>
-      </Container>
-      <Footer />
-    </Layout>
+            <DialogContent dividers>
+              <div
+                style={{
+                  padding: "2rem",
+                  minWidth: "300px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <PinterestShareButton url={shareUrl} media={imageLink}>
+                  <PinterestIcon
+                    size={40}
+                    style={{ margin: "0.4rem" }}
+                    round={true}
+                  />
+                </PinterestShareButton>
+
+                <EmailShareButton url={shareUrl}>
+                  <EmailIcon
+                    size={40}
+                    style={{ margin: "0.4rem" }}
+                    round={true}
+                  />
+                </EmailShareButton>
+
+                <FacebookShareButton url={shareUrl}>
+                  <FacebookIcon
+                    size={40}
+                    style={{ margin: "0.4rem" }}
+                    round={true}
+                  />
+                </FacebookShareButton>
+
+                <FacebookMessengerShareButton url={shareUrl}>
+                  <FacebookMessengerIcon
+                    size={40}
+                    style={{ margin: "0.4rem" }}
+                    round={true}
+                  />
+                </FacebookMessengerShareButton>
+
+                <TwitterShareButton url={shareUrl}>
+                  <TwitterIcon
+                    size={40}
+                    style={{ margin: "0.4rem" }}
+                    round={true}
+                  />
+                </TwitterShareButton>
+
+                <LinkedinShareButton url={shareUrl}>
+                  <LinkedinIcon
+                    size={40}
+                    style={{ margin: "0.4rem" }}
+                    round={true}
+                  />
+                </LinkedinShareButton>
+
+                <TelegramShareButton url={shareUrl}>
+                  <TelegramIcon
+                    size={40}
+                    style={{ margin: "0.4rem" }}
+                    round={true}
+                  />
+                </TelegramShareButton>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </Container>
+        <Footer />
+      </Layout>
+    </>
   );
 };
 

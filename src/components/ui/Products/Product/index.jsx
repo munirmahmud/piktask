@@ -38,19 +38,23 @@ const Product = ({ photo = null }) => {
   const handleLikeBtn = () => {
     if (!user?.isLoggedIn && !user?.role === "user") {
       setOpenAuthModal(true);
-    } else if (user?.id !== photo?.user_id && user?.isLoggedIn && user?.role === "user") {
+    } else if (
+      user?.id !== photo?.user_id &&
+      user?.isLoggedIn &&
+      user?.role === "user"
+    ) {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/images/${photo?.image_id}/like`,
           {},
-          { headers: { Authorization: user?.token },}
+          { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.status) {
             setLike(true);
             setLikeCount((prevState) => prevState + 1);
           } else if (!data?.status) {
-            toast.error(data.message, { autoClose: 1500,});
+            toast.error(data.message, { autoClose: 1500 });
             setLike(true);
           } else {
             console.log("Something wrong with the like");
@@ -58,7 +62,7 @@ const Product = ({ photo = null }) => {
         })
         .catch((error) => console.log("Like error: ", error));
     } else {
-      if(user?.isLoggedIn && user?.role === "contributor"){
+      if (user?.isLoggedIn && user?.role === "contributor") {
         toast.error("Please, login as a user", { autoClose: 1500 });
       } else {
         toast.error("You can't Like yourself", { autoClose: 1500 });
@@ -68,9 +72,13 @@ const Product = ({ photo = null }) => {
   };
 
   function pikTaskEncodeURI(data) {
+    window.scrollTo(0, 0);
+
     if (data) {
       return encodeURI(
-        `/images/${data?.title.toLowerCase().replace(/\s/g , "-")}&id=${data?.image_id}`
+        `/images/${data?.title.toLowerCase().replace(/\s/g, "-")}&id=${
+          data?.image_id
+        }`
       );
     }
   }
@@ -118,7 +126,11 @@ const Product = ({ photo = null }) => {
             <Link to={pikTaskEncodeURI(photo)}>
               <img
                 className={classes.image}
-                src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)}
+                src={encodeURI(
+                  getBaseURL().bucket_base_url +
+                    getBaseURL().images +
+                    photo?.preview
+                )}
                 alt="previewImage"
               />
             </Link>
@@ -128,7 +140,11 @@ const Product = ({ photo = null }) => {
             <Link to={pikTaskEncodeURI(photo)}>
               <img
                 className={classes.image}
-                src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)}
+                src={encodeURI(
+                  getBaseURL().bucket_base_url +
+                    getBaseURL().images +
+                    photo?.preview
+                )}
                 alt=""
               />
             </Link>
@@ -162,7 +178,11 @@ const Product = ({ photo = null }) => {
                   <CardMedia
                     component="img"
                     className={classes.authorImage}
-                    image={getBaseURL().bucket_base_url + getBaseURL().profiles + photo?.avatar}
+                    image={
+                      getBaseURL().bucket_base_url +
+                      getBaseURL().profiles +
+                      photo?.avatar
+                    }
                     title={photo?.name}
                   />
                 ) : (
