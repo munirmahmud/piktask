@@ -1,6 +1,7 @@
 import {
   Card,
   CardContent,
+  CircularProgress,
   Grid,
   Paper,
   Table,
@@ -113,25 +114,43 @@ const WithdrawHistory = () => {
                           </TableRow>
                         </TableHead>
 
-                        {withdrawalHistory?.length > 0 &&
-                          withdrawalHistory?.map((historyItem) => (
-                            <TableBody key={historyItem?.id}>
-                              <TableRow className={classes.tableRowContent}>
-                                <TableCell className={classes.tableCell}>
-                                  {moment(historyItem?.date_paid).format("ll")}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  ${historyItem?.amount}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  {historyItem?.status}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  {historyItem?.reason}
-                                </TableCell>
-                              </TableRow>
-                            </TableBody>
-                          ))}
+                        {isLoading ? (
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              margin: "0 auto",
+                              height: 300,
+                            }}
+                          >
+                            <CircularProgress color="primary" />
+                          </div>
+                        ) : (
+                          <>
+                            {withdrawalHistory?.length > 0 &&
+                              withdrawalHistory?.map((historyItem) => (
+                                <TableBody key={historyItem?.id}>
+                                  <TableRow className={classes.tableRowContent}>
+                                    <TableCell className={classes.tableCell}>
+                                      {moment(historyItem?.date_paid).format(
+                                        "ll"
+                                      )}
+                                    </TableCell>
+                                    <TableCell className={classes.tableCell}>
+                                      ${historyItem?.amount}
+                                    </TableCell>
+                                    <TableCell className={classes.tableCell}>
+                                      {historyItem?.status}
+                                    </TableCell>
+                                    <TableCell className={classes.tableCell}>
+                                      {historyItem?.reason}
+                                    </TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              ))}
+                          </>
+                        )}
                       </Table>
                     </TableContainer>
                   </CardContent>
