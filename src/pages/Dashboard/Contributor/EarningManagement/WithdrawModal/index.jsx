@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { CustomBtn, InputField } from "../../../../../components/InputField";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles({
   withdrawModal: {
@@ -90,11 +91,13 @@ const WithdrawModal = (props) => {
         )
         .then(({ data }) => {
           if (data?.status) {
+            toast.success(data?.message);
+            setWithdrawModal(false);
             setLoading(false);
           }
         })
         .catch((error) => {
-          console.log(error.message);
+          console.log("Withdrawals request", error.message);
           setLoading(false);
         });
     }
