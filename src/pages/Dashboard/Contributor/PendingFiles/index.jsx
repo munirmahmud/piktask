@@ -116,6 +116,9 @@ const PendingFiles = () => {
   };
 
   const selectedProduct = (e, product) => {
+    console.log(cardRef.current.style);
+    if (product.is_save === 1) return;
+
     if (!product.isSelected) {
       product.isSelected = true;
       e.currentTarget.style.border = "2px solid #0088f2";
@@ -270,16 +273,15 @@ const PendingFiles = () => {
                         />
                       </div>
                       <Card
-                        className={
-                          product?.is_save === 1
-                            ? `${classes.successProductItem}`
-                            : `${classes.pendingFileCard}`
-                        }
+                        className={classes.pendingFileCard}
                         onClick={(e) => {
                           selectedProduct(e, product);
                         }}
                         classes={{ root: classes.root }}
                         ref={cardRef}
+                        style={{
+                          border: product?.is_save === 1 && "2px solid #008000",
+                        }}
                       >
                         <img
                           src={
