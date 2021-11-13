@@ -20,7 +20,7 @@ const TagButtons = ({ allTags }) => {
                 key={index}
                 tag={tag}
                 component={Link}
-                to={`/tag/${tag.toLowerCase().replace(/\s/g , "-")}`}
+                to={`/tag/${tag.toLowerCase().trim().replace(/\s/g , "-")}`}
               >
                 {tag}
               </Button>

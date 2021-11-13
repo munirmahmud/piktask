@@ -143,7 +143,7 @@ const Category = () => {
       />
 
       <Container>
-        {categoryProducts.length > 0 && (
+        {categoryProducts?.length > 0 && (
           <div className={classes.shortList}>
             <div className={classes.shortListWrapper}>
               <Typography className={classes.shortListTag}>Sort by:</Typography>
@@ -179,10 +179,10 @@ const Category = () => {
             <Loader />
           ) : (
             <>
-              {categoryProducts.length ? (
+              {categoryProducts?.length ? (
                 categoryProducts?.map((photo) => (
                   <Grid
-                    key={photo.image_id}
+                    key={photo?.image_id}
                     item
                     xs={6}
                     sm={4}

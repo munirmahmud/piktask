@@ -26,7 +26,7 @@ const TotalCountHistory = () => {
   }, [user?.isLoggedIn, user?.role, user?.token])
 
   return (
-    <div className={classes.v}>
+    <>
       <Grid container spacing={0}>
         <Grid item xs={12}>
           <Card className={classes.cardWrapper}>
@@ -69,7 +69,7 @@ const TotalCountHistory = () => {
           </Card>
         </Grid>
       </Grid>
-    </div>
+    </>
   );
 };
 

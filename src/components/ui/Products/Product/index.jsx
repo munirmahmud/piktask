@@ -70,14 +70,14 @@ const Product = ({ photo = null }) => {
   function pikTaskEncodeURI(data) {
     if (data) {
       return encodeURI(
-        `/images/${data?.title.toLowerCase().replace(/\s/g , "-")}&id=${data?.image_id}`
+        `/images/${data?.title.toLowerCase().trim().replace(/\s/g , "-")}&id=${data?.image_id}`
       );
     }
   }
 
   return (
     <>
-      <CardWrapper className={classes.container}>
+      <CardWrapper className={classes.container}> 
         <div className={classes.buttonsWrapper}>
           {/* {photo?.item_for_sale === "sale" && (
             <IconButton

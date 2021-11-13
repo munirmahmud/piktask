@@ -1,5 +1,5 @@
 import {
-  Button,
+  // Button,
   Card,
   CardContent,
   Grid,
@@ -46,14 +46,14 @@ const WithdrawHistory = () => {
           <div className={classes.withdrawHistoryWrapper}>
             <div className={classes.headingWrapper}>
               <Heading tag="h2">Withdraw History</Heading>
-              <div>
+              {/* <div>
                 <Button
                   className={classes.withdrawBtn}
-                  // onClick={() => handleWithdrawInfo()}
+                  onClick={() => handleWithdrawInfo()}
                 >
                   Withdraw
                 </Button>
-              </div>
+              </div> */}
             </div>
 
             <TotalCountHistory />
