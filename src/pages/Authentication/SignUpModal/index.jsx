@@ -1,34 +1,33 @@
+import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Tab,
-  Tabs,
-  Grid,
-  Dialog,
+  Button,
   Checkbox,
-  Typography,
+  Dialog,
   DialogContent,
   FormControlLabel,
-  Button,
+  Grid,
+  Tab,
+  Tabs,
+  Typography,
 } from "@material-ui/core";
-import { CustomBtn, InputField } from "../../../components/InputField";
-import { Redirect, useHistory, useLocation } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
-import logoWhite from "../../../assets/logo-white.png";
-import lockIcon from "../../../assets/password.png";
-import Spacing from "../../../components/Spacing";
-import authImage from "../../../assets/auth.png";
-import { auth } from "../../../database";
-import useStyles from "./SignUpModal.styles";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import CloseIcon from "@material-ui/icons/Close";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+import React, { useEffect, useState } from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect, useHistory, useLocation } from "react-router";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import authImage from "../../../assets/auth.png";
+import logoWhite from "../../../assets/logo-white.png";
+import lockIcon from "../../../assets/password.png";
+import { CustomBtn, InputField } from "../../../components/InputField";
+import Spacing from "../../../components/Spacing";
+import { auth } from "../../../database";
+import useStyles from "./SignUpModal.styles";
 
 const clientId =
   "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
@@ -110,7 +109,7 @@ const SignUpModal = (props) => {
       .post(`${process.env.REACT_APP_API_URL}/auth/login`, {
         username: authData.userName,
         password: authData.password,
-        role: role,
+        role,
       })
       .then((res) => {
         if (res.data.status) {
@@ -130,7 +129,7 @@ const SignUpModal = (props) => {
               },
             });
           }
-          if(decodedToken.role === "contributor"){
+          if (decodedToken.role === "contributor") {
             history.push("/contributor/dashboard");
           } else if (location.pathname) {
             history.push(location.pathname);
@@ -140,7 +139,7 @@ const SignUpModal = (props) => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data?.message, { autoClose: 500,});
+        toast.error(error.response.data?.message, { autoClose: 2200 });
         authData.userName = "";
         authData.password = "";
         setLoading(false);
@@ -156,62 +155,73 @@ const SignUpModal = (props) => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (authData.userName.length < 3 || authData.userName.length > 15) {
-      toast.error("Username must be between 3 and 15 characters long", { autoClose: 500,});
+      toast.error("Username must be between 3 and 15 characters long", {
+        autoClose: 2200,
+      });
       setLoading(false);
       return;
     } else if (!/^[a-z0-9_.]+$/.test(authData.userName)) {
       toast.error(
-        "Username can only use lowercase letters, numbers, underscores, and dots", { autoClose: 500,}
+        "Username can only use lowercase letters, numbers, underscores, and dots",
+        { autoClose: 2200 }
       );
       setLoading(false);
       return;
     } else if (authData.userName.match(/^_/)) {
-      toast.error("Username can not use only underscore. Ex: james_bond", { autoClose: 500,});
+      toast.error("Username can not use only underscore. Ex: james_bond", {
+        autoClose: 2200,
+      });
       setLoading(false);
       return;
     } else if (authData.userName.match(/^\./)) {
-      toast.error("Username can not use only dot. Ex: james.bond", { autoClose: 500,});
+      toast.error("Username can not use only dot. Ex: james.bond", {
+        autoClose: 2200,
+      });
       setLoading(false);
       return;
     } else if (authData.userName.match(/^[0-9]/)) {
-      toast.error("Username can not be a number. Ex: bond007", { autoClose: 500,});
+      toast.error("Username can not be a number. Ex: bond007", {
+        autoClose: 2200,
+      });
       setLoading(false);
       return;
     } else if (authData.email && !validateEmail.test(String(authData.email))) {
-      toast.error("Your email is invalid", { autoClose: 500,});
+      toast.error("Your email is invalid", { autoClose: 2200 });
       setLoading(false);
       return;
     } else if (authData.password.length < 6) {
-      toast.error("Password should be at least 6 characters", { autoClose: 500,});
+      toast.error("Password should be at least 6 characters", {
+        autoClose: 2200,
+      });
       setLoading(false);
       return;
     }
 
     //   else if(!authData.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/)){
-    //     toast.error("Password should contain at least a number, lowercase, uppercase and a special character @,#,%,& etc.", { autoClose: 500,});
+    //     toast.error("Password should contain at least a number, lowercase, uppercase and a special character @,#,%,& etc.", { autoClose: 2200,});
     //     setLoading(false);
     //     return;
     // }
 
     axios
-    .post(`${process.env.REACT_APP_API_URL}/auth/signup`, {
-      username: authData.userName,
-      email: authData.email,
-      password: authData.password,
-      confirmPassword: authData.password,
-      role: role,
-    })
-    .then(async (res) => {
-      if (res?.status === 200) {
-        await auth.sendSignInLinkToEmail(authData.email, {
-          url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
-          handleCodeInApp: true,
-        });
-    
-        // Show success message to the user
-        toast.success(
-          `An email has been sent to ${authData.email}. Please check and confirm your registration`
-        );
+      .post(`${process.env.REACT_APP_API_URL}/auth/signup`, {
+        username: authData.userName,
+        email: authData.email,
+        password: authData.password,
+        confirmPassword: authData.password,
+        role: role,
+      })
+      .then(async (res) => {
+        if (res?.status === 200) {
+          await auth.sendSignInLinkToEmail(authData.email, {
+            url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
+            handleCodeInApp: true,
+          });
+
+          // Show success message to the user
+          toast.success(
+            `An email has been sent to ${authData.email}. Please check and confirm your registration`
+          );
 
           authData.userName = "";
           authData.email = "";
@@ -223,7 +233,7 @@ const SignUpModal = (props) => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data.message, { autoClose: 500,});
+        toast.error(error.response.data.message, { autoClose: 2200 });
         authData.userName = "";
         authData.email = "";
         authData.password = "";
@@ -239,9 +249,9 @@ const SignUpModal = (props) => {
         method: "POST",
         body: JSON.stringify({
           token: googleData.tokenId,
-          role: role
+          role: role,
         }),
-        headers: {"Content-Type": "application/json",},
+        headers: { "Content-Type": "application/json" },
       }
     );
 
@@ -263,7 +273,7 @@ const SignUpModal = (props) => {
           },
         });
       }
-      if(decodedToken.role === "contributor"){
+      if (decodedToken.role === "contributor") {
         history.push("/contributor/dashboard");
       } else if (location.pathname) {
         history.push(location.pathname);
@@ -281,9 +291,9 @@ const SignUpModal = (props) => {
         method: "POST",
         body: JSON.stringify({
           token: facebookData.tokenId,
-          role: role
+          role: role,
         }),
-        headers: {"Content-Type": "application/json",},
+        headers: { "Content-Type": "application/json" },
       }
     );
 
@@ -305,7 +315,7 @@ const SignUpModal = (props) => {
           },
         });
       }
-      if(decodedToken.role === "contributor"){
+      if (decodedToken.role === "contributor") {
         history.push("/contributor/dashboard");
       } else if (location.pathname) {
         history.push(location.pathname);

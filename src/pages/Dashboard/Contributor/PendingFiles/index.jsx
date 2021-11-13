@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  Drawer,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import { Button, Card, Drawer, Grid, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -67,7 +61,7 @@ const PendingFiles = () => {
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/contributor/images/not_submit?limit=${limit}&page=${pageCount}`,
-          { headers: { Authorization: user?.token }, }
+          { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.images.length > 0) {
@@ -122,6 +116,9 @@ const PendingFiles = () => {
   };
 
   const selectedProduct = (e, product) => {
+    console.log(cardRef.current.style);
+    if (product.is_save === 1) return;
+
     if (!product.isSelected) {
       product.isSelected = true;
       e.currentTarget.style.border = "2px solid #0088f2";
@@ -181,12 +178,14 @@ const PendingFiles = () => {
           data: { images: token_ids },
         });
         if (response.data?.status) {
-          pendingProducts.forEach(element => {
-            if(element.is_save === 1){
+          pendingProducts.forEach((element) => {
+            if (element.is_save === 1) {
               setProductsSubmitted(pendingProducts);
             }
           });
-          toast.success(response.data?.message || "Image submitted successfully");
+          toast.success(
+            response.data?.message || "Image submitted successfully"
+          );
         }
       } catch (error) {
         console.log("Submit image", error);
@@ -207,7 +206,11 @@ const PendingFiles = () => {
               <div className={classes.contentWrapper}>
                 <Heading tag="h2">Not yet submitted</Heading>
                 <Typography variant="h3">This is your first upload!</Typography>
-                <Typography>Upload and send your 20 best resources. Our team will review them to ensure they <br /> meet our requirements, so make sure they show your true potential.</Typography>
+                <Typography>
+                  Upload and send your 20 best resources. Our team will review
+                  them to ensure they <br /> meet our requirements, so make sure
+                  they show your true potential.
+                </Typography>
               </div>
               <div>
                 {/* <Button onClick={() => deleteSelectionProduct()} className={`${classes.actionBtn} ${classes.deleteBtn}`}>
@@ -255,55 +258,54 @@ const PendingFiles = () => {
               <Grid container spacing={2}>
                 {pendingProducts?.length > 0 ? (
                   pendingProducts?.map((product) => (
-                      <Grid
-                        key={product?.id}
-                        item
-                        xs={4}
-                        sm={3}
-                        md={2}
-                        className={classes.productItem}
+                    <Grid
+                      key={product?.id}
+                      item
+                      xs={4}
+                      sm={3}
+                      md={2}
+                      className={classes.productItem}
+                    >
+                      <div className={classes.btnWrapper}>
+                        <DeleteIcon
+                          onClick={() => handleDelete(product?.token_id)}
+                          className={classes.deleteIcon}
+                        />
+                      </div>
+                      <Card
+                        className={classes.pendingFileCard}
+                        onClick={(e) => {
+                          selectedProduct(e, product);
+                        }}
+                        classes={{ root: classes.root }}
+                        ref={cardRef}
+                        style={{
+                          border: product?.is_save === 1 && "2px solid #008000",
+                        }}
                       >
-                        <div className={classes.btnWrapper}>
-                          <DeleteIcon
-                            onClick={() => handleDelete(product?.token_id)}
-                            className={classes.deleteIcon}
-                          />
-                        </div>
-                        <Card
-                          className={
-                            product?.is_save === 1
-                              ? `${classes.successProductItem}`
-                              : `${classes.pendingFileCard}`
+                        <img
+                          src={
+                            getBaseURL().bucket_base_url +
+                            getBaseURL().images +
+                            product?.original_file
                           }
-                          onClick={(e) => {
-                            selectedProduct(e, product);
-                          }}
-                          classes={{ root: classes.root }}
-                          ref={cardRef}
-                        >
-                          <img
-                            src={
-                              getBaseURL().bucket_base_url +
-                              getBaseURL().images +
-                              product?.original_file
-                            }
-                            alt={product?.original_name}
-                          />
-                          <div className={classes.productInfo}>
-                            <Typography variant="h3">
-                              {product?.original_name}
-                            </Typography>
-                            <Typography variant="body2">
-                              File Size:{" "}
-                              {(product.size / 1024 / 1024).toFixed(2)} MB
-                            </Typography>
-                          </div>
-                        </Card>
-                      </Grid>
+                          alt={product?.original_name}
+                        />
+                        <div className={classes.productInfo}>
+                          <Typography variant="h3">
+                            {product?.original_name}
+                          </Typography>
+                          <Typography variant="body2">
+                            File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "}
+                            MB
+                          </Typography>
+                        </div>
+                      </Card>
+                    </Grid>
                   ))
-                  ) : (
-                    <ProductNotFound contributorProductNotFound />
-                  )}
+                ) : (
+                  <ProductNotFound contributorProductNotFound />
+                )}
               </Grid>
             )}
             {totalProduct > limit && (
