@@ -119,7 +119,6 @@ const SignUpModal = (props) => {
           const token = res.data.token;
           localStorage.setItem("token", token);
           const decodedToken = jwt_decode(token.split(" ")[1]);
-          console.log("decodedToken", decodedToken.role);
           localStorage.setItem("profileImage", decodedToken.avatar);
 
           if (decodedToken.email) {
@@ -240,7 +239,7 @@ const SignUpModal = (props) => {
         method: "POST",
         body: JSON.stringify({
           token: googleData.tokenId,
-          role: "user"
+          role: role
         }),
         headers: {"Content-Type": "application/json",},
       }
@@ -280,7 +279,7 @@ const SignUpModal = (props) => {
         method: "POST",
         body: JSON.stringify({
           token: facebookData.tokenId,
-          role: "user"
+          role: role
         }),
         headers: {"Content-Type": "application/json",},
       }

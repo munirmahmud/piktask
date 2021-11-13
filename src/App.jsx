@@ -3,7 +3,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { lazy, Suspense, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -16,6 +16,7 @@ const Publish = lazy(() => import("./pages/dashboard/contributor/Publish"));
 const JoinNow = lazy(() => import("./pages/dashboard/contributor/JoinNow"));
 const Revision = lazy(() => import("./pages/dashboard/contributor/Revision"));
 const GuidLine = lazy(() => import("./pages/dashboard/contributor/GuidLine"));
+const WithdrawHistory = lazy(() => import("./pages/dashboard/contributor/WithdrawHistory"));
 const UploadFiles = lazy(() =>
   import("./pages/dashboard/contributor/UploadFiles")
 );
@@ -93,7 +94,7 @@ const CompleteRegistration = lazy(() =>
 const App = () => {
   const dispatch = useDispatch();
   const [isDataLoaded, setDataLoaded] = useState(true);
-
+  const user = useSelector((state) => state.user);
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -129,22 +130,6 @@ const App = () => {
         console.log(error);
       });
 
-    // Author last file API
-    // if (user?.token) {
-    //   axios
-    //     .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images`, {
-    //       headers: { Authorization: user?.token },
-    //     })
-    //     .then(({ data }) => {
-    //       if (data?.status) {
-    //         dispatch({
-    //           type: "TOTAL_IMAGE_EARNING",
-    //           payload: [...data?.images],
-    //         });
-    //       }
-    //     });
-    // }
-
     // Product Base url API
     axios
       .get(`${process.env.REACT_APP_API_URL}/client/urls`)
@@ -154,7 +139,26 @@ const App = () => {
           setDataLoaded(false);
         }
       });
+
   }, [dispatch]);
+
+  useEffect(() => {
+    // Upload total count
+    if (user?.isLoggedIn && user?.role === "contributor") {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/total_count`, {
+          headers: { Authorization: user?.token },
+        })
+        .then(({ data }) => {
+          if (data?.status) {
+            dispatch({
+              type: "TOTAL_PRODUCT_COUNT",
+              payload: {...data},
+            });
+          }
+        });
+    }
+  }, [user?.isLoggedIn, user?.role, user?.token, dispatch])
 
   return isDataLoaded ? (
     <LinearProgress />
@@ -183,10 +187,11 @@ const App = () => {
           />
           <Route
             exact
-            path="/contributor/contributorPricePlan"
+            path="/contributor/contributor-price-plan"
             component={ContributorPricePlan}
           />
           <Route exact path="/contributor/guidLine" component={GuidLine} />
+          <Route exact path="/contributor/withdraw-history" component={WithdrawHistory} />
           <Route
             exact
             path="/contributor/settings"
@@ -252,7 +257,7 @@ const App = () => {
           <Route exact path="/categories" component={Categories} />
           <Route
             exact
-            path="/search/trending-search"
+            path="/search-key/trending-search"
             component={TrendingSearch}
           />
 

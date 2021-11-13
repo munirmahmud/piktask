@@ -20,6 +20,7 @@ import CustomPopper from "../../../CustomPopper";
 import { getBaseURL } from "../../../../../helpers";
 import MobileSidebarMenu from "../Sidebar/MobileSidebarMenu";
 import useStyles from "./AdminHeader.styles";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const customStyles = makeStyles({
   menuWrapper: {
@@ -137,15 +138,21 @@ const AdminHeader = () => {
                       user?.role === "contributor" &&
                       user?.avatar &&
                       user?.avatar !== "null" ? (
-                        <img
-                          className={classes.adminPhoto}
-                          src={
-                            getBaseURL().bucket_base_url +
-                            getBaseURL().profiles +
-                            user?.avatar
-                          }
-                          alt="UserPhoto"
-                        />
+                        <>
+                          {user?.avatar_from === "own" ? (
+                            <img
+                              className={classes.avatar}
+                              src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
+                              alt="UserPhoto"
+                            />
+                          ) : (
+                            <img
+                              className={classes.avatar}
+                              src={user?.avatar}
+                              alt="UserPhoto"
+                            />
+                          )}
+                        </>
                       ) : (
                         <AccountCircleIcon className={classes.avatar} />
                       )}
@@ -172,11 +179,12 @@ const AdminHeader = () => {
                   component={Link}
                   to="/contributor/upload"
                 >
-                  <img
+                  {/* <img
                     className={classes.ButtoncrownIcon}
                     src={crownIcon}
                     alt="Upload"
-                  />
+                  /> */}
+                   <CloudUploadIcon className={classes.ButtoncrownIcon} />
                   Upload
                 </Button>
               </div>
@@ -196,15 +204,21 @@ const AdminHeader = () => {
                     user?.role === "contributor" &&
                     user?.avatar &&
                     user?.avatar !== "null" ? (
-                      <img
-                        className={classes.adminPhoto}
-                        src={
-                          getBaseURL().bucket_base_url +
-                          getBaseURL().profiles +
-                          user?.avatar
-                        }
-                        alt="UserPhoto"
-                      />
+                      <>
+                        {user?.avatar_from === "own" ? (
+                          <img
+                            className={classes.avatar}
+                            src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
+                            alt="UserPhoto"
+                          />
+                        ) : (
+                          <img
+                            className={classes.avatar}
+                            src={user?.avatar}
+                            alt="UserPhoto"
+                          />
+                        )}
+                      </>
                     ) : (
                       <AccountCircleIcon className={classes.avatar} />
                     )}

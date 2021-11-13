@@ -36,9 +36,9 @@ const Product = ({ photo = null }) => {
   const [isLike, setLike] = useState(false);
 
   const handleLikeBtn = () => {
-    if (!user.isLoggedIn) {
+    if (!user?.isLoggedIn && !user?.role === "user") {
       setOpenAuthModal(true);
-    } else if (user?.id !== photo?.user_id && user?.isLoggedIn) {
+    } else if (user?.id !== photo?.user_id && user?.isLoggedIn && user?.role === "user") {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/images/${photo?.image_id}/like`,
@@ -50,12 +50,20 @@ const Product = ({ photo = null }) => {
             setLike(true);
             setLikeCount((prevState) => prevState + 1);
           } else if (!data?.status) {
-            toast.error(data.message, { autoClose: 500,});
+            toast.error(data.message, { autoClose: 1500,});
             setLike(true);
           } else {
             console.log("Something wrong with the like");
           }
-        });
+        })
+        .catch((error) => console.log("Like error: ", error));
+    } else {
+      if(user?.isLoggedIn && user?.role === "contributor"){
+        toast.error("Please, login as a user", { autoClose: 1500 });
+      } else {
+        toast.error("You can't Like yourself", { autoClose: 1500 });
+        setOpenAuthModal(true);
+      }
     }
   };
 
@@ -135,8 +143,8 @@ const Product = ({ photo = null }) => {
               title={photo.title}
             >
               <Typography variant="h2" className={classes.title}>
-                {titleLength?.length > 6 ? (
-                  <>{getWords(6, photo?.title)}...</>
+                {titleLength?.length > 5 ? (
+                  <>{getWords(5, photo?.title)}...</>
                 ) : (
                   <>{photo?.title}</>
                 )}

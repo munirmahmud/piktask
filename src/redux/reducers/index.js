@@ -3,7 +3,7 @@ import { categoriesReducer } from "./categoriesReducer";
 import { categoryItemsReducer } from "./categoryItemsReducer";
 import { categoryReducer } from "./categoryReducer";
 import { recentPhotoReducer } from "./recentPhotoReducer";
-import { totalPublishFileReducer } from "./totalPublishFileReducer";
+import { totalProductCountReducer } from "./totalProductCountReducer";
 import { userReducer } from "./userReducer";
 
 const rootReducer = combineReducers({
@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   popularCategories: categoryReducer,
   recentPhotos: recentPhotoReducer,
   allCategories: categoriesReducer,
-  totalPublishFile: totalPublishFileReducer,
+  totalProductCount: totalProductCountReducer,
   categoryBasedItems: categoryItemsReducer,
 });
 

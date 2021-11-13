@@ -73,7 +73,7 @@ const AuthorProfile = () => {
       setOpenAuthModal(true);
     } else if (!user?.isLoggedIn && window.innerWidth < 900) {
       history.push(`/login?user`);
-    } else if (user?.isLoggedIn) {
+    } else if (user?.isLoggedIn && user?.role === "user") {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/contributor/followers/${profileInfo?.id}`,
@@ -84,9 +84,15 @@ const AuthorProfile = () => {
           if (response?.status === 200) {
             setFollowing(!isFollowing);
           }
-        });
+        })
+        .catch((error) => console.log("Followers error: ", error));
     } else {
-      toast.error("You can't follow yourself", { autoClose: 500,});
+      // toast.error("You can't follow yourself", { autoClose: 500,});
+      if(user?.isLoggedIn && user?.role === "contributor"){
+        toast.error("Please, login as a user", { autoClose: 1500 });
+      } else {
+        toast.error("You can't follow yourself", { autoClose: 1500 });
+      }
     }
   };
 

@@ -112,7 +112,7 @@ const Footer = () => {
                 <ListItem className={classes.navItem}>
                   <Link
                     className={classes.navLink}
-                    to="/search/trending-search"
+                    to="/search-key/trending-search"
                   >
                     Search trends
                   </Link>
@@ -285,7 +285,7 @@ const Footer = () => {
                 </Link>
               </ListItemButton><br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.collapseNavLink} to="/search/trending-search">
+                <Link className={classes.collapseNavLink} to="/search-key/trending-search">
                   Search trends
                 </Link>
               </ListItemButton><br />

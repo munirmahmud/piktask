@@ -1,8 +1,6 @@
 import {
   Button,
-  Card,
   FormControl,
-  Grid,
   Select,
   Typography,
 } from "@material-ui/core";
@@ -11,9 +9,11 @@ import Chart from "chart.js";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
+import TotalCountHistory from "../../../../components/ui/dashboard/contributor/TotalCountHistory";
 import Footer from "../../../../components/ui/Footer";
 import Layout from "../../../../Layout";
 import useStyles from "./EarningManagement.styles";
@@ -26,10 +26,17 @@ const EarningManagement = () => {
   const user = useSelector((state) => state.user);
 
   const [onClickEvent, setOnClickEvent] = useState(true);
-  const [totalSummary, setTotalSummery] = useState({});
   const [earningData, setEarningData] = useState(0);
   const [isLoading, setLoading] = useState(true);
   const [openWithdrawModal, setWithdrawModal] = useState(false);
+
+  const [username, setUsername] = useState("");
+  const [paymentGateway, setPaymentGateway] = useState("");
+  const [paypalAccount, setPaypalAccount] = useState("");
+  const [payoneerAccount, setPayoneerAccount] = useState("");
+  const [totalBalance, setTotalBalance] = useState("");
+  const [minWithdraw, setMinWithdraw] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
 
   const [chartData, setChartData] = useState({});
   const [selectName, setSelectName] = useState("earning");
@@ -47,20 +54,6 @@ const EarningManagement = () => {
 
     setResponsiveness();
     window.addEventListener("resize", () => setResponsiveness());
-
-    // Total earning summary API integration
-    if (user?.isLoggedIn && user?.role === "contributor") {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/summary`, {
-          headers: { Authorization: user?.token },
-        })
-        .then(({ data }) => {
-          if (data?.status) {
-            setTotalSummery(data?.summery);
-            setLoading(false);
-          }
-        });
-    }
 
     // Total earning management statistics API integrate
     if (user?.isLoggedIn && user?.role === "contributor") {
@@ -127,13 +120,16 @@ const EarningManagement = () => {
   const toMonths = moment.months();
   let [toYear, setToYear] = useState(moment().year());
   let [toMonth, setToMonth] = useState(moment().format("MMMM"));
-  let [toCurrentDate, setToCurrentDate] = useState("0" + moment().date());
+  let [toCurrentDate, setToCurrentDate] = useState(moment().date());
 
   const getAllDays = () => {
     const days = [];
     for (let i = 0; i < moment().daysInMonth(); i++) {
       if (i + 1 < 10) {
         days.push("0" + (i + 1));
+        // if(!i){
+        //   setFromCurrentDate("0" + (i + 1))
+        // } 
       } else {
         days.push(i + 1);
       }
@@ -163,6 +159,10 @@ const EarningManagement = () => {
 
   let toDates = fromYear + "-" + toDateMonths + "-" + toCurrentDate;
 
+  const format2 = "YYYY-MM-DD"
+  const date = new Date(toDates);
+  const today = moment(date).format(format2);
+
   const handleDateSubmit = (e) => {
     e.preventDefault();
 
@@ -172,7 +172,7 @@ const EarningManagement = () => {
 
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${fromDates}&end=${toDates}&status=${selectName}`,
+          `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${fromDates}&end=${today}&status=${selectName}`,
           { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
@@ -286,14 +286,6 @@ const EarningManagement = () => {
     });
   }, [onClickEvent, chartData]);
 
-  const [username, setUsername] = useState("");
-  const [paymentGateway, setPaymentGateway] = useState("");
-  const [paypalAccount, setPaypalAccount] = useState("");
-  const [payoneerAccount, setPayoneerAccount] = useState("");
-  const [totalBalance, setTotalBalance] = useState("");
-  const [minWithdraw, setMinWithdraw] = useState("");
-  const [accountNumber, setAccountNumber] = useState("");
-
   const handleWithdrawInfo = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
@@ -309,7 +301,6 @@ const EarningManagement = () => {
             setTotalBalance(data.balance);
             setMinWithdraw(data.amount_min_withdrawal);
             setAccountNumber(data.account_number);
-            // setEmail(data.user.email);
             setWithdrawModal(true);
             setLoading(false);
           }
@@ -334,59 +325,21 @@ const EarningManagement = () => {
               <div>
                 <Button
                   className={classes.withdrawBtn}
-                  onClick={() => {
-                    handleWithdrawInfo();
-                  }}
+                  onClick={() => handleWithdrawInfo()}
                 >
                   Withdraw
                 </Button>
                 <Button
-                  className={classes.withdrawBtn}
-                  onClick={() => {
-                    handleWithdrawInfo();
-                  }}
+                  className={classes.withdrawHistoryBtn}
+                  component={Link}
+                  to="/contributor/withdraw-history"
                 >
                   Withdraw History
                 </Button>
               </div>
             </div>
 
-            <Grid container spacing={0}>
-              <Grid item xs={12}>
-                <Card className={classes.cardWrapper}>
-                  <div className={classes.graphBox}>
-                    <div className={classes.amount}>
-                      {totalSummary?.total_earning}$
-                    </div>
-                    <span className={classes.title}>Total Earning</span>
-                  </div>
-                  <div className={classes.graphBox}>
-                    <span
-                      className={`${classes.amount} ${classes.paidDownloadColor}`}
-                    >
-                      {totalSummary?.total_images}
-                    </span>
-                    <span className={classes.title}>Total Files</span>
-                  </div>
-                  <div className={classes.graphBox}>
-                    <span
-                      className={`${classes.amount} ${classes.freeDownloadColor}`}
-                    >
-                      {totalSummary?.total_followers}
-                    </span>
-                    <span className={classes.title}>Total Follower</span>
-                  </div>
-                  <div className={classes.graphBox}>
-                    <span
-                      className={`${classes.amount} ${classes.totalDownloadColor}`}
-                    >
-                      {totalSummary?.total_downloads}
-                    </span>
-                    <span className={classes.title}>Total Download</span>
-                  </div>
-                </Card>
-              </Grid>
-            </Grid>
+            <TotalCountHistory />
 
             <div>
               <Typography className={classes.formTitle} variant="h4">

@@ -17,7 +17,7 @@ const Sidebar = () => {
   const [value, setValue] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
-  const totalPublishFile = useSelector((state) => state.totalPublishFile);
+  const totalProductCount = useSelector((state) => state.totalProductCount);
 
   useEffect(() => {
     if (window.location.pathname === "/contributor/dashboard" && value !== 0) {
@@ -44,7 +44,7 @@ const Sidebar = () => {
       setSelectedItem(5);
     } else if (window.location.pathname === "/contributor/earnings" && value !== 6) {
       setValue(6);
-    } else if (window.location.pathname === "/contributor/contributorPricePlan" && value !== 7) {
+    } else if (window.location.pathname === "/contributor/contributor-price-plan" && value !== 7) {
       setValue(7);
     } else if (window.location.pathname === "/contributor/guidLine" && value !== 8) {
       setValue(8);
@@ -93,13 +93,13 @@ const Sidebar = () => {
             selected: classes.selectedItem,
           }}
           className={classes.dropdownMenu}
-          onClick={handleClick}
+          onClick={() => handleClick()}
           component={Link}
           to="/contributor/upload"
           selected={value === 1}
         >
           <CloudUploadIcon />
-          <ListItemText primary="Upload File" />
+          <ListItemText primary="Files" />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
 
@@ -115,7 +115,7 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 2}
             >
-              <ListItemText primary="Submit File(0)" />
+              <ListItemText primary={`Not yet submitted(${totalProductCount?.notSubmit})`} />
             </ListItem>
             <ListItem
               component={Link}
@@ -123,7 +123,7 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 3}
             >
-              <ListItemText primary="Under Revision(0)" />
+              <ListItemText primary={`Under Revision(${totalProductCount?.pendingCount})`} />
             </ListItem>
             <ListItem
               component={Link}
@@ -131,7 +131,7 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 4}
             >
-              <ListItemText primary="Reject File(0)" />
+              <ListItemText primary={`Rejections(${totalProductCount?.rejectCount})`} />
             </ListItem>
             <ListItem
               component={Link}
@@ -139,7 +139,7 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 5}
             >
-              <ListItemText primary={`Publish(${totalPublishFile.length})`} />
+              <ListItemText primary={`Published(${totalProductCount?.publishCount})`} />
             </ListItem>
           </List>
         </Collapse>
@@ -162,7 +162,7 @@ const Sidebar = () => {
             selected: classes.selectedItem,
           }}
           component={Link}
-          to="/contributor/contributorPricePlan"
+          to="/contributor/contributor-price-plan"
           selected={value === 7}
         >
           <CardMembershipIcon />

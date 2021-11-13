@@ -80,7 +80,6 @@ const useStyles = makeStyles((theme) => ({
     height: "auto",
     borderRadius: 0,
     boxShadow: "0 8px 12px 3px rgb(0 0 0 / 6%)",
-    // margin: "1rem",
   },
   productCard: {
     padding: "2rem",

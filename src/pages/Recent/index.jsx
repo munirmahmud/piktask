@@ -28,7 +28,7 @@ const Recent = () => {
   const [isLoading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  let limit = 32;
+  let limit = 60;
   const count = Math.ceil(totalProduct / limit);
 
   //Recent images API integration

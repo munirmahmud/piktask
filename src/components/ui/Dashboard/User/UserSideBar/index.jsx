@@ -69,7 +69,7 @@ const UserSideBar = () => {
   const [profilePicture, setProfilePicture] = useState("");
   const [alertDialog, setAlertDialog] = useState(false);
   const [userProfile, setUserProfile] = useState({});
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [password, setPassword] = useState("");
   const [tabIndex, setTabIndex] = useState(0);
   const [value, setValue] = useState("");
@@ -88,8 +88,6 @@ const UserSideBar = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
-
     // get user information
     if (user?.isLoggedIn) {
       axios
@@ -104,7 +102,8 @@ const UserSideBar = () => {
           }
         })
         .catch((error) => {
-          console.log(error.message);
+          console.log("User profile", error.message);
+          setLoading(false);
         });
     }
   }, [user?.token, user?.isLoggedIn]);
@@ -132,10 +131,7 @@ const UserSideBar = () => {
       setValue(3);
     } else if (window.location.pathname === "/user/devices" && value !== 4) {
       setValue(4);
-    } else if (
-      window.location.pathname === "/user/subscription" &&
-      value !== 5
-    ) {
+    } else if (window.location.pathname === "/user/subscription" && value !== 5) {
       setValue(5);
     }
   }, [value]);

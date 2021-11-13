@@ -26,7 +26,6 @@ import box from "../../../../assets/dashboardicons/box.svg";
 import arrowDown from "../../../../assets/dashboardicons/icon1.svg";
 import moneyIcon from "../../../../assets/dashboardicons/money.svg";
 import followerIcon from "../../../../assets/icons/followerIcon.png";
-import Spacing from "../../../../components/Spacing";
 import Blog from "../../../../components/ui/Blog";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
@@ -239,7 +238,7 @@ const AdminDashboard = () => {
           </div>
 
           {/* Map & country wise earning statistics */}
-          <Grid container className={classes.dashboardGridContainer}>
+          <Grid container className={classes.filesGridContainer}>
             <Grid item xs={12} sm={12} md={6} className={classes.loaderItem}>
               <Card className={classes.cardRoot}>
                 <CardContent className={classes.authorCard}>
@@ -433,8 +432,6 @@ const AdminDashboard = () => {
               </Card>
             </Grid>
           </Grid>
-
-          <Spacing space={{ height: "2rem" }} />
 
           {/* <Container>
             <SectionHeading title="Top Selling Author" large>

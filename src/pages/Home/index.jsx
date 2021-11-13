@@ -23,6 +23,7 @@ const Home = () => {
   const [scrolling, setScrolling] = useState(0);
   let [index, setIndex] = useState(1);
 
+ 
   //onScroll data load function
   window.onscroll = () => {
     setScrolling(window.pageYOffset);
@@ -70,6 +71,12 @@ const Home = () => {
 
       {/* Carousel with Categories */}
       <CategoryCarousel />
+
+      <Suspense fallback={<Loader />}>
+        <Container>
+          <Products piktaskCollection />
+        </Container>
+      </Suspense>
 
       <Suspense fallback={<Loader />}>
         <Container>
