@@ -168,7 +168,7 @@ const SingleProductDetails = () => {
       .then(({ data }) => {
         if (data?.status) {
           setRelatedImage(data?.images);
-          setTotalProduct(data?.total)
+          setTotalProduct(data?.total);
           setLoading(false);
         }
       })
@@ -204,7 +204,7 @@ const SingleProductDetails = () => {
         })
         .catch((error) => console.log("Followers error: ", error));
     } else {
-      if(user?.isLoggedIn && user?.role === "contributor"){
+      if (user?.isLoggedIn && user?.role === "contributor") {
         toast.error("Please, login as a user", { autoClose: 1500 });
       } else {
         // setOpenAuthModal(true);
@@ -246,7 +246,7 @@ const SingleProductDetails = () => {
         })
         .catch((error) => console.log("Like error: ", error));
     } else {
-      if(user?.isLoggedIn && user?.role === "contributor"){
+      if (user?.isLoggedIn && user?.role === "contributor") {
         toast.error("Please, login as a user", { autoClose: 1500 });
       } else {
         toast.error("You can't like yourself", { autoClose: 1500 });
@@ -274,7 +274,7 @@ const SingleProductDetails = () => {
       if (user?.role === "user") {
         downloadAPI.headers = { Authorization: user?.token };
       } else {
-        setRole(e.currentTarget.value);
+        setRole(e.target.value);
         setOpenAuthModal(true);
         return;
       }
@@ -286,7 +286,9 @@ const SingleProductDetails = () => {
           axios
             .get(data.url, { responseType: "blob" })
             .then((response) => {
-              const url = window.URL.createObjectURL(new Blob([response?.data]));
+              const url = window.URL.createObjectURL(
+                new Blob([response?.data])
+              );
               const link = document.createElement("a");
               link.href = url;
               link.setAttribute(
@@ -307,13 +309,13 @@ const SingleProductDetails = () => {
       })
       .catch((error) => {
         console.log("catch", error.response);
-        if(user?.isLoggedIn && user?.role === "contributor"){
+        if (user?.isLoggedIn && user?.role === "contributor") {
           toast.error("Please, login as a user", { autoClose: 1500 });
         } else if (user?.isLoggedIn && user?.role === "user") {
           toast.error(error.response.data.message, { autoClose: 1500 });
         } else {
           toast.error(error.response.data.message, { autoClose: 1500 });
-          setRole(e.currentTarget.value);
+          setRole(e.target.value);
           setOpenAuthModal(true);
         }
       });
@@ -727,7 +729,12 @@ const SingleProductDetails = () => {
           )}
         </Grid>
         {totalProduct > limit && (
-          <Paginations productPagination count={count} pageCount={pageCount} setPageCount={setPageCount} />
+          <Paginations
+            productPagination
+            count={count}
+            pageCount={pageCount}
+            setPageCount={setPageCount}
+          />
         )}
 
         {/* BUTTONS OF TAGS */}
