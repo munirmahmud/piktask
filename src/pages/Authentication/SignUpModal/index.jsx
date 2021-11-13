@@ -263,7 +263,9 @@ const SignUpModal = (props) => {
           },
         });
       }
-      if (location.pathname) {
+      if(decodedToken.role === "contributor"){
+        history.push("/contributor/dashboard");
+      } else if (location.pathname) {
         history.push(location.pathname);
       } else {
         history.replace(from);
@@ -303,7 +305,9 @@ const SignUpModal = (props) => {
           },
         });
       }
-      if (location.pathname) {
+      if(decodedToken.role === "contributor"){
+        history.push("/contributor/dashboard");
+      } else if (location.pathname) {
         history.push(location.pathname);
       } else {
         history.replace(from);

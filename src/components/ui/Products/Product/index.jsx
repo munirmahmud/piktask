@@ -76,7 +76,7 @@ const Product = ({ photo = null }) => {
 
     if (data) {
       return encodeURI(
-        `/images/${data?.title.toLowerCase().replace(/\s/g, "-")}&id=${
+        `/images/${data?.title.toLowerCase().trim().replace(/\s/g, "-")}&id=${
           data?.image_id
         }`
       );

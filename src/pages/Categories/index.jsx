@@ -48,7 +48,7 @@ const Categories = () => {
             <CategoryItemLoader />
           ) : (
             <>
-              {popularCategories.length ? (
+              {popularCategories?.length ? (
                 popularCategories?.map((photo) => (
                   <Grid
                     key={photo.id}

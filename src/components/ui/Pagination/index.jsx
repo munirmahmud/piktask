@@ -59,7 +59,7 @@ const Paginations = (props) => {
         <Button
           onClick={handlePreviousBtn}
           disabled={selected === 1 ? true : false}
-          className={classes.prevButton}
+          className={selected === 1 ? `${classes.disablePreviousButton}` : `${classes.prevButton}`}
         >
           Previous
         </Button>
@@ -71,7 +71,7 @@ const Paginations = (props) => {
         <Button
           onClick={handleNextBtn}
           disabled={selected === count ? true : false}
-          className={classes.nextButton}
+          className={selected === count ? `${classes.disableNextButton}` : `${classes.nextButton}`}
         >
           Next
         </Button>
