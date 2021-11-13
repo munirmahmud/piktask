@@ -1,11 +1,11 @@
 import { Dialog, Typography } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/styles";
 import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import CloseIcon from "@material-ui/icons/Close";
-import { CustomBtn, InputField } from "../../../../../components/InputField";
 import { toast } from "react-toastify";
+import { CustomBtn, InputField } from "../../../../../components/InputField";
 
 const useStyles = makeStyles({
   withdrawModal: {
@@ -37,17 +37,17 @@ const useStyles = makeStyles({
       marginBottom: "1rem",
       marginTop: "-1rem",
     },
-  }
+  },
 });
 
 const WithdrawModal = (props) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const { 
-    openWithdrawModal, 
-    setWithdrawModal, 
-    username, 
-    paymentGateway, 
+  const {
+    openWithdrawModal,
+    setWithdrawModal,
+    username,
+    paymentGateway,
     paypalAccount,
     payoneerAccount,
     accountNumber,
@@ -55,7 +55,6 @@ const WithdrawModal = (props) => {
     minWithdraw,
   } = props;
 
-  
   const [isLoading, setLoading] = useState(true);
   const [authData, setAuthData] = useState("");
   const [errors, setErrors] = useState("");
@@ -70,7 +69,7 @@ const WithdrawModal = (props) => {
     if (value < minWithdraw) {
       setErrors("Sorry, Minimum withdraw $25");
       return;
-    } else if(value > totalBalance){
+    } else if (value > totalBalance) {
       setErrors("Sorry, you don't have enough balance to withdraw");
       return;
     } else {
@@ -79,15 +78,15 @@ const WithdrawModal = (props) => {
     }
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(user?.isLoggedIn && !errors){
+    if (user?.isLoggedIn && !errors) {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/contributor/withdrawals/request`,
-          {amount: authData}, 
-          {headers: { Authorization: user?.token },}
+        .post(
+          `${process.env.REACT_APP_API_URL}/contributor/withdrawals/request`,
+          { amount: authData },
+          { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.status) {
@@ -113,21 +112,14 @@ const WithdrawModal = (props) => {
         className={classes.withdrawModal}
       >
         <div className={classes.closeModal}>
-          <CloseIcon
-            fontSize="large"
-            onClick={() => setWithdrawModal(false)}
-          />
+          <CloseIcon fontSize="large" onClick={() => setWithdrawModal(false)} />
         </div>
         <div className={classes.withdrawInfo}>
           <Typography variant="h5" className={classes.withdrawTitle}>
             {"Apply for withdrawal"}
           </Typography>
           <form onSubmit={handleSubmit}>
-            <InputField
-              label="User Name"
-              name="userName"
-              value={username}
-            />
+            <InputField label="User Name" name="userName" value={username} />
             {paymentGateway === "PayPal" && (
               <>
                 <InputField
@@ -135,11 +127,7 @@ const WithdrawModal = (props) => {
                   name="paypal"
                   value={paymentGateway}
                 />
-                <InputField
-                  label="Email"
-                  name="email"
-                  value={paypalAccount}
-                />
+                <InputField label="Email" name="email" value={paypalAccount} />
               </>
             )}
             {paymentGateway === "Payoneer" && (
@@ -158,11 +146,7 @@ const WithdrawModal = (props) => {
             )}
             {paymentGateway === "Bank" && (
               <>
-                <InputField
-                  label="Bank"
-                  name="bank"
-                  value={paymentGateway}
-                />
+                <InputField label="Bank" name="bank" value={paymentGateway} />
                 <InputField
                   label="Account Number"
                   name="account"
@@ -178,7 +162,7 @@ const WithdrawModal = (props) => {
                 value={authData}
                 onChange={handleAuthData}
               />
-              {errors && (<Typography>{errors}</Typography>)}
+              {errors && <Typography>{errors}</Typography>}
             </div>
 
             <CustomBtn type="submit" text="Apply" color="green" />

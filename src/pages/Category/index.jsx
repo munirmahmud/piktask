@@ -9,8 +9,8 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
 import { useLocation } from "react-router";
+import { Link, useParams } from "react-router-dom";
 import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
@@ -36,7 +36,7 @@ const Category = () => {
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  
+
   let limit = 24;
   const count = Math.ceil(totalProduct / limit);
 
@@ -199,8 +199,13 @@ const Category = () => {
           )}
         </Grid>
         {totalProduct > limit && (
-          <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
-        )} 
+          <Paginations
+            locationPath={locationPath}
+            count={count}
+            pageCount={pageCount}
+            setPageCount={setPageCount}
+          />
+        )}
       </Container>
 
       <div className={classes.tagWrapper}>

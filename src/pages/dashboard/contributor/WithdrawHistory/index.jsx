@@ -1,5 +1,4 @@
 import {
-  // Button,
   Card,
   CardContent,
   Grid,
@@ -11,7 +10,10 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
+import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
@@ -22,6 +24,10 @@ import useStyles from "./WithdrawHistory.style";
 
 const WithdrawHistory = () => {
   const classes = useStyles();
+  const user = useSelector((state) => state.user);
+  const [isLoading, setLoading] = useState(true);
+  const [withdrawalHistory, setWithdrawalHistory] = useState([]);
+
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
 
@@ -35,6 +41,26 @@ const WithdrawHistory = () => {
     setResponsiveness();
     window.addEventListener("resize", () => setResponsiveness());
   }, []);
+
+  useEffect(() => {
+    if (user?.isLoggedIn && user?.role === "contributor") {
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/contributor/withdrawals/history/?start=2021-11-13&end=2021-11-13`,
+          { headers: { Authorization: user?.token } }
+        )
+        .then(({ data }) => {
+          if (data?.status) {
+            setWithdrawalHistory(data?.history);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log("Withdrawals history", error.message);
+          setLoading(false);
+        });
+    }
+  }, [user?.isLoggedIn, user?.role, user?.token]);
 
   return (
     <Layout title="Withdraw History | Piktask">
@@ -66,7 +92,10 @@ const WithdrawHistory = () => {
                       className={classes.tableContainer}
                       component={Paper}
                     >
-                      <Table className={classes.table} aria-label="publish data table">
+                      <Table
+                        className={classes.table}
+                        aria-label="publish data table"
+                      >
                         <TableHead>
                           <TableRow className={classes.tableHead}>
                             <TableCell className={classes.tableCell}>
@@ -84,62 +113,31 @@ const WithdrawHistory = () => {
                           </TableRow>
                         </TableHead>
 
-                        <TableBody>
-                          <TableRow className={classes.tableRowContent}>
-                            <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
-                            <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
-                            <TableCell className={classes.tableCell}>(No reason)</TableCell>
-                          </TableRow>
-                        </TableBody>
-                        <TableBody>
-                          <TableRow className={classes.tableRowContent}>
-                            <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
-                            <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
-                            <TableCell className={classes.tableCell}>(No reason)</TableCell>
-                          </TableRow>
-                        </TableBody>
-                        <TableBody>
-                          <TableRow className={classes.tableRowContent}>
-                            <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
-                            <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
-                            <TableCell className={classes.tableCell}>(No reason)</TableCell>
-                          </TableRow>
-                        </TableBody>
-                        <TableBody>
-                          <TableRow className={classes.tableRowContent}>
-                            <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
-                            <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
-                            <TableCell className={classes.tableCell}>(No reason)</TableCell>
-                          </TableRow>
-                        </TableBody>
-                        <TableBody>
-                          <TableRow className={classes.tableRowContent}>
-                            <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
-                            <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
-                            <TableCell className={classes.tableCell}>(No reason)</TableCell>
-                          </TableRow>
-                        </TableBody>
-                        <TableBody>
-                          <TableRow className={classes.tableRowContent}>
-                            <TableCell className={classes.tableCell}>November 10, 2021</TableCell>
-                            <TableCell className={classes.tableCell}>$500</TableCell>
-                            <TableCell className={classes.tableCell}>Reviewing / Pending / Success</TableCell>
-                            <TableCell className={classes.tableCell}>(No reason)</TableCell>
-                          </TableRow>
-                        </TableBody>
-
+                        {withdrawalHistory?.length > 0 &&
+                          withdrawalHistory?.map((historyItem) => (
+                            <TableBody key={historyItem?.id}>
+                              <TableRow className={classes.tableRowContent}>
+                                <TableCell className={classes.tableCell}>
+                                  {moment(historyItem?.date_paid).format("ll")}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                  ${historyItem?.amount}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                  {historyItem?.status}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                  {historyItem?.reason}
+                                </TableCell>
+                              </TableRow>
+                            </TableBody>
+                          ))}
                       </Table>
                     </TableContainer>
                   </CardContent>
                 </Card>
               </Grid>
             </Grid>
-
           </div>
           <Footer />
         </main>
