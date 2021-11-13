@@ -49,8 +49,6 @@ const EditItem = (props) => {
     images.push(element.token_id);
   });
 
-  console.log("products", products);
-
   const handleProductSubmit = async (e) => {
     e.preventDefault();
     const action = e.currentTarget.value;
@@ -96,7 +94,6 @@ const EditItem = (props) => {
           setAddProductDetails(pendingProducts);
           products.forEach(element => {
             if(element.isSelected === true){
-              // element.isSelected = false;
               setSuccessProduct(element.isSelected = false);
             }
           });
