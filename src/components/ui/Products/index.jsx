@@ -46,6 +46,8 @@ const Products = (props) => {
 
   // Data load
   useEffect(() => {
+    if(category?.id === 53) return;
+
     let categoryURL;
 
     if (user?.id && user?.role === "user") {
@@ -77,9 +79,9 @@ const Products = (props) => {
     let categoryURL;
 
     if (user?.id && user?.role === "user") {
-      categoryURL = `${process.env.REACT_APP_API_URL}/categories/53?user_id=${user?.id}`;
+      categoryURL = `${process.env.REACT_APP_API_URL}/categories/53?limit=16&user_id=${user?.id}`;
     } else {
-      categoryURL = `${process.env.REACT_APP_API_URL}/categories/53`;
+      categoryURL = `${process.env.REACT_APP_API_URL}/categories/53/?limit=16`;
     }
     axios.get(categoryURL).then(({ data }) => {
       if (data?.status) {
@@ -88,7 +90,7 @@ const Products = (props) => {
       }
     });
   }, [user?.id, user?.role]);
-
+  
 
   return (
     <>
@@ -115,7 +117,7 @@ const Products = (props) => {
               <Loader item={images} />
             ) : (
               <>
-                {piktaskProduct.length ? (
+                {piktaskProduct?.length > 0 &&
                   piktaskProduct?.slice(0, 16).map((photo) => (
                     <Grid
                       key={photo?.image_id}
@@ -131,10 +133,7 @@ const Products = (props) => {
                         photo={photo}
                       />
                     </Grid>
-                  ))
-                ) : (
-                  <ProductNotFound />
-                )}
+                  ))}
               </>
             )}
           </Grid>
@@ -162,7 +161,7 @@ const Products = (props) => {
               <Loader item={images} />
             ) : (
               <>
-                {images.length ? (
+                {images?.length > 0 &&
                   images?.slice(0, count).map((photo) => (
                     <Grid
                       key={photo?.image_id}
@@ -178,10 +177,7 @@ const Products = (props) => {
                         photo={photo}
                       />
                     </Grid>
-                  ))
-                ) : (
-                  <ProductNotFound />
-                )}
+                  ))}
               </>
             )}
           </Grid>
