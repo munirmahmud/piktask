@@ -144,7 +144,7 @@ const EditItem = (props) => {
           tagsValue?.map((tag, index) => (
             <li key={index} className="keyword">
               {tag}
-              <ClearIcon onClick={(e) => removeKeyword(tag, index, e)} />
+              {/* <ClearIcon onClick={(e) => removeKeyword(tag, index, e)} /> */}
             </li>
           ))}
       </div>
