@@ -248,7 +248,7 @@ const AccountSettings = () => {
       })
         .then((res) => {
           if (res?.status === 200) {
-            toast.success(res.data.message, { autoClose: 500 });
+            toast.success(res.data.message);
             setErrors({});
           }
         })
@@ -257,7 +257,7 @@ const AccountSettings = () => {
           setErrors(errors);
         });
     } else {
-      toast.error("Please insert profile info", { autoClose: 500 });
+      toast.error("Please insert profile info", { autoClose: 2200 });
     }
   };
 

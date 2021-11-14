@@ -175,10 +175,10 @@ const SingleProductDetails = () => {
         .catch((error) => console.log("Followers error: ", error));
     } else {
       if (user?.isLoggedIn && user?.role === "contributor") {
-        toast.error("Please, login as a user", { autoClose: 1500 });
+        toast.error("Please, login as a user", { autoClose: 2200 });
       } else {
         // setOpenAuthModal(true);
-        toast.error("You can't follow yourself", { autoClose: 1500 });
+        toast.error("You can't follow yourself", { autoClose: 2000 });
       }
     }
   };
@@ -206,7 +206,7 @@ const SingleProductDetails = () => {
             setLike(true);
             setLoading(false);
           } else if (!data?.status) {
-            toast.error(data.message, { autoClose: 1500 });
+            toast.error(data.message);
             setLike(true);
             setLoading(false);
           } else {
@@ -217,9 +217,9 @@ const SingleProductDetails = () => {
         .catch((error) => console.log("Like error: ", error));
     } else {
       if (user?.isLoggedIn && user?.role === "contributor") {
-        toast.error("Please, login as a user", { autoClose: 1500 });
+        toast.error("Please, login as a user", { autoClose: 2200 });
       } else {
-        toast.error("You can't like yourself", { autoClose: 1500 });
+        toast.error("You can't like yourself", { autoClose: 2000 });
       }
     }
   };
@@ -280,11 +280,11 @@ const SingleProductDetails = () => {
       .catch((error) => {
         console.log("catch", error.response);
         if (user?.isLoggedIn && user?.role === "contributor") {
-          toast.error("Please, login as a user", { autoClose: 1500 });
+          toast.error("Please, login as a user", { autoClose: 2200 });
         } else if (user?.isLoggedIn && user?.role === "user") {
-          toast.error(error.response.data.message, { autoClose: 1500 });
+          toast.error(error.response.data.message, { autoClose: 2000 });
         } else {
-          toast.error(error.response.data.message, { autoClose: 1500 });
+          toast.error(error.response.data.message, { autoClose: 2000 });
           setRole(e.target.value);
           setOpenAuthModal(true);
         }

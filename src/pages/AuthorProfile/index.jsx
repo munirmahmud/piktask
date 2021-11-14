@@ -34,7 +34,9 @@ const AuthorProfile = () => {
     setLoading(true);
     try {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/${username}/statistics`)
+        .get(
+          `${process.env.REACT_APP_API_URL}/contributor/${username}/statistics`
+        )
         .then(({ data }) => {
           if (data?.status) {
             setProfileInfo(data?.profile);
@@ -87,11 +89,10 @@ const AuthorProfile = () => {
         })
         .catch((error) => console.log("Followers error: ", error));
     } else {
-      // toast.error("You can't follow yourself", { autoClose: 500,});
-      if(user?.isLoggedIn && user?.role === "contributor"){
-        toast.error("Please, login as a user", { autoClose: 1500 });
+      if (user?.isLoggedIn && user?.role === "contributor") {
+        toast.error("Please, login as a user", { autoClose: 2200 });
       } else {
-        toast.error("You can't follow yourself", { autoClose: 1500 });
+        toast.error("You can't follow yourself", { autoClose: 2000 });
       }
     }
   };
@@ -153,9 +154,14 @@ const AuthorProfile = () => {
                       )}
                     </div>
                     <div className={classes.authorSocials}>
-                      {(profileInfo?.facebook || profileInfo?.instagram || profileInfo?.twitter) && (
-                        <SocialShare title="Follow this author:" profileInfo={profileInfo} />
-                      ) }
+                      {(profileInfo?.facebook ||
+                        profileInfo?.instagram ||
+                        profileInfo?.twitter) && (
+                        <SocialShare
+                          title="Follow this author:"
+                          profileInfo={profileInfo}
+                        />
+                      )}
                     </div>
                   </div>
                 </Grid>

@@ -139,7 +139,7 @@ const SignUpModal = (props) => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data?.message, { autoClose: 2200 });
+        toast.error(error.response.data?.message);
         authData.userName = "";
         authData.password = "";
         setLoading(false);
@@ -233,7 +233,7 @@ const SignUpModal = (props) => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data.message, { autoClose: 2200 });
+        toast.error(error.response.data.message);
         authData.userName = "";
         authData.email = "";
         authData.password = "";

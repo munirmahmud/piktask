@@ -46,24 +46,24 @@ const Contact = () => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (email && !validateEmail.test(String(email))) {
-      toast.error("Your email is invalid", { autoClose: 500 });
+      toast.error("Your email is invalid", { autoClose: 2200 });
       setLoading(false);
       return;
     } else if (!name) {
       setLoading(false);
-      toast.error("The name field is required.", { autoClose: 500 });
+      toast.error("The name field is required.", { autoClose: 2200 });
       return;
     } else if (!email) {
       setLoading(false);
-      toast.error("The email field is required.", { autoClose: 500 });
+      toast.error("The email field is required.", { autoClose: 2200 });
       return;
     } else if (!subject) {
       setLoading(false);
-      toast.error("Please select a problem category.", { autoClose: 500 });
+      toast.error("Please select a problem category.", { autoClose: 2200 });
       return;
     } else if (!message) {
       setLoading(false);
-      toast.error("The description field is required.", { autoClose: 500 });
+      toast.error("The description field is required.", { autoClose: 2200 });
       return;
     }
 
@@ -81,7 +81,7 @@ const Contact = () => {
     })
       .then((res) => {
         if (res?.status === 200) {
-          toast.success(res.data.message, { autoClose: 500 });
+          toast.success(res.data.message);
           setLoading(false);
           setName("");
           setEmail("");
@@ -92,7 +92,7 @@ const Contact = () => {
       .catch((error) => {
         const { errors } = error.response.data;
         for (let key in errors) {
-          toast.error(errors[key], { autoClose: 500 });
+          toast.error(errors[key]);
         }
         setLoading(false);
       });
