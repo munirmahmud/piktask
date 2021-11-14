@@ -9,7 +9,7 @@ import useStyles from "./NotFoundPage.styles";
 const NotFoundPage = () => {
   const classes = useStyles();
   return (
-    <Layout title="Graphic Resources for Free Download || Piktask">
+    <Layout title="Graphic Resources for Free Download | Piktask">
       <Header />
       <div className={classes.pageNotFound}>
         <Container>

@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   ClickAwayListener,
   Container,
   Dialog,
@@ -46,9 +47,7 @@ import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import SectionHeading from "../../components/ui/Heading";
 import HeroSection from "../../components/ui/Hero";
-import Loader from "../../components/ui/Loader";
-import Paginations from "../../components/ui/Pagination";
-import Product from "../../components/ui/Products/Product";
+import RelatedImage from "../../components/ui/RelatedImage";
 import TagButtons from "../../components/ui/TagButtons";
 import { getBaseURL } from "../../helpers";
 import Layout from "../../Layout";
@@ -71,7 +70,7 @@ const SingleProductDetails = () => {
   const [isLoading, setLoading] = useState(true);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [imageDetails, setImageDetails] = useState({});
-  const [relatedImage, setRelatedImage] = useState([]);
+
   const [copySuccess, setCopySuccess] = useState("");
   const [allTags, setAllTags] = useState([]);
   const [open, setOpen] = useState(false);
@@ -79,11 +78,6 @@ const SingleProductDetails = () => {
   const [downloadCount, setDownloadCount] = useState();
   const [imageLink, setImageLink] = useState("");
   const [role, setRole] = useState("");
-
-  const [pageCount, setPageCount] = useState(1);
-  const [totalProduct, setTotalProduct] = useState();
-  let limit = 32;
-  const count = Math.ceil(totalProduct / limit);
 
   const handleTooltipClose = () => {
     setOpenCopyLink(false);
@@ -96,7 +90,6 @@ const SingleProductDetails = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     // Match image ID
     axios
       .get(`${process.env.REACT_APP_API_URL}/images/${imageID}`)
@@ -155,30 +148,6 @@ const SingleProductDetails = () => {
     }
   }, [imageID, user, user?.token]);
 
-  useEffect(() => {
-    // related product API
-    let relatedImageURL;
-
-    if (user?.isLoggedIn && user?.id && user?.role === "user") {
-      relatedImageURL = `${process.env.REACT_APP_API_URL}/images/${imageID}/related_image?limit=${limit}&page=${pageCount}&user_id=${user?.id}`;
-    } else {
-      relatedImageURL = `${process.env.REACT_APP_API_URL}/images/${imageID}/related_image?limit=${limit}&page=${pageCount}`;
-    }
-    axios
-      .get(relatedImageURL)
-      .then(({ data }) => {
-        if (data?.status) {
-          setRelatedImage(data?.images);
-          setTotalProduct(data?.total);
-          setLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.log("Related image error: ", error);
-        setLoading(false);
-      });
-  }, [imageID, user?.id, user?.isLoggedIn, user?.role, limit, pageCount]);
-
   const handleFollower = (e) => {
     if (!user?.isLoggedIn && window.innerWidth > 900) {
       setRole(e.currentTarget.value);
@@ -206,10 +175,10 @@ const SingleProductDetails = () => {
         .catch((error) => console.log("Followers error: ", error));
     } else {
       if (user?.isLoggedIn && user?.role === "contributor") {
-        toast.error("Please, login as a user", { autoClose: 1500 });
+        toast.error("Please, login as a user", { autoClose: 2200 });
       } else {
         // setOpenAuthModal(true);
-        toast.error("You can't follow yourself", { autoClose: 1500 });
+        toast.error("You can't follow yourself", { autoClose: 2000 });
       }
     }
   };
@@ -237,7 +206,7 @@ const SingleProductDetails = () => {
             setLike(true);
             setLoading(false);
           } else if (!data?.status) {
-            toast.error(data.message, { autoClose: 1500 });
+            toast.error(data.message);
             setLike(true);
             setLoading(false);
           } else {
@@ -248,9 +217,9 @@ const SingleProductDetails = () => {
         .catch((error) => console.log("Like error: ", error));
     } else {
       if (user?.isLoggedIn && user?.role === "contributor") {
-        toast.error("Please, login as a user", { autoClose: 1500 });
+        toast.error("Please, login as a user", { autoClose: 2200 });
       } else {
-        toast.error("You can't like yourself", { autoClose: 1500 });
+        toast.error("You can't like yourself", { autoClose: 2000 });
       }
     }
   };
@@ -275,12 +244,11 @@ const SingleProductDetails = () => {
       if (user?.role === "user") {
         downloadAPI.headers = { Authorization: user?.token };
       } else {
-        setRole(e.target.closest("button").value);
+        setRole(e.target.value);
         setOpenAuthModal(true);
         return;
       }
     }
-
     axios(downloadAPI)
       .then(({ data }) => {
         if (data?.url) {
@@ -295,9 +263,7 @@ const SingleProductDetails = () => {
               link.href = url;
               link.setAttribute(
                 "download",
-                `${imageDetails?.title.trim().replace(/\s/g, "-")}.${
-                  data?.extension
-                }`
+                `${imageDetails?.title.replace(/\s/g, "-")}.${data?.extension}`
               );
               document.body.appendChild(link);
               link.click();
@@ -312,13 +278,14 @@ const SingleProductDetails = () => {
         }
       })
       .catch((error) => {
+        console.log("catch", error.response);
         if (user?.isLoggedIn && user?.role === "contributor") {
-          toast.error("Please, login as a user", { autoClose: 1500 });
+          toast.error("Please, login as a user", { autoClose: 2200 });
         } else if (user?.isLoggedIn && user?.role === "user") {
-          toast.error(error.response.data.message, { autoClose: 1500 });
+          toast.error(error.response.data.message, { autoClose: 2000 });
         } else {
-          toast.error(error.response.data.message, { autoClose: 1500 });
-          setRole(e.target.closest("button").value);
+          toast.error(error.response.data.message, { autoClose: 2000 });
+          setRole(e.target.value);
           setOpenAuthModal(true);
         }
       });
@@ -339,14 +306,26 @@ const SingleProductDetails = () => {
   };
 
   return (
-    <>
-      <Layout
-        title={`${imageDetails?.title} | Piktask`}
-        description={`${imageDetails?.description} || Piktask`}
-      >
-        <Header />
-        <HeroSection size="medium" />
-        <Container className={classes.containerWrapper}>
+    <Layout
+      title={`${imageDetails?.title} | Piktask`}
+      description={`${imageDetails?.description} | Piktask`}
+    >
+      <Header />
+      <HeroSection size="medium" />
+      <Container className={classes.containerWrapper}>
+        {isLoading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "0 auto",
+              height: 300,
+            }}
+          >
+            <CircularProgress color="primary" />
+          </div>
+        ) : (
           <Grid
             container
             spacing={4}
@@ -667,7 +646,6 @@ const SingleProductDetails = () => {
                           )}
                     </div>
                   </div>
-
                   {user?.id !== imageDetails?.user_id && (
                     <>
                       {!isLike ? (
@@ -699,144 +677,115 @@ const SingleProductDetails = () => {
               </div>
             </Grid>
           </Grid>
+        )}
 
-          {/* Sign up modal section*/}
-          <SignUpModal
-            openAuthModal={openAuthModal}
-            setOpenAuthModal={setOpenAuthModal}
-            role={role}
-          />
+        {/* Sign up modal section*/}
+        <SignUpModal
+          openAuthModal={openAuthModal}
+          setOpenAuthModal={setOpenAuthModal}
+          role={role}
+        />
 
-          <Spacing space={{ height: "2.5rem" }}></Spacing>
-          <SectionHeading
-            title="Related Products"
-            subtitle="Top website templates with the highest sales volume."
-            size="large"
-          />
+        <Spacing space={{ height: "2.5rem" }}></Spacing>
+        <SectionHeading
+          title="Related Products"
+          subtitle="Top website templates with the highest sales volume."
+          size="large"
+        />
 
-          {/* Products */}
-          <Grid
-            classes={{ container: classes.container }}
-            container
-            spacing={2}
-          >
-            {isLoading ? (
-              <Loader />
-            ) : (
-              relatedImage?.map((photo) => (
-                <Grid
-                  key={photo.image_id}
-                  item
-                  xs={6}
-                  sm={4}
-                  md={3}
-                  className={classes.productItem}
-                >
-                  <Product photo={photo} />
-                </Grid>
-              ))
-            )}
-          </Grid>
-          {totalProduct > limit && (
-            <Paginations
-              productPagination
-              count={count}
-              pageCount={pageCount}
-              setPageCount={setPageCount}
-            />
-          )}
+        {/* Products */}
+        <RelatedImage imageID={imageID} />
 
-          {/* BUTTONS OF TAGS */}
-          <TagButtons allTags={allTags} />
+        {/* BUTTONS OF TAGS */}
+        <TagButtons allTags={allTags} />
 
-          <Dialog
-            onClose={handleClose}
-            aria-labelledby="customized-dialog-title"
-            open={open}
-          >
-            <div className={classes.socialShareWrapper}>
-              <DialogTitle className={classes.socialShareTitle}>
-                {"Use image social link"}
-              </DialogTitle>
-              <IconButton
-                aria-label="close"
-                className={classes.closeButton}
-                onClick={handleClose}
-              >
-                <CloseIcon />
-              </IconButton>
+        <Dialog
+          onClose={handleClose}
+          aria-labelledby="customized-dialog-title"
+          open={open}
+        >
+          <div className={classes.socialShareWrapper}>
+            <DialogTitle className={classes.socialShareTitle}>
+              {"Use image social link"}
+            </DialogTitle>
+            <IconButton
+              aria-label="close"
+              className={classes.closeButton}
+              onClick={handleClose}
+            >
+              <CloseIcon />
+            </IconButton>
+          </div>
+          <DialogContent dividers>
+            <div
+              style={{
+                padding: "2rem",
+                minWidth: "300px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <PinterestShareButton url={shareUrl} media={imageLink}>
+                <PinterestIcon
+                  size={40}
+                  style={{ margin: "0.4rem" }}
+                  round={true}
+                />
+              </PinterestShareButton>
+
+              <EmailShareButton url={shareUrl}>
+                <EmailIcon
+                  size={40}
+                  style={{ margin: "0.4rem" }}
+                  round={true}
+                />
+              </EmailShareButton>
+
+              <FacebookShareButton url={shareUrl}>
+                <FacebookIcon
+                  size={40}
+                  style={{ margin: "0.4rem" }}
+                  round={true}
+                />
+              </FacebookShareButton>
+
+              <FacebookMessengerShareButton url={shareUrl}>
+                <FacebookMessengerIcon
+                  size={40}
+                  style={{ margin: "0.4rem" }}
+                  round={true}
+                />
+              </FacebookMessengerShareButton>
+
+              <TwitterShareButton url={shareUrl}>
+                <TwitterIcon
+                  size={40}
+                  style={{ margin: "0.4rem" }}
+                  round={true}
+                />
+              </TwitterShareButton>
+
+              <LinkedinShareButton url={shareUrl}>
+                <LinkedinIcon
+                  size={40}
+                  style={{ margin: "0.4rem" }}
+                  round={true}
+                />
+              </LinkedinShareButton>
+
+              <TelegramShareButton url={shareUrl}>
+                <TelegramIcon
+                  size={40}
+                  style={{ margin: "0.4rem" }}
+                  round={true}
+                />
+              </TelegramShareButton>
             </div>
-            <DialogContent dividers>
-              <div
-                style={{
-                  padding: "2rem",
-                  minWidth: "300px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <PinterestShareButton url={shareUrl} media={imageLink}>
-                  <PinterestIcon
-                    size={40}
-                    style={{ margin: "0.4rem" }}
-                    round={true}
-                  />
-                </PinterestShareButton>
-
-                <EmailShareButton url={shareUrl}>
-                  <EmailIcon
-                    size={40}
-                    style={{ margin: "0.4rem" }}
-                    round={true}
-                  />
-                </EmailShareButton>
-
-                <FacebookShareButton url={shareUrl}>
-                  <FacebookIcon
-                    size={40}
-                    style={{ margin: "0.4rem" }}
-                    round={true}
-                  />
-                </FacebookShareButton>
-
-                <FacebookMessengerShareButton url={shareUrl}>
-                  <FacebookMessengerIcon
-                    size={40}
-                    style={{ margin: "0.4rem" }}
-                    round={true}
-                  />
-                </FacebookMessengerShareButton>
-
-                <TwitterShareButton url={shareUrl}>
-                  <TwitterIcon
-                    size={40}
-                    style={{ margin: "0.4rem" }}
-                    round={true}
-                  />
-                </TwitterShareButton>
-
-                <LinkedinShareButton url={shareUrl}>
-                  <LinkedinIcon
-                    size={40}
-                    style={{ margin: "0.4rem" }}
-                    round={true}
-                  />
-                </LinkedinShareButton>
-
-                <TelegramShareButton url={shareUrl}>
-                  <TelegramIcon
-                    size={40}
-                    style={{ margin: "0.4rem" }}
-                    round={true}
-                  />
-                </TelegramShareButton>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </Container>
-        <Footer />
-      </Layout>
-    </>
+          </DialogContent>
+        </Dialog>
+      </Container>
+      <Footer />
+    </Layout>
   );
 };
 

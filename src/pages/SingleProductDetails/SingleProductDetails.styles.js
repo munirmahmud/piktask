@@ -80,12 +80,12 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "1.3rem",
     },
   },
-  socialShareWrapper:{
-    display: "flex", 
+  socialShareWrapper: {
+    display: "flex",
     justifyContent: "space-between",
   },
-  socialShareTitle:{
-    "& h2":{
+  socialShareTitle: {
+    "& h2": {
       fontSize: "1.7rem !important",
     },
   },
@@ -161,7 +161,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.6rem",
     fontWeight: 400,
     textDecoration: "none !important",
-    cursor: "pointer"
+    cursor: "pointer",
   },
   resourceInfo: {
     fontSize: "1.4rem",
@@ -285,7 +285,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "2.5rem",
     },
   },
-  downloadingBtn:{
+  downloadingBtn: {
     color: "#fff",
     fontSize: 17,
     padding: "1rem 10rem",
@@ -374,30 +374,24 @@ const useStyles = makeStyles((theme) => ({
       right: "12px",
     },
   },
-  productItem: {
-    "@media (max-width: 576px)": {
-      maxWidth: "100%",
-      flexBasis: "100%",
-    },
-  },
   tooltip: {
     fontSize: "1.3rem",
   },
   licenseTitle: {
-    "& h2":{
+    "& h2": {
       fontSize: "1.8rem !important",
     },
   },
   licenseDialog: {
-   "& div div":{
-    width: "50rem",
-    [theme.breakpoints.down(480)] :{
-      width: "100%",
+    "& div div": {
+      width: "50rem",
+      [theme.breakpoints.down(480)]: {
+        width: "100%",
+      },
     },
-   },
   },
   closeButton: {
-    height:"50%",
+    height: "50%",
     margin: "0.5rem",
     "& span svg": {
       fontSize: "2.5rem",

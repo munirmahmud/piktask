@@ -102,7 +102,7 @@ const PendingFiles = () => {
             pendingProducts.splice(index, 1);
             setPendingProducts([...pendingProducts]);
             setLoading(false);
-            toast.success(data.message, { autoClose: 1500 });
+            toast.success(data.message);
           }
         })
         .catch((error) => {

@@ -27,11 +27,11 @@ import AdminHeader from "../../../../components/ui/dashboard/contributor/Header"
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
+import Paginations from "../../../../components/ui/Pagination";
+import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL, getWords } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./Publish.styles";
-import Paginations from "../../../../components/ui/Pagination";
-import ProductNotFound from "../../../../components/ui/ProductNotFound";
 
 const Publish = () => {
   const classes = useStyles();
@@ -94,17 +94,26 @@ const Publish = () => {
     }
     return years.sort((a, b) => b - a);
   };
-  const format2 = "YYYY-MM-DD";
-  const date = new Date();
-  const today = moment(date).format(format2);
+
+  // const dateFormat = "YYYY-MM-DD";
+  // const date = new Date();
+  // const today = moment(date).format(dateFormat);
 
   useEffect(() => {
+    var newDate = new Date();
+    var firstDayCurrentMonth = new Date(
+      newDate.getFullYear(),
+      newDate.getMonth(),
+      2
+    );
+    var firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
+    var todayCurrentMonth = newDate.toISOString().substring(0, 10);
     // Author last file API
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${today}&end=${today}&limit=${limit}&page=${pageCount}`,
-          { headers: { Authorization: user?.token },}
+          `${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${firstDay}&end=${todayCurrentMonth}&limit=${limit}&page=${pageCount}`,
+          { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.images.length > 0) {
@@ -116,15 +125,7 @@ const Publish = () => {
           }
         });
     }
-  }, [
-    user?.token,
-    dispatch,
-    pageCount,
-    limit,
-    user?.isLoggedIn,
-    user?.role,
-    today,
-  ]);
+  }, [user?.token, dispatch, pageCount, limit, user?.isLoggedIn, user?.role]);
 
   const handleDateSubmit = (e) => {
     e.preventDefault();
@@ -448,7 +449,10 @@ const Publish = () => {
                           </Table>
                         </TableContainer>
                       ) : (
-                        <ProductNotFound publishContent contributorProductNotFound />
+                        <ProductNotFound
+                          publishContent
+                          contributorProductNotFound
+                        />
                       )}
                       {totalProduct > limit && (
                         <Paginations
