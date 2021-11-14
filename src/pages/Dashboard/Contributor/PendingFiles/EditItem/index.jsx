@@ -3,7 +3,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import CloseIcon from "@material-ui/icons/Close";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getBaseURL } from "../../../../../helpers";
@@ -25,6 +25,10 @@ const EditItem = (props) => {
   const [tagsValue, setTagsValue] = useState([]);
   const [category, setCategory] = useState([]);
   const [title, setTitle] = useState("");
+  const [tag, setTag] = useState([]);
+  const [keywords, setKeywords] = useState([]);
+
+  const keyWordRef = useRef(null);
 
   const handleCategoryItem = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
@@ -119,14 +123,37 @@ const EditItem = (props) => {
     return;
   };
 
+  // const handleKeywords = (e) => {
+  //   // console.log(keyWordRef.current.which);
+  //   setTag(e.target.value);
+  // };
+
+  // keyWordRef?.current?.addEventListener("keyup", (e) => {
+  //   if (e.key === "Enter" || e.key === 13) {
+  //     console.log(e.target.value);
+  //     setKeywords((prevTag) => [e.target.value, ...prevTag]);
+  //     setTag("");
+  //   }
+  // });
+
+  const getTags = () => {
+    console.log("show tags", tagsValue);
+    return (
+      <div className={classes.tags}>
+        {tagsValue?.length > 0 &&
+          tagsValue?.map((tag, index) => (
+            <li key={index} className="keyword">
+              {tag}
+              {/* <ClearIcon onClick={(e) => removeKeyword(tag, index, e)} /> */}
+            </li>
+          ))}
+      </div>
+    );
+  };
+
   return (
     <div className={classes.editItemWrapper}>
-      <form
-        onSubmit={handleProductSubmit}
-        className={classes.formRoot}
-        noValidate
-        autoComplete="off"
-      >
+      <div className={classes.formRoot}>
         <div className={classes.imgWrapper}>
           {products?.length > 0 &&
             products?.map((product) => (
@@ -181,6 +208,18 @@ const EditItem = (props) => {
           />
         </div>
 
+        {/* <div className={`${classes.fieldGroup}`}>
+          <label htmlFor="tag">Keyword</label>
+          <Input setKeywords={setKeywords} /> */}
+        {/* <input
+            type="text"
+            id="tag"
+            ref={keyWordRef}
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
+          /> */}
+        {/* </div> */}
+
         <div className={`${classes.fieldGroup}`}>
           <label htmlFor="keyword">Keyword</label>
           <Autocomplete
@@ -222,6 +261,8 @@ const EditItem = (props) => {
           />
         </div>
 
+        {getTags()}
+
         <hr className={classes.seperator} />
 
         <div className={classes.buttonsWrapper}>
@@ -247,9 +288,24 @@ const EditItem = (props) => {
             Cancel
           </Button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
 
 export default EditItem;
+
+const Input = ({ setKeywords }) => {
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      console.log("do validate");
+      setKeywords((prev) => {
+        console.log("prev", prev);
+
+        return [e.target.value, ...prev];
+      });
+    }
+  };
+
+  return <input type="text" onKeyDown={handleKeyDown} />;
+};

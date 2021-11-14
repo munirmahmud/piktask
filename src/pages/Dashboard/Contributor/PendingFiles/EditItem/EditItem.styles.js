@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   imgWrapper: {
     width: "100%",
-    minHeight: 104,
+    minHeight: 74,
     objectFit: "cover",
     overflow: "hidden",
     marginBottom: "1.8rem",
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#ddd",
     position: "absolute",
     top: 0,
-  
+
     "& svg": {
       fontSize: "2rem",
     },

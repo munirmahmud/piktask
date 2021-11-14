@@ -116,7 +116,6 @@ const PendingFiles = () => {
   };
 
   const selectedProduct = (e, product) => {
-    console.log(cardRef.current.style);
     if (product.is_save === 1) return;
 
     if (!product.isSelected) {

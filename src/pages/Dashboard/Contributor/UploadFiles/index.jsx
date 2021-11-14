@@ -587,7 +587,7 @@ const UploadFiles = () => {
                   icon={faCloudUploadAlt}
                   className={classes.uploadIcon}
                 />
-                {isLoading ? "Uploading..." : "Upload"}
+                {disableDeleteBtn ? "Uploading..." : "Upload"}
               </Button>
             </div>
           </div>

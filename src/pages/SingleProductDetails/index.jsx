@@ -248,7 +248,7 @@ const SingleProductDetails = () => {
       if (user?.role === "user") {
         downloadAPI.headers = { Authorization: user?.token };
       } else {
-        setRole(e.target.value);
+        setRole(e.target.closest("button").value);
         setOpenAuthModal(true);
         return;
       }
@@ -282,14 +282,13 @@ const SingleProductDetails = () => {
         }
       })
       .catch((error) => {
-        console.log("catch", error.response);
         if (user?.isLoggedIn && user?.role === "contributor") {
           toast.error("Please, login as a user", { autoClose: 2200 });
         } else if (user?.isLoggedIn && user?.role === "user") {
           toast.error(error.response.data.message, { autoClose: 2000 });
         } else {
           toast.error(error.response.data.message, { autoClose: 2000 });
-          setRole(e.target.value);
+          setRole(e.target.closest("button").value);
           setOpenAuthModal(true);
         }
       });
@@ -582,6 +581,7 @@ const SingleProductDetails = () => {
                           )}
                     </div>
                   </div>
+
                   {user?.id !== imageDetails?.user_id && (
                     <>
                       {!isLike ? (
