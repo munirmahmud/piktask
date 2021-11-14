@@ -90,6 +90,7 @@ const SingleProductDetails = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     // Match image ID
     axios
       .get(`${process.env.REACT_APP_API_URL}/images/${imageID}`)
@@ -101,6 +102,7 @@ const SingleProductDetails = () => {
             const tags = data?.related_tags;
             setAllTags(tags.filter((e) => e));
           }
+          setLoading(false);
 
           if (user && user?.isLoggedIn && user.role === "user") {
             axios
@@ -149,6 +151,7 @@ const SingleProductDetails = () => {
   }, [imageID, user, user?.token]);
 
   const handleFollower = (e) => {
+    setLoading(true);
     if (!user?.isLoggedIn && window.innerWidth > 900) {
       setRole(e.currentTarget.value);
       setOpenAuthModal(true);
@@ -184,6 +187,7 @@ const SingleProductDetails = () => {
   };
 
   const handleLikeBtn = (e) => {
+    setLoading(true);
     if (!user?.isLoggedIn && window.innerWidth > 900) {
       setRole(e.currentTarget.value);
       setOpenAuthModal(true);
@@ -435,69 +439,6 @@ const SingleProductDetails = () => {
                 </Grid>
 
                 <Grid container>
-                  <Grid item style={{ display: "flex", alignItems: "center" }}>
-                    <Typography>Share: </Typography>
-                    <div>
-                      <PinterestShareButton url={shareUrl} media={imageLink}>
-                        <PinterestIcon
-                          size={25}
-                          style={{ marginLeft: "1rem", cursor: "pointer" }}
-                          round={true}
-                        />
-                      </PinterestShareButton>
-
-                      <EmailShareButton url={shareUrl}>
-                        <EmailIcon
-                          size={25}
-                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                          round={true}
-                        />
-                      </EmailShareButton>
-
-                      <FacebookShareButton url={shareUrl}>
-                        <FacebookIcon
-                          size={25}
-                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                          round={true}
-                        />
-                      </FacebookShareButton>
-
-                      <FacebookMessengerShareButton url={shareUrl}>
-                        <FacebookMessengerIcon
-                          size={25}
-                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                          round={true}
-                        />
-                      </FacebookMessengerShareButton>
-
-                      <TwitterShareButton url={shareUrl}>
-                        <TwitterIcon
-                          size={25}
-                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                          round={true}
-                        />
-                      </TwitterShareButton>
-
-                      <LinkedinShareButton url={shareUrl}>
-                        <LinkedinIcon
-                          size={25}
-                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                          round={true}
-                        />
-                      </LinkedinShareButton>
-
-                      <TelegramShareButton url={shareUrl}>
-                        <TelegramIcon
-                          size={25}
-                          style={{ marginLeft: "0.7rem", cursor: "pointer" }}
-                          round={true}
-                        />
-                      </TelegramShareButton>
-                    </div>
-                  </Grid>
-                </Grid>
-
-                <Grid container>
                   <Grid item className={classes.authorArea}>
                     <div className={classes.authorProfile}>
                       <Link to={`/author/${imageDetails?.user?.username}`}>
@@ -546,6 +487,12 @@ const SingleProductDetails = () => {
                         {!isFollowing ? <>Follow</> : <>Following</>}
                       </Button>
                     )}
+                  </Grid>
+                </Grid>
+                <Grid container>
+                  <Grid item style={{ display: "flex", alignItems: "center" }}>
+                    <Typography>Share: </Typography>
+                    <div>author</div>
                   </Grid>
                 </Grid>
 
@@ -616,17 +563,6 @@ const SingleProductDetails = () => {
                         Downloading...
                       </Button>
                     ) : (
-                      // <>
-                      //   {user?.role === "contributor" ? (
-                      //     <Button
-                      //       disabled
-                      //       className={classes.disabledBtn}
-                      //       onClick={handleDownload}
-                      //     >
-                      //       <img src={downArrowIconWhite} alt="Download" />
-                      //       Download
-                      //     </Button>
-                      //   ) : (
                       <Button
                         className={classes.downloadBtn}
                         onClick={handleDownload}

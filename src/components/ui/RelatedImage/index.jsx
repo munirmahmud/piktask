@@ -12,6 +12,7 @@ const RelatedImage = ({ imageID }) => {
   const user = useSelector((state) => state.user);
   const [isLoading, setLoading] = useState(true);
   const [relatedImage, setRelatedImage] = useState([]);
+
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
   let limit = 28;

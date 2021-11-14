@@ -105,6 +105,16 @@ const SignUpModal = (props) => {
     e.preventDefault();
     setLoading(true);
 
+    if (!authData.userName) {
+      toast.error("User name should not be empty!");
+      setLoading(false);
+      return;
+    } else if (!authData.password) {
+      toast.error("Password is required!");
+      setLoading(false);
+      return;
+    }
+
     axios
       .post(`${process.env.REACT_APP_API_URL}/auth/login`, {
         username: authData.userName,
@@ -119,6 +129,8 @@ const SignUpModal = (props) => {
           localStorage.setItem("token", token);
           const decodedToken = jwt_decode(token.split(" ")[1]);
           localStorage.setItem("profileImage", decodedToken.avatar);
+
+          setLoading(false);
 
           if (decodedToken.email) {
             dispatch({
@@ -474,7 +486,12 @@ const SignUpModal = (props) => {
                       />
                     </div>
 
-                    <CustomBtn type="submit" text="Sign In" color="green" />
+                    <CustomBtn
+                      disabled={isLoading}
+                      type="submit"
+                      text="Sign In"
+                      color="green"
+                    />
                   </form>
 
                   <Spacing space={{ height: "1.5rem" }} />

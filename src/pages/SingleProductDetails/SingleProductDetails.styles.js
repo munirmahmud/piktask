@@ -71,6 +71,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "2.2rem",
     [theme.breakpoints.down(480)]: {
       fontSize: "2rem",
+      paddingRight: 0,
+      textAlign: "justify",
     },
   },
   creationDate: {
@@ -123,6 +125,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     marginTop: "1.5rem",
+    [theme.breakpoints.down(480)]: {
+      justifyContent: "space-between",
+    },
   },
   authorProfile: {
     display: "flex",
@@ -257,9 +262,16 @@ const useStyles = makeStyles((theme) => ({
   buttonGroup: {
     marginTop: 25,
     display: "flex",
+    [theme.breakpoints.down(480)]: {
+      justifyContent: "space-between",
+      gap: 10,
+    },
   },
   downloadWrapper: {
     position: "relative",
+    [theme.breakpoints.down(480)]: {
+      flex: 1,
+    },
   },
   downloadBtn: {
     color: "#fff",
@@ -280,9 +292,10 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "2.5rem",
     },
     [theme.breakpoints.down(480)]: {
+      width: "100%",
       fontSize: 16,
-      padding: "0.4rem 5.1rem",
-      marginRight: "2.5rem",
+      padding: "0.4rem 6rem",
+      marginRight: "1.5rem",
     },
   },
   downloadingBtn: {
@@ -371,7 +384,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down(480)]: {
       padding: ".2rem 1rem",
-      right: "12px",
+      right: 0,
     },
   },
   tooltip: {

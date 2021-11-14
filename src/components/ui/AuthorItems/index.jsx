@@ -1,70 +1,79 @@
 import { Container, Grid, Tab, Tabs } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import useStyles from "./AuthorItems.styles";
-import Product from "../Products/Product";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Loader from "../Loader";
 import ProductNotFound from "../ProductNotFound";
-import { useSelector } from "react-redux";
+import Product from "../Products/Product";
+import useStyles from "./AuthorItems.styles";
 
 const AuthorItems = ({ imageSummery, userId }) => {
   const classes = useStyles();
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
 
   const [authorAllResource, setAuthorAllResource] = useState();
   const [isLoading, setLoading] = useState(false);
   const [value, setValue] = useState(0);
-  // const [pageCount, setPageCount] = useState(1);
-  // var limit = 6;
 
-  const handleActiveButton = (index) => { setValue(index); };
+  // const [pageCount, setPageCount] = useState(1);
+  // const [totalProduct, setTotalProduct] = useState();
+  // let limit = 30;
+  // const count = Math.ceil(totalProduct / limit);
+
+  const handleActiveButton = (index) => {
+    setValue(index);
+  };
 
   useEffect(() => {
     setLoading(true);
-    
+
     if (imageSummery[0]?.extension) {
       let authorResourcesURL;
 
-      if(user?.isLoggedIn && user?.id){
-        authorResourcesURL = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${imageSummery[0]?.extension}?userId=${user?.id}`
+      if (user?.isLoggedIn && user?.id) {
+        authorResourcesURL = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${imageSummery[0]?.extension}?userId=${user?.id}`;
       } else {
-        authorResourcesURL = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${imageSummery[0]?.extension}`
+        authorResourcesURL = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${imageSummery[0]?.extension}`;
       }
 
       try {
-        axios
-        .get(authorResourcesURL)
-        .then(({ data }) => {
+        axios.get(authorResourcesURL).then(({ data }) => {
           if (data?.status) {
             setAuthorAllResource(data?.images);
             setLoading(false);
           }
         });
-      } catch (error) { console.log("All author resources", error); }
-    } else { console.log("Sorry no extension found"); }
-  }, [userId, imageSummery, user?.isLoggedIn, user?.id])
+      } catch (error) {
+        console.log("All author resources", error);
+      }
+    } else {
+      console.log("Sorry no extension found");
+    }
+  }, [userId, imageSummery, user?.isLoggedIn, user?.id]);
 
   const handleAuthorResource = (tag) => {
     if (tag) {
       let authorResourcesURL;
 
-      if(user && user?.id){
-        authorResourcesURL = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${tag}?userId=${user?.id}`
+      if (user && user?.id) {
+        authorResourcesURL = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${tag}?userId=${user?.id}`;
       } else {
-        authorResourcesURL = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${tag}`
+        authorResourcesURL = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${tag}`;
       }
 
       try {
-        axios
-        .get(authorResourcesURL)
-        .then(({ data }) => {
+        axios.get(authorResourcesURL).then(({ data }) => {
           if (data?.status) {
             setAuthorAllResource(data?.images);
             setLoading(false);
           }
         });
-      } catch (error) { console.log("All author resources", error); }
-    } else { console.log("Sorry no extension found"); }
+      } catch (error) {
+        console.log("All author resources", error);
+      }
+    } else {
+      console.log("Sorry no extension found");
+    }
   };
 
   return (
@@ -113,7 +122,7 @@ const AuthorItems = ({ imageSummery, userId }) => {
                   </Grid>
                 ))
               ) : (
-               <ProductNotFound/>
+                <ProductNotFound />
               )}
             </>
           )}
