@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     padding: "1rem 0.6rem",
     flexWrap: "wrap",
-    
+
     [theme.breakpoints.down("xs")]: {
       padding: 0,
       justifyContent: "flex-start",

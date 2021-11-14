@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme) => ({
   wrapper: {
     // backgroundColor: "#F8FCFF",
     backgroundColor: "#f3f3f3",
-    marginTop: "4rem",
+    // marginTop: "4rem",
     padding: "3rem 0rem",
   },
   headingWrapepr: {
@@ -46,9 +46,9 @@ const useStyles = makeStyles((theme) => ({
     transition: "all 0.3s linear",
     "&:hover": {
       backgroundColor: "#0773c5",
-      borderColor:"#0773c5",
+      borderColor: "#0773c5",
+    },
   },
-}
 }));
 
 export default useStyles;

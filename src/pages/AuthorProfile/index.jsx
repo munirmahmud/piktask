@@ -1,4 +1,10 @@
-import { Button, Container, Grid, Typography } from "@material-ui/core";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -28,40 +34,41 @@ const AuthorProfile = () => {
   const [imageSummery, setImageSummery] = useState([]);
   const [isFollowing, setFollowing] = useState(false);
   const [profileInfo, setProfileInfo] = useState({});
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    try {
-      axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/${username}/statistics`
-        )
-        .then(({ data }) => {
-          if (data?.status) {
-            setProfileInfo(data?.profile);
-            setImageSummery(data?.images_summary);
-            setLoading(false);
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/contributor/${username}/statistics`
+      )
+      .then(({ data }) => {
+        if (data?.status) {
+          setProfileInfo(data?.profile);
+          setImageSummery(data?.images_summary);
+          setLoading(false);
 
-            if (user && user?.isLoggedIn && user?.role === "user") {
-              axios
-                .get(
-                  `${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.profile.id}`,
-                  { headers: { Authorization: user?.token } }
-                )
-                .then((response) => {
-                  if (response.data.status) {
-                    setFollowing(true);
-                  } else {
-                    setFollowing(false);
-                  }
-                });
-            }
+          if (user && user?.isLoggedIn && user?.role === "user") {
+            axios
+              .get(
+                `${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.profile.id}`,
+                { headers: { Authorization: user?.token } }
+              )
+              .then((response) => {
+                if (response.data.status) {
+                  setFollowing(true);
+                  setLoading(false);
+                } else {
+                  setFollowing(false);
+                  setLoading(false);
+                }
+              });
           }
-        });
-    } catch (error) {
-      console.log("statistics", error);
-    }
+        }
+      })
+      .catch((error) => {
+        console.log("statistics", error);
+        setLoading(false);
+      });
   }, [username, user]);
 
   const handleJoinUsButton = () => {
@@ -106,7 +113,17 @@ const AuthorProfile = () => {
       >
         <Container>
           {isLoading ? (
-            <h1>Loading...</h1>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto",
+                height: 300,
+              }}
+            >
+              <CircularProgress color="primary" />
+            </div>
           ) : (
             <>
               {profileInfo ? (

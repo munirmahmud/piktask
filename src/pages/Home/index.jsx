@@ -23,7 +23,6 @@ const Home = () => {
   const [scrolling, setScrolling] = useState(0);
   let [index, setIndex] = useState(1);
 
- 
   //onScroll data load function
   window.onscroll = () => {
     setScrolling(window.pageYOffset);
@@ -107,7 +106,6 @@ const Home = () => {
         />
       </Suspense>
 
-      <Spacing space={{ height: "2.5rem" }} />
       {/* <Container>
         <SectionHeading title="Top Selling Author" large>
         <Button
