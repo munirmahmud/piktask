@@ -1,5 +1,6 @@
 import { Button, Chip, TextField } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
+import CloseIcon from "@material-ui/icons/Close";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import axios from "axios";
 import React, { useState } from "react";
@@ -7,7 +8,6 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getBaseURL } from "../../../../../helpers";
 import useStyles from "./EditItem.styles";
-import CloseIcon from "@material-ui/icons/Close";
 
 const EditItem = (props) => {
   const classes = useStyles();
@@ -18,7 +18,7 @@ const EditItem = (props) => {
     setSelectedProducts,
     setAddProductDetails,
     pendingProducts,
-    setSuccessProduct
+    setSuccessProduct,
   } = props;
 
   const [categoryName, setCategoryName] = useState("");
@@ -92,9 +92,9 @@ const EditItem = (props) => {
           setTitle("");
           setTagsValue([]);
           setAddProductDetails(pendingProducts);
-          products.forEach(element => {
-            if(element.isSelected === true){
-              setSuccessProduct(element.isSelected = false);
+          products.forEach((element) => {
+            if (element.isSelected === true) {
+              setSuccessProduct((element.isSelected = false));
             }
           });
           toast.success(
@@ -120,7 +120,7 @@ const EditItem = (props) => {
   const handleDeleteItem = (id) => {
     setSelectedProducts(products.filter((item) => item.token_id !== id));
     return;
-  }
+  };
 
   return (
     <div className={classes.editItemWrapper}>
@@ -144,8 +144,10 @@ const EditItem = (props) => {
                   alt={product?.original_name}
                 />
                 <div className={classes.closeIcon}>
-                  <CloseIcon onClick={() => handleDeleteItem(product?.token_id)} />
-              </div>
+                  <CloseIcon
+                    onClick={() => handleDeleteItem(product?.token_id)}
+                  />
+                </div>
               </div>
             ))}
         </div>

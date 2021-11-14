@@ -1,9 +1,4 @@
-import {
-  Button,
-  FormControl,
-  Select,
-  Typography,
-} from "@material-ui/core";
+import { Button, FormControl, Select, Typography } from "@material-ui/core";
 import axios from "axios";
 import Chart from "chart.js";
 import moment from "moment";
@@ -129,7 +124,7 @@ const EarningManagement = () => {
         days.push("0" + (i + 1));
         // if(!i){
         //   setFromCurrentDate("0" + (i + 1))
-        // } 
+        // }
       } else {
         days.push(i + 1);
       }
@@ -159,7 +154,7 @@ const EarningManagement = () => {
 
   let toDates = fromYear + "-" + toDateMonths + "-" + toCurrentDate;
 
-  const format2 = "YYYY-MM-DD"
+  const format2 = "YYYY-MM-DD";
   const date = new Date(toDates);
   const today = moment(date).format(format2);
 

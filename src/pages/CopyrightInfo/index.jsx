@@ -10,7 +10,7 @@ import useStyles from "./CopyrightInfo.style";
 const CopyrightInfo = () => {
   const classes = useStyles();
   return (
-    <Layout title={" Copyright information || Piktask"}>
+    <Layout title=" Copyright information | Piktask">
       <Header />
 
       <HeroSection copyrightInfo size="medium" isSearch />

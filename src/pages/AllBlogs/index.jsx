@@ -1,4 +1,9 @@
-import { Container, Grid, makeStyles } from "@material-ui/core";
+import {
+  CircularProgress,
+  Container,
+  Grid,
+  makeStyles,
+} from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Spacing from "../../components/Spacing";
@@ -36,14 +41,30 @@ const AllBlogs = () => {
   }, []);
 
   return (
-    <Layout title={"AllBlogs || Piktask"}>
+    <Layout title="AllBlogs | Piktask">
       <Header />
       <HeroSection size="medium" blogsTitle isSearch />
       <Spacing space={{ height: "3rem" }} />
       <Container>
         <Grid container spacing={2} className={classes.postsWrapper}>
-          {blogsPost?.length > 0 &&
-            blogsPost?.map((post) => <Post key={post?.id} post={post} />)}
+          {isLoading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto",
+                height: 300,
+              }}
+            >
+              <CircularProgress color="primary" />
+            </div>
+          ) : (
+            <>
+              {blogsPost?.length > 0 &&
+                blogsPost?.map((post) => <Post key={post?.id} post={post} />)}
+            </>
+          )}
         </Grid>
       </Container>
       <Footer />
