@@ -59,7 +59,6 @@ const Search = () => {
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
 
-
   useEffect(() => {
     const setResponsiveness = () => {
       return window.innerWidth < 576
@@ -168,7 +167,7 @@ const Search = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchQuery) {
-      toast.error("The search field is required", { autoClose: 500 });
+      toast.error("The search field is required", { autoClose: 2200 });
       return;
     }
 
@@ -176,9 +175,16 @@ const Search = () => {
     setSearchQuery("");
     setIsExpanded(false);
 
-    if (searchCategoryID) { history.push(`/search/title=${searchQuery.toLowerCase().replace(/\s/g, "-")}&category_id=${searchCategoryID}`);
+    if (searchCategoryID) {
+      history.push(
+        `/search/title=${searchQuery
+          .toLowerCase()
+          .replace(/\s/g, "-")}&category_id=${searchCategoryID}`
+      );
     } else {
-      history.push(`/search/title=${searchQuery.toLowerCase().replace(/\s/g, "-")}`);
+      history.push(
+        `/search/title=${searchQuery.toLowerCase().replace(/\s/g, "-")}`
+      );
     }
   };
 

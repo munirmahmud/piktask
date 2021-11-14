@@ -9,7 +9,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import formIconBottom from "../../../assets/formIconBottom.png";
 import formIconTop from "../../../assets/formIconTop.png";
@@ -66,7 +66,7 @@ const Login = ({ history }) => {
               },
             });
           }
-          if(decodedToken.role === "contributor"){
+          if (decodedToken.role === "contributor") {
             history.push("/contributor/dashboard");
           } else if (decodedToken.role === "user") {
             history.push("/");
@@ -77,7 +77,7 @@ const Login = ({ history }) => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data.message, { autoClose: 500,});
+        toast.error(error.response.data.message);
         setUsername("");
         setPassword("");
         setLoading(false);

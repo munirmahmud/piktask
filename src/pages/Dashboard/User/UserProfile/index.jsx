@@ -186,7 +186,7 @@ const UserProfile = () => {
       })
         .then((res) => {
           if (res?.status === 200) {
-            toast.success(res.data.message, { autoClose: 500,});
+            toast.success(res.data.message);
             setErrors({});
           }
         })
@@ -195,7 +195,7 @@ const UserProfile = () => {
           setErrors(errors);
         });
     } else {
-      toast.error("Please insert profile info", { autoClose: 500,});
+      toast.error("Please insert profile info");
     }
   };
 
@@ -225,7 +225,7 @@ const UserProfile = () => {
           },
         });
       }
-      toast.success(data.message, { autoClose: 500,});
+      toast.success(data.message);
       pathHistory.replace(from);
     }
   };
@@ -254,7 +254,7 @@ const UserProfile = () => {
           },
         });
       }
-      toast.success(data.message, { autoClose: 500,});
+      toast.success(data.message);
       pathHistory.replace(from);
     }
   };

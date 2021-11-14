@@ -54,7 +54,7 @@ const Product = ({ photo = null }) => {
             setLike(true);
             setLikeCount((prevState) => prevState + 1);
           } else if (!data?.status) {
-            toast.error(data.message, { autoClose: 1500 });
+            toast.error(data.message);
             setLike(true);
           } else {
             console.log("Something wrong with the like");
@@ -63,9 +63,9 @@ const Product = ({ photo = null }) => {
         .catch((error) => console.log("Like error: ", error));
     } else {
       if (user?.isLoggedIn && user?.role === "contributor") {
-        toast.error("Please, login as a user", { autoClose: 1500 });
+        toast.error("Please, login as a user", { autoClose: 2200 });
       } else {
-        toast.error("You can't Like yourself", { autoClose: 1500 });
+        toast.error("You can't Like yourself", { autoClose: 2200 });
         setOpenAuthModal(true);
       }
     }

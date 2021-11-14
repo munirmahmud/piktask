@@ -54,18 +54,18 @@ const EditItem = (props) => {
     const action = e.currentTarget.value;
 
     if (!categoryName) {
-      toast.error("Please select a category", { autoClose: 500 });
+      toast.error("Please select a category", { autoClose: 2200 });
       return;
     } else if (!title) {
-      toast.error("The Title field is required.", { autoClose: 500 });
+      toast.error("The Title field is required.", { autoClose: 2200 });
       return;
     } else if (title.length < 3 || title.length > 200) {
       toast.error("Title must be between 3 and 200 characters", {
-        autoClose: 500,
+        autoClose: 2200,
       });
       return;
     } else if (tagsValue.length === 0) {
-      toast.error("The tag field is required", { autoClose: 500 });
+      toast.error("The tag field is required", { autoClose: 2200 });
       return;
     }
 
@@ -97,19 +97,16 @@ const EditItem = (props) => {
               setSuccessProduct((element.isSelected = false));
             }
           });
-          toast.success(
-            response.data.message || "Product update successfully",
-            { autoClose: 1500 }
-          );
+          toast.success(response.data.message || "Product update successfully");
         }
       } catch (error) {
         if (error.response?.data?.errors) {
           Object.entries(error.response.data.errors).forEach(([key, value]) => {
             console.log(`${key} ${value}`);
-            toast.error(value, { autoClose: 1500 });
+            toast.error(value);
           });
         } else if (error.response?.data?.message) {
-          toast.error(error.response.data.message, { autoClose: 1500 });
+          toast.error(error.response.data.message);
         }
       }
     }

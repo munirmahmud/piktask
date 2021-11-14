@@ -236,7 +236,7 @@ const UploadFiles = () => {
 
   const handleUpload = async (e) => {
     if (files.length === 0) {
-      toast.error("Sorry, you did not upload any files.", { autoClose: 1500 });
+      toast.error("Sorry, you did not upload any files.");
       return;
     }
     disableUploadButton = true;
