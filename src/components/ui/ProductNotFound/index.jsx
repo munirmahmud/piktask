@@ -1,15 +1,18 @@
 import { Button, Typography } from "@material-ui/core";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import React from "react";
 import { Link } from "react-router-dom";
-import useStyles from "./ProductNotFound.style";
 import NotFoundImage from "../../../assets/banner/goto-home.png";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import useStyles from "./ProductNotFound.style";
 
 const ProductNotFound = ({
   keywords,
   noCollection,
   contributorProductNotFound,
   publishContent,
+  revisionContent,
+  pendingContent,
+  rejectFileContent,
 }) => {
   const classes = useStyles();
 
@@ -21,10 +24,19 @@ const ProductNotFound = ({
             <div className={classes.notFoundImage}>
               <img src={NotFoundImage} alt="Goto home" />
             </div>
-            {publishContent ? (
+            {publishContent && (
               <Typography variant="h3">There are no files published</Typography>
-            ) : (
+            )}
+            {revisionContent && (
+              <Typography variant="h3">No products are in revision</Typography>
+            )}
+            {pendingContent && (
               <Typography variant="h3">No products are in pending</Typography>
+            )}
+            {rejectFileContent && (
+              <Typography variant="h3">
+                No products are in rejectFile
+              </Typography>
             )}
             <Button
               className={classes.uploadBtn}

@@ -51,14 +51,14 @@ export const InputField: FC<inputProps> = (props) => {
 
 type ButtonProps = {
   text: string;
-  disabledBtn?: boolean ;
+  disabledBtn?: boolean;
   isLoading?: boolean;
   styles?: object;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 export const CustomBtn: FC<ButtonProps> = (props) => {
   const classes = useStyles();
-  const {disabledBtn, isLoading, text, onClick, styles } = props;
+  const { disabledBtn, isLoading, text, onClick, styles, ...rest } = props;
 
   return (
     <>
@@ -72,6 +72,7 @@ export const CustomBtn: FC<ButtonProps> = (props) => {
         onClick={onClick}
         style={{ ...styles }}
         disabled={isLoading || disabledBtn}
+        {...rest}
       >
         {text}
       </Button>

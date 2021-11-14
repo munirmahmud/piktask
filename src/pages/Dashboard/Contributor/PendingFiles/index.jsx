@@ -303,7 +303,7 @@ const PendingFiles = () => {
                     </Grid>
                   ))
                 ) : (
-                  <ProductNotFound contributorProductNotFound />
+                  <ProductNotFound pendingContent contributorProductNotFound />
                 )}
               </Grid>
             )}

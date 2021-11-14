@@ -17,10 +17,11 @@ import AdminHeader from "../../../../components/ui/dashboard/contributor/Header"
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
+import Paginations from "../../../../components/ui/Pagination";
+import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./RejectFiles.styles";
-import Paginations from "../../../../components/ui/Pagination";
 
 const RejectFiles = () => {
   const classes = useStyles();
@@ -34,7 +35,7 @@ const RejectFiles = () => {
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  
+
   let limit = 36;
   const count = Math.ceil(totalProduct / limit);
 
@@ -56,13 +57,16 @@ const RejectFiles = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
-          .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected?limit=${limit}&page=${pageCount}`, {
-            headers: { Authorization: user?.token },
-          })
+          .get(
+            `${process.env.REACT_APP_API_URL}/contributor/images/rejected?limit=${limit}&page=${pageCount}`,
+            {
+              headers: { Authorization: user?.token },
+            }
+          )
           .then(({ data }) => {
             if (data?.images.length > 0) {
               setRejectProduct(data?.images);
-              setTotalProduct(data?.total)
+              setTotalProduct(data?.total);
               setLoading(false);
             } else {
               setLoading(false);
@@ -115,74 +119,67 @@ const RejectFiles = () => {
               </Typography>
             </div>
 
-            <Grid container spacing={2}>
-              {isLoading ? (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    margin: "0 auto",
-                    height: 300,
-                  }}
-                >
-                  <CircularProgress color="primary" />
-                </div>
-              ) : (
-                <>
-                  {rejectProduct?.length > 0 ? (
-                    rejectProduct?.map((product) => (
-                      <Grid
-                        key={product?.id}
-                        item
-                        xs={3}
-                        sm={2}
-                        md={2}
-                        className={classes.productItem}
-                      >
-                        <Card
-                          className={classes.cardWrapper}
-                          onClick={() => handleClick(product)}
-                        >
-                          <div className={classes.cardImage}>
-                            <img
-                              src={
-                                getBaseURL().bucket_base_url +
-                                getBaseURL().images +
-                                product?.original_file
-                              }
-                              alt={product?.original_name}
-                            />
-                          </div>
-                          <CardContent className={classes.cardContent}>
-                            <Typography variant="h3">
-                              {product?.original_name}
-                            </Typography>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    ))
-                  ) : (
-                    <div
-                      className={classes.noItemsFound}
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        margin: "0 auto",
-                        height: 300,
-                      }}
+            {isLoading ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "0 auto",
+                  height: 300,
+                }}
+              >
+                <CircularProgress color="primary" />
+              </div>
+            ) : (
+              <Grid container spacing={2}>
+                {rejectProduct?.length > 0 ? (
+                  rejectProduct?.map((product) => (
+                    <Grid
+                      key={product?.id}
+                      item
+                      xs={3}
+                      sm={2}
+                      md={2}
+                      className={classes.productItem}
                     >
-                      <Typography variant="h3">
-                        There is no rejected files.
-                      </Typography>
-                    </div>
-                  )}
-                </>
-              )}
-            </Grid>
+                      <Card
+                        className={classes.cardWrapper}
+                        onClick={() => handleClick(product)}
+                      >
+                        <div className={classes.cardImage}>
+                          <img
+                            src={
+                              getBaseURL().bucket_base_url +
+                              getBaseURL().images +
+                              product?.original_file
+                            }
+                            alt={product?.original_name}
+                          />
+                        </div>
+                        <CardContent className={classes.cardContent}>
+                          <Typography variant="h3">
+                            {product?.original_name}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))
+                ) : (
+                  <ProductNotFound
+                    rejectFileContent
+                    contributorProductNotFound
+                  />
+                )}
+              </Grid>
+            )}
             {totalProduct > limit && (
-              <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+              <Paginations
+                locationPath={locationPath}
+                count={count}
+                pageCount={pageCount}
+                setPageCount={setPageCount}
+              />
             )}
           </div>
           <Spacing space={{ height: "2.5rem" }} />

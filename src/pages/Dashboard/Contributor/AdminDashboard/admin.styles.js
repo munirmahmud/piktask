@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "8rem",
   },
   filesGridContainer: {
-    padding: "0rem 1rem 0rem 1rem",
+    padding: "0rem 1rem 1rem 1rem",
   },
   totalStatus: {
     display: "flex",
