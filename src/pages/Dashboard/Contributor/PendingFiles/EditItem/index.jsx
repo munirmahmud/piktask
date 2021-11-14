@@ -208,17 +208,17 @@ const EditItem = (props) => {
           />
         </div>
 
-        <div className={`${classes.fieldGroup}`}>
+        {/* <div className={`${classes.fieldGroup}`}>
           <label htmlFor="tag">Keyword</label>
-          <Input setKeywords={setKeywords} />
-          {/* <input
+          <Input setKeywords={setKeywords} /> */}
+        {/* <input
             type="text"
             id="tag"
             ref={keyWordRef}
             value={tag}
             onChange={(e) => setTag(e.target.value)}
           /> */}
-        </div>
+        {/* </div> */}
 
         <div className={`${classes.fieldGroup}`}>
           <label htmlFor="keyword">Keyword</label>
