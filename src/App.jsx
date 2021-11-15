@@ -97,9 +97,8 @@ const App = () => {
   const dispatch = useDispatch();
   const [isDataLoaded, setDataLoaded] = useState(true);
   const user = useSelector((state) => state.user);
-  useEffect(() => {
-    window.scrollTo(0, 0);
 
+  useEffect(() => {
     // Check username/password auth state
     const setUserToken = window.localStorage.getItem("token") || "";
     const avatar = window.localStorage.getItem("profileImage") || "";
@@ -119,7 +118,7 @@ const App = () => {
 
     // Popular categories API integration
     axios
-      .get(`${process.env.REACT_APP_API_URL}/categories/popular`)
+      .get(`${process.env.REACT_APP_API_URL}/categories/popular?limit=10`)
       .then(({ data }) => {
         if (data?.status) {
           dispatch({
@@ -270,7 +269,7 @@ const App = () => {
           />
 
           {/* Recent or Popular pages */}
-          <Route exact path="/recentImage/recent-images" component={Recent} />
+          <Route exact path="/recent/recent-design" component={Recent} />
           <Route
             exact
             path="/images/popular-images"
