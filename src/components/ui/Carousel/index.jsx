@@ -89,7 +89,6 @@ export const CategoryCarousel = () => {
       },
     ],
   };
-  console.log("popular category", categories);
 
   return (
     <>
