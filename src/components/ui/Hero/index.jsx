@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
 import { Button, Container, Typography } from "@material-ui/core";
-import heroBG from "../../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
-import contributorBG from "../../../assets/banner/contributorBG.jpg";
-import contributorLogo from "../../../assets/Logo/piktask-6.png";
-import SearchKeyWords from "../SearchKeyWords";
-import { Link } from "react-router-dom";
-import SectionHeading from "../Heading";
-import useStyles from "./Hero.styles";
-import Search from "../Search";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import CustomPopper from "../CustomPopper";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import contributorBG from "../../../assets/banner/contributorBG.jpg";
+import heroBG from "../../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
+import contributorLogo from "../../../assets/Logo/piktask-6.png";
 import SignUpModal from "../../../pages/Authentication/SignUpModal";
+import CustomPopper from "../CustomPopper";
+import SectionHeading from "../Heading";
+import Search from "../Search";
+import SearchKeyWords from "../SearchKeyWords";
+import useStyles from "./Hero.styles";
 
 const HeroSection = (props) => {
   const classes = useStyles();
@@ -48,8 +48,10 @@ const HeroSection = (props) => {
   // const { mobileView } = menuSate;
 
   useEffect(() => {
-    const recentImage = recentButtonRef?.current?.baseURI.split("/").pop();
-    if (recentImage === "recent-images") {
+    const recentImage = recentButtonRef?.current?.baseURI
+      .split("/")
+      .includes("recent");
+    if (recentImage) {
       recentButtonRef?.current?.classList?.add("active");
     } else {
       popularButtonRef?.current?.classList?.add("active");
@@ -83,8 +85,8 @@ const HeroSection = (props) => {
 
   const handleClick = (e) => {
     setRole(e.currentTarget.value);
-    setOpenAuthModal(true)
-  }
+    setOpenAuthModal(true);
+  };
 
   return (
     <>
@@ -106,7 +108,9 @@ const HeroSection = (props) => {
                 <img src={contributorLogo} alt="contributorLogo" />
               </Button>
 
-              {user?.token && user?.role === "contributor" && user?.isLoggedIn ? (
+              {user?.token &&
+              user?.role === "contributor" &&
+              user?.isLoggedIn ? (
                 <div
                   className={classes.userAvatarArea}
                   onClick={handleToggle}
@@ -293,13 +297,13 @@ const HeroSection = (props) => {
               )}
 
               {!isSearch && <Search />}
-              {popularKeywords && 
+              {popularKeywords && (
                 <SearchKeyWords
                   popularKeywords={popularKeywords}
                   heroButton={heroButton}
                   creativeWorksDone={creativeWorksDone}
                 />
-              }
+              )}
               {heroButton && (
                 <div className={classes.heroButtonWrapper}>
                   <Button
@@ -307,6 +311,7 @@ const HeroSection = (props) => {
                     className={classes.popularButton}
                     component={Link}
                     to="/"
+                    disableRipple
                   >
                     Popular
                   </Button>
@@ -314,7 +319,8 @@ const HeroSection = (props) => {
                     ref={recentButtonRef}
                     className={classes.recentButton}
                     component={Link}
-                    to="/recentImage/recent-images"
+                    to="/recent/recent-design"
+                    disableRipple
                   >
                     Recent
                   </Button>
