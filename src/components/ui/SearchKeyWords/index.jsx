@@ -1,8 +1,8 @@
-import {  Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import useStyles from "./SearchKeyWords.styles";
-import { Link } from "react-router-dom";
+import { Typography } from "@material-ui/core";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import useStyles from "./SearchKeyWords.styles";
 
 const SearchKeyWords = (props) => {
   const classes = useStyles();
@@ -10,17 +10,19 @@ const SearchKeyWords = (props) => {
   const [popularSearchKeywords, setPopularSearchKeywords] = useState([]);
 
   useEffect(() => {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/client/search/popular_keyword?limit=10`)
-        .then(({ data }) => {
-          if (data?.status) {
-            const popularKeyword = data.keywords;
-            setPopularSearchKeywords(popularKeyword.filter((e) => e));
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/client/search/popular_keyword?limit=10`
+      )
+      .then(({ data }) => {
+        if (data?.status) {
+          const popularKeyword = data.keywords.filter((e) => e);
+          setPopularSearchKeywords(popularKeyword);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -30,13 +32,17 @@ const SearchKeyWords = (props) => {
           <Typography variant="h5" className={classes.searchTitle}>
             Popular Search :
           </Typography>
-          {popularSearchKeywords?.map((keyWord, index) => (
-            <Link key={index} to={`/tag/${keyWord.toLowerCase().replace(/\s/g , "-")}`}>
-              <Typography variant="h5" className={classes.searchTitle}>
-                {keyWord},
-              </Typography>
-            </Link>
-          ))}
+          {Array.isArray(popularSearchKeywords) &&
+            popularSearchKeywords?.map((keyWord, index) => (
+              <Link
+                key={index}
+                to={`/tag/${keyWord.toLowerCase().replace(/\s/g, "-")}`}
+              >
+                <Typography variant="h5" className={classes.searchTitle}>
+                  {keyWord},
+                </Typography>
+              </Link>
+            ))}
         </div>
       )}
 
