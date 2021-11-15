@@ -16,7 +16,9 @@ const Publish = lazy(() => import("./pages/dashboard/contributor/Publish"));
 const JoinNow = lazy(() => import("./pages/dashboard/contributor/JoinNow"));
 const Revision = lazy(() => import("./pages/dashboard/contributor/Revision"));
 const GuidLine = lazy(() => import("./pages/dashboard/contributor/GuidLine"));
-const WithdrawHistory = lazy(() => import("./pages/dashboard/contributor/WithdrawHistory"));
+const WithdrawHistory = lazy(() =>
+  import("./pages/dashboard/contributor/WithdrawHistory")
+);
 const UploadFiles = lazy(() =>
   import("./pages/dashboard/contributor/UploadFiles")
 );
@@ -139,26 +141,28 @@ const App = () => {
           setDataLoaded(false);
         }
       });
-
   }, [dispatch]);
 
   useEffect(() => {
     // Upload total count
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/images/total_count`, {
-          headers: { Authorization: user?.token },
-        })
+        .get(
+          `${process.env.REACT_APP_API_URL}/contributor/images/total_count`,
+          {
+            headers: { Authorization: user?.token },
+          }
+        )
         .then(({ data }) => {
           if (data?.status) {
             dispatch({
               type: "TOTAL_PRODUCT_COUNT",
-              payload: {...data},
+              payload: { ...data },
             });
           }
         });
     }
-  }, [user?.isLoggedIn, user?.role, user?.token, dispatch])
+  }, [user?.isLoggedIn, user?.role, user?.token, dispatch]);
 
   return isDataLoaded ? (
     <LinearProgress />
@@ -191,7 +195,11 @@ const App = () => {
             component={ContributorPricePlan}
           />
           <Route exact path="/contributor/guidLine" component={GuidLine} />
-          <Route exact path="/contributor/withdraw-history" component={WithdrawHistory} />
+          <Route
+            exact
+            path="/contributor/withdraw-history"
+            component={WithdrawHistory}
+          />
           <Route
             exact
             path="/contributor/settings"
@@ -275,7 +283,7 @@ const App = () => {
           <Route exact path="/tag/:tagName" component={TagRelatedProducts} />
           <Route exact path="/author/:username" component={AuthorProfile} />
           <Route exact path="/category/:catName" component={Category} />
-          <Route exact path="/images/:id" component={SingleProductDetails} />
+          <Route exact path="/:catName/:id" component={SingleProductDetails} />
         </Suspense>
 
         <Route path="*" component={NotFoundPage} />
