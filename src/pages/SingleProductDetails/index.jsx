@@ -238,7 +238,8 @@ const SingleProductDetails = () => {
 
   //Handle download image
   const handleDownload = (e) => {
-    e.preventDefault();
+    setButtonLoading(true);
+
     const downloadAPI = {
       url: `${process.env.REACT_APP_API_URL}/images/${imageID}/download/`,
       method: "get",
@@ -247,49 +248,44 @@ const SingleProductDetails = () => {
     if (user && user?.isLoggedIn) {
       if (user?.role === "user") {
         downloadAPI.headers = { Authorization: user?.token };
+        setButtonLoading(false);
       } else {
         setRole(e.target.closest("button").value);
         setOpenAuthModal(true);
+        setButtonLoading(false);
         return;
       }
     }
+
     axios(downloadAPI)
       .then(({ data }) => {
         if (data?.url) {
-          setButtonLoading(true);
-          axios
-            .get(data.url, { responseType: "blob" })
-            .then((response) => {
-              const url = window.URL.createObjectURL(
-                new Blob([response?.data])
-              );
-              const link = document.createElement("a");
-              link.href = url;
-              link.setAttribute(
-                "download",
-                `${imageDetails?.title.replace(/\s/g, "-")}.${data?.extension}`
-              );
-              document.body.appendChild(link);
-              link.click();
+          const link = document.createElement("a");
+          link.href = data?.url;
+          link.setAttribute(
+            "download",
+            `${imageDetails?.title.replace(/\s/g, "-")}.${data?.extension}`
+          );
+          document.body.appendChild(link);
+          link.click();
 
-              const prevState = imageDetails?.user?.images?.total_downloads;
-              setDownloadCount(prevState + 1);
-              setButtonLoading(false);
-            })
-            .catch((error) => {
-              console.log("error", error);
-            });
+          const prevState = imageDetails?.user?.images?.total_downloads;
+          setDownloadCount(prevState + 1);
+          setButtonLoading(false);
         }
       })
       .catch((error) => {
         if (user?.isLoggedIn && user?.role === "contributor") {
           toast.error("Please, login as a user", { autoClose: 2200 });
+          setButtonLoading(false);
         } else if (user?.isLoggedIn && user?.role === "user") {
           toast.error(error.response.data.message, { autoClose: 2000 });
+          setButtonLoading(false);
         } else {
           toast.error(error.response.data.message, { autoClose: 2000 });
           setRole(e.target.closest("button").value);
           setOpenAuthModal(true);
+          setButtonLoading(false);
         }
       });
   };
@@ -556,11 +552,22 @@ const SingleProductDetails = () => {
 
                 <div className={classes.buttonGroup}>
                   <div className={classes.downloadWrapper}>
+                    <Button
+                      className={
+                        buttonLoading
+                          ? classes.downloadingBtn
+                          : classes.downloadBtn
+                      }
+                      onClick={handleDownload}
+                      value="user"
+                      disableElevation
+                      disabled={buttonLoading}
+                    >
+                      <img src={downArrowIconWhite} alt="Download" />
+                      {buttonLoading ? "Downloading..." : "Download"}
+                    </Button>
+                    {/* 
                     {buttonLoading ? (
-                      <Button className={classes.downloadingBtn}>
-                        <img src={downArrowIconWhite} alt="Download" />
-                        Downloading...
-                      </Button>
                     ) : (
                       <Button
                         className={classes.downloadBtn}
@@ -569,10 +576,7 @@ const SingleProductDetails = () => {
                       >
                         <img src={downArrowIconWhite} alt="Download" />
                         Download
-                      </Button>
-                      //   )}
-                      // </>
-                    )}
+                      </Button> */}
                     <div className={classes.downloadedImage}>
                       {downloadCount
                         ? intToString(downloadCount)
