@@ -3,11 +3,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import box from "../../../../../assets/dashboardicons/box.svg";
-import arrowDown from "../../../../../assets/dashboardicons/icon1.svg";
-import moneyIcon from "../../../../../assets/dashboardicons/money.svg";
-import followerIcon from "../../../../../assets/icons/followerIcon.png";
-import Heading from "../../../dashboard/contributor/Heading";
+import box from "../../../../assets/dashboardicons/box.svg";
+import arrowDown from "../../../../assets/dashboardicons/icon1.svg";
+import moneyIcon from "../../../../assets/dashboardicons/money.svg";
+import followerIcon from "../../../../assets/icons/followerIcon.png";
+import Heading from "../../../ui/dashboard/contributor/Heading";
 import useStyles from "./CurrentMonthStatus.styles";
 
 const CurrentMonthStatus = () => {

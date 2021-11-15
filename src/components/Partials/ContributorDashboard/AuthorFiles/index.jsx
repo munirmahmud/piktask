@@ -16,10 +16,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import authorPhoto from "../../../../../assets/author.png";
-import authorBadge from "../../../../../assets/badge.png";
-import { getBaseURL } from "../../../../../helpers";
-import Heading from "../../../dashboard/contributor/Heading";
+import authorPhoto from "../../../../assets/author.png";
+import authorBadge from "../../../../assets/badge.png";
+import { getBaseURL } from "../../../../helpers";
+import Heading from "../../../ui/dashboard/contributor/Heading";
 import useStyles from "./AuthorFiles.styles";
 
 const AuthorFiles = () => {
