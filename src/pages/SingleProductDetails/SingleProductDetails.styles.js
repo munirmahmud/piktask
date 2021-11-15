@@ -311,6 +311,9 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "1.5rem",
       width: "1.2rem",
     },
+    "&.Mui-disabled": {
+      color: theme.palette.common.white,
+    },
     "@media (max-width: 768px)": {
       fontSize: 16,
       padding: "0.8rem 9rem",
