@@ -16,7 +16,9 @@ const Publish = lazy(() => import("./pages/dashboard/contributor/Publish"));
 const JoinNow = lazy(() => import("./pages/dashboard/contributor/JoinNow"));
 const Revision = lazy(() => import("./pages/dashboard/contributor/Revision"));
 const GuidLine = lazy(() => import("./pages/dashboard/contributor/GuidLine"));
-const WithdrawHistory = lazy(() => import("./pages/dashboard/contributor/WithdrawHistory"));
+const WithdrawHistory = lazy(() =>
+  import("./pages/dashboard/contributor/WithdrawHistory")
+);
 const UploadFiles = lazy(() =>
   import("./pages/dashboard/contributor/UploadFiles")
 );
@@ -95,9 +97,8 @@ const App = () => {
   const dispatch = useDispatch();
   const [isDataLoaded, setDataLoaded] = useState(true);
   const user = useSelector((state) => state.user);
-  useEffect(() => {
-    window.scrollTo(0, 0);
 
+  useEffect(() => {
     // Check username/password auth state
     const setUserToken = window.localStorage.getItem("token") || "";
     const avatar = window.localStorage.getItem("profileImage") || "";
@@ -117,7 +118,7 @@ const App = () => {
 
     // Popular categories API integration
     axios
-      .get(`${process.env.REACT_APP_API_URL}/categories/popular`)
+      .get(`${process.env.REACT_APP_API_URL}/categories/popular?limit=10`)
       .then(({ data }) => {
         if (data?.status) {
           dispatch({
@@ -139,26 +140,28 @@ const App = () => {
           setDataLoaded(false);
         }
       });
-
   }, [dispatch]);
 
   useEffect(() => {
     // Upload total count
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/images/total_count`, {
-          headers: { Authorization: user?.token },
-        })
+        .get(
+          `${process.env.REACT_APP_API_URL}/contributor/images/total_count`,
+          {
+            headers: { Authorization: user?.token },
+          }
+        )
         .then(({ data }) => {
           if (data?.status) {
             dispatch({
               type: "TOTAL_PRODUCT_COUNT",
-              payload: {...data},
+              payload: { ...data },
             });
           }
         });
     }
-  }, [user?.isLoggedIn, user?.role, user?.token, dispatch])
+  }, [user?.isLoggedIn, user?.role, user?.token, dispatch]);
 
   return isDataLoaded ? (
     <LinearProgress />
@@ -191,7 +194,11 @@ const App = () => {
             component={ContributorPricePlan}
           />
           <Route exact path="/contributor/guidLine" component={GuidLine} />
-          <Route exact path="/contributor/withdraw-history" component={WithdrawHistory} />
+          <Route
+            exact
+            path="/contributor/withdraw-history"
+            component={WithdrawHistory}
+          />
           <Route
             exact
             path="/contributor/settings"
@@ -262,7 +269,7 @@ const App = () => {
           />
 
           {/* Recent or Popular pages */}
-          <Route exact path="/recentImage/recent-images" component={Recent} />
+          <Route exact path="/recent/recent-design" component={Recent} />
           <Route
             exact
             path="/images/popular-images"

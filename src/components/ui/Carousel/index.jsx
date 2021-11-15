@@ -39,7 +39,7 @@ export const CategoryCarousel = () => {
     if (categories.length > 0) {
       setLoading(false);
     }
-  }, []);
+  }, [categories]);
 
   const settings = {
     dots: false,
