@@ -188,6 +188,7 @@ const HeroSection = (props) => {
                   size={size}
                 />
               )}
+
               {terms && (
                 <Typography
                   style={{
@@ -199,6 +200,7 @@ const HeroSection = (props) => {
                   Terms And Condition
                 </Typography>
               )}
+
               {copyrightInfo && (
                 <Typography
                   style={{
@@ -211,6 +213,7 @@ const HeroSection = (props) => {
                   Copyright Information
                 </Typography>
               )}
+
               {license && (
                 <Typography
                   style={{
@@ -223,6 +226,7 @@ const HeroSection = (props) => {
                   License Agreement
                 </Typography>
               )}
+
               {cookiesPolicy && (
                 <Typography
                   style={{
@@ -235,6 +239,7 @@ const HeroSection = (props) => {
                   Cookies Policy
                 </Typography>
               )}
+
               {aboutUs && (
                 <Typography
                   style={{
@@ -247,6 +252,7 @@ const HeroSection = (props) => {
                   About Us
                 </Typography>
               )}
+
               {support && (
                 <Typography
                   style={{
@@ -259,6 +265,7 @@ const HeroSection = (props) => {
                   Support
                 </Typography>
               )}
+
               {contact && (
                 <Typography
                   style={{
@@ -271,6 +278,7 @@ const HeroSection = (props) => {
                   How can we help you?
                 </Typography>
               )}
+
               {blogsTitle && (
                 <Typography
                   style={{
@@ -283,6 +291,7 @@ const HeroSection = (props) => {
                   Piktask Blog
                 </Typography>
               )}
+
               {guidLine && (
                 <Typography
                   style={{
@@ -297,6 +306,7 @@ const HeroSection = (props) => {
               )}
 
               {!isSearch && <Search />}
+
               {popularKeywords && (
                 <SearchKeyWords
                   popularKeywords={popularKeywords}
@@ -304,6 +314,7 @@ const HeroSection = (props) => {
                   creativeWorksDone={creativeWorksDone}
                 />
               )}
+
               {heroButton && (
                 <div className={classes.heroButtonWrapper}>
                   <Button
@@ -319,7 +330,7 @@ const HeroSection = (props) => {
                     ref={recentButtonRef}
                     className={classes.recentButton}
                     component={Link}
-                    to="/recent/recent-design"
+                    to="/recent/new-design"
                     disableRipple
                   >
                     Recent
