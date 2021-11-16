@@ -73,14 +73,17 @@ const Product = ({ photo = null }) => {
 
   function pikTaskEncodeURI(data) {
     if (data) {
-      return encodeURI(
-        `/${photo?.category
-          .toLowerCase()
-          .trim()
-          .replace(/\s/g, "-")}/${data?.title
-          .toLowerCase()
-          .trim()
-          .replace(/\s/g, "-")}&id=${data?.image_id}`
+      return (
+        "/category" +
+        encodeURI(
+          `/${photo?.category
+            .toLowerCase()
+            .trim()
+            .replace(/\s/g, "-")}/${data?.title
+            .toLowerCase()
+            .trim()
+            .replace(/\s/g, "-")}&id=${data?.image_id}`
+        )
       );
     }
   }
