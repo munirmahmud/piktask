@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SectionHeading from "../Heading";
 import Loader from "../Loader";
-import ProductNotFound from "../ProductNotFound";
+// import ProductNotFound from "../ProductNotFound";
 import Product from "./Product";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,7 @@ const Products = (props) => {
 
   // Data load
   useEffect(() => {
-    if(category?.id === 53) return;
+    if (category?.id === 53) return;
 
     let categoryURL;
 
@@ -74,7 +74,6 @@ const Products = (props) => {
     }
   }, [dispatch, category, user?.id, user?.role]);
 
- 
   useEffect(() => {
     let categoryURL;
 
@@ -90,13 +89,12 @@ const Products = (props) => {
       }
     });
   }, [user?.id, user?.role]);
-  
 
   return (
     <>
       {piktaskCollection ? (
         <>
-          {piktaskProduct.length !== 0 &&  (
+          {piktaskProduct.length !== 0 && (
             <SectionHeading title="Piktask Collection" large>
               <Button
                 className={classes.headingButton}

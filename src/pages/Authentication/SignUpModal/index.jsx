@@ -490,7 +490,6 @@ const SignUpModal = (props) => {
                       disabled={isLoading}
                       type="submit"
                       text="Sign In"
-                      color="green"
                     />
                   </form>
 
@@ -540,7 +539,6 @@ const SignUpModal = (props) => {
 
                     <CustomBtn
                       text="Sign Up"
-                      color="green"
                       disabledBtn={
                         !authData.userName ||
                         !authData.email ||
