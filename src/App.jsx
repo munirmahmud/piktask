@@ -269,7 +269,7 @@ const App = () => {
           />
 
           {/* Recent or Popular pages */}
-          <Route exact path="/recent/recent-design" component={Recent} />
+          <Route exact path="/recent/new-design" component={Recent} />
           <Route
             exact
             path="/images/popular-images"

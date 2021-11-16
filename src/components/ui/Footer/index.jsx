@@ -97,7 +97,7 @@ const Footer = () => {
 
               <List className={classes.menuWrapper}>
                 <ListItem className={classes.navItem}>
-                  <Link className={classes.navLink} to="/recent/recent-design">
+                  <Link className={classes.navLink} to="/recent/new-design">
                     New resources
                   </Link>
                 </ListItem>
@@ -283,7 +283,10 @@ const Footer = () => {
           >
             <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.collapseNavLink} to="/recent-design">
+                <Link
+                  className={classes.collapseNavLink}
+                  to="/recent/new-design"
+                >
                   New resources
                 </Link>
               </ListItemButton>

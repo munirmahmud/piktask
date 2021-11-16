@@ -24,20 +24,20 @@ const Home = () => {
   let [index, setIndex] = useState(1);
 
   //onScroll data load function
-  // window.onscroll = () => {
-  //   setScrolling(window.pageYOffset);
-  //   let currentPosition = scrolling;
+  window.onscroll = () => {
+    setScrolling(window.pageYOffset);
+    let currentPosition = scrolling;
 
-  //   if (
-  //     categories.length &&
-  //     currentPosition % 50 > 30 &&
-  //     index < categories.length
-  //   ) {
-  //     const category = categories[index];
-  //     setIndex((index) => index + 1);
-  //     popularCats.push(category);
-  //   }
-  // };
+    if (
+      categories.length &&
+      currentPosition % 50 > 30 &&
+      index < categories.length
+    ) {
+      const category = categories[index];
+      setIndex((index) => index + 1);
+      popularCats.push(category);
+    }
+  };
 
   return (
     <Layout
