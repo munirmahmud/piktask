@@ -18,13 +18,17 @@ const SingleProductDetails = () => {
   const shareUrl = window.location.href;
   const imageID = location.pathname.split("=").pop();
 
+  console.log("imageID", location.pathname);
+
   const [productTitle, setProductTitle] = useState("");
   const [allTags, setAllTags] = useState([]);
 
   return (
     <Layout title={`${productTitle} | Piktask`}>
       <Header />
+
       <HeroSection size="medium" />
+
       <Container className={classes.containerWrapper}>
         <ProductDetails
           location={location}
@@ -46,6 +50,7 @@ const SingleProductDetails = () => {
 
         <TagButtons allTags={allTags} />
       </Container>
+
       <Footer />
     </Layout>
   );

@@ -7,19 +7,19 @@ import {
   Tabs,
   Toolbar,
 } from "@material-ui/core";
-// import enterpriseCrownIcon from "../../../../assets/icons/crownEnterpriseIcon.svg";
-import SignUpModal from "../../../../pages/Authentication/SignUpModal";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import signInIcon from "../../../../assets/icons/signInIcon.svg";
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
+import signInIcon from "../../../../assets/icons/signInIcon.svg";
 // import crownIcon from "../../../../assets/icons/crown.svg";
 import logo from "../../../../assets/Logo/piktask-6.png";
-import { Link, NavLink } from "react-router-dom";
+import { getBaseURL } from "../../../../helpers";
+// import enterpriseCrownIcon from "../../../../assets/icons/crownEnterpriseIcon.svg";
+import SignUpModal from "../../../../pages/Authentication/SignUpModal";
 import CustomPopper from "../../CustomPopper";
 import useStyles from "./DesktopMenu.styles";
-import { useSelector } from "react-redux";
-import { getBaseURL } from "../../../../helpers";
 
 const DesktopMenu = ({ history }) => {
   const classes = useStyles();
@@ -72,9 +72,9 @@ const DesktopMenu = ({ history }) => {
   // };
 
   const handleClick = (e) => {
-    setRole(e.currentTarget.value);
+    setRole(e.target.closest("button").value);
     setOpenAuthModal(true);
-  }
+  };
 
   return (
     <>
@@ -102,7 +102,6 @@ const DesktopMenu = ({ history }) => {
               component={NavLink}
               to={`/category/business-card-mockup`}
               label="Business Card Mockup"
-              
 
               // id="Sports"
               // aria-controls="Sports"
@@ -178,7 +177,7 @@ const DesktopMenu = ({ history }) => {
             />
           </Tabs>
           <Toolbar disableGutters className={classes.toolBarContainer}>
-            { user?.isLoggedIn && user?.role === "contributor" ? (
+            {user?.isLoggedIn && user?.role === "contributor" ? (
               <Button
                 className={classes.sellContentBtn}
                 component={Link}
@@ -223,7 +222,11 @@ const DesktopMenu = ({ history }) => {
                     {user?.avatar_from === "own" ? (
                       <img
                         className={classes.avatar}
-                        src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
+                        src={
+                          getBaseURL().bucket_base_url +
+                          getBaseURL().profiles +
+                          user?.avatar
+                        }
                         alt="UserPhoto"
                       />
                     ) : (
