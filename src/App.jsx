@@ -282,7 +282,11 @@ const App = () => {
           <Route exact path="/tag/:tagName" component={TagRelatedProducts} />
           <Route exact path="/author/:username" component={AuthorProfile} />
           <Route exact path="/category/:catName" component={Category} />
-          <Route exact path="/images/:id" component={SingleProductDetails} />
+          <Route
+            exact
+            path="/category/:catName/:id"
+            component={SingleProductDetails}
+          />
         </Suspense>
 
         <Route path="*" component={NotFoundPage} />

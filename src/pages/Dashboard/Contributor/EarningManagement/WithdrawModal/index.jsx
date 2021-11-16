@@ -165,7 +165,7 @@ const WithdrawModal = (props) => {
               {errors && <Typography>{errors}</Typography>}
             </div>
 
-            <CustomBtn type="submit" text="Apply" color="green" />
+            <CustomBtn type="submit" text="Apply" />
           </form>
         </div>
       </Dialog>
