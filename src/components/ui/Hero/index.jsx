@@ -326,6 +326,7 @@ const HeroSection = (props) => {
                   >
                     Popular
                   </Button>
+
                   <Button
                     ref={recentButtonRef}
                     className={classes.recentButton}
