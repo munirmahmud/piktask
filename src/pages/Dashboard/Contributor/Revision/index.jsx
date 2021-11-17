@@ -91,6 +91,8 @@ const Revision = () => {
               </Typography>
             </div>
 
+            <Spacing space={{ height: "3rem" }} />
+
             {isLoading ? (
               <div
                 style={{
@@ -143,6 +145,7 @@ const Revision = () => {
                 )}
               </Grid>
             )}
+
             {totalProduct > limit && (
               <Paginations
                 locationPath={locationPath}
@@ -151,6 +154,8 @@ const Revision = () => {
                 setPageCount={setPageCount}
               />
             )}
+
+            <Spacing space={{ height: "3rem" }} />
           </div>
           <Spacing space={{ height: "1.8rem" }} />
           <Footer />

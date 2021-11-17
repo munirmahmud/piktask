@@ -3,8 +3,8 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   productItem: {
     "@media (max-width: 576px)": {
-      maxWidth: "100%",
-      flexBasis: "100%",
+      maxWidth: "50%",
+      flexBasis: "50%",
     },
   },
   adminRoot: {
@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   rejectFilesWrapper: {
     marginTop: "10rem",
     margin: "2rem",
+    minHeight: "50vh",
   },
   noItemsFound: {
     marginLeft: "1.5rem",
@@ -34,10 +35,15 @@ const useStyles = makeStyles((theme) => ({
   headingWrapepr: {
     marginTop: "2rem",
     marginBottom: "1.5rem",
+    "& p": {
+      marginTop: "2rem",
+      fontSize: "1.5rem",
+    },
   },
   cardWrapper: {
     position: "relative",
     cursor: "pointer",
+    height: "100%",
     "& img": {
       width: "100%",
       height: 150,
@@ -66,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
       color: "#114960",
       textAlign: "center",
       padding: "0.5rem 0rem",
+      lineBreak: "anywhere",
     },
     "& .MuiCardContent-root": {
       padding: "0rem !important",
@@ -81,7 +88,6 @@ const useStyles = makeStyles((theme) => ({
     top: "0rem",
     height: "100%",
     borderTop: "1px solid #ddd",
-
   },
   closeIcon: {
     cursor: "pointer",
@@ -97,9 +103,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#ddd",
       height: "0.1rem",
     },
-  },  
+  },
   modalHeader: {
-    padding: "2rem 4rem 0",
+    padding: "2rem 2rem 0",
   },
   headingContent: {
     display: "flex",
@@ -109,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   rejectionMessage: {
-    padding: "2rem 4rem",
+    padding: "2rem",
     margin: "2.2rem 0",
     "& p": {
       color: "#B1B1B1",
@@ -125,24 +131,15 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: "0px solid transparent",
     },
   },
+  headingTitle: {
+    fontSize: "2rem",
+    color: "#114960",
+  },
   title: {
     fontSize: "2rem",
     marginBottom: "1.5rem",
     color: "#114960",
   },
-  viewBtn: {
-    backgroundColor: "#0088f2",
-    fontSize: "1.6rem",
-    padding: "1rem 2rem",
-    borderRadius: 0,
-    color: "#FFF",
-    border: "none",
-
-    "&:hover": {
-      backgroundColor: "#0773c5",
-    },
-  },
- 
 }));
 
 export default useStyles;

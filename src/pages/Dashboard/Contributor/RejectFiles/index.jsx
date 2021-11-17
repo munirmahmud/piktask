@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardContent,
   CircularProgress,
@@ -119,6 +118,8 @@ const RejectFiles = () => {
               </Typography>
             </div>
 
+            <Spacing space={{ height: "4rem" }} />
+
             {isLoading ? (
               <div
                 style={{
@@ -138,7 +139,7 @@ const RejectFiles = () => {
                     <Grid
                       key={product?.id}
                       item
-                      xs={3}
+                      xs={4}
                       sm={2}
                       md={2}
                       className={classes.productItem}
@@ -173,6 +174,7 @@ const RejectFiles = () => {
                 )}
               </Grid>
             )}
+
             {totalProduct > limit && (
               <Paginations
                 locationPath={locationPath}
@@ -182,7 +184,9 @@ const RejectFiles = () => {
               />
             )}
           </div>
-          <Spacing space={{ height: "2.5rem" }} />
+
+          <Spacing space={{ height: "4rem" }} />
+
           <Footer />
         </main>
       </div>
@@ -196,7 +200,7 @@ const RejectFiles = () => {
       >
         <div className={classes.modalHeader}>
           <div className={classes.headingContent}>
-            <Typography variant="h3" className={classes.title}>
+            <Typography variant="h3" className={classes.headingTitle}>
               Reasons for rejection
             </Typography>
             <CloseIcon
@@ -223,9 +227,6 @@ const RejectFiles = () => {
             </div>
           )}
         </div>
-        <Button variant="contained" className={classes.viewBtn}>
-          View More Reasons
-        </Button>
       </Drawer>
     </Layout>
   );

@@ -59,7 +59,7 @@ const EarningManagement = () => {
       var firstDayCurrentMonth = new Date(
         newDate.getFullYear(),
         newDate.getMonth(),
-        2
+        1
       );
       var firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
       var todayCurrentMonth = newDate.toISOString().substring(0, 10);

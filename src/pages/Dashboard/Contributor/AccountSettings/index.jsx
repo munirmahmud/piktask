@@ -13,9 +13,9 @@ import { toast } from "react-toastify";
 import behanceIcon from "../../../../assets/icons/behance.svg";
 import dribbbleIcon from "../../../../assets/icons/dribble.svg";
 import facebookIcon from "../../../../assets/icons/facebook.svg";
-import freepikIcon from "../../../../assets/icons/freepik.svg";
 import instagramIcon from "../../../../assets/icons/instagram.svg";
 import linkedinIcon from "../../../../assets/icons/linkedin.svg";
+import pinterestIcon from "../../../../assets/icons/pintarest.svg";
 import shutterstockIcon from "../../../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../../../assets/icons/twitter.svg";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
@@ -42,7 +42,7 @@ const AccountSettings = () => {
   const [phone, setPhone] = useState("");
   const [website, setWebsite] = useState("");
   const [shutterstock, setShutterstock] = useState("");
-  const [freepik, setFreepik] = useState("");
+  const [pinterest, setPinterest] = useState("");
   const [behance, setBehance] = useState("");
   const [dribble, setDribble] = useState("");
   const [facebook, setFacebook] = useState("");
@@ -110,7 +110,7 @@ const AccountSettings = () => {
             setPaypalAccount(data.user.paypal_account);
             setPayoneerAccount(data.user.payoneer_account);
             setShutterstock(data.user.shutterstock);
-            setFreepik(data.user.freepik);
+            setPinterest(data.user.pinterest);
             setBehance(data.user.behance);
             setDribble(data.user.dribble);
             setFacebook(data.user.facebook);
@@ -202,8 +202,8 @@ const AccountSettings = () => {
       formData.append("shutterstock", shutterstock);
       checkEmptyField++;
     }
-    if (freepik) {
-      formData.append("freepik", freepik);
+    if (pinterest) {
+      formData.append("pinterest", pinterest);
       checkEmptyField++;
     }
     if (behance) {
@@ -710,21 +710,19 @@ const AccountSettings = () => {
                         className={classes.portfolioLink}
                       >
                         <label
-                          htmlFor="freepik"
+                          htmlFor="pinterest"
                           className={classes.portfolioIconWrapper}
                         >
-                          <img src={freepikIcon} alt="Freepik Icon" />
+                          <img src={pinterestIcon} alt="Pinterest Icon" />
                         </label>
                         <TextField
-                          id="freepik"
-                          // error={!!errors.freepik}
-                          // helperText={errors.freepik}
-                          label="Your Freepik Account"
+                          id="pinterest"
+                          label="Your Pinterest Account"
                           variant="outlined"
                           className={`${classes.inputField}`}
-                          placeholder="Your Freepik Account"
-                          value={freepik}
-                          onChange={(e) => setFreepik(e.target.value)}
+                          placeholder="Your Pinterest Account"
+                          value={pinterest}
+                          onChange={(e) => setPinterest(e.target.value)}
                         />
                       </FormControl>
                     </div>

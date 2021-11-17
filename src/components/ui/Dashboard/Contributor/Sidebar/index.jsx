@@ -1,16 +1,22 @@
-import { Button, Collapse, List, ListItem, ListItemText } from "@material-ui/core";
+import {
+  Button,
+  Collapse,
+  List,
+  ListItem,
+  ListItemText,
+} from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import CardMembershipIcon from "@material-ui/icons/CardMembership";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import EuroIcon from "@material-ui/icons/Euro";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import useStyles from "./Sidebar.styles";
-import logo from "../../../../../assets/Logo/piktask-6.png";
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import CardMembershipIcon from '@material-ui/icons/CardMembership';
-import EuroIcon from '@material-ui/icons/Euro';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import logo from "../../../../../assets/Logo/piktask-6.png";
+import useStyles from "./Sidebar.styles";
 
 const Sidebar = () => {
   const classes = useStyles();
@@ -22,36 +28,62 @@ const Sidebar = () => {
   useEffect(() => {
     if (window.location.pathname === "/contributor/dashboard" && value !== 0) {
       setValue(0);
-    } else if (window.location.pathname === "/contributor/upload" && value !== 1) {
+    } else if (
+      window.location.pathname === "/contributor/upload" &&
+      value !== 1
+    ) {
       setOpen(true);
       setValue(1);
       setSelectedItem(1);
-    } else if (window.location.pathname === "/contributor/pending" && value !== 2) {
+    } else if (
+      window.location.pathname === "/contributor/pending" &&
+      value !== 2
+    ) {
       setOpen(true);
       setValue(1);
       setSelectedItem(2);
-    } else if (window.location.pathname === "/contributor/revision" && value !== 3) {
+    } else if (
+      window.location.pathname === "/contributor/revision" &&
+      value !== 3
+    ) {
       setOpen(true);
       setValue(1);
       setSelectedItem(3);
-    } else if (window.location.pathname === "/contributor/reject" && value !== 4) {
+    } else if (
+      window.location.pathname === "/contributor/reject" &&
+      value !== 4
+    ) {
       setOpen(true);
       setValue(1);
       setSelectedItem(4);
-    } else if (window.location.pathname === "/contributor/publish" && value !== 5) {
+    } else if (
+      window.location.pathname === "/contributor/publish" &&
+      value !== 5
+    ) {
       setOpen(true);
       setValue(1);
       setSelectedItem(5);
-    } else if (window.location.pathname === "/contributor/earnings" && value !== 6) {
+    } else if (
+      window.location.pathname === "/contributor/earnings" &&
+      value !== 6
+    ) {
       setValue(6);
-    } else if (window.location.pathname === "/contributor/contributor-price-plan" && value !== 7) {
+    } else if (
+      window.location.pathname === "/contributor/contributor-price-plan" &&
+      value !== 7
+    ) {
       setValue(7);
-    } else if (window.location.pathname === "/contributor/guidLine" && value !== 8) {
+    } else if (
+      window.location.pathname === "/contributor/guidLine" &&
+      value !== 8
+    ) {
       setValue(8);
-    }else if (window.location.pathname === "/contributor/settings" && value !== 9) {
+    } else if (
+      window.location.pathname === "/contributor/settings" &&
+      value !== 9
+    ) {
       setValue(9);
     }
-     
   }, [value]);
 
   // const handleChange = (e, index) => {
@@ -85,7 +117,7 @@ const Sidebar = () => {
           selected={value === 0}
         >
           <DashboardIcon />
-          <ListItemText primary="dashboard" />
+          <ListItemText primary="Dashboard" />
         </ListItem>
         <ListItem
           classes={{
@@ -115,7 +147,9 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 2}
             >
-              <ListItemText primary={`Not yet submitted(${totalProductCount?.notSubmit})`} />
+              <ListItemText
+                primary={`Not yet submitted(${totalProductCount?.notSubmit})`}
+              />
             </ListItem>
             <ListItem
               component={Link}
@@ -123,7 +157,9 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 3}
             >
-              <ListItemText primary={`Under Revision(${totalProductCount?.pendingCount})`} />
+              <ListItemText
+                primary={`Under Revision(${totalProductCount?.pendingCount})`}
+              />
             </ListItem>
             <ListItem
               component={Link}
@@ -131,7 +167,9 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 4}
             >
-              <ListItemText primary={`Rejections(${totalProductCount?.rejectCount})`} />
+              <ListItemText
+                primary={`Rejections(${totalProductCount?.rejectCount})`}
+              />
             </ListItem>
             <ListItem
               component={Link}
@@ -139,7 +177,9 @@ const Sidebar = () => {
               className={classes.nested}
               selected={value === 1 && selectedItem === 5}
             >
-              <ListItemText primary={`Published(${totalProductCount?.publishCount})`} />
+              <ListItemText
+                primary={`Published(${totalProductCount?.publishCount})`}
+              />
             </ListItem>
           </List>
         </Collapse>

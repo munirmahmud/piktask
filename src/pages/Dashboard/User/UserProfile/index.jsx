@@ -21,9 +21,9 @@ import { toast } from "react-toastify";
 import behanceIcon from "../../../../assets/icons/behance.svg";
 import dribbbleIcon from "../../../../assets/icons/dribble.svg";
 import facebookLogo from "../../../../assets/icons/facebook.svg";
-import freepikIcon from "../../../../assets/icons/freepik.svg";
 import instagramLogo from "../../../../assets/icons/instagram.svg";
 import linkedinLogo from "../../../../assets/icons/linkedin.svg";
+import pinterestIcon from "../../../../assets/icons/pintarest.svg";
 import shutterstockLogo from "../../../../assets/icons/shutterstock.svg";
 import twitterLogo from "../../../../assets/icons/twitter.svg";
 import Spacing from "../../../../components/Spacing";
@@ -51,7 +51,7 @@ const UserProfile = () => {
   const [phone, setPhone] = useState("");
   const [website, setWebsite] = useState("");
   const [shutterstock, setShutterstock] = useState("");
-  const [freepik, setFreepik] = useState("");
+  const [pinterest, setPinterest] = useState("");
   const [behance, setBehance] = useState("");
   const [dribble, setDribble] = useState("");
   const [facebook, setFacebook] = useState("");
@@ -99,7 +99,7 @@ const UserProfile = () => {
             setPhone(data.user.phone);
             setWebsite(data.user.website);
             setShutterstock(data.user.shutterstock);
-            setFreepik(data.user.freepik);
+            setPinterest(data.user.pinterest);
             setBehance(data.user.behance);
             setDribble(data.user.dribble);
             setFacebook(data.user.facebook);
@@ -145,8 +145,8 @@ const UserProfile = () => {
       formData.append("shutterstock", shutterstock);
       emptyFieldCheck++;
     }
-    if (freepik) {
-      formData.append("freepik", freepik);
+    if (pinterest) {
+      formData.append("pinterest", pinterest);
       emptyFieldCheck++;
     }
     if (behance) {
@@ -262,12 +262,15 @@ const UserProfile = () => {
   return (
     <Layout title="UserProfile | Piktask">
       <Header />
+
       <Spacing space={{ height: "5rem" }} />
+
       <Container>
         <Grid container spacing={2}>
           <Grid item md={3} sm={3} xs={12} className={classes.cardItem}>
             <UserSideBar />
           </Grid>
+
           <Grid item md={9} sm={9} xs={12} className={classes.cardItem}>
             <div className={classes.userProfileRoot}>
               <div className={classes.headingWrapper}>
@@ -279,6 +282,7 @@ const UserProfile = () => {
                     Connect
                   </Typography>
                 </div>
+
                 <div className={classes.socialsButtons}>
                   <GoogleLogin
                     clientId={clientId}
@@ -300,6 +304,7 @@ const UserProfile = () => {
                     onFailure={handleGoogleLogin}
                     cookiePolicy={"single_host_origin"}
                   />
+
                   <Spacing space={{ margin: "0 0.5rem" }} />
 
                   <FacebookLogin
@@ -324,7 +329,9 @@ const UserProfile = () => {
                   />
                 </div>
               </div>
+
               <hr className={classes.separator} />
+
               <form
                 onSubmit={handleSubmit}
                 className={classes.selectPeriodFrom}
@@ -342,6 +349,7 @@ const UserProfile = () => {
                       >
                         Personal data
                       </Typography>
+
                       <div className={classes.personalDataField}>
                         <TextField
                           fullWidth
@@ -353,6 +361,7 @@ const UserProfile = () => {
                           defaultValue={name}
                           onChange={(e) => setName(e.target.value)}
                         />
+
                         <TextField
                           fullWidth
                           variant="outlined"
@@ -362,6 +371,7 @@ const UserProfile = () => {
                           value={locationAddress}
                           onChange={(e) => setLocationAddress(e.target.value)}
                         />
+
                         <TextField
                           fullWidth
                           variant="outlined"
@@ -371,6 +381,7 @@ const UserProfile = () => {
                           value={job_position}
                           onChange={(e) => setJob_position(e.target.value)}
                         />
+
                         <TextField
                           fullWidth
                           variant="outlined"
@@ -387,6 +398,7 @@ const UserProfile = () => {
                         />
                       </div>
                     </Grid>
+
                     <Grid item xs={12} md={6} sm={6}>
                       <Typography
                         className={classes.accountInfoTitle}
@@ -394,6 +406,7 @@ const UserProfile = () => {
                       >
                         Account Information
                       </Typography>
+
                       <div className={classes.personalDataField}>
                         <TextField
                           fullWidth
@@ -403,6 +416,7 @@ const UserProfile = () => {
                           name="username"
                           value={username}
                         />
+
                         <TextField
                           fullWidth
                           variant="outlined"
@@ -411,6 +425,7 @@ const UserProfile = () => {
                           name="email"
                           value={email}
                         />
+
                         <TextField
                           error={!!errors.website}
                           helperText={errors.website}
@@ -422,6 +437,7 @@ const UserProfile = () => {
                           value={website}
                           onChange={(e) => setWebsite(e.target.value)}
                         />
+
                         <div className={classes.dataChangeBtn}>
                           <Link
                             to="/reset-password"
@@ -439,6 +455,7 @@ const UserProfile = () => {
                       </div>
                     </Grid>
                   </Grid>
+
                   {/* Professional Portfolio section start  */}
                   <div className={classes.portfolioHeadingWrapper}>
                     <Typography
@@ -447,8 +464,10 @@ const UserProfile = () => {
                     >
                       Professional Portfolio
                     </Typography>
+
                     <hr className={classes.separator} />
                   </div>
+
                   <div className={classes.cardWrapper}>
                     <div
                       className={`${classes.fieldsGroup} ${classes.linkField}`}
@@ -477,6 +496,7 @@ const UserProfile = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div
                       className={`${classes.fieldsGroup} ${classes.linkField}`}
                     >
@@ -486,24 +506,25 @@ const UserProfile = () => {
                         className={classes.portfolioLink}
                       >
                         <label
-                          htmlFor="freepik"
+                          htmlFor="pinterest"
                           className={classes.portfolioIconWrapper}
                         >
-                          <img src={freepikIcon} alt="Freepik Icon" />
+                          <img src={pinterestIcon} alt="Pinterest Icon" />
                         </label>
                         <TextField
-                          id="freepik"
-                          error={!!errors.freepik}
-                          helperText={errors.freepik}
-                          label="Your Freepik Account"
+                          id="pinterest"
+                          error={!!errors.pinterest}
+                          helperText={errors.pinterest}
+                          label="Your Pinterest Account"
                           variant="outlined"
                           className={`${classes.inputField}`}
-                          placeholder="Your Freepik Account"
-                          value={freepik}
-                          onChange={(e) => setFreepik(e.target.value)}
+                          placeholder="Your Pinterest Account"
+                          value={pinterest}
+                          onChange={(e) => setPinterest(e.target.value)}
                         />
                       </FormControl>
                     </div>
+
                     <div
                       className={`${classes.fieldsGroup} ${classes.linkField}`}
                     >
@@ -531,6 +552,7 @@ const UserProfile = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div
                       className={`${classes.fieldsGroup} ${classes.linkField}`}
                     >
@@ -559,7 +581,7 @@ const UserProfile = () => {
                       </FormControl>
                     </div>
                   </div>
-                  {/* Social link section start */}
+
                   <div className={classes.socialHeadingWrapper}>
                     <Typography
                       className={classes.settingsFormTitle}
@@ -567,6 +589,7 @@ const UserProfile = () => {
                     >
                       Social Link
                     </Typography>
+
                     <hr className={classes.separator} />
                   </div>
                   <div className={classes.cardWrapper}>
@@ -601,6 +624,7 @@ const UserProfile = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div
                       className={`${classes.fieldsGroup} ${classes.linkField}`}
                     >
@@ -628,6 +652,7 @@ const UserProfile = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div
                       className={`${classes.fieldsGroup} ${classes.linkField}`}
                     >
@@ -655,6 +680,7 @@ const UserProfile = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div
                       className={`${classes.fieldsGroup} ${classes.linkField}`}
                     >
@@ -683,12 +709,14 @@ const UserProfile = () => {
                       </FormControl>
                     </div>
                   </div>
+
                   <div className={classes.buttonGroup}>
                     <Button
                       className={`${classes.settingsBtn} ${classes.restoreBtn}`}
                     >
                       Cancel
                     </Button>
+
                     <Button
                       type="submit"
                       className={`${classes.settingsBtn} ${classes.saveBtn}`}
@@ -696,9 +724,11 @@ const UserProfile = () => {
                       Save Changes
                     </Button>
                   </div>
+
                   <Typography className={classes.notification} variant="h4">
                     Notifications
                   </Typography>
+
                   <div className={classes.getNews}>
                     <Typography className={classes.getNewsTitle}>
                       I wish to receive newsletters,promotions and news from
@@ -715,6 +745,7 @@ const UserProfile = () => {
                       label="Primary"
                     />
                   </div>
+
                   <div className={classes.basicInfo}>
                     <Typography>
                       Basic information on Data Protection: Piktask Company
@@ -727,12 +758,12 @@ const UserProfile = () => {
                     </Typography>
                   </div>
                 </div>
-                {/* Card Wrapper ends */}
               </form>
             </div>
           </Grid>
         </Grid>
       </Container>
+
       <Spacing space={{ height: "5rem" }} />
       <Footer />
     </Layout>

@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { toast } from "react-toastify";
+import Spacing from "../../../../components/Spacing";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
@@ -241,6 +242,8 @@ const PendingFiles = () => {
               </div>
             </div>
 
+            <Spacing space={{ height: "3rem" }} />
+
             {isLoading ? (
               <div
                 style={{
@@ -316,6 +319,8 @@ const PendingFiles = () => {
               />
             )}
           </div>
+
+          <Spacing space={{ height: "5rem" }} />
 
           <Drawer
             anchor="right"
