@@ -128,7 +128,7 @@ const CurrentMonthStatus = () => {
         <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
           <CardContent className={classes.statisticsContent}>
             <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
-              <img src={followerIcon} alt="followerIcon" />
+              <img src={followerIcon} alt="FollowerIcon" />
             </div>
             <Typography className={classes.totalCount} variant="h1">
               {earnCurrentMonth?.total_follower}

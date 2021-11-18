@@ -337,7 +337,7 @@ const ProductInfo = ({ productDetails }) => {
                   <img
                     className={classes.authorImg}
                     src={authorPhoto}
-                    alt="AuthorPhoto"
+                    alt={productDetails?.imageDetails?.user?.username}
                   />
                 )}
               </Link>
@@ -357,6 +357,7 @@ const ProductInfo = ({ productDetails }) => {
                 </Typography>
               </div>
             </div>
+
             {user?.id !== productDetails?.imageDetails?.user_id && (
               <Button
                 className={`${classes.authorBtn} ${classes.followBtn}`}
@@ -368,6 +369,7 @@ const ProductInfo = ({ productDetails }) => {
             )}
           </Grid>
         </Grid>
+
         <Grid container>
           <Grid item style={{ display: "flex", alignItems: "center" }}>
             <Typography>Share: </Typography>
@@ -448,17 +450,7 @@ const ProductInfo = ({ productDetails }) => {
               <img src={downArrowIconWhite} alt="Download" />
               {buttonLoading ? "Downloading..." : "Download"}
             </Button>
-            {/* 
-                    {buttonLoading ? (
-                    ) : (
-                      <Button
-                        className={classes.downloadBtn}
-                        onClick={handleDownload}
-                        value="user"
-                      >
-                        <img src={downArrowIconWhite} alt="Download" />
-                        Download
-                      </Button> */}
+
             <div className={classes.downloadedImage}>
               {downloadCount
                 ? intToString(downloadCount)
@@ -494,11 +486,13 @@ const ProductInfo = ({ productDetails }) => {
           )}
         </div>
       </div>
+
       <SignUpModal
         openAuthModal={openAuthModal}
         setOpenAuthModal={setOpenAuthModal}
         role={role}
       />
+
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -508,6 +502,7 @@ const ProductInfo = ({ productDetails }) => {
           <DialogTitle className={classes.socialShareTitle}>
             {"Use image social link"}
           </DialogTitle>
+
           <IconButton
             aria-label="close"
             className={classes.closeButton}
@@ -516,6 +511,7 @@ const ProductInfo = ({ productDetails }) => {
             <CloseIcon />
           </IconButton>
         </div>
+
         <DialogContent dividers>
           <div
             style={{

@@ -1,22 +1,12 @@
-import {
-  Button,
-  Container,
-  // Menu,
-  // MenuItem,
-  Tab,
-  Tabs,
-  Toolbar,
-} from "@material-ui/core";
+import { Button, Tab, Tabs, Toolbar } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import signInIcon from "../../../../assets/icons/signInIcon.svg";
-// import crownIcon from "../../../../assets/icons/crown.svg";
-import logo from "../../../../assets/Logo/piktask-6.png";
+import logo from "../../../../assets/Logo/piktask.png";
 import { getBaseURL } from "../../../../helpers";
-// import enterpriseCrownIcon from "../../../../assets/icons/crownEnterpriseIcon.svg";
 import SignUpModal from "../../../../pages/Authentication/SignUpModal";
 import CustomPopper from "../../CustomPopper";
 import useStyles from "./DesktopMenu.styles";
@@ -58,19 +48,6 @@ const DesktopMenu = ({ history }) => {
     }
   };
 
-  // const [anchorEl, setAnchorEl] = useState(null);
-  // const openSubMenu = Boolean(anchorEl);
-  // const handleHoverMenu = (event) => {
-  //   // if (anchorEl !== event.currentTarget) {
-  //   //   setAnchorEl(event.currentTarget);
-  //   // }
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleCloseSubMenu = () => {
-  //   setAnchorEl(null);
-  // };
-
   const handleClick = (e) => {
     setRole(e.target.closest("button").value);
     setOpenAuthModal(true);
@@ -78,15 +55,15 @@ const DesktopMenu = ({ history }) => {
 
   return (
     <>
-      <Container className={classes.container}>
-        <Toolbar disableGutters className={classes.headerBottomToolbar}>
+      <div className={classes.container}>
+        <Toolbar disableGutters className={classes.mainHeaderToolbar}>
           <Button
             component={Link}
             to="/"
             className={classes.logoWrapper}
             disableRipple
           >
-            <img src={logo} className={classes.logo} alt="Dev" />
+            <img src={logo} className={classes.logo} alt="Piktask" />
           </Button>
 
           <Tabs
@@ -102,28 +79,7 @@ const DesktopMenu = ({ history }) => {
               component={NavLink}
               to={`/category/business-card-mockup`}
               label="Business Card Mockup"
-
-              // id="Sports"
-              // aria-controls="Sports"
-              // aria-haspopup="true"
-              // aria-expanded={openSubMenu ? 'true' : undefined}
-              // onClick={handleHoverMenu}
-              // onMouseOver={handleHoverMenu}
             />
-
-            {/* <Menu
-              id="Sports"
-              anchorEl={anchorEl}
-              open={openSubMenu}
-              MenuListProps={{ 'aria-labelledby': 'Sports', onMouseLeave: handleCloseSubMenu }}
-              onClose={handleCloseSubMenu}
-            >
-              <div className={classes.subMenuItem}>
-                <MenuItem onClick={handleCloseSubMenu}>Profile</MenuItem>
-                <MenuItem onClick={handleCloseSubMenu}>My account</MenuItem>
-                <MenuItem onClick={handleCloseSubMenu}>Logout</MenuItem>
-              </div>
-            </Menu> */}
 
             <Tab
               className={classes.menuItem}
@@ -131,28 +87,7 @@ const DesktopMenu = ({ history }) => {
               component={NavLink}
               to="/category/text-effect"
               label="Text Effect"
-
-              // id="Travel"
-              // aria-controls="Travel"
-              // aria-haspopup="true"
-              // aria-expanded={openSubMenu ? 'true' : undefined}
-              // onClick={handleHoverMenu}
-              // onMouseOver={handleHoverMenu}
             />
-
-            {/* <Menu
-              id="Travel"
-              anchorEl={anchorEl}
-              open={openSubMenu}
-              MenuListProps={{ 'aria-labelledby': 'Travel', onMouseLeave: handleCloseSubMenu }}
-              onClose={handleCloseSubMenu}
-            >
-              <div className={classes.subMenuItem}>
-                <MenuItem onClick={handleCloseSubMenu}>Profile account</MenuItem>
-                <MenuItem onClick={handleCloseSubMenu}>My Favorite</MenuItem>
-                <MenuItem onClick={handleCloseSubMenu}>Downloads</MenuItem>
-              </div>
-            </Menu> */}
 
             <Tab
               className={classes.menuItem}
@@ -161,6 +96,7 @@ const DesktopMenu = ({ history }) => {
               to="/category/social-media-banner"
               label="Social Media Banner"
             />
+
             <Tab
               className={classes.menuItem}
               disableRipple
@@ -168,6 +104,7 @@ const DesktopMenu = ({ history }) => {
               to="/category/game"
               label="Game"
             />
+
             <Tab
               className={classes.menuItem}
               disableRipple
@@ -176,6 +113,7 @@ const DesktopMenu = ({ history }) => {
               label="Logo Mockup"
             />
           </Tabs>
+
           <Toolbar disableGutters className={classes.toolBarContainer}>
             {user?.isLoggedIn && user?.role === "contributor" ? (
               <Button
@@ -195,20 +133,6 @@ const DesktopMenu = ({ history }) => {
               </Button>
             )}
 
-            {/* <Button disableRipple className={classes.enterprise}>
-              <img
-                className={classes.crownIcon}
-                src={enterpriseCrownIcon}
-                alt="Crown"
-              />
-              Enterprise
-            </Button> */}
-
-            {/* <Button className={classes.premium}>
-              <img className={classes.crownIcon} src={crownIcon} alt="Crown" />
-              Premium
-            </Button> */}
-
             {user?.isLoggedIn && user?.role === "user" ? (
               <div
                 className={classes.userAvatarArea}
@@ -227,13 +151,13 @@ const DesktopMenu = ({ history }) => {
                           getBaseURL().profiles +
                           user?.avatar
                         }
-                        alt="UserPhoto"
+                        alt={user?.username}
                       />
                     ) : (
                       <img
                         className={classes.avatar}
                         src={user?.avatar}
-                        alt="UserPhoto"
+                        alt={user?.username}
                       />
                     )}
                   </>
@@ -258,7 +182,7 @@ const DesktopMenu = ({ history }) => {
             )}
           </Toolbar>
         </Toolbar>
-      </Container>
+      </div>
 
       <CustomPopper
         open={open}

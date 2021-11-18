@@ -53,7 +53,7 @@ const Publish = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -384,6 +384,7 @@ const Publish = () => {
                                 </TableCell>
                               </TableRow>
                             </TableHead>
+
                             {allPublishProduct?.map((product) => (
                               <TableBody key={product?.id}>
                                 <TableRow
@@ -407,7 +408,7 @@ const Publish = () => {
                                           getBaseURL().images +
                                           product?.preview
                                         }
-                                        alt={product?.preview}
+                                        alt={product?.title}
                                       />
                                     </Link>
 
@@ -417,6 +418,7 @@ const Publish = () => {
                                           </div>
                                         )} */}
                                   </TableCell>
+
                                   <TableCell
                                     style={{ textAlign: "left" }}
                                     className={classes.tableCell}
@@ -427,19 +429,24 @@ const Publish = () => {
                                       <>{product?.title}</>
                                     )}
                                   </TableCell>
+
                                   <TableCell className={classes.tableCell}>
                                     {product?.extension}
                                   </TableCell>
+
                                   <TableCell className={classes.tableCell}>
                                     {product?.total_likes}
                                   </TableCell>
+
                                   <TableCell className={classes.tableCell}>
                                     {product?.total_downloads}
                                   </TableCell>
+
                                   <TableCell className={classes.tableCell}>
                                     <AttachMoneyIcon />
                                     {product?.total_earning}
                                   </TableCell>
+
                                   <TableCell className={classes.tableCell}>
                                     {moment(product?.createdAt).format("LL")}
                                   </TableCell>

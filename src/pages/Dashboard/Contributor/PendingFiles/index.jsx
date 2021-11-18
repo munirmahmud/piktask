@@ -45,7 +45,7 @@ const PendingFiles = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -274,6 +274,7 @@ const PendingFiles = () => {
                           className={classes.deleteIcon}
                         />
                       </div>
+
                       <Card
                         className={classes.pendingFileCard}
                         onClick={(e) => {
@@ -293,6 +294,7 @@ const PendingFiles = () => {
                           }
                           alt={product?.original_name}
                         />
+
                         <div className={classes.productInfo}>
                           <Typography variant="h3">
                             {product?.original_name}

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import contributorBG from "../../../assets/banner/contributorBG.jpg";
 import heroBG from "../../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
-import contributorLogo from "../../../assets/Logo/piktask-6.png";
+import contributorLogo from "../../../assets/Logo/piktask.png";
 import SignUpModal from "../../../pages/Authentication/SignUpModal";
 import CustomPopper from "../CustomPopper";
 import SectionHeading from "../Heading";
@@ -122,7 +122,7 @@ const HeroSection = (props) => {
                     <img
                       className={classes.avatar}
                       src={user?.avatar}
-                      alt="UserPhoto"
+                      alt={user?.username}
                     />
                   ) : (
                     <AccountCircleIcon className={classes.avatar} />

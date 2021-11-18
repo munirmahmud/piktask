@@ -1,67 +1,197 @@
-import { Button, MenuItem, MenuList, Toolbar } from "@material-ui/core";
-import React, { useState } from "react";
+import { Button, Drawer, MenuItem, MenuList, Toolbar } from "@material-ui/core";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import CloseIcon from "@material-ui/icons/Close";
+import MenuIcon from "@material-ui/icons/Menu";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import crownIcon from "../../../../assets/icons/crown.svg";
-import logo from "../../../../assets/logo.svg";
+import signInIcon from "../../../../assets/icons/signInIcon.svg";
+import logo from "../../../../assets/Logo/piktask.png";
+import { getBaseURL } from "./../../../../helpers/index";
+import SignUpModal from "./../../../../pages/Authentication/SignUpModal/index";
 import useStyles from "./MobileMenu.styles";
 
 const MobileMenu = () => {
   const classes = useStyles();
-  const [value, setValue] = useState(0);
+  const anchorRef = useRef(null);
   const user = useSelector((state) => state.user);
+  const [openAuthModal, setOpenAuthModal] = useState(false);
+  const [role, setRole] = useState("");
+  const [openMobileMenu, setOpenMobileMenu] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const handleChange = (event, index) => {
-    setValue(index);
+  const handleMobileMenu = () => {
+    setOpenMobileMenu(true);
+  };
+
+  const handleToggle = () => {
+    setOpen((prevState) => !prevState);
+  };
+
+  const handleClick = (e) => {
+    setRole(e.target.closest("button").value);
+    setOpenAuthModal(true);
   };
 
   return (
-    <Toolbar disableGutters className={classes.menuWrapper}>
-      <Button
-        component={Link}
-        to="/"
-        disableRipple
-        className={classes.mobileMenuLogo}
+    <>
+      <Toolbar disableGutters className={classes.menuWrapper}>
+        <div>
+          <MenuIcon onClick={handleMobileMenu} className={classes.menuIcon} />
+        </div>
+
+        <div className={classes.menuButton}>
+          {user?.isLoggedIn && user?.role === "contributor" ? (
+            <Button
+              className={classes.sellContentBtn}
+              component={Link}
+              to="/contributor/dashboard"
+            >
+              Sell Your Content
+            </Button>
+          ) : (
+            <Button
+              className={classes.sellContentBtn}
+              component={Link}
+              to="/contributor/join"
+            >
+              Sell Your Content
+            </Button>
+          )}
+
+          {user?.isLoggedIn && user?.role === "user" ? (
+            <div
+              className={classes.userAvatarArea}
+              onClick={handleToggle}
+              aria-controls={open ? "menu-list-grow" : undefined}
+              aria-haspopup="true"
+              ref={anchorRef}
+            >
+              {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
+                <>
+                  {user?.avatar_from === "own" ? (
+                    <img
+                      className={classes.avatar}
+                      src={
+                        getBaseURL().bucket_base_url +
+                        getBaseURL().profiles +
+                        user?.avatar
+                      }
+                      alt={user?.username}
+                    />
+                  ) : (
+                    <img
+                      className={classes.avatar}
+                      src={user?.avatar}
+                      alt={user?.username}
+                    />
+                  )}
+                </>
+              ) : (
+                <AccountCircleIcon className={classes.avatar} />
+              )}
+              <ArrowDropDownIcon className={classes.arrowDown} />
+            </div>
+          ) : (
+            <div>
+              <Button
+                className={classes.signInBtn}
+                onClick={handleClick}
+                value="user"
+              >
+                <img
+                  className={classes.crownIcon}
+                  src={signInIcon}
+                  alt="Crown"
+                />
+                Sign In
+              </Button>
+            </div>
+          )}
+        </div>
+      </Toolbar>
+
+      <SignUpModal
+        openAuthModal={openAuthModal}
+        setOpenAuthModal={setOpenAuthModal}
+        role={role}
+      />
+
+      <Drawer
+        anchor="left"
+        classes={{ paper: classes.paper }}
+        open={openMobileMenu}
+        onClose={() => setOpenMobileMenu(false)}
       >
-        <img src={logo} alt="Piktask" />
-      </Button>
+        <div className={classes.closeIconWrapper}>
+          <CloseIcon
+            onClick={() => setOpenMobileMenu(false)}
+            className={classes.closeIcon}
+          />
+          <Button
+            component={Link}
+            to="/"
+            className={classes.headerLogo}
+            disableRipple
+          >
+            <img src={logo} className={classes.logo} alt="Dev" />
+          </Button>
+        </div>
 
-      <MenuList className={classes.navItems}>
-        <MenuItem classes={{ selected: classes.selected }}>
-          <Link to="/vector">Vector</Link>
-        </MenuItem>
-        <MenuItem classes={{ selected: classes.selected }}>
-          <Link to="/psd">PSD</Link>
-        </MenuItem>
-        <MenuItem classes={{ selected: classes.selected }}>
-          <Link to="/background">Background</Link>
-        </MenuItem>
-        <MenuItem classes={{ selected: classes.selected }}>
-          <Link to="/template">Template</Link>
-        </MenuItem>
-        <MenuItem classes={{ selected: classes.selected }}>
-          <Link to="/pricing">Pricing</Link>
-        </MenuItem>
-        <MenuItem classes={{ selected: classes.selected }}>
-          <Link to="/help">Help</Link>
-        </MenuItem>
-      </MenuList>
+        <Toolbar disableGutters className={classes.wrapperMenu}>
+          <MenuList className={classes.navItems}>
+            <MenuItem
+              onClick={() => setOpenMobileMenu(false)}
+              classes={{ selected: classes.selected }}
+            >
+              <Link to="/category/business-card-mockup">
+                Business Card Mockup
+              </Link>
+            </MenuItem>
 
-      {user && user.token && (
-        <Button
-          component={Link}
-          to="/sell-content"
-          className={classes.mobileBtn}
-        >
-          Sell Your Content
-        </Button>
-      )}
+            <MenuItem
+              onClick={() => setOpenMobileMenu(false)}
+              classes={{ selected: classes.selected }}
+            >
+              <Link to="/category/social-media-banner">
+                Social Media Banner
+              </Link>
+            </MenuItem>
 
-      <Button component={Link} to="/" className={classes.mobileBtn}>
-        <img src={crownIcon} alt="Crown" />
-        Premium
-      </Button>
-    </Toolbar>
+            <MenuItem
+              onClick={() => setOpenMobileMenu(false)}
+              classes={{ selected: classes.selected }}
+            >
+              <Link to="/category/game">Game</Link>
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => setOpenMobileMenu(false)}
+              classes={{ selected: classes.selected }}
+            >
+              <Link to="/category/logo-mockup">Logo Mockup</Link>
+            </MenuItem>
+
+            {user?.isLoggedIn && user?.role === "contributor" ? (
+              <MenuItem
+                onClick={() => setOpenMobileMenu(false)}
+                classes={{ selected: classes.selected }}
+              >
+                <Link to="/contributor/dashboard">Sell your content</Link>
+              </MenuItem>
+            ) : (
+              <MenuItem
+                onClick={() => setOpenMobileMenu(false)}
+                classes={{ selected: classes.selected }}
+              >
+                <Link to="/contributor/join">Join Now</Link>
+              </MenuItem>
+            )}
+          </MenuList>
+        </Toolbar>
+      </Drawer>
+    </>
   );
 };
 

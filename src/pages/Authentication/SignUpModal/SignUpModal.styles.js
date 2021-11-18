@@ -1,20 +1,17 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-
   // New user authentication modal
   dialogModal: {
     "& .MuiDialog-paperWidthSm": {
       maxWidth: 800,
-    }
+    },
   },
   leftPanel: {
     backgroundColor: "#0088f2",
-    // backgroundColor: "#117A00",
     padding: "2.5rem 2.5rem 5.4rem 2.5rem",
     width: "100%",
     height: "100%",
-
     "& p": {
       color: theme.palette.common.white,
       fontWeight: 500,
@@ -26,7 +23,10 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up(1441)]: {
       padding: "2.5rem 2.5rem 7rem 2.5rem",
-     },
+    },
+    [theme.breakpoints.down(769)]: {
+      display: "none",
+    },
   },
   authLogo: {
     maxWidth: 120,
@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 13,
       marginBottom: -14,
     },
+    [theme.breakpoints.down(769)]: {
+      display: "none",
+    },
   },
 
   // Auth right panel
@@ -49,8 +52,10 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 25,
     paddingRight: 30,
     paddingBottom: 30,
-    // minWidth: 531,
     height: "100%",
+    [theme.breakpoints.down(769)]: {
+      padding: 15,
+    },
   },
   tabsWrapper: {
     "& .MuiTabs-flexContainer": {
@@ -63,11 +68,9 @@ const useStyles = makeStyles((theme) => ({
   },
   selected: {
     color: "#0088f2",
-    // color: "#117A00",
   },
   passwordResetLink: {
     fontSize: 17,
-    // color: "#469439",
     color: "#0088f2",
     textAlign: "center",
     display: "block",
@@ -98,13 +101,19 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#ab311d",
     },
+    [theme.breakpoints.down(480)]: {
+      padding: "0.6rem 6rem",
+      "& span": {
+        fontSize: "1.5rem",
+      },
+    },
   },
   googleIcon: {
     color: "white",
     fontSize: "1.6rem",
     marginRight: "0.8rem",
   },
-  facebookBtn:{
+  facebookBtn: {
     display: "flex",
     alignItems: "center",
     padding: "0.8rem 5rem",
@@ -120,8 +129,14 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#213567",
     },
+    [theme.breakpoints.down(480)]: {
+      padding: "0.6rem 5rem",
+      "& span": {
+        fontSize: "1.5rem",
+      },
+    },
   },
-  facebookIconBtn:{
+  facebookIconBtn: {
     color: "white",
     fontSize: "1.6rem",
     marginRight: "0.8rem !important",
@@ -152,6 +167,9 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     cursor: "pointer",
     marginTop: "1rem",
+    [theme.breakpoints.down(769)]: {
+      marginTop: "12.5%",
+    },
   },
   passwordField: {
     display: "flex",

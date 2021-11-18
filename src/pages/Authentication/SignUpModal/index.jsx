@@ -350,7 +350,7 @@ const SignUpModal = (props) => {
       >
         <DialogContent style={{ padding: 0, overflow: "hidden" }}>
           <Grid container spacing={3}>
-            <Grid item sm={5}>
+            <Grid item xs={12} sm={5}>
               <div className={classes.leftPanel}>
                 <img
                   className={classes.authLogo}
@@ -369,7 +369,8 @@ const SignUpModal = (props) => {
                 <img src={authImage} alt="Piktask" />
               </div>
             </Grid>
-            <Grid item sm={7}>
+
+            <Grid item xs={12} sm={7}>
               <div className={classes.rightPanel}>
                 <div className={classes.closeModal}>
                   <CloseIcon
@@ -432,6 +433,7 @@ const SignUpModal = (props) => {
                     onFailure={handleGoogleLogin}
                     cookiePolicy={"single_host_origin"}
                   />
+
                   <Spacing space={{ margin: "0 0.5rem" }} />
 
                   <FacebookLogin
@@ -457,9 +459,11 @@ const SignUpModal = (props) => {
                 </div>
 
                 <Spacing space={{ height: "1rem" }} />
+
                 <div className={classes.horizontalLine}>
                   <span>OR</span>
                 </div>
+
                 <Spacing space={{ height: "2.5rem" }} />
 
                 {/* Tab panel for Sign In */}
@@ -471,6 +475,7 @@ const SignUpModal = (props) => {
                       value={authData.userName}
                       onChange={handleAuthData}
                     />
+
                     <div className={classes.passwordField}>
                       <InputField
                         label="Password"
@@ -516,12 +521,14 @@ const SignUpModal = (props) => {
                       value={authData.userName}
                       onChange={handleAuthData}
                     />
+
                     <InputField
                       label="Email"
                       name="email"
                       value={authData.email}
                       onChange={handleAuthData}
                     />
+
                     <div className={classes.passwordField}>
                       <InputField
                         label="Password"

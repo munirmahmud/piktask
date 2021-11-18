@@ -79,7 +79,7 @@ const UserSideBar = () => {
   const { mobileView } = menuSate;
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -247,11 +247,11 @@ const UserSideBar = () => {
                   <div>
                     <img
                       src={getBaseURL().bucket_base_url + "/" + profilePicture}
-                      alt="UserProfile"
+                      alt={user?.username}
                     />
                   </div>
                 ) : (
-                  <img src={authorPhoto} alt="UserProfile" />
+                  <img src={authorPhoto} alt={user?.username} />
                 )}
                 <div className={classes.avatarOverlay}>
                   <div className={classes.bgOverlay}>
@@ -269,10 +269,12 @@ const UserSideBar = () => {
                   </div>
                 </div>
               </div>
+
               <div className={classes.profileInfo}>
                 <Typography variant="h2">{user?.username}</Typography>
                 <Typography>{user?.email}</Typography>
               </div>
+
               <div className={classes.socialMedia}>
                 {userProfile?.facebook && (
                   <MuiLink href={`${userProfile?.facebook}`} target="_blank">
@@ -283,6 +285,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.twitter && (
                   <MuiLink href={`${userProfile?.twitter}`} target="_blank">
                     <img
@@ -292,6 +295,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.linkedin && (
                   <MuiLink href={`${userProfile?.linkedin}`} target="_blank">
                     <img
@@ -301,6 +305,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.instagram && (
                   <MuiLink href={`${userProfile?.instagram}`} target="_blank">
                     <img
@@ -310,6 +315,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.shutterstock && (
                   <MuiLink
                     href={`${userProfile?.shutterstock}`}
@@ -322,6 +328,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.freepik && (
                   <MuiLink href={`${userProfile?.freepik}`} target="_blank">
                     <img
@@ -331,6 +338,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.behance && (
                   <MuiLink href={`${userProfile?.behance}`} target="_blank">
                     <img
@@ -340,6 +348,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.dribble && (
                   <MuiLink href={`${userProfile?.dribble}`} target="_blank">
                     <img
@@ -352,6 +361,7 @@ const UserSideBar = () => {
               </div>
             </div>
           </Card>
+
           <Card className={classes.userMenuList}>
             <CardContent>
               <List component="nav" aria-labelledby="nested-sidebar-nav">
@@ -437,6 +447,7 @@ const UserSideBar = () => {
                 Close My Account
               </Typography>
             </CardContent>
+
             {/* close account modal */}
             <Dialog
               className={classes.closeAccountDialog}
@@ -449,12 +460,14 @@ const UserSideBar = () => {
                 <DialogTitle className={classes.closeAccountTitle}>
                   {"Are you sure?"}
                 </DialogTitle>
+
                 <DialogContent>
                   <DialogContentText id="alert-dialog-description">
                     Note that you will close your Piktask accounts! Your premium
                     subscription will also be canceled with no refund.
                   </DialogContentText>
                 </DialogContent>
+
                 <DialogActions>
                   <Button
                     onClick={handleDialogClose}
@@ -488,6 +501,7 @@ const UserSideBar = () => {
                   <DialogTitle className={classes.closeAccountsTitle}>
                     {"Are you sure?"}
                   </DialogTitle>
+
                   <form onSubmit={handleCloseAccount}>
                     <TextField
                       className={classes.passwordField}

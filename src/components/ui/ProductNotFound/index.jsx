@@ -22,22 +22,27 @@ const ProductNotFound = ({
         <div className={classes.productNotFround}>
           <div>
             <div className={classes.notFoundImage}>
-              <img src={NotFoundImage} alt="Goto home" />
+              <img src={NotFoundImage} alt="Piktask" />
             </div>
+
             {publishContent && (
               <Typography variant="h3">There are no files published</Typography>
             )}
+
             {revisionContent && (
               <Typography variant="h3">No products are in revision</Typography>
             )}
+
             {pendingContent && (
               <Typography variant="h3">No products are in pending</Typography>
             )}
+
             {rejectFileContent && (
               <Typography variant="h3">
                 No products are in rejectFile
               </Typography>
             )}
+
             <Button
               className={classes.uploadBtn}
               component={Link}
@@ -52,7 +57,7 @@ const ProductNotFound = ({
         <div className={classes.notFoundSection}>
           <div className={classes.notFoundWrap}>
             <div className={classes.notFoundImage}>
-              <img src={NotFoundImage} alt="Goto home" />
+              <img src={NotFoundImage} alt="Piktask" />
             </div>
             <div>
               <Typography className={classes.title} variant="body1">
@@ -66,11 +71,13 @@ const ProductNotFound = ({
                   </>
                 )}
               </Typography>
+
               <Typography className={classes.helperText} variant="body1">
                 You can <span>simplify</span>,<span>shorten</span>, or{" "}
                 <span>reduce your filter criteria</span>.Or switch the language
                 site and search again
               </Typography>
+
               <Button className={classes.headingButton} component={Link} to="/">
                 Go Home
               </Button>

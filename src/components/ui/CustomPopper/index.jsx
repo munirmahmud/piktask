@@ -113,14 +113,18 @@ const CustomPopper = ({
                           {user?.avatar_from === "own" ? (
                             <img
                               className={classes.avatar}
-                              src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
-                              alt="UserPhoto"
+                              src={
+                                getBaseURL().bucket_base_url +
+                                getBaseURL().profiles +
+                                user?.avatar
+                              }
+                              alt={user?.username}
                             />
                           ) : (
                             <img
                               className={classes.avatar}
                               src={user?.avatar}
-                              alt="UserPhoto"
+                              alt={user?.username}
                             />
                           )}
                         </>
@@ -189,6 +193,7 @@ const CustomPopper = ({
                       </div>
                       <ArrowForwardIosIcon />
                     </MenuItem>
+
                     <MenuItem
                       className={classes.userMenuItem}
                       onClick={handleClose}
@@ -201,6 +206,7 @@ const CustomPopper = ({
                       </div>
                       <ArrowForwardIosIcon />
                     </MenuItem>
+
                     <MenuItem
                       className={classes.userMenuItem}
                       onClick={handleClose}
@@ -215,6 +221,7 @@ const CustomPopper = ({
                       </div>
                       <ArrowForwardIosIcon />
                     </MenuItem>
+
                     <MenuItem
                       className={classes.userMenuItem}
                       onClick={handleClose}
@@ -227,6 +234,7 @@ const CustomPopper = ({
                       </div>
                       <ArrowForwardIosIcon />
                     </MenuItem>
+
                     <MenuItem
                       className={classes.userMenuItem}
                       onClick={(e) => {
@@ -256,6 +264,7 @@ const CustomPopper = ({
                       </div>
                       <ArrowForwardIosIcon />
                     </MenuItem>
+
                     <MenuItem
                       className={classes.userMenuItem}
                       onClick={handleClose}
@@ -268,6 +277,7 @@ const CustomPopper = ({
                       </div>
                       <ArrowForwardIosIcon />
                     </MenuItem>
+
                     <MenuItem
                       className={classes.userMenuItem}
                       onClick={(e) => {

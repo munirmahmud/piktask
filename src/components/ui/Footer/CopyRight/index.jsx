@@ -8,7 +8,7 @@ import instagram from "../../../../assets/icons/instagram.svg";
 import linkedIn from "../../../../assets/icons/linkdin.svg";
 import pinterest from "../../../../assets/icons/pintarest.svg";
 import youTube from "../../../../assets/icons/youtube.svg";
-import logo from "../../../../assets/Logo/piktask-6.png";
+import logo from "../../../../assets/Logo/piktask.png";
 import SocialShare from "../../SocialShare";
 import useStyles from "./CopyRight.styles";
 
@@ -62,11 +62,13 @@ const CopyRight = () => {
                 <img className={classes.logo} src={logo} alt="Piktask" />
               </Link>
             </Grid>
+
             <Grid item xs={12} sm={6} md={6}>
               <Typography className={classes.copyRightText}>
                 &copy; Piktask International Ltd. {new Date().getFullYear()}
               </Typography>
             </Grid>
+
             <Grid item xs={12} sm={3} md={3}>
               <SocialShare socialMedias={socialMedias} />
             </Grid>

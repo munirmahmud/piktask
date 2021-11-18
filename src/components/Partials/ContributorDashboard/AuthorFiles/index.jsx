@@ -116,7 +116,7 @@ const AuthorFiles = () => {
                                 getBaseURL().images +
                                 authLastFile?.preview
                             )}
-                            alt={"Contributor last file"}
+                            alt={authLastFile?.title}
                           />
                         </Link>
 
@@ -193,7 +193,7 @@ const AuthorFiles = () => {
                                 getBaseURL().images +
                                 topFile?.preview
                             )}
-                            alt={"Piktask top file"}
+                            alt={topFile?.title}
                           />
                         </Link>
                         {/* {topFile?.item_for_sale === "sale" && (
@@ -216,13 +216,13 @@ const AuthorFiles = () => {
                             <img
                               className={classes.authorImg}
                               src={topFile?.avatar}
-                              alt="AuthorPhoto"
+                              alt={topFile?.username}
                             />
                           ) : (
                             <img
                               className={classes.authorImg}
                               src={authorPhoto}
-                              alt="AuthorPhoto"
+                              alt={topFile?.username}
                             />
                           )}
                         </Link>

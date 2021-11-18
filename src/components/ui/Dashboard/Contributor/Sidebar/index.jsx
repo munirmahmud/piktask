@@ -15,7 +15,7 @@ import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import logo from "../../../../../assets/Logo/piktask-6.png";
+import logo from "../../../../../assets/Logo/piktask.png";
 import useStyles from "./Sidebar.styles";
 
 const Sidebar = () => {
@@ -103,7 +103,7 @@ const Sidebar = () => {
           // className={classes.logoWrapper}
           disableRipple
         >
-          <img src={logo} className={classes.sidebarLogo} alt="Piktask Logo" />
+          <img src={logo} className={classes.sidebarLogo} alt="Piktask" />
         </Button>
       </div>
       <List component="nav" aria-labelledby="nested-sidebar-nav">

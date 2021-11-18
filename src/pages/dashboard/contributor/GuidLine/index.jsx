@@ -130,10 +130,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -196,10 +196,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -216,10 +216,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -236,10 +236,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -292,10 +292,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -320,10 +320,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={VectorImage} alt="GuidLine_Image" />
+                              <img src={VectorImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -380,10 +380,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PSDImage} alt="GuidLine_Image" />
+                              <img src={PSDImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PSDImage} alt="GuidLine_Image" />
+                              <img src={PSDImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -410,10 +410,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PSDImage} alt="GuidLine_Image" />
+                              <img src={PSDImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PSDImage} alt="GuidLine_Image" />
+                              <img src={PSDImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -493,10 +493,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PSDImage} alt="GuidLine_Image" />
+                              <img src={PSDImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PSDImage} alt="GuidLine_Image" />
+                              <img src={PSDImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -524,10 +524,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PSDImage} alt="GuidLine_Image" />
+                              <img src={PSDImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PSDImage} alt="GuidLine_Image" />
+                              <img src={PSDImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -630,10 +630,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PSDImage} alt="GuidLine_Image" />
+                              <img src={PSDImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PSDImage} alt="GuidLine_Image" />
+                              <img src={PSDImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -732,10 +732,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -752,10 +752,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -771,10 +771,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -817,10 +817,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -841,10 +841,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -860,10 +860,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -880,10 +880,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -922,10 +922,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />
@@ -940,10 +940,10 @@ const GuidLine = () => {
                           <Spacing space={{ height: "3rem" }} />
                           <div className={classes.guidLineImageWrapper}>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                             <div className={classes.guidLineImage}>
-                              <img src={PhotoImage} alt="GuidLine_Image" />
+                              <img src={PhotoImage} alt="Piktask" />
                             </div>
                           </div>
                           <Spacing space={{ height: "3rem" }} />

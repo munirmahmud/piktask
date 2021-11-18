@@ -9,18 +9,17 @@ import {
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import CloseIcon from "@material-ui/icons/Close";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import crownIcon from "../../../../../assets/icons/crown.svg";
-import logo from "../../../../../assets/Logo/piktask-6.png";
-import CustomPopper from "../../../CustomPopper";
+import logo from "../../../../../assets/Logo/piktask.png";
 import { getBaseURL } from "../../../../../helpers";
+import CustomPopper from "../../../CustomPopper";
 import MobileSidebarMenu from "../Sidebar/MobileSidebarMenu";
 import useStyles from "./AdminHeader.styles";
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const customStyles = makeStyles({
   menuWrapper: {
@@ -75,7 +74,7 @@ const AdminHeader = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -142,14 +141,18 @@ const AdminHeader = () => {
                           {user?.avatar_from === "own" ? (
                             <img
                               className={classes.avatar}
-                              src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
-                              alt="UserPhoto"
+                              src={
+                                getBaseURL().bucket_base_url +
+                                getBaseURL().profiles +
+                                user?.avatar
+                              }
+                              alt={user?.username}
                             />
                           ) : (
                             <img
                               className={classes.avatar}
                               src={user?.avatar}
-                              alt="UserPhoto"
+                              alt={user?.username}
                             />
                           )}
                         </>
@@ -157,7 +160,7 @@ const AdminHeader = () => {
                         <AccountCircleIcon className={classes.avatar} />
                       )}
                       <Typography className={classes.userName} variant="h4">
-                        {user ? user.username : "Design Studio"}
+                        {user ? user?.username : "Design Studio"}
                       </Typography>
                       <ArrowDropDownIcon className={classes.arrowDown} />
                     </div>
@@ -179,15 +182,11 @@ const AdminHeader = () => {
                   component={Link}
                   to="/contributor/upload"
                 >
-                  {/* <img
-                    className={classes.ButtoncrownIcon}
-                    src={crownIcon}
-                    alt="Upload"
-                  /> */}
-                   <CloudUploadIcon className={classes.ButtoncrownIcon} />
+                  <CloudUploadIcon className={classes.ButtoncrownIcon} />
                   Upload
                 </Button>
               </div>
+
               <div>
                 <div className={classes.headerInfo}>
                   <div className={classes.notificationIcon}>
@@ -208,14 +207,18 @@ const AdminHeader = () => {
                         {user?.avatar_from === "own" ? (
                           <img
                             className={classes.avatar}
-                            src={getBaseURL().bucket_base_url + getBaseURL().profiles + user?.avatar}
-                            alt="UserPhoto"
+                            src={
+                              getBaseURL().bucket_base_url +
+                              getBaseURL().profiles +
+                              user?.avatar
+                            }
+                            alt={user?.username}
                           />
                         ) : (
                           <img
                             className={classes.avatar}
                             src={user?.avatar}
-                            alt="UserPhoto"
+                            alt={user?.username}
                           />
                         )}
                       </>

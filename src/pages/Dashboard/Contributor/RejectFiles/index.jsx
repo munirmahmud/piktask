@@ -43,7 +43,7 @@ const RejectFiles = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -158,6 +158,7 @@ const RejectFiles = () => {
                             alt={product?.original_name}
                           />
                         </div>
+
                         <CardContent className={classes.cardContent}>
                           <Typography variant="h3">
                             {product?.original_name}
