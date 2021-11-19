@@ -18,7 +18,6 @@ const Categories = () => {
   const [popularCategories, setPopularCategories] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
     axios
       .get(`${process.env.REACT_APP_API_URL}/categories/popular`)
       .then(({ data }) => {

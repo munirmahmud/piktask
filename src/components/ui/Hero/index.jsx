@@ -22,7 +22,6 @@ const HeroSection = (props) => {
   const {
     size,
     popularKeywords,
-    creativeWorksDone,
     title,
     heroButton,
     isSearch,
@@ -311,7 +310,6 @@ const HeroSection = (props) => {
                 <SearchKeyWords
                   popularKeywords={popularKeywords}
                   heroButton={heroButton}
-                  creativeWorksDone={creativeWorksDone}
                 />
               )}
 

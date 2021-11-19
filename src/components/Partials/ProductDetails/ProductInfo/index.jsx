@@ -328,7 +328,7 @@ const ProductInfo = ({ productDetails }) => {
                     className={classes.authorImg}
                     src={
                       getBaseURL().bucket_base_url +
-                      getBaseURL().profiles +
+                      "/" +
                       productDetails?.imageDetails?.user?.avatar
                     }
                     alt={productDetails?.imageDetails?.user?.username}

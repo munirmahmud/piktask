@@ -135,7 +135,7 @@ const Category = () => {
       <Header />
       <HeroSection
         size="large"
-        creativeWorksDone
+        popularKeywords
         title="Graphic Resource for Free Download"
       />
 
