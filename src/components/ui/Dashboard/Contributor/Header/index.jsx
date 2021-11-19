@@ -208,9 +208,7 @@ const AdminHeader = () => {
                           <img
                             className={classes.avatar}
                             src={
-                              getBaseURL().bucket_base_url +
-                              getBaseURL().profiles +
-                              user?.avatar
+                              getBaseURL().bucket_base_url + "/" + user?.avatar
                             }
                             alt={user?.username}
                           />

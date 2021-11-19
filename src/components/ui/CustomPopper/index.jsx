@@ -67,6 +67,7 @@ const CustomPopper = ({
       user.isLoggedIn = false;
       history.push("/");
       localStorage.removeItem("token");
+      localStorage.removeItem("profileImage");
 
       dispatch({
         type: "LOGOUT",
@@ -115,7 +116,7 @@ const CustomPopper = ({
                               className={classes.avatar}
                               src={
                                 getBaseURL().bucket_base_url +
-                                getBaseURL().profiles +
+                                "/" +
                                 user?.avatar
                               }
                               alt={user?.username}

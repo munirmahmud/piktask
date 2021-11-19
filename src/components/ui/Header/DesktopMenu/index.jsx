@@ -146,11 +146,7 @@ const DesktopMenu = ({ history }) => {
                     {user?.avatar_from === "own" ? (
                       <img
                         className={classes.avatar}
-                        src={
-                          getBaseURL().bucket_base_url +
-                          getBaseURL().profiles +
-                          user?.avatar
-                        }
+                        src={getBaseURL().bucket_base_url + "/" + user?.avatar}
                         alt={user?.username}
                       />
                     ) : (
