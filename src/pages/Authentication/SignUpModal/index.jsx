@@ -349,7 +349,7 @@ const SignUpModal = (props) => {
         className={classes.dialogModal}
       >
         <DialogContent style={{ padding: 0, overflow: "hidden" }}>
-          <Grid container spacing={3}>
+          <Grid container>
             <Grid item xs={12} sm={5}>
               <div className={classes.leftPanel}>
                 <img

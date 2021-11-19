@@ -32,9 +32,9 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     height: "100%",
-    display: "flex", 
+    display: "flex",
     margin: "0rem 1.5rem",
-    justifyContent: "space-between", 
+    justifyContent: "space-between",
     alignItems: "center",
     [theme.breakpoints.down(769)]: {
       margin: "0rem",
@@ -144,8 +144,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     fontSize: "4.8rem",
-    // width: "4.8rem",
-    // height: "4.8rem",
+    width: "4rem",
+    height: "4rem",
     borderRadius: "100%",
     position: "relative",
     right: "-0.6rem",

@@ -7,10 +7,10 @@ const useStyles = makeStyles((theme) => ({
   mainHeader: {
     "& > .MuiAppBar-colorPrimary": {
       background: "#001c30",
-      height: 70,
+      padding: "0.4rem 0",
     },
     [theme.breakpoints.down(426)]: {
-      height: 58,
+      padding: 0,
     },
   },
 }));

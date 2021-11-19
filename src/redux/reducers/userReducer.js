@@ -1,25 +1,22 @@
-const initialValue ={
+const initialValue = {
   role: "",
-  email : "",
-  token: "", 
+  email: "",
+  token: "",
   isLoggedIn: false,
-}
+};
 
 export const userReducer = (state = initialValue, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case "LOGGED_IN_USER":
-        return {...action.payload, isLoggedIn: true};
-        
+      return { ...action.payload, isLoggedIn: true };
+
     case "LOGOUT":
-        return {...action.payload, isLoggedIn: false};
+      return { ...action.payload, isLoggedIn: false };
 
     case "SET_USER":
-            return {...action.payload, isLoggedIn: true}; 
-            
-    case "SET_CONTRIBUTOR":
-        return {...action.payload, isLoggedIn: true}; 
-            
+      return { ...action.payload, isLoggedIn: true };
+
     default:
-        return state;
+      return state;
   }
 };

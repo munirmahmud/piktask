@@ -2,24 +2,23 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   menuWrapper: {
-    marginTop: 10,
+    padding: "0.4rem 0",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
 
     "@media (max-width: 577px)": {
-      marginTop: 0,
+      padding: 0,
     },
   },
   menuIcon: {
     fontSize: "4rem",
     cursor: "pointer",
     color: "#FFF",
-    marginTop: "0.5rem",
+    marginLeft: "1rem",
 
     "@media (max-width: 577px)": {
-      marginTop: "0.8rem",
-      fontSize: "3rem",
+      fontSize: "3.5rem",
     },
   },
   menuButton: {
@@ -72,8 +71,8 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.button,
     backgroundColor: "#0088f2",
     border: ".2rem solid #0088f2",
-    fontSize: "1.3rem",
-    padding: "0.2rem 1rem",
+    fontSize: "1.5rem",
+    padding: "0.3rem 1rem",
     transition: "all 0.3s linear",
 
     "&:hover": {
@@ -83,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
     "@media (max-width: 480px)": {
       padding: ".3rem 1.2rem !important",
-      fontSize: "1rem",
+      fontSize: "1.4rem",
     },
   },
   crownIcon: {
@@ -115,14 +114,43 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     color: "#FFF",
   },
-  headerLogo: {
-    width: 153,
+  drawerLogo: {
+    width: 115,
     padding: 0,
     "& .MuiButton-label": {
       justifyContent: "flex-end",
     },
     "&:hover": {
       background: "transparent",
+    },
+    "& img": {
+      width: "100%",
+    },
+    "@media (max-width: 577px)": {
+      width: "11rem",
+
+      "& img": {
+        width: "100%",
+      },
+    },
+    [theme.breakpoints.down(325)]: {
+      width: "10rem",
+      "& img": {
+        width: "100%",
+      },
+    },
+  },
+  headerLogo: {
+    width: 135,
+    padding: 0,
+    "& .MuiButton-label": {
+      justifyContent: "flex-start",
+    },
+    "&:hover": {
+      background: "transparent",
+    },
+    "& img": {
+      width: "100%",
     },
     "@media (max-width: 577px)": {
       width: "11rem",

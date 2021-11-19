@@ -29,9 +29,9 @@ import authorPhoto from "../../../../../assets/author.png";
 import behanceIcon from "../../../../../assets/icons/behance.svg";
 import dribbleIcon from "../../../../../assets/icons/dribble.svg";
 import facebookIcon from "../../../../../assets/icons/facebook.svg";
-import freepikIcon from "../../../../../assets/icons/freepik.svg";
 import instagramIcon from "../../../../../assets/icons/instagram.svg";
 import linkedinIcon from "../../../../../assets/icons/linkedin.svg";
+import pinterestIcon from "../../../../../assets/icons/pintarest.svg";
 import shutterstockIcon from "../../../../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../../../../assets/icons/twitter.svg";
 import { getBaseURL } from "../../../../../helpers";
@@ -144,6 +144,7 @@ const UserSideBar = () => {
       user.isLoggedIn = false;
       history.push("/");
       localStorage.removeItem("token");
+      localStorage.removeItem("profileImage");
       dispatch({
         type: "LOGOUT",
         payload: {
@@ -193,32 +194,36 @@ const UserSideBar = () => {
     formData.append("profile_picture", file);
 
     const url = `${process.env.REACT_APP_API_URL}/profile/profile_picture`;
-    axios({
-      method: "put",
-      url,
-      headers: {
-        Authorization: user?.token,
-        "Content-Type": "multipart/form-data",
-      },
-      data: formData,
-    })
-      .then((res) => {
-        if (res.status) {
-          toast.success(res.data.message);
-          setProfilePicture(res.data.image);
-          localStorage.setItem("profileImage", res.data.image);
-          dispatch({
-            type: "SET_USER",
-            payload: {
-              avatar: res.data.image,
-            },
-          });
-        }
+    if (user?.isLoggedIn && user?.role === "user") {
+      axios({
+        method: "put",
+        url,
+        headers: {
+          Authorization: user?.token,
+          "Content-Type": "multipart/form-data",
+        },
+        data: formData,
       })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
+        .then(({ data }) => {
+          if (data?.status) {
+            toast.success(data?.message);
+            setProfilePicture(data?.image);
+            localStorage.setItem("profileImage", data?.image);
+            dispatch({
+              type: "SET_USER",
+              payload: {
+                ...user,
+                avatar: data?.image,
+              },
+            });
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -329,12 +334,12 @@ const UserSideBar = () => {
                   </MuiLink>
                 )}
 
-                {userProfile?.freepik && (
-                  <MuiLink href={`${userProfile?.freepik}`} target="_blank">
+                {userProfile?.pinterest && (
+                  <MuiLink href={`${userProfile?.pinterest}`} target="_blank">
                     <img
-                      src={freepikIcon}
-                      className={classes.freepikIcon}
-                      alt="freepikIcon"
+                      src={pinterestIcon}
+                      className={classes.pinterestIcon}
+                      alt="pinterestIcon"
                     />
                   </MuiLink>
                 )}

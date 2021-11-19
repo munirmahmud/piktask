@@ -216,6 +216,7 @@ const UserProfile = () => {
       const token = data.token;
       localStorage.setItem("token", token);
       const decodedToken = jwt_decode(token.split(" ")[1]);
+      localStorage.setItem("profileImage", decodedToken.avatar);
       if (decodedToken.email) {
         dispatch({
           type: "SET_USER",
@@ -245,6 +246,7 @@ const UserProfile = () => {
       const token = data.token;
       localStorage.setItem("token", token);
       const decodedToken = jwt_decode(token.split(" ")[1]);
+      localStorage.setItem("profileImage", decodedToken.avatar);
       if (decodedToken.email) {
         dispatch({
           type: "SET_USER",

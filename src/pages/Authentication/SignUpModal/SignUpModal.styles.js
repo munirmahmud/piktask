@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
   leftPanel: {
     backgroundColor: "#0088f2",
-    padding: "2.5rem 2.5rem 5.4rem 2.5rem",
+    padding: "2.5rem",
     width: "100%",
     height: "100%",
     "& p": {
@@ -49,12 +49,10 @@ const useStyles = makeStyles((theme) => ({
 
   // Auth right panel
   rightPanel: {
-    paddingTop: 25,
-    paddingRight: 30,
-    paddingBottom: 30,
+    padding: "2rem",
     height: "100%",
     [theme.breakpoints.down(769)]: {
-      padding: 15,
+      padding: "1.5rem",
     },
   },
   tabsWrapper: {
@@ -65,9 +63,11 @@ const useStyles = makeStyles((theme) => ({
   },
   tabItem: {
     color: "#CCCCCC",
+    fontSize: 17,
   },
   selected: {
     color: "#0088f2",
+    fontSize: 17,
   },
   passwordResetLink: {
     fontSize: 17,
@@ -146,6 +146,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: -15,
     color: "#0088f2",
     cursor: "pointer",
+    [theme.breakpoints.down(769)]: {
+      display: "none",
+      marginTop: 0,
+    },
   },
   horizontalLine: {
     backgroundColor: "#CBCBCB",

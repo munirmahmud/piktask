@@ -38,28 +38,18 @@ const MobileMenu = () => {
     <>
       <Toolbar disableGutters className={classes.menuWrapper}>
         <div>
-          <MenuIcon onClick={handleMobileMenu} className={classes.menuIcon} />
+          <Button
+            component={Link}
+            to="/"
+            className={classes.headerLogo}
+            disableRipple
+            onClick={() => setOpenMobileMenu(false)}
+          >
+            <img src={logo} className={classes.logo} alt="Dev" />
+          </Button>
         </div>
 
         <div className={classes.menuButton}>
-          {user?.isLoggedIn && user?.role === "contributor" ? (
-            <Button
-              className={classes.sellContentBtn}
-              component={Link}
-              to="/contributor/dashboard"
-            >
-              Sell Your Content
-            </Button>
-          ) : (
-            <Button
-              className={classes.sellContentBtn}
-              component={Link}
-              to="/contributor/join"
-            >
-              Sell Your Content
-            </Button>
-          )}
-
           {user?.isLoggedIn && user?.role === "user" ? (
             <div
               className={classes.userAvatarArea}
@@ -73,11 +63,7 @@ const MobileMenu = () => {
                   {user?.avatar_from === "own" ? (
                     <img
                       className={classes.avatar}
-                      src={
-                        getBaseURL().bucket_base_url +
-                        getBaseURL().profiles +
-                        user?.avatar
-                      }
+                      src={getBaseURL().bucket_base_url + "/" + user?.avatar}
                       alt={user?.username}
                     />
                   ) : (
@@ -109,6 +95,7 @@ const MobileMenu = () => {
               </Button>
             </div>
           )}
+          <MenuIcon onClick={handleMobileMenu} className={classes.menuIcon} />
         </div>
       </Toolbar>
 
@@ -119,7 +106,7 @@ const MobileMenu = () => {
       />
 
       <Drawer
-        anchor="left"
+        anchor="right"
         classes={{ paper: classes.paper }}
         open={openMobileMenu}
         onClose={() => setOpenMobileMenu(false)}
@@ -132,8 +119,9 @@ const MobileMenu = () => {
           <Button
             component={Link}
             to="/"
-            className={classes.headerLogo}
+            className={classes.drawerLogo}
             disableRipple
+            onClick={() => setOpenMobileMenu(false)}
           >
             <img src={logo} className={classes.logo} alt="Dev" />
           </Button>
@@ -148,6 +136,13 @@ const MobileMenu = () => {
               <Link to="/category/business-card-mockup">
                 Business Card Mockup
               </Link>
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => setOpenMobileMenu(false)}
+              classes={{ selected: classes.selected }}
+            >
+              <Link to="/category/text-effect">Text Effect</Link>
             </MenuItem>
 
             <MenuItem
@@ -185,7 +180,7 @@ const MobileMenu = () => {
                 onClick={() => setOpenMobileMenu(false)}
                 classes={{ selected: classes.selected }}
               >
-                <Link to="/contributor/join">Join Now</Link>
+                <Link to="/contributor/join">Sell your content</Link>
               </MenuItem>
             )}
           </MenuList>

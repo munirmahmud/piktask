@@ -142,8 +142,8 @@ const PendingFiles = () => {
   };
 
   const handleWorkInfo = () => {
-    if (selectedProducts.length > 0) {
-      if (selectedProducts.length > 12) {
+    if (selectedProducts?.length > 0) {
+      if (selectedProducts?.length > 12) {
         toast.error("You can not select more than 12");
         return;
       }
