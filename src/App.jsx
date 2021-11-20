@@ -118,7 +118,7 @@ const App = () => {
 
     // Popular categories API integration
     axios
-      .get(`${process.env.REACT_APP_API_URL}/categories/popular?limit=10`)
+      .get(`${process.env.REACT_APP_API_URL}/categories/popular?limit=6`)
       .then(({ data }) => {
         if (data?.status) {
           dispatch({
