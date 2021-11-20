@@ -33,7 +33,7 @@ const Categories = () => {
   }, []);
 
   return (
-    <Layout title="All Categories-Piktask" description="All Categories-Piktask">
+    <Layout title="All Categories | Piktask" canonical={document.URL}>
       <Header />
       <HeroSection
         title="Graphic Resources for Free Download"

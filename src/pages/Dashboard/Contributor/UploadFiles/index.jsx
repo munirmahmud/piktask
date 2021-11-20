@@ -429,8 +429,8 @@ const UploadFiles = () => {
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
                         <Typography>
-                          Preview files must be between 2000px and 10000px on
-                          any of the sides.
+                          Preview files must be between 820px and 510px on any
+                          of the sides.
                         </Typography>
                       </div>
                       <div className={classes.labelItem}>
@@ -469,8 +469,8 @@ const UploadFiles = () => {
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
                         <Typography>
-                          Preview files must be between 2000px and 10000px on
-                          any of the sides.
+                          Preview files must be between 820px and 510px on any
+                          of the sides.
                         </Typography>
                       </div>
                       <div className={classes.labelItem}>
@@ -506,8 +506,8 @@ const UploadFiles = () => {
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
                         <Typography>
-                          Photos must be between 2000px and 10000px on any of
-                          the sides.
+                          Photos must be between 820px and 510px on any of the
+                          sides.
                         </Typography>
                       </div>
                       <div className={classes.labelItem}>
@@ -558,12 +558,12 @@ const UploadFiles = () => {
                     // style={{ color: "red" }}
                   >
                     Your image dimension exceeds the limit. Preview files must
-                    be between 2000px and 10000px on any of the sides.
+                    be between 820px and 510px on any of the sides.
                   </Typography>
                 ) : (
                   <Typography className={classes.subtitle} variant="body1">
-                    Preview files must be between 2000px and 10000px on any of
-                    the sides.
+                    Preview files must be between 820px and 510px on any of the
+                    sides.
                   </Typography>
                 )}
               </div>
@@ -572,7 +572,6 @@ const UploadFiles = () => {
             {!isImageDimensionOkay}
 
             {getUploadFiles()}
-            {console.log("disableUploadButton", disableUploadButton)}
 
             <div className={classes.singleBorder}></div>
             <div className={classes.uploadBtnRoot}>

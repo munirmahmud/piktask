@@ -10,7 +10,7 @@ import useStyles from "./CookiesPolicy.style";
 const CookiesPolicy = () => {
   const classes = useStyles();
   return (
-    <Layout title="Cookies policy | Piktask">
+    <Layout title="Cookies policy | Piktask" canonical={document.URL}>
       <Header />
 
       <HeroSection cookiesPolicy size="medium" isSearch />

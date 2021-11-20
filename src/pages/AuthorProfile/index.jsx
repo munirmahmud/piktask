@@ -105,7 +105,11 @@ const AuthorProfile = () => {
   };
 
   return (
-    <Layout title={`${profileInfo?.username} | Piktask`}>
+    <Layout
+      title={`${profileInfo?.username} | Piktask`}
+      description={`Discover millions of free Vectors, Photos &amp; PSD files from ${profileInfo?.username} - Free Graphic Resources for personal and commercial use`}
+      canonical={document.URL}
+    >
       <Header />
       <div
         className={classes.authorHero}

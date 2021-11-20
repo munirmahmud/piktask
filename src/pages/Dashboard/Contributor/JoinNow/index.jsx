@@ -1,17 +1,17 @@
 import { Container, Typography } from "@material-ui/core";
 import React from "react";
 import rightArrow from "../../../../assets/icons/stepArrow.svg";
+import Spacing from "../../../../components/Spacing";
 import CallToAction from "../../../../components/ui/CallToAction";
 import Footer from "../../../../components/ui/Footer";
 import HeroSection from "../../../../components/ui/Hero";
 import Layout from "../../../../Layout";
 import useStyles from "./JoinNow.style";
-import Spacing from "../../../../components/Spacing";
 
 const JoinNow = () => {
   const classes = useStyles();
   return (
-    <Layout title="Join Now | Piktask">
+    <Layout title="Join Now | Piktask" canonical={document.URL}>
       <HeroSection size="large" contributorUser isSearch />
       <Spacing space={{ height: "2.5rem" }} />
       {/* Instruction  */}

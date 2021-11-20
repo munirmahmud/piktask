@@ -8,7 +8,11 @@ import Layout from "../../Layout";
 
 const TrendingSearch = () => {
   return (
-    <Layout>
+    <Layout
+      title="Trending Search result | Piktask"
+      description="Piktask provides millions of stock photos, creatives, backgrounds and illustrations for free to fullfil your graphic design needs."
+      canonical={document.URL}
+    >
       <Header />
       <HeroSection
         size="large"

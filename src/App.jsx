@@ -89,7 +89,7 @@ const ResetPassword = lazy(() =>
 const ConfirmSignup = lazy(() =>
   import("./pages/Authentication/ConfirmSignup")
 );
-const CompleteRegistration = lazy(() =>
+const EmailVerification = lazy(() =>
   import("./pages/Authentication/EmailVerification")
 );
 
@@ -256,7 +256,7 @@ const App = () => {
           <Route exact path="/confirm-signup" component={ConfirmSignup} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/reset-password" component={ResetPassword} />
-          <Route exact path="/email/verify" component={CompleteRegistration} />
+          <Route exact path="/email/verify" component={EmailVerification} />
 
           {/* Subscription page */}
           <Route exact path="/subscription" component={Subscription} />

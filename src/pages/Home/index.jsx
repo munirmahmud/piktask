@@ -43,6 +43,12 @@ const Home = () => {
     <Layout
       title="Graphic Resources for Free Download | Piktask"
       description="Graphic Resources for Free Download"
+      ogTitle="Free vectors, stock photos, & PSD download | Piktask"
+      ogDescription="Free vectors, stock photos, & PSD download | Piktask"
+      ogTitle=""
+      ogDescription=""
+      ogUrl=""
+      ogType=""
     >
       <Header />
       {/* <Suspense fallback={<h1>Loading...</h1>}> */}

@@ -85,7 +85,7 @@ const Login = ({ history }) => {
   };
 
   return (
-    <Layout title="Login | Piktask">
+    <Layout title="Login | Piktask" canonical={document.URL}>
       <Header />
 
       <div className={classes.rootContainer}>

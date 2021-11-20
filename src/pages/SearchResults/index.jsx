@@ -23,6 +23,7 @@ const SearchResults = () => {
   const keywords = location.pathname.split("=").pop().replace(/-/g, " ");
   const locationPath = location.pathname;
   const user = useSelector((state) => state.user);
+  const [canonicalURL, setCanonicalURL] = useState("");
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -60,6 +61,11 @@ const SearchResults = () => {
   };
 
   useEffect(() => {
+    // Remove the parts after  "search" text from the URL
+    const location = document.URL.split("/");
+    location.pop();
+    setCanonicalURL(location.join("/"));
+
     const url = prepareSearchQuery();
     axios
       .get(url)
@@ -81,10 +87,8 @@ const SearchResults = () => {
     }
   };
 
-  console.log("searchKey", searchKey);
-
   return (
-    <Layout title={`${searchKey} | Piktask`}>
+    <Layout title={`${searchKey} | Piktask`} canonical={canonicalURL}>
       <Header></Header>
       <HeroSection
         size="large"
