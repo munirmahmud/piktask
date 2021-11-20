@@ -22,7 +22,7 @@ const SingleProductDetails = () => {
   const [allTags, setAllTags] = useState([]);
 
   return (
-    <Layout title={`${productTitle} | Piktask`}>
+    <Layout title={`${productTitle} | Piktask`} canonical={document.URL}>
       <Header />
 
       <HeroSection size="medium" />

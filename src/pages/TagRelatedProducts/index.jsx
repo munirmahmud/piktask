@@ -36,7 +36,11 @@ const TagTemplate = () => {
   }, [keywords]);
 
   return (
-    <Layout title={`${tagName} | Piktask`} description={`${tagName} | Piktask`}>
+    <Layout
+      title={`${tagName} | Piktask`}
+      description={`${tagName} | Piktask`}
+      canonical={document.URL}
+    >
       <Header />
       <HeroSection size="medium" />
       <Container>

@@ -7,6 +7,7 @@ const Layout = (props) => {
     keywords = "",
     author = "",
     children,
+    canonical,
     ...others
   } = props;
 
@@ -21,7 +22,10 @@ const Layout = (props) => {
         description);
     keywords &&
       (document.querySelector('meta[name="keywords"]').content = keywords);
-  }, [title, description, keywords, author]);
+
+    canonical &&
+      (document.querySelector('link[rel="canonical"]').href = canonical);
+  }, [title, description, keywords, author, canonical]);
 
   return <main {...others}>{children}</main>;
 };
