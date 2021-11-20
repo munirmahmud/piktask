@@ -8,7 +8,7 @@ import Layout from "../../../../Layout";
 
 const UserSubscription = () => {
   return (
-    <Layout title="Subscription | Piktask">
+    <Layout title="Subscription | Piktask" canonical={document.URL}>
       <Header />
 
       <Spacing space={{ height: "5rem" }} />

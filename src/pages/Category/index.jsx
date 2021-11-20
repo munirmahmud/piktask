@@ -131,8 +131,9 @@ const Category = () => {
   };
 
   return (
-    <Layout title={`${catName} | Piktask`}>
+    <Layout title={`${catName} | Piktask`} canonical={document.URL}>
       <Header />
+
       <HeroSection
         size="large"
         popularKeywords

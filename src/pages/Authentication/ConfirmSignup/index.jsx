@@ -21,10 +21,14 @@ const ConfirmSignup = () => {
   useEffect(() => {
     document.body.style.backgroundColor = "#ECEEF5";
 
+    if (token) {
+      setLoading(false);
+    }
+
     return () => {
       document.body.style.backgroundColor = "";
     };
-  }, []);
+  }, [token]);
 
   //For Set Password
   const handleSubmit = (e) => {
@@ -32,22 +36,22 @@ const ConfirmSignup = () => {
     setLoading(false);
 
     if (!token) {
-      setLoading(false);
+      setLoading(true);
       setToken("");
       toast.error("Field should not be empty. ", { autoClose: 2200 });
       return;
     } else if (!token.match(/^(?=.*[0-9])/)) {
-      setLoading(false);
+      setLoading(true);
       setToken("");
       toast.error("Token only contains numeric value", { autoClose: 2200 });
       return;
     } else if (token.match(/^(?=.*[0-9])/) && token.match(/^(?=.*[a-zA-Z])/)) {
-      setLoading(false);
+      setLoading(true);
       setToken("");
       toast.error("Token only contains numeric values", { autoClose: 2200 });
       return;
     } else if (token.length < 8 || token.length > 8) {
-      setLoading(false);
+      setLoading(true);
       setToken("");
       toast.error("Token should be 8 digit number", { autoClose: 2200 });
       return;
@@ -59,16 +63,21 @@ const ConfirmSignup = () => {
         .then((res) => {
           if (res.status === 200) {
             toast.success(res.data.message);
-            setLoading(false);
+            setLoading(true);
             setRole(res?.data.role);
             setToken("");
           }
+        })
+        .catch((error) => {
+          console.log("Verify account error: ", error);
+          setLoading(true);
+          setToken("");
         });
     }
   };
 
   return (
-    <Layout title="Confirm Signup | Piktask">
+    <Layout title="Confirm Signup | Piktask" canonical={document.URL}>
       {/* if confirm redirect to login */}
       {isRedirectTo && <Redirect to={`/login?${role}`} />}
       <Header />

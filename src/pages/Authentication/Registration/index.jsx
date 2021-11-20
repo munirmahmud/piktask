@@ -218,7 +218,7 @@ const Registration = ({ history }) => {
   };
 
   return (
-    <Layout title="Signup | Piktast">
+    <Layout title="Signup | Piktast" canonical={document.URL}>
       {isRedirectTo && <Redirect to="/confirm-signup" />}
       <Header />
       <div className={classes.rootContainer}>
