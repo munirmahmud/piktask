@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
   },
   loaderItem: {
     "@media (max-width: 576px)": {
-      maxWidth: "100%",
-      flexBasis: "100%",
+      maxWidth: "50%",
+      flexBasis: "50%",
     },
   },
   statisticsContent: {

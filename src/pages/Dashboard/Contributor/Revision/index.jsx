@@ -39,7 +39,7 @@ const Revision = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -90,6 +90,8 @@ const Revision = () => {
                 remain in this stage for a few days. Please be patient!
               </Typography>
             </div>
+
+            <Spacing space={{ height: "3rem" }} />
 
             {isLoading ? (
               <div
@@ -143,6 +145,7 @@ const Revision = () => {
                 )}
               </Grid>
             )}
+
             {totalProduct > limit && (
               <Paginations
                 locationPath={locationPath}
@@ -151,6 +154,8 @@ const Revision = () => {
                 setPageCount={setPageCount}
               />
             )}
+
+            <Spacing space={{ height: "3rem" }} />
           </div>
           <Spacing space={{ height: "1.8rem" }} />
           <Footer />

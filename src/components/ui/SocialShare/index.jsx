@@ -27,7 +27,7 @@ const SocialShare = ({
 
       <List>
         {profileInfo?.facebook && (
-          <a href={profileInfo?.facebook} target="_blank">
+          <a href={profileInfo?.facebook} target="_blank" rel="noreferrer">
             <img
               className={classes.socialIcon}
               src={facebookLogo}
@@ -37,7 +37,7 @@ const SocialShare = ({
         )}
 
         {profileInfo?.instagram && (
-          <a href={profileInfo?.instagram} target="_blank">
+          <a href={profileInfo?.instagram} target="_blank" rel="noreferrer">
             <img
               className={classes.socialIcon}
               src={instagramLogo}
@@ -47,7 +47,7 @@ const SocialShare = ({
         )}
 
         {profileInfo?.twitter && (
-          <a href={profileInfo?.twitter} target="_blank">
+          <a href={profileInfo?.twitter} target="_blank" rel="noreferrer">
             <img
               className={classes.socialIcon}
               src={twitterLogo}
@@ -60,7 +60,7 @@ const SocialShare = ({
       <List>
         {socialMedias &&
           socialMedias?.map((media, index) => (
-            <a key={index} href={media.url} target="_blank">
+            <a key={index} href={media.url} target="_blank" rel="noreferrer">
               <img
                 className={classes.socialIcon}
                 src={media.image}

@@ -34,7 +34,7 @@ const FavoriteItems = () => {
   const [isLoading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  
+
   let limit = 15;
   const count = Math.ceil(totalProduct / limit);
 
@@ -63,12 +63,15 @@ const FavoriteItems = () => {
   return (
     <Layout title="Favorite Items | Piktask">
       <Header />
+
       <Spacing space={{ height: "5rem" }} />
+
       <Container>
         <Grid container spacing={2}>
           <Grid item md={3} sm={3} xs={12} className={classes.cardItem}>
             <UserSideBar />
           </Grid>
+
           <Grid item md={9} sm={9} xs={12} className={classes.cardItem}>
             <SectionHeading title="Favorite" large />
             <Grid
@@ -100,11 +103,17 @@ const FavoriteItems = () => {
               )}
             </Grid>
             {totalProduct > limit && (
-              <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
-            )} 
+              <Paginations
+                locationPath={locationPath}
+                count={count}
+                pageCount={pageCount}
+                setPageCount={setPageCount}
+              />
+            )}
           </Grid>
         </Grid>
       </Container>
+
       <Spacing space={{ height: "3rem" }} />
       <Footer />
     </Layout>

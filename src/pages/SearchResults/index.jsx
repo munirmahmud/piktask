@@ -30,20 +30,30 @@ const SearchResults = () => {
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
-  
+
   let limit = 24;
   const count = Math.ceil(totalProduct / limit);
 
-  const searchQuery = pathname.split("=");
-  // const keywords = searchQuery[1];
-  const searchCategoryID = searchQuery[3];
+  const [, searchQuery, categoryID] = pathname.split("=");
+  const [keyword] = searchQuery.split("&");
+  const [searchKey] = searchQuery.split("&");
 
   const prepareSearchQuery = () => {
     let url;
-    if (searchCategoryID) {
-      url = `${process.env.REACT_APP_API_URL}/client/search/?title=${keywords}&category_id=${searchCategoryID}&limit=${limit}&page=${pageCount}`;
+    if (categoryID && keyword) {
+      url = `${
+        process.env.REACT_APP_API_URL
+      }/client/search/?title=${searchKey.replace(
+        /-/g,
+        " "
+      )}&category_id=${categoryID}&limit=${limit}&page=${pageCount}`;
     } else {
-      url = `${process.env.REACT_APP_API_URL}/client/search/?title=${keywords}&limit=${limit}&page=${pageCount}`;
+      url = `${
+        process.env.REACT_APP_API_URL
+      }/client/search/?title=${searchKey.replace(
+        /-/g,
+        " "
+      )}&limit=${limit}&page=${pageCount}`;
     }
 
     return encodeURI(url);
@@ -71,8 +81,10 @@ const SearchResults = () => {
     }
   };
 
+  console.log("searchKey", searchKey);
+
   return (
-    <Layout title={`${keywords} | Piktask`}>
+    <Layout title={`${searchKey} | Piktask`}>
       <Header></Header>
       <HeroSection
         size="large"
@@ -82,7 +94,7 @@ const SearchResults = () => {
 
       <Container>
         <Typography className={classes.totalResources} variant="h3">
-          {`${totalProduct} Resources for "${keywords.replace(/-/g, " ")}"`}
+          {`${totalProduct} Resources for "${searchKey.replace(/-/g, " ")}"`}
         </Typography>
         <Grid classes={{ container: classes.container }} container spacing={2}>
           {isLoading ? (
@@ -109,8 +121,13 @@ const SearchResults = () => {
           )}
         </Grid>
         {totalProduct > limit && (
-          <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
-        )} 
+          <Paginations
+            locationPath={locationPath}
+            count={count}
+            pageCount={pageCount}
+            setPageCount={setPageCount}
+          />
+        )}
       </Container>
       <Spacing space={{ height: "3rem" }} />
 

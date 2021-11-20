@@ -56,7 +56,7 @@ const UploadFiles = () => {
   //mobile responsive
   useEffect(() => {
     // const setResponsiveness = () => {
-    //   return window.innerWidth < 900
+    //   return window.innerWidth < 769
     //     ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
     //     : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     // };
@@ -311,11 +311,11 @@ const UploadFiles = () => {
                   {file?.name?.match(/\.(ai|eps|psd|svg)$/) ? (
                     <img
                       src={fileThumbnail}
-                      alt="thumbnail"
+                      alt="Piktask"
                       className={classes.fileThumbnail}
                     />
                   ) : (
-                    <img src={file.preview} alt="thumbnail" />
+                    <img src={file.preview} alt="Piktask" />
                   )}
                 </div>
                 <Typography className={classes.imageTitleError}>
@@ -326,6 +326,7 @@ const UploadFiles = () => {
                 <Box className={classes.progressBar}>
                   <LinearProgressWithLabel value={file.progress || 0} />
                 </Box>
+
                 <button
                   className={classes.deleteBtnError}
                   onClick={(e) => removeFile(file, index)}
@@ -352,6 +353,7 @@ const UploadFiles = () => {
                     <img src={file.preview} alt="thumbnail" />
                   )}
                 </div>
+
                 <Typography className={classes.imageTitle}>
                   {file.name} <br />{" "}
                   <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
@@ -360,6 +362,7 @@ const UploadFiles = () => {
                 <Box className={classes.progressBar}>
                   <LinearProgressWithLabel value={file.progress || 0} />
                 </Box>
+
                 <button
                   className={classes.deleteBtn}
                   onClick={(e) => removeFile(file, index)}

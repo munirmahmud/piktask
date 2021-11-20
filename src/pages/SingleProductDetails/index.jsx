@@ -18,8 +18,6 @@ const SingleProductDetails = () => {
   const shareUrl = window.location.href;
   const imageID = location.pathname.split("=").pop();
 
-  console.log("imageID", location.pathname);
-
   const [productTitle, setProductTitle] = useState("");
   const [allTags, setAllTags] = useState([]);
 

@@ -70,16 +70,6 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     cursor: "pointer",
   },
-  uploadButton: {
-    color: "#fff",
-    border: "0.5px solid #0088f2",
-    backgroundColor: "#0088f2",
-    marginTop: "1rem",
-    transition: "all 0.3s linear",
-    "&:hover": {
-      backgroundColor: "#0773c5",
-    },
-  },
   profileInfo: {
     textAlign: "center",
     marginTop: "1rem",
@@ -107,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   facebookIcon: {
-    width: "0.8rem",
+    width: "1.7rem",
     height: "auto",
     cursor: "pointer",
   },
@@ -124,32 +114,32 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
   },
   instagramIcon: {
-    width: "1.6rem",
+    width: "1.7rem",
     height: "auto",
-    marginBottom: "-0.1rem",
+    marginBottom: "-0.2rem",
     marginLeft: "1.2rem",
     cursor: "pointer",
   },
   shutterstockIcon: {
-    width: "1.4rem",
-    height: "auto",
-    marginLeft: "1.2rem",
-    cursor: "pointer",
-  },
-  freepikIcon: {
     width: "1.5rem",
     height: "auto",
     marginLeft: "1.2rem",
     cursor: "pointer",
   },
+  pinterestIcon: {
+    width: "1.7rem",
+    height: "auto",
+    marginLeft: "1.2rem",
+    cursor: "pointer",
+  },
   behanceIcon: {
-    width: "2rem",
+    width: "1.8rem",
     height: "auto",
     marginLeft: "1.2rem",
     cursor: "pointer",
   },
   dribbleIcon: {
-    width: "1.6rem",
+    width: "1.8rem",
     height: "auto",
     marginBottom: "-0.1rem",
     marginLeft: "1.2rem",

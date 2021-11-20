@@ -133,7 +133,7 @@ const AuthorProfile = () => {
                       <img
                         src={
                           getBaseURL().bucket_base_url +
-                          getBaseURL().profiles +
+                          "/" +
                           profileInfo?.avatar
                         }
                         alt={profileInfo?.username}

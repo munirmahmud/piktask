@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { toast } from "react-toastify";
+import Spacing from "../../../../components/Spacing";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
@@ -44,7 +45,7 @@ const PendingFiles = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -141,8 +142,8 @@ const PendingFiles = () => {
   };
 
   const handleWorkInfo = () => {
-    if (selectedProducts.length > 0) {
-      if (selectedProducts.length > 12) {
+    if (selectedProducts?.length > 0) {
+      if (selectedProducts?.length > 12) {
         toast.error("You can not select more than 12");
         return;
       }
@@ -241,6 +242,8 @@ const PendingFiles = () => {
               </div>
             </div>
 
+            <Spacing space={{ height: "3rem" }} />
+
             {isLoading ? (
               <div
                 style={{
@@ -271,6 +274,7 @@ const PendingFiles = () => {
                           className={classes.deleteIcon}
                         />
                       </div>
+
                       <Card
                         className={classes.pendingFileCard}
                         onClick={(e) => {
@@ -290,6 +294,7 @@ const PendingFiles = () => {
                           }
                           alt={product?.original_name}
                         />
+
                         <div className={classes.productInfo}>
                           <Typography variant="h3">
                             {product?.original_name}
@@ -316,6 +321,8 @@ const PendingFiles = () => {
               />
             )}
           </div>
+
+          <Spacing space={{ height: "5rem" }} />
 
           <Drawer
             anchor="right"

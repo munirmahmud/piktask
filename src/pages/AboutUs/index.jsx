@@ -49,7 +49,7 @@ const AboutUs = () => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
                   <div className={classes.meetingImage}>
-                    <img src={clientMeeting} alt="MD meeting with client" />
+                    <img src={clientMeeting} alt="Piktask" />
                   </div>
                 </Grid>
               </Grid>
@@ -86,7 +86,7 @@ const AboutUs = () => {
               </Grid>
               <Spacing space={{ height: "3rem" }} />
               <div className={classes.bdtaskMembersImage}>
-                <img src={bdtaskMembers} alt="Bdtask members " />
+                <img src={bdtaskMembers} alt="Piktask" />
               </div>
 
               <Spacing space={{ height: "2rem" }} />

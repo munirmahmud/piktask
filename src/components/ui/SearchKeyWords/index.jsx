@@ -4,9 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useStyles from "./SearchKeyWords.styles";
 
-const SearchKeyWords = (props) => {
+const SearchKeyWords = ({ popularKeywords }) => {
   const classes = useStyles();
-  const { popularKeywords, creativeWorksDone } = props;
   const [popularSearchKeywords, setPopularSearchKeywords] = useState([]);
 
   useEffect(() => {
@@ -43,15 +42,6 @@ const SearchKeyWords = (props) => {
                 </Typography>
               </Link>
             ))}
-        </div>
-      )}
-
-      {creativeWorksDone && (
-        <div className={classes.popularSearch}>
-          <Typography variant="h5" className={classes.searchTitle}>
-            Over 500,000 creative templates help you get your work done in
-            minutes!
-          </Typography>
         </div>
       )}
     </>

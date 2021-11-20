@@ -112,7 +112,7 @@ const Products = (props) => {
             spacing={2}
           >
             {isLoading ? (
-              <Loader item={images} />
+              <Loader item={piktaskProduct} />
             ) : (
               <>
                 {piktaskProduct?.length > 0 &&

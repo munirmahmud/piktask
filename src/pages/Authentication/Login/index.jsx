@@ -87,14 +87,17 @@ const Login = ({ history }) => {
   return (
     <Layout title="Login | Piktask">
       <Header />
+
       <div className={classes.rootContainer}>
         <Spacing space={{ height: "5rem" }} />
+
         <div className={classes.formPageContainer}>
           <img
             src={formIconTop}
             alt="Background Icon"
             className={classes.backgroundIconTop}
           />
+
           <div className={classes.formWrapper}>
             <div className={classes.formWrapperInner}>
               <div className={classes.formHeading}>
@@ -107,69 +110,71 @@ const Login = ({ history }) => {
               </div>
 
               <div>
-                <div>
-                  <form
-                    onSubmit={handleSubmit}
-                    autoComplete="off"
-                    className={classes.form}
-                  >
+                <form
+                  onSubmit={handleSubmit}
+                  autoComplete="off"
+                  className={classes.form}
+                >
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="User name / Email"
+                    className={classes.formControl}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+
+                  <div className={classes.passwordField}>
                     <TextField
                       fullWidth
                       variant="outlined"
-                      label="User name / Email"
+                      label="Password"
+                      type={value ? "text" : "password"}
                       className={classes.formControl}
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
-                    <div className={classes.passwordField}>
-                      <TextField
-                        fullWidth
-                        variant="outlined"
-                        label="Password"
-                        type={value ? "text" : "password"}
-                        className={classes.formControl}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                      <img
-                        src={lockIcon}
-                        alt="Show or hide password"
-                        onClick={handleShowHidePassword}
-                      />
-                    </div>
+                    <img
+                      src={lockIcon}
+                      alt="Show or hide password"
+                      onClick={handleShowHidePassword}
+                    />
+                  </div>
 
-                    <FormControlLabel
-                      value="end"
-                      label="I can't remember my password"
-                      labelPlacement="end"
-                      control={<Checkbox color="primary" />}
-                      className={classes.checkboxLabel}
-                    />
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      className={classes.formButton}
-                      type="submit"
-                      disabled={!username || !password}
-                    >
-                      Sign In
-                    </Button>
-                    <Link
-                      to="/reset-password"
-                      className={classes.passwordResetLink}
-                    >
-                      Password Reset
-                    </Link>
-                    <Spacing space={{ height: "1rem" }} />
-                  </form>
+                  <FormControlLabel
+                    value="end"
+                    label="I can't remember my password"
+                    labelPlacement="end"
+                    control={<Checkbox color="primary" />}
+                    className={classes.checkboxLabel}
+                  />
+
                   <Button
-                    component={Link}
-                    to="/registration"
-                    className={classes.formLink}
+                    variant="contained"
+                    fullWidth
+                    className={classes.formButton}
+                    type="submit"
+                    disabled={!username || !password}
                   >
-                    Not a member? Sign up
+                    Sign In
                   </Button>
-                </div>
+
+                  <Link
+                    to="/reset-password"
+                    className={classes.passwordResetLink}
+                  >
+                    Password Reset
+                  </Link>
+                  <Spacing space={{ height: "1rem" }} />
+                </form>
+
+                <Button
+                  component={Link}
+                  to="/registration"
+                  className={classes.formLink}
+                >
+                  Not a member? Sign up
+                </Button>
               </div>
             </div>
           </div>
@@ -179,6 +184,7 @@ const Login = ({ history }) => {
             className={classes.backgroundIconBottom}
           />
         </div>
+
         <Spacing space={{ height: "5rem" }} />
       </div>
       <Footer />

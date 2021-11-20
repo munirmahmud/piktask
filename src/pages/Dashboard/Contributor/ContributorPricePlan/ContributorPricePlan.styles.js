@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "1rem",
   },
   priceInfo: {
-    padding: "4rem 0",
+    padding: "5rem 0",
     textAlign: "center",
     "& p": {
       fontSize: "1.5rem",
@@ -52,6 +52,6 @@ const useStyles = makeStyles((theme) => ({
       color: "#fff",
     },
   },
-}))
+}));
 
 export default useStyles;

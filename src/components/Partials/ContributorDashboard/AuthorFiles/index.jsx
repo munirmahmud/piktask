@@ -16,8 +16,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import authorPhoto from "../../../../assets/author.png";
 import authorBadge from "../../../../assets/badge.png";
+import authorPhoto from "../../../../assets/user/user-man.png";
 import { getBaseURL } from "../../../../helpers";
 import Heading from "../../../ui/dashboard/contributor/Heading";
 import useStyles from "./AuthorFiles.styles";
@@ -116,7 +116,7 @@ const AuthorFiles = () => {
                                 getBaseURL().images +
                                 authLastFile?.preview
                             )}
-                            alt={"Contributor last file"}
+                            alt={authLastFile?.title}
                           />
                         </Link>
 
@@ -193,7 +193,7 @@ const AuthorFiles = () => {
                                 getBaseURL().images +
                                 topFile?.preview
                             )}
-                            alt={"Piktask top file"}
+                            alt={topFile?.title}
                           />
                         </Link>
                         {/* {topFile?.item_for_sale === "sale" && (
@@ -216,13 +216,13 @@ const AuthorFiles = () => {
                             <img
                               className={classes.authorImg}
                               src={topFile?.avatar}
-                              alt="AuthorPhoto"
+                              alt={topFile?.username}
                             />
                           ) : (
                             <img
                               className={classes.authorImg}
                               src={authorPhoto}
-                              alt="AuthorPhoto"
+                              alt={topFile?.username}
                             />
                           )}
                         </Link>

@@ -29,9 +29,9 @@ import authorPhoto from "../../../../../assets/author.png";
 import behanceIcon from "../../../../../assets/icons/behance.svg";
 import dribbleIcon from "../../../../../assets/icons/dribble.svg";
 import facebookIcon from "../../../../../assets/icons/facebook.svg";
-import freepikIcon from "../../../../../assets/icons/freepik.svg";
 import instagramIcon from "../../../../../assets/icons/instagram.svg";
 import linkedinIcon from "../../../../../assets/icons/linkedin.svg";
+import pinterestIcon from "../../../../../assets/icons/pintarest.svg";
 import shutterstockIcon from "../../../../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../../../../assets/icons/twitter.svg";
 import { getBaseURL } from "../../../../../helpers";
@@ -79,7 +79,7 @@ const UserSideBar = () => {
   const { mobileView } = menuSate;
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -144,6 +144,7 @@ const UserSideBar = () => {
       user.isLoggedIn = false;
       history.push("/");
       localStorage.removeItem("token");
+      localStorage.removeItem("profileImage");
       dispatch({
         type: "LOGOUT",
         payload: {
@@ -193,32 +194,36 @@ const UserSideBar = () => {
     formData.append("profile_picture", file);
 
     const url = `${process.env.REACT_APP_API_URL}/profile/profile_picture`;
-    axios({
-      method: "put",
-      url,
-      headers: {
-        Authorization: user?.token,
-        "Content-Type": "multipart/form-data",
-      },
-      data: formData,
-    })
-      .then((res) => {
-        if (res.status) {
-          toast.success(res.data.message);
-          setProfilePicture(res.data.image);
-          localStorage.setItem("profileImage", res.data.image);
-          dispatch({
-            type: "SET_USER",
-            payload: {
-              avatar: res.data.image,
-            },
-          });
-        }
+    if (user?.isLoggedIn && user?.role === "user") {
+      axios({
+        method: "put",
+        url,
+        headers: {
+          Authorization: user?.token,
+          "Content-Type": "multipart/form-data",
+        },
+        data: formData,
       })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
+        .then(({ data }) => {
+          if (data?.status) {
+            toast.success(data?.message);
+            setProfilePicture(data?.image);
+            localStorage.setItem("profileImage", data?.image);
+            dispatch({
+              type: "SET_USER",
+              payload: {
+                ...user,
+                avatar: data?.image,
+              },
+            });
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -247,11 +252,11 @@ const UserSideBar = () => {
                   <div>
                     <img
                       src={getBaseURL().bucket_base_url + "/" + profilePicture}
-                      alt="UserProfile"
+                      alt={user?.username}
                     />
                   </div>
                 ) : (
-                  <img src={authorPhoto} alt="UserProfile" />
+                  <img src={authorPhoto} alt={user?.username} />
                 )}
                 <div className={classes.avatarOverlay}>
                   <div className={classes.bgOverlay}>
@@ -269,10 +274,12 @@ const UserSideBar = () => {
                   </div>
                 </div>
               </div>
+
               <div className={classes.profileInfo}>
                 <Typography variant="h2">{user?.username}</Typography>
                 <Typography>{user?.email}</Typography>
               </div>
+
               <div className={classes.socialMedia}>
                 {userProfile?.facebook && (
                   <MuiLink href={`${userProfile?.facebook}`} target="_blank">
@@ -283,6 +290,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.twitter && (
                   <MuiLink href={`${userProfile?.twitter}`} target="_blank">
                     <img
@@ -292,6 +300,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.linkedin && (
                   <MuiLink href={`${userProfile?.linkedin}`} target="_blank">
                     <img
@@ -301,6 +310,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.instagram && (
                   <MuiLink href={`${userProfile?.instagram}`} target="_blank">
                     <img
@@ -310,6 +320,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.shutterstock && (
                   <MuiLink
                     href={`${userProfile?.shutterstock}`}
@@ -322,15 +333,17 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
-                {userProfile?.freepik && (
-                  <MuiLink href={`${userProfile?.freepik}`} target="_blank">
+
+                {userProfile?.pinterest && (
+                  <MuiLink href={`${userProfile?.pinterest}`} target="_blank">
                     <img
-                      src={freepikIcon}
-                      className={classes.freepikIcon}
-                      alt="freepikIcon"
+                      src={pinterestIcon}
+                      className={classes.pinterestIcon}
+                      alt="pinterestIcon"
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.behance && (
                   <MuiLink href={`${userProfile?.behance}`} target="_blank">
                     <img
@@ -340,6 +353,7 @@ const UserSideBar = () => {
                     />
                   </MuiLink>
                 )}
+
                 {userProfile?.dribble && (
                   <MuiLink href={`${userProfile?.dribble}`} target="_blank">
                     <img
@@ -352,6 +366,7 @@ const UserSideBar = () => {
               </div>
             </div>
           </Card>
+
           <Card className={classes.userMenuList}>
             <CardContent>
               <List component="nav" aria-labelledby="nested-sidebar-nav">
@@ -437,6 +452,7 @@ const UserSideBar = () => {
                 Close My Account
               </Typography>
             </CardContent>
+
             {/* close account modal */}
             <Dialog
               className={classes.closeAccountDialog}
@@ -449,12 +465,14 @@ const UserSideBar = () => {
                 <DialogTitle className={classes.closeAccountTitle}>
                   {"Are you sure?"}
                 </DialogTitle>
+
                 <DialogContent>
                   <DialogContentText id="alert-dialog-description">
                     Note that you will close your Piktask accounts! Your premium
                     subscription will also be canceled with no refund.
                   </DialogContentText>
                 </DialogContent>
+
                 <DialogActions>
                   <Button
                     onClick={handleDialogClose}
@@ -488,6 +506,7 @@ const UserSideBar = () => {
                   <DialogTitle className={classes.closeAccountsTitle}>
                     {"Are you sure?"}
                   </DialogTitle>
+
                   <form onSubmit={handleCloseAccount}>
                     <TextField
                       className={classes.passwordField}

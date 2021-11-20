@@ -10,11 +10,15 @@ const PopularCategory = ({ photo }) => {
   return (
     <div className={classes.catItemWrapper}>
       <div className={classes.catItem}>
-        <Link  to={`category/${photo.slug}`}>
+        <Link to={`category/${photo.slug}`}>
           <img
             className={classes.catImage}
-            src={getBaseURL().bucket_base_url + getBaseURL().categories + photo?.thumbnail}
-            alt="Popular images"
+            src={
+              getBaseURL().bucket_base_url +
+              getBaseURL().categories +
+              photo?.thumbnail
+            }
+            alt={`${photo?.name}`}
           />
         </Link>
         <Button

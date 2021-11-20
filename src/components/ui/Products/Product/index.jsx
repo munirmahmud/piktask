@@ -183,11 +183,7 @@ const Product = ({ photo = null }) => {
                   <CardMedia
                     component="img"
                     className={classes.authorImage}
-                    image={
-                      getBaseURL().bucket_base_url +
-                      getBaseURL().profiles +
-                      photo?.avatar
-                    }
+                    image={getBaseURL().bucket_base_url + "/" + photo?.avatar}
                     title={photo?.name}
                   />
                 ) : (

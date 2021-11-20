@@ -6,28 +6,34 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import behanceIcon from "../../../../assets/icons/behance.svg";
 import dribbbleIcon from "../../../../assets/icons/dribble.svg";
 import facebookIcon from "../../../../assets/icons/facebook.svg";
-import freepikIcon from "../../../../assets/icons/freepik.svg";
 import instagramIcon from "../../../../assets/icons/instagram.svg";
 import linkedinIcon from "../../../../assets/icons/linkedin.svg";
+import pinterestIcon from "../../../../assets/icons/pintarest.svg";
 import shutterstockIcon from "../../../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../../../assets/icons/twitter.svg";
+import authorImage from "../../../../assets/user/userProfile.jpg";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
 import allCountry from "../../../../data/countryList.json";
 import Layout from "../../../../Layout";
+import { getBaseURL } from "./../../../../helpers/index";
 import useStyles from "./AccountSettings.styles";
 
 const AccountSettings = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+
+  const [profilePicture, setProfilePicture] = useState("");
 
   const [paymentMethod, setPaymentMethod] = useState([]);
   const [payment, setPayment] = useState("");
@@ -42,7 +48,7 @@ const AccountSettings = () => {
   const [phone, setPhone] = useState("");
   const [website, setWebsite] = useState("");
   const [shutterstock, setShutterstock] = useState("");
-  const [freepik, setFreepik] = useState("");
+  const [pinterest, setPinterest] = useState("");
   const [behance, setBehance] = useState("");
   const [dribble, setDribble] = useState("");
   const [facebook, setFacebook] = useState("");
@@ -50,7 +56,6 @@ const AccountSettings = () => {
   const [linkedin, setLinkedin] = useState("");
   const [instagram, setInstagram] = useState("");
   const [isLoading, setLoading] = useState(true);
-  const [errors, setErrors] = useState({});
 
   //bank info state
   const [accountName, setAccountName] = useState("");
@@ -69,7 +74,7 @@ const AccountSettings = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -91,33 +96,34 @@ const AccountSettings = () => {
         })
         .then(({ data }) => {
           if (data?.status) {
-            setName(data.user.name);
-            setUsername(data.user.username);
-            setEmail(data.user.email);
-            setLocationAddress(data.user.location);
-            setPhone(data.user.phone);
-            setWebsite(data.user.website);
-            setCountryName(data.user.country_name);
-            setCity(data.user.city);
-            setZipCode(data.user.zip_code);
-            setBillingsAddress(data.user.billings_address);
-            setAccountName(data.user.account_name);
-            setAccountNumber(data.user.account_number);
-            setRoutingNumber(data.user.routing_number);
-            setBranch(data.user.branch);
-            setBankCountry(data.user.bank_country);
-            setSwiftCode(data.user.swift_code);
-            setPaypalAccount(data.user.paypal_account);
-            setPayoneerAccount(data.user.payoneer_account);
-            setShutterstock(data.user.shutterstock);
-            setFreepik(data.user.freepik);
-            setBehance(data.user.behance);
-            setDribble(data.user.dribble);
-            setFacebook(data.user.facebook);
-            setTwitter(data.user.twitter);
-            setLinkedin(data.user.linkedin);
-            setInstagram(data.user.instagram);
-            setPayment(data.user.payment_gateway);
+            setProfilePicture(data?.user.avatar);
+            setName(data?.user.name);
+            setUsername(data?.user.username);
+            setEmail(data?.user.email);
+            setLocationAddress(data?.user.location);
+            setPhone(data?.user.phone);
+            setWebsite(data?.user.website);
+            setCountryName(data?.user.country_name);
+            setCity(data?.user.city);
+            setZipCode(data?.user.zip_code);
+            setBillingsAddress(data?.user.billings_address);
+            setAccountName(data?.user.account_name);
+            setAccountNumber(data?.user.account_number);
+            setRoutingNumber(data?.user.routing_number);
+            setBranch(data?.user.branch);
+            setBankCountry(data?.user.bank_country);
+            setSwiftCode(data?.user.swift_code);
+            setPaypalAccount(data?.user.paypal_account);
+            setPayoneerAccount(data?.user.payoneer_account);
+            setShutterstock(data?.user.shutterstock);
+            setPinterest(data?.user.pinterest);
+            setBehance(data?.user.behance);
+            setDribble(data?.user.dribble);
+            setFacebook(data?.user.facebook);
+            setTwitter(data?.user.twitter);
+            setLinkedin(data?.user.linkedin);
+            setInstagram(data?.user.instagram);
+            setPayment(data?.user.payment_gateway);
             setLoading(false);
           }
         })
@@ -202,8 +208,8 @@ const AccountSettings = () => {
       formData.append("shutterstock", shutterstock);
       checkEmptyField++;
     }
-    if (freepik) {
-      formData.append("freepik", freepik);
+    if (pinterest) {
+      formData.append("pinterest", pinterest);
       checkEmptyField++;
     }
     if (behance) {
@@ -249,12 +255,10 @@ const AccountSettings = () => {
         .then((res) => {
           if (res?.status === 200) {
             toast.success(res.data.message);
-            setErrors({});
           }
         })
         .catch((error) => {
-          const { errors } = error.response.data;
-          setErrors(errors);
+          console.log("Contributor profile", error);
         });
     } else {
       toast.error("Please insert profile info", { autoClose: 2200 });
@@ -279,6 +283,50 @@ const AccountSettings = () => {
     }
   }, [user.token, user?.isLoggedIn, user?.role]);
 
+  const handleUpdateImage = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (!file?.name?.match(/\.(jpg|jpeg|png|gif)$/) && file !== undefined) {
+      toast.error("You can only upload .jpg, .jpeg, .png, .gif etc");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("profile_picture", file);
+
+    const url = `${process.env.REACT_APP_API_URL}/profile/profile_picture`;
+    if (user?.isLoggedIn && user?.role === "contributor") {
+      axios({
+        method: "put",
+        url,
+        headers: {
+          Authorization: user?.token,
+          "Content-Type": "multipart/form-data",
+        },
+        data: formData,
+      })
+        .then(({ data }) => {
+          if (data?.status) {
+            toast.success(data?.message);
+            setProfilePicture(data?.image);
+            localStorage.setItem("profileImage", data?.image);
+            dispatch({
+              type: "SET_USER",
+              payload: {
+                ...user,
+                avatar: data?.image,
+              },
+            });
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
+  };
+
   return (
     <Layout title="Profile | Piktask">
       <div className={classes.adminRoot}>
@@ -288,7 +336,34 @@ const AccountSettings = () => {
           <AdminHeader />
           <div className={classes.profileContentWrapper}>
             <div className={classes.settingsHero}>
-              <Typography variant="h1">Your Account dashboard</Typography>
+              <div className={classes.authorProfileImage}>
+                {profilePicture ? (
+                  <div>
+                    <img
+                      src={getBaseURL().bucket_base_url + "/" + profilePicture}
+                      alt={user?.username}
+                    />
+                  </div>
+                ) : (
+                  <img src={authorImage} alt={user?.username} />
+                )}
+
+                <div className={classes.avatarOverlay}>
+                  <div className={classes.bgOverlay}>
+                    <label htmlFor="upload_photo">
+                      <PhotoCameraIcon className={classes.uploadIcon} />
+                      <input
+                        type="file"
+                        name="profile_picture"
+                        accept="image/*"
+                        id="upload_photo"
+                        style={{ display: "none" }}
+                        onChange={handleUpdateImage}
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
             {/* Ends Hero */}
 
@@ -710,21 +785,19 @@ const AccountSettings = () => {
                         className={classes.portfolioLink}
                       >
                         <label
-                          htmlFor="freepik"
+                          htmlFor="pinterest"
                           className={classes.portfolioIconWrapper}
                         >
-                          <img src={freepikIcon} alt="Freepik Icon" />
+                          <img src={pinterestIcon} alt="Pinterest Icon" />
                         </label>
                         <TextField
-                          id="freepik"
-                          // error={!!errors.freepik}
-                          // helperText={errors.freepik}
-                          label="Your Freepik Account"
+                          id="pinterest"
+                          label="Your Pinterest Account"
                           variant="outlined"
                           className={`${classes.inputField}`}
-                          placeholder="Your Freepik Account"
-                          value={freepik}
-                          onChange={(e) => setFreepik(e.target.value)}
+                          placeholder="Your Pinterest Account"
+                          value={pinterest}
+                          onChange={(e) => setPinterest(e.target.value)}
                         />
                       </FormControl>
                     </div>

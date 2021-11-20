@@ -18,25 +18,11 @@ const useStyles = makeStyles((theme) => ({
   },
   headingWrapper: {
     display: "flex",
-    justifyContent:"space-between",
+    justifyContent: "space-between",
   },
-  // withdrawBtn: {
-  //   padding: "0.2rem 3.5rem",
-  //   backgroundColor: "#0088f2",
-  //   color: "#fff",
-  //   border: ".2rem solid",
-  //   borderColor: "#0088f2",
-  //   marginRight: "1rem",
-  //   transition: "all 0.3s linear",
-  //   "&:hover": {
-  //     backgroundColor: "#0773c5",
-  //     borderColor: "#0773c5",
-  //     color: "#fff",
-  //   },
-  // },
-
   publishGridContainer: {
-    padding: "0rem",
+    paddingTop: "1rem",
+    paddingBottom: "4rem",
   },
   loaderItem: {
     "@media (max-width: 576px)": {
@@ -82,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
       border: 0,
     },
 
-    '&:nth-of-type(even)': {
+    "&:nth-of-type(even)": {
       backgroundColor: theme.palette.action.hover,
     },
   },
