@@ -34,7 +34,7 @@ const WithdrawHistory = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -73,17 +73,13 @@ const WithdrawHistory = () => {
           <div className={classes.withdrawHistoryWrapper}>
             <div className={classes.headingWrapper}>
               <Heading tag="h2">Withdraw History</Heading>
-              {/* <div>
-                <Button
-                  className={classes.withdrawBtn}
-                  onClick={() => handleWithdrawInfo()}
-                >
-                  Withdraw
-                </Button>
-              </div> */}
             </div>
 
             <TotalCountHistory />
+
+            <div className={classes.headingWrapper}>
+              <Heading tag="h2">Records</Heading>
+            </div>
 
             <Grid container className={classes.publishGridContainer}>
               <Grid item xs={12} sm={12} md={12} className={classes.loaderItem}>
@@ -155,6 +151,7 @@ const WithdrawHistory = () => {
               </Grid>
             </Grid>
           </div>
+
           <Footer />
         </main>
       </div>

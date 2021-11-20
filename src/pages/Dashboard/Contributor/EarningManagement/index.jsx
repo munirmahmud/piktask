@@ -42,31 +42,35 @@ const EarningManagement = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
 
     setResponsiveness();
     window.addEventListener("resize", () => setResponsiveness());
+  }, []);
 
+  useEffect(() => {
     // Total earning management statistics API integrate
     if (user?.isLoggedIn && user?.role === "contributor") {
       let totalCount = [];
       let labelCount = [];
 
-      var newDate = new Date();
-      var firstDayCurrentMonth = new Date(
+      const dateFormat = "YYYY-MM-DD";
+      let newDate = new Date();
+      let firstDayCurrentMonth = new Date(
         newDate.getFullYear(),
         newDate.getMonth(),
-        2
+        1
       );
-      var firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
-      var todayCurrentMonth = newDate.toISOString().substring(0, 10);
+      let firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
+      const today = moment(newDate).format(dateFormat);
+      // let todayCurrentMonth = newDate.toISOString().substring(0, 10);
 
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${firstDay}&end=${todayCurrentMonth}&status=earning`,
+          `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${firstDay}&end=${today}&status=earning`,
           { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
@@ -79,7 +83,7 @@ const EarningManagement = () => {
               labels: labelCount,
               datasets: [
                 {
-                  label: "earning",
+                  label: "Earning",
                   data: totalCount,
                   backgroundColor: "#2195F2",
                   borderColor: "#2195F2",
@@ -109,7 +113,8 @@ const EarningManagement = () => {
   const fromMonths = moment.months();
   let [fromYear, setFromYear] = useState(moment().year());
   let [fromMonth, setFromMonth] = useState(moment().format("MMMM"));
-  let [fromCurrentDate, setFromCurrentDate] = useState("0" + moment(1).date());
+  // let [fromCurrentDate, setFromCurrentDate] = useState(moment(1).date());
+  let [fromCurrentDate, setFromCurrentDate] = useState("01");
 
   // To
   const toMonths = moment.months();
@@ -122,9 +127,6 @@ const EarningManagement = () => {
     for (let i = 0; i < moment().daysInMonth(); i++) {
       if (i + 1 < 10) {
         days.push("0" + (i + 1));
-        // if(!i){
-        //   setFromCurrentDate("0" + (i + 1))
-        // }
       } else {
         days.push(i + 1);
       }
@@ -180,7 +182,9 @@ const EarningManagement = () => {
               labels: labelCount,
               datasets: [
                 {
-                  label: `${selectName}`,
+                  label: `${
+                    selectName.charAt(0).toUpperCase() + selectName.slice(1)
+                  }`,
                   data: totalCount,
                   backgroundColor: "#2195F2",
                   borderColor: "#2195F2",
@@ -217,10 +221,12 @@ const EarningManagement = () => {
               labels: labelCount,
               datasets: [
                 {
-                  label: `${selectedName}`,
-                  data: totalCount,
+                  label: `${
+                    selectedName.charAt(0).toUpperCase() + selectedName.slice(1)
+                  }`,
                   backgroundColor: "#2195F2",
                   borderColor: "#2195F2",
+                  data: totalCount,
                   fill: false,
                 },
               ],

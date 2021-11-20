@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   cardContentWrapper: {
     marginTop: "10rem",
     margin: "2rem",
+    minHeight: "60vh",
   },
   noItemsFound: {
     marginLeft: "1.5rem",
@@ -34,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
   headingWrapepr: {
     marginTop: "2rem",
     marginBottom: "1.5rem",
+    "& p": {
+      marginTop: "2rem",
+      fontSize: "1.5rem",
+    },
   },
   cardWrapper: {
     position: "relative",
@@ -72,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     "& p": {
       fontSize: "1.2rem",
       lineHeight: "1.5",
-      paddingBottom: "0.5rem"
+      paddingBottom: "0.5rem",
     },
     "& .MuiCardContent-root": {
       padding: "0rem !important",

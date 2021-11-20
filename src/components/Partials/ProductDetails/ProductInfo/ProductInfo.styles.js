@@ -72,7 +72,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down(480)]: {
       fontSize: "2rem",
       paddingRight: 0,
-      textAlign: "justify",
     },
   },
   creationDate: {

@@ -100,16 +100,16 @@ const App = () => {
 
   useEffect(() => {
     // Check username/password auth state
-    const setUserToken = window.localStorage.getItem("token") || "";
+    const setToken = window.localStorage.getItem("token") || "";
     const avatar = window.localStorage.getItem("profileImage") || "";
-    if (setUserToken) {
-      const decode = jwt_decode(setUserToken.split(" ")[1]);
+    if (setToken) {
+      const decode = jwt_decode(setToken.split(" ")[1]);
       if (decode.email) {
         dispatch({
           type: "SET_USER",
           payload: {
             ...decode,
-            token: setUserToken,
+            token: setToken,
             avatar: avatar,
           },
         });

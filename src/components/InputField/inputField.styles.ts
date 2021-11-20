@@ -5,14 +5,14 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "2rem",
     "& .MuiInputLabel-outlined": {
       zIndex: 1,
-      transform: "translate(14px, 13px) scale(1)",
+      transform: "translate(14px, 17px) scale(1)",
       pointerEvents: "none",
     },
     "& .MuiInputLabel-outlined.MuiInputLabel-shrink": {
       transform: "translate(14px, -6px) scale(0.75)",
     },
     "& .MuiOutlinedInput-input": {
-      padding: "11px 14px",
+      padding: "15px 14px",
     },
   },
   primaryBtn: {

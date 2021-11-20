@@ -364,7 +364,7 @@ const Registration = ({ history }) => {
           </div>
           <img
             src={formIconBottom}
-            alt="Background"
+            alt="Piktask"
             className={classes.backgroundIconBottom}
           />
         </div>

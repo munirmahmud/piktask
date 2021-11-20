@@ -18,7 +18,6 @@ const Categories = () => {
   const [popularCategories, setPopularCategories] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
     axios
       .get(`${process.env.REACT_APP_API_URL}/categories/popular`)
       .then(({ data }) => {
@@ -68,9 +67,10 @@ const Categories = () => {
                               getBaseURL().categories +
                               photo?.thumbnail
                             }
-                            alt="thumbnail images"
+                            alt={`${photo?.name}`}
                           />
                         </Link>
+
                         <Button
                           className={classes.catName}
                           component={Link}
@@ -89,7 +89,9 @@ const Categories = () => {
           )}
         </Grid>
       </Container>
+
       <Spacing space={{ height: "4rem" }} />
+
       <CallToAction
         title="Join Piktask Designer team"
         subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"

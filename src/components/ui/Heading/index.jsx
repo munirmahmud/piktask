@@ -1,22 +1,13 @@
 import { Grid, Typography } from "@material-ui/core";
-import React, { FC } from "react";
+import React from "react";
 import useStyles from "./Heading.styles";
 
-type Props = {
-  title?: string;
-  color?: string;
-  children?: any;
-  center?: boolean;
-  size?: string;
-  uppercase?: boolean;
-};
-
-const SectionHeading: FC<Props> = (props) => {
+const SectionHeading = (props) => {
   const { title, color, children, center, size, uppercase } = props;
 
-  const primaryColor: string = "#1B3F4E";
+  const primaryColor = "#1B3F4E";
   const classes = useStyles();
-  const whiteColor: string = "#FFFFFF";
+  const whiteColor = "#FFFFFF";
 
   return (
     <Grid
@@ -24,7 +15,6 @@ const SectionHeading: FC<Props> = (props) => {
       spacing={2}
       className={classes.headingContainer}
       style={{
-        flexDirection: center ? "column" : "row",
         padding:
           size === "large"
             ? "0 0.8rem 3rem"
@@ -39,8 +29,7 @@ const SectionHeading: FC<Props> = (props) => {
             ? {
                 display: "flex",
                 alignItems: "center",
-                flexDirection: "column",
-                justifyContent: "center",
+                justifyContent: "space-between",
               }
             : undefined
         }

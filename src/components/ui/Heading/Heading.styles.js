@@ -8,11 +8,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     textAlign: "center",
 
-    [theme.breakpoints.down("xs")]: {
-      padding: "2.5rem",
-    },
-    "@media (max-width: 576px)": {
-      flexDirection: "column !important",
+    [theme.breakpoints.down(480)]: {
+      padding: "0rem",
       alignItems: "baseline",
     },
   },
@@ -21,13 +18,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "2.2rem",
     marginBottom: 0,
 
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "3rem",
+    [theme.breakpoints.down(769)]: {
       lineHeight: 1.5,
     },
     "@media (max-width: 576px)": {
-      fontSize: "2.5rem",
-      marginTop: "3.5rem",
+      fontSize: "1.8rem",
     },
   },
   headingSubtitle: {

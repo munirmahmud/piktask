@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: "3rem",
     [theme.breakpoints.down(426)]: {
       justifyContent: "center",
-      padding:"0",
+      padding: "0",
     },
   },
   googleButton: {
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.7rem",
     marginRight: "0.8rem",
   },
-  facebookBtn:{
+  facebookBtn: {
     display: "flex",
     alignItems: "center",
     padding: "1rem 2rem",
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#213567",
     },
   },
-  facebookIconBtn:{
+  facebookIconBtn: {
     color: "white",
     fontSize: "1.7rem",
     marginRight: "0.8rem !important",
@@ -269,9 +269,6 @@ const useStyles = makeStyles((theme) => ({
       width: "2.5rem",
       height: "auto",
     },
-  },
-  facebookIcon: {
-    width: "1.6rem !important",
   },
   buttonGroup: {
     display: "flex",

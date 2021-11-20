@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
   footerRoot: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: "#001c30",
   },
   root: {
     display: "flex",
@@ -10,7 +10,7 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     paddingBottom: "5rem",
     paddingTop: "5rem",
-    [theme.breakpoints.down(769)]:{
+    [theme.breakpoints.down(769)]: {
       display: "none",
     },
   },
@@ -28,7 +28,6 @@ export const useStyles = makeStyles((theme) => ({
     "@media (max-width: 576px)": {
       maxWidth: "100%",
       flexBasis: "100%",
-      // paddingLeft: "2rem",
       marginTop: "2rem",
     },
   },
@@ -39,6 +38,7 @@ export const useStyles = makeStyles((theme) => ({
     textTransform: "uppercase",
     marginBottom: "2.4rem",
     fontSize: "1.9rem",
+    color: "#fff",
   },
   socialMediaTitle: {
     textTransform: "uppercase",
@@ -59,7 +59,7 @@ export const useStyles = makeStyles((theme) => ({
   navLink: {
     fontSize: "1.5rem",
     textDecoration: "none",
-    color: "#27434f",
+    color: "#fff",
     fontWeight: 400,
     fontFamily: "'Roboto', sans-serif",
     transition: "color 0.3s linear",
@@ -70,17 +70,17 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   // mobile version
-  collapseRoot:{
+  collapseRoot: {
     backgroundColor: "#001c30",
     width: "100%",
-    padding:"2rem 0rem",
+    padding: "2rem 0rem",
     color: "#ddd",
   },
   listItemBtn: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding:"2rem",
+    padding: "2rem",
     borderBottom: "1px solid #023458",
     "&:last-child": {
       borderBottom: "transparent",
@@ -104,8 +104,8 @@ export const useStyles = makeStyles((theme) => ({
       color: theme.palette.secondary.main,
     },
   },
-  listItemIcon:{
-    minWidth:"0 !important",
+  listItemIcon: {
+    minWidth: "0 !important",
   },
   title: {
     padding: "0",

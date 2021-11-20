@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     height: "100%",
   },
-  headerBottomToolbar: {
+  mainHeaderToolbar: {
     height: "100%",
   },
   logoWrapper: {
@@ -27,15 +27,15 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     display: "block",
   },
-  menuUnderline: {
-    height: 0,
-    backgroundColor: "transparent",
-  },
   menuTab: {
     marginLeft: 25,
     [theme.breakpoints.down(769)]: {
       display: "none",
     },
+  },
+  menuUnderline: {
+    height: 0,
+    backgroundColor: "transparent",
   },
   menuItem: {
     opacity: 1,
@@ -63,20 +63,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  subMenu: {
-    transition: "all 0.2s linear",
-
-    // "& .MuiMenu-paper": {
-    //   top: "7.5rem !important",
-    //   // left: "7.5rem !important",
-    // }
-  },
-  subMenuItem: {
-    height: "15rem",
-    width: "50rem",
-    // padding: "5rem",
-    // backgroundColor: "#000"
-  },
   toolBarContainer: {
     marginLeft: "auto",
     display: "flex",
@@ -100,43 +86,6 @@ const useStyles = makeStyles((theme) => ({
         minWidth: "fit-content",
       },
     },
-    // [theme.breakpoints.down(769)]: {
-    //   display: "none",
-    // },
-  },
-  enterprise: {
-    color: "#FDAF01",
-    border: "0.2rem solid #FDAF01",
-    fontSize: "1.4rem",
-    padding: "0.3rem 1rem",
-    borderRadius: "3rem",
-    "@media (max-width: 1024px)": {
-      paddingRight: "1rem",
-      paddingLeft: "1rem",
-      fontSize: "1.4rem",
-    },
-  },
-  premium: {
-    ...theme.typography.button,
-    backgroundColor: "#0088f2",
-    fontSize: "1.4rem",
-    padding: "0.3rem 1rem",
-    marginLeft: "1rem",
-    marginRight: "1rem",
-    border: ".2rem solid #0088f2",
-    transition: "all 0.3s linear",
-    "&:hover": {
-      borderColor: "#0088f2",
-    },
-    "@media (max-width: 1024px)": {
-      paddingRight: "1rem",
-      paddingLeft: "1rem",
-      fontSize: "1.4rem",
-    },
-  },
-  crownIcon: {
-    marginRight: ".5rem",
-    height: "1.4rem",
   },
   sellContentBtn: {
     ...theme.typography.button,
@@ -157,24 +106,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "1.4rem",
     },
   },
-
-  signInBtn: {
-    ...theme.typography.button,
-    backgroundColor: "#0088f2",
-    border:".2rem solid #0088f2",
-    fontSize: "1.4rem",
-    padding: "0.3rem 1rem",
-    transition: "all 0.3s linear",
-
-    "&:hover": {
-      backgroundColor: "#0773c5",
-      border:".2rem solid #fff",
-    },
-
-    "@media (max-width: 480px)": {
-      padding: ".8rem 1.5rem !important",
-    },
-  },
   userAvatarArea: {
     cursor: "pointer",
     display: "flex",
@@ -193,6 +124,27 @@ const useStyles = makeStyles((theme) => ({
   arrowDown: {
     fontSize: "3.5rem",
     color: "#244e5f",
+  },
+  crownIcon: {
+    marginRight: ".5rem",
+    height: "1.4rem",
+  },
+  signInBtn: {
+    ...theme.typography.button,
+    backgroundColor: "#0088f2",
+    border: ".2rem solid #0088f2",
+    fontSize: "1.4rem",
+    padding: "0.3rem 1rem",
+    transition: "all 0.3s linear",
+
+    "&:hover": {
+      backgroundColor: "#0773c5",
+      border: ".2rem solid #fff",
+    },
+
+    "@media (max-width: 480px)": {
+      padding: ".8rem 1.5rem !important",
+    },
   },
 }));
 

@@ -6,6 +6,7 @@ import {
   Select,
   Typography,
 } from "@material-ui/core";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -15,7 +16,6 @@ import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
-import Loader from "../../components/ui/Loader";
 import Paginations from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
@@ -43,12 +43,6 @@ const Category = () => {
   const categoryItem = categories.find((item) => item?.slug === catName);
 
   useEffect(() => {
-    getCategories();
-    getCategoriesWithId();
-    popularKeyWords();
-  }, [categoryItem?.id, pageCount]);
-
-  const getCategoriesWithId = () => {
     if (categoryItem?.id) {
       let relatedImageURL;
 
@@ -74,7 +68,10 @@ const Category = () => {
     } else {
       setLoading(false);
     }
-  };
+
+    getCategories();
+    popularKeyWords();
+  }, [categoryItem?.id, pageCount, limit, user]);
 
   const popularKeyWords = () => {
     axios
@@ -138,7 +135,7 @@ const Category = () => {
       <Header />
       <HeroSection
         size="large"
-        creativeWorksDone
+        popularKeywords
         title="Graphic Resource for Free Download"
       />
 
@@ -174,30 +171,42 @@ const Category = () => {
           {`${totalProduct} Resources`}
         </Typography>
 
-        <Grid classes={{ container: classes.container }} container spacing={2}>
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <>
-              {categoryProducts?.length ? (
-                categoryProducts?.map((photo) => (
-                  <Grid
-                    key={photo?.image_id}
-                    item
-                    xs={6}
-                    sm={4}
-                    md={3}
-                    className={classes.productItem}
-                  >
-                    <Product photo={photo} />
-                  </Grid>
-                ))
-              ) : (
-                <ProductNotFound />
-              )}
-            </>
-          )}
-        </Grid>
+        {isLoading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "0 auto",
+              height: 300,
+            }}
+          >
+            <CircularProgress color="primary" />
+          </div>
+        ) : (
+          <Grid
+            classes={{ container: classes.container }}
+            container
+            spacing={2}
+          >
+            {categoryProducts?.length > 0 ? (
+              categoryProducts?.map((photo) => (
+                <Grid
+                  key={photo?.image_id}
+                  item
+                  xs={6}
+                  sm={4}
+                  md={3}
+                  className={classes.productItem}
+                >
+                  <Product photo={photo} />
+                </Grid>
+              ))
+            ) : (
+              <ProductNotFound />
+            )}
+          </Grid>
+        )}
         {totalProduct > limit && (
           <Paginations
             locationPath={locationPath}

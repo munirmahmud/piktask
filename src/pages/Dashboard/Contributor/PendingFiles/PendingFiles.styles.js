@@ -19,9 +19,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   dashboardGridContainer: {
-    // padding: "1.5rem 1rem 1rem 1rem",
     marginTop: "6rem",
     padding: "2rem",
+    minHeight: "60vh",
   },
   headingWrapper: {
     display: "flex",
@@ -37,9 +37,6 @@ const useStyles = makeStyles((theme) => ({
       "& h2": {
         marginBottom: "1.5rem",
       },
-      // "& p": {
-      //   lineHeight: "5rem",
-      // },
     },
   },
   contentWrapper: {
@@ -108,14 +105,15 @@ const useStyles = makeStyles((theme) => ({
   productItem: {
     position: "relative",
     "@media (max-width: 576px)": {
-      maxWidth: "100%",
-      flexBasis: "100%",
+      maxWidth: "50%",
+      flexBasis: "50%",
     },
   },
   pendingFileCard: {
     position: "relative",
     padding: "3.5rem 1rem 0",
     border: "2px solid transparent",
+    height: "100%",
 
     "& img": {
       width: "100%",
@@ -126,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
     "& h3": {
       fontSize: "1.4rem",
       marginBottom: "1rem",
+      lineBreak: "anywhere",
     },
     "& p": {
       fontSize: "1.2rem",

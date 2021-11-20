@@ -146,7 +146,7 @@ const Search = () => {
   };
 
   const loadCategories = () => {
-    if (categories.length === 0) {
+    if (categories?.length === 0) {
       axios
         .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
         .then(({ data }) => {
@@ -251,6 +251,7 @@ const Search = () => {
                   <ArrowDropDownIcon fontSize="large" />
                 )}
               </div>
+
               <Popper
                 open={openSearchCategory}
                 anchorEl={anchorRef.current}
@@ -274,8 +275,8 @@ const Search = () => {
                           onKeyDown={handleListKeyDown}
                           className={classes.searchCatItem}
                         >
-                          {categories.length !== 0 ? (
-                            categories.map((category) => (
+                          {categories?.length !== 0 ? (
+                            categories?.map((category) => (
                               <li
                                 key={category?.id}
                                 data-id={category?.id}

@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
   publishFileWrapper: {
     marginTop: "10rem",
     margin: "2rem",
+    minHeight: "60vh",
   },
   noItemsFound: {
     marginLeft: "1.5rem",
@@ -115,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
       border: 0,
     },
 
-    '&:nth-of-type(even)': {
+    "&:nth-of-type(even)": {
       backgroundColor: theme.palette.action.hover,
     },
   },

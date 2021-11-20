@@ -53,7 +53,7 @@ const Publish = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 769
         ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
         : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
     };
@@ -95,24 +95,21 @@ const Publish = () => {
     return years.sort((a, b) => b - a);
   };
 
-  // const dateFormat = "YYYY-MM-DD";
-  // const date = new Date();
-  // const today = moment(date).format(dateFormat);
-
   useEffect(() => {
-    var newDate = new Date();
-    var firstDayCurrentMonth = new Date(
+    const dateFormat = "YYYY-MM-DD";
+    let newDate = new Date();
+    let firstDayCurrentMonth = new Date(
       newDate.getFullYear(),
       newDate.getMonth(),
-      2
+      1
     );
-    var firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
-    var todayCurrentMonth = newDate.toISOString().substring(0, 10);
+    let firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
+    const today = moment(newDate).format(dateFormat);
     // Author last file API
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${firstDay}&end=${todayCurrentMonth}&limit=${limit}&page=${pageCount}`,
+          `${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${firstDay}&end=${today}&limit=${limit}&page=${pageCount}`,
           { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
@@ -384,6 +381,7 @@ const Publish = () => {
                                 </TableCell>
                               </TableRow>
                             </TableHead>
+
                             {allPublishProduct?.map((product) => (
                               <TableBody key={product?.id}>
                                 <TableRow
@@ -407,7 +405,7 @@ const Publish = () => {
                                           getBaseURL().images +
                                           product?.preview
                                         }
-                                        alt={product?.preview}
+                                        alt={product?.title}
                                       />
                                     </Link>
 
@@ -417,6 +415,7 @@ const Publish = () => {
                                           </div>
                                         )} */}
                                   </TableCell>
+
                                   <TableCell
                                     style={{ textAlign: "left" }}
                                     className={classes.tableCell}
@@ -427,19 +426,24 @@ const Publish = () => {
                                       <>{product?.title}</>
                                     )}
                                   </TableCell>
+
                                   <TableCell className={classes.tableCell}>
                                     {product?.extension}
                                   </TableCell>
+
                                   <TableCell className={classes.tableCell}>
                                     {product?.total_likes}
                                   </TableCell>
+
                                   <TableCell className={classes.tableCell}>
                                     {product?.total_downloads}
                                   </TableCell>
+
                                   <TableCell className={classes.tableCell}>
                                     <AttachMoneyIcon />
                                     {product?.total_earning}
                                   </TableCell>
+
                                   <TableCell className={classes.tableCell}>
                                     {moment(product?.createdAt).format("LL")}
                                   </TableCell>

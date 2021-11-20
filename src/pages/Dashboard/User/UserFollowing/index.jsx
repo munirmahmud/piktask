@@ -70,6 +70,7 @@ const UserFollowing = () => {
           </Grid>
           <Grid item md={9} sm={9} xs={12} className={classes.cardItem}>
             <SectionHeading title="My Follower" large />
+
             <Grid>
               {isLoading || followersItem?.length ? (
                 followersItem?.map((followItem) => (
@@ -85,9 +86,10 @@ const UserFollowing = () => {
                                   alt={followItem?.username}
                                 />
                               ) : (
-                                <img src={authorImg} alt={"author"} />
+                                <img src={authorImg} alt="Author" />
                               )}
                             </div>
+
                             <div className={classes.followerInfo}>
                               <Typography
                                 className={classes.followerName}
@@ -95,6 +97,7 @@ const UserFollowing = () => {
                               >
                                 {followItem?.username}
                               </Typography>
+
                               <div className={classes.followerDetails}>
                                 <Typography
                                   className={classes.followerInfoItem}
@@ -103,6 +106,7 @@ const UserFollowing = () => {
                                   Resources
                                   <span>{followItem?.total_images}</span>
                                 </Typography>
+
                                 <Typography
                                   className={classes.followerInfoItem}
                                   variant="body2"
@@ -120,6 +124,7 @@ const UserFollowing = () => {
                               </div>
                             </div>
                           </div>
+
                           <div className={classes.viewProfileBtn}>
                             <Button
                               component={Link}
@@ -130,7 +135,9 @@ const UserFollowing = () => {
                             </Button>
                           </div>
                         </div>
+
                         <Spacing space={{ height: "2rem" }} />
+
                         <div className={classes.followerContent}>
                           <div className={classes.followerResources}>
                             {followItem?.images.map((followerResource) => (
@@ -158,7 +165,12 @@ const UserFollowing = () => {
                 <ProductNotFound noCollection="User Following" />
               )}
               {totalProduct > limit && (
-              <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+                <Paginations
+                  locationPath={locationPath}
+                  count={count}
+                  pageCount={pageCount}
+                  setPageCount={setPageCount}
+                />
               )}
             </Grid>
           </Grid>
