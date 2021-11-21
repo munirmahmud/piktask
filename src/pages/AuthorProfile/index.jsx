@@ -35,6 +35,7 @@ const AuthorProfile = () => {
   const [isFollowing, setFollowing] = useState(false);
   const [profileInfo, setProfileInfo] = useState({});
   const [isLoading, setLoading] = useState(true);
+  const [role, setRole] = useState("");
 
   useEffect(() => {
     axios
@@ -77,11 +78,10 @@ const AuthorProfile = () => {
     }
   };
 
-  const handleFollower = () => {
-    if (!user?.isLoggedIn && window.innerWidth > 900) {
+  const handleFollower = (e) => {
+    if (!user?.isLoggedIn) {
+      setRole(e.target.closest("button").value);
       setOpenAuthModal(true);
-    } else if (!user?.isLoggedIn && window.innerWidth < 900) {
-      history.push(`/login?user`);
     } else if (user?.isLoggedIn && user?.role === "user") {
       axios
         .post(
@@ -164,6 +164,7 @@ const AuthorProfile = () => {
                           <Button
                             className={classes.followBtn}
                             onClick={handleFollower}
+                            value="user"
                           >
                             {!isFollowing ? <>Follow</> : <>Following</>}
                           </Button>
@@ -211,6 +212,7 @@ const AuthorProfile = () => {
       <SignUpModal
         openAuthModal={openAuthModal}
         setOpenAuthModal={setOpenAuthModal}
+        role={role}
       />
       <Footer />
     </Layout>
