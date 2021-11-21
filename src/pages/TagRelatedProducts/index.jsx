@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@material-ui/core";
+import { CircularProgress, Container, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
@@ -8,7 +8,6 @@ import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
-import Loader from "../../components/ui/Loader";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
@@ -21,7 +20,7 @@ const TagTemplate = () => {
   const location = useLocation();
   const keywords = location.pathname.split("/tag/").pop().replace(/-/g, " ");
   const [isLoading, setLoading] = useState(false);
-  const [tagRelatedProducts, setTagRelatedProducts] = useState([]);
+  const [tagRelatedProducts, setTagRelatedProducts] = useState(null);
   const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
@@ -38,42 +37,37 @@ const TagTemplate = () => {
       .catch((error) => console.log(" Related Tag Image error: ", error));
   }, [keywords]);
 
-  const imageThumbnail = encodeURI(
-    `${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`
-  );
+  const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);
 
   return (
-    <Layout
-      title={`${tagName}`}
-      description={`${tagName}`}
-      canonical={document.URL}
-      ogUrl={document.URL}
-      ogImage={imageThumbnail}
-    >
+    <Layout title={`${tagName}`} description={`${tagName}`} canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
       <HeroSection size="medium" />
       <Container>
-        <Typography className={classes.totalResources} variant="h4">
-          {`${tagRelatedProducts.length} Resources for "${tagName.replace(
-            /-/g,
-            " "
-          )}"`}
-        </Typography>
+        {tagRelatedProducts?.length > 0 && (
+          <Typography className={classes.totalResources} variant="h4">
+            {`${tagRelatedProducts?.length} Resources for "${tagName.replace(/-/g, " ")}"`}
+          </Typography>
+        )}
+
         <Grid classes={{ container: classes.container }} container spacing={2}>
-          {isLoading ? (
-            <Loader />
+          {tagRelatedProducts === null ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto",
+                height: 300,
+              }}
+            >
+              <CircularProgress color="primary" />
+            </div>
           ) : (
             <>
               {tagRelatedProducts.length ? (
                 tagRelatedProducts?.map((photo) => (
-                  <Grid
-                    key={photo.image_id}
-                    item
-                    xs={12}
-                    sm={4}
-                    md={3}
-                    className={classes.productItem}
-                  >
+                  <Grid key={photo.image_id} item xs={12} sm={4} md={3} className={classes.productItem}>
                     <Product photo={photo} />
                   </Grid>
                 ))

@@ -16,47 +16,21 @@ const Publish = lazy(() => import("./pages/dashboard/contributor/Publish"));
 const JoinNow = lazy(() => import("./pages/dashboard/contributor/JoinNow"));
 const Revision = lazy(() => import("./pages/dashboard/contributor/Revision"));
 const GuidLine = lazy(() => import("./pages/dashboard/contributor/GuidLine"));
-const WithdrawHistory = lazy(() =>
-  import("./pages/dashboard/contributor/WithdrawHistory")
-);
-const UploadFiles = lazy(() =>
-  import("./pages/dashboard/contributor/UploadFiles")
-);
-const RejectFiles = lazy(() =>
-  import("./pages/dashboard/contributor/RejectFiles")
-);
-const PendingFiles = lazy(() =>
-  import("./pages/dashboard/contributor/PendingFiles")
-);
-const AdminDashboard = lazy(() =>
-  import("./pages/dashboard/contributor/AdminDashboard")
-);
-const AccountSettings = lazy(() =>
-  import("./pages/dashboard/contributor/AccountSettings")
-);
-const EarningManagement = lazy(() =>
-  import("./pages/dashboard/contributor/EarningManagement")
-);
-const ContributorPricePlan = lazy(() =>
-  import("./pages/dashboard/contributor/ContributorPricePlan")
-);
+const WithdrawHistory = lazy(() => import("./pages/dashboard/contributor/WithdrawHistory"));
+const UploadFiles = lazy(() => import("./pages/dashboard/contributor/UploadFiles"));
+const RejectFiles = lazy(() => import("./pages/dashboard/contributor/RejectFiles"));
+const PendingFiles = lazy(() => import("./pages/dashboard/contributor/PendingFiles"));
+const AdminDashboard = lazy(() => import("./pages/dashboard/contributor/AdminDashboard"));
+const AccountSettings = lazy(() => import("./pages/dashboard/contributor/AccountSettings"));
+const EarningManagement = lazy(() => import("./pages/dashboard/contributor/EarningManagement"));
+const ContributorPricePlan = lazy(() => import("./pages/dashboard/contributor/ContributorPricePlan"));
 
 const UserProfile = lazy(() => import("./pages/dashboard/user/UserProfile"));
-const FavoriteItems = lazy(() =>
-  import("./pages/dashboard/user/FavoriteItems")
-);
-const DownloadItems = lazy(() =>
-  import("./pages/dashboard/user/DownloadItems")
-);
-const UserFollowing = lazy(() =>
-  import("./pages/dashboard/user/UserFollowing")
-);
-const DeviceActivity = lazy(() =>
-  import("./pages/dashboard/user/DeviceActivity")
-);
-const UserSubscription = lazy(() =>
-  import("./pages/dashboard/user/UserSubscription")
-);
+const FavoriteItems = lazy(() => import("./pages/dashboard/user/FavoriteItems"));
+const DownloadItems = lazy(() => import("./pages/dashboard/user/DownloadItems"));
+const UserFollowing = lazy(() => import("./pages/dashboard/user/UserFollowing"));
+const DeviceActivity = lazy(() => import("./pages/dashboard/user/DeviceActivity"));
+const UserSubscription = lazy(() => import("./pages/dashboard/user/UserSubscription"));
 
 const SingleProductDetails = lazy(() => import("./pages/SingleProductDetails"));
 const TagRelatedProducts = lazy(() => import("./pages/TagRelatedProducts"));
@@ -83,15 +57,9 @@ const Help = lazy(() => import("./pages/Help"));
 
 const Login = lazy(() => import("./pages/Authentication/Login"));
 const Registration = lazy(() => import("./pages/Authentication/Registration"));
-const ResetPassword = lazy(() =>
-  import("./pages/Authentication/ResetPassword")
-);
-const ConfirmSignup = lazy(() =>
-  import("./pages/Authentication/ConfirmSignup")
-);
-const EmailVerification = lazy(() =>
-  import("./pages/Authentication/EmailVerification")
-);
+const ResetPassword = lazy(() => import("./pages/Authentication/ResetPassword"));
+const ConfirmSignup = lazy(() => import("./pages/Authentication/ConfirmSignup"));
+const EmailVerification = lazy(() => import("./pages/Authentication/EmailVerification"));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -132,26 +100,21 @@ const App = () => {
       });
 
     // Product Base url API
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/client/urls`)
-      .then(({ data }) => {
-        if (data?.status) {
-          localStorage.setItem("imageBaseURL", JSON.stringify(data.urls));
-          setDataLoaded(false);
-        }
-      });
+    axios.get(`${process.env.REACT_APP_API_URL}/client/urls`).then(({ data }) => {
+      if (data?.status) {
+        localStorage.setItem("imageBaseURL", JSON.stringify(data.urls));
+        setDataLoaded(false);
+      }
+    });
   }, [dispatch]);
 
   useEffect(() => {
     // Upload total count
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/images/total_count`,
-          {
-            headers: { Authorization: user?.token },
-          }
-        )
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/total_count`, {
+          headers: { Authorization: user?.token },
+        })
         .then(({ data }) => {
           if (data?.status) {
             dispatch({
@@ -173,62 +136,26 @@ const App = () => {
 
         <Suspense fallback={<LinearProgress />}>
           {/* Contributor Dashboard */}
-          <Route
-            exact
-            path="/contributor/dashboard"
-            component={AdminDashboard}
-          />
+          <Route exact path="/contributor/dashboard" component={AdminDashboard} />
           <Route exact path="/contributor/upload" component={UploadFiles} />
           <Route exact path="/contributor/pending" component={PendingFiles} />
           <Route exact path="/contributor/revision" component={Revision} />
           <Route exact path="/contributor/reject" component={RejectFiles} />
           <Route exact path="/contributor/publish" component={Publish} />
-          <Route
-            exact
-            path="/contributor/earnings"
-            component={EarningManagement}
-          />
-          <Route
-            exact
-            path="/contributor/contributor-price-plan"
-            component={ContributorPricePlan}
-          />
+          <Route exact path="/contributor/earnings" component={EarningManagement} />
+          <Route exact path="/contributor/contributor-price-plan" component={ContributorPricePlan} />
           <Route exact path="/contributor/guidLine" component={GuidLine} />
-          <Route
-            exact
-            path="/contributor/withdraw-history"
-            component={WithdrawHistory}
-          />
-          <Route
-            exact
-            path="/contributor/settings"
-            component={AccountSettings}
-          />
+          <Route exact path="/contributor/withdraw-history" component={WithdrawHistory} />
+          <Route exact path="/contributor/settings" component={AccountSettings} />
           <Route exact path="/contributor/join" component={JoinNow} />
 
           {/* User dashboard */}
           <PrivateRoute exact path="/user/profile" component={UserProfile} />
-          <PrivateRoute
-            exact
-            path="/user/favorites"
-            component={FavoriteItems}
-          />
-          <PrivateRoute
-            exact
-            path="/user/downloads"
-            component={DownloadItems}
-          />
-          <PrivateRoute
-            exact
-            path="/user/following"
-            component={UserFollowing}
-          />
+          <PrivateRoute exact path="/user/favorites" component={FavoriteItems} />
+          <PrivateRoute exact path="/user/downloads" component={DownloadItems} />
+          <PrivateRoute exact path="/user/following" component={UserFollowing} />
           <PrivateRoute exact path="/user/devices" component={DeviceActivity} />
-          <PrivateRoute
-            exact
-            path="/user/subscription"
-            component={UserSubscription}
-          />
+          <PrivateRoute exact path="/user/subscription" component={UserSubscription} />
 
           {/* Footer pages */}
           <Route exact path="/termsConditions" component={TermsConditions} />
@@ -254,19 +181,11 @@ const App = () => {
           <Route exact path="/subscription" component={Subscription} />
           {/* <Route exact path="/sellers" component={Sellers} /> */}
           <Route exact path="/categories" component={Categories} />
-          <Route
-            exact
-            path="/search-key/trending-search"
-            component={TrendingSearch}
-          />
+          <Route exact path="/search-key/trending-search" component={TrendingSearch} />
 
           {/* Recent or Popular pages */}
           <Route exact path="/recent/new-design" component={Recent} />
-          <Route
-            exact
-            path="/images/popular-images"
-            component={PopularImages}
-          />
+          <Route exact path="/images/popular-images" component={PopularImages} />
 
           <Route exact path="/search/:keywords" component={SearchResults} />
           <Route exact path="/allBlogs/blogs" component={AllBlogs} />
@@ -274,11 +193,7 @@ const App = () => {
           <Route exact path="/tag/:tagName" component={TagRelatedProducts} />
           <Route exact path="/author/:username" component={AuthorProfile} />
           <Route exact path="/category/:catName" component={Category} />
-          <Route
-            exact
-            path="/category/:catName/:id"
-            component={SingleProductDetails}
-          />
+          <Route exact path="/category/:catName/:id" component={SingleProductDetails} />
         </Suspense>
 
         <Route path="*" component={NotFoundPage} />

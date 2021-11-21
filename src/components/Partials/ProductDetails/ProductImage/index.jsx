@@ -26,23 +26,14 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductImage = ({ imageDetails, setThumbnail }) => {
   const classes = useStyles();
-  const imageThumbnail = encodeURI(
-    `${getBaseURL().bucket_base_url}${getBaseURL().images}${
-      imageDetails?.preview
-    }`
-  );
+  const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${imageDetails?.preview}`);
   useEffect(() => {
     setThumbnail(imageThumbnail);
   }, [setThumbnail, imageThumbnail]);
 
   return (
     <div className={classes.imageWrapper}>
-      <img
-        title={imageDetails.title}
-        className={classes.image}
-        src={imageThumbnail}
-        alt={imageDetails?.original_name}
-      />
+      <img title={imageDetails.title} className={classes.image} src={imageThumbnail} alt={imageDetails?.original_name} />
     </div>
   );
 };
