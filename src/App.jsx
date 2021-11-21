@@ -247,7 +247,7 @@ const App = () => {
           <Route exact path="/template" component={Category} />
           <Route exact path="/png" component={Category} />
 
-          <Route exact path="/category" component={Category} />
+          <Route exact path="/category" component={NotFoundPage} />
           <Route exact path="/pricing" component={Pricing} />
           <Route exact path="/help" component={Help} />
 

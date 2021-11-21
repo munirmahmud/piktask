@@ -56,6 +56,7 @@ const Home = () => {
         size="large"
         popularKeywords
         heroButton
+        heroTitle
         title="Graphic Resources for Free Download"
       />
       {/* </Suspense> */}

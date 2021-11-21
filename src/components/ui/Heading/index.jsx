@@ -3,7 +3,7 @@ import React from "react";
 import useStyles from "./Heading.styles";
 
 const SectionHeading = (props) => {
-  const { title, color, children, center, size, uppercase } = props;
+  const { title, color, children, center, size, uppercase, heroTitle } = props;
 
   const primaryColor = "#1B3F4E";
   const classes = useStyles();
@@ -19,32 +19,45 @@ const SectionHeading = (props) => {
           size === "large"
             ? "0 0.8rem 3rem"
             : size === "medium"
-            ? ".5rem 0.8rem"
+            ? "2.5rem 0.8rem"
             : "0 0.8rem 1.2rem",
       }}
     >
       <div
         style={
-          center
-            ? {
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }
-            : undefined
+          center && {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }
         }
       >
-        <Typography
-          className={classes.headingH1}
-          variant="h2"
-          style={{
-            color: color === "white" ? whiteColor : primaryColor,
-            textAlign: "center",
-            textTransform: `${uppercase ? "uppercase" : "inherit"}`,
-          }}
-        >
-          {title}
-        </Typography>
+        {heroTitle ? (
+          <Typography
+            className={classes.headingH1}
+            variant="h1"
+            style={{
+              color: color === "white" ? whiteColor : primaryColor,
+              textAlign: "center",
+              textTransform: `${uppercase ? "uppercase" : "inherit"}`,
+            }}
+          >
+            {title}
+          </Typography>
+        ) : (
+          <Typography
+            className={classes.headingH1}
+            variant="h2"
+            style={{
+              color: color === "white" ? whiteColor : primaryColor,
+              textAlign: "center",
+              textTransform: `${uppercase ? "uppercase" : "inherit"}`,
+            }}
+          >
+            {title}
+          </Typography>
+        )}
       </div>
 
       {children}

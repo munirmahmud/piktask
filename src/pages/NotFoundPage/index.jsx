@@ -1,6 +1,6 @@
 import { Container } from "@material-ui/core";
 import React from "react";
-// import PageNotFound from "../../assets/banner/page-not-found.jpg";
+import PageNotFound from "../../assets/banner/page-not-found.jpg";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import Layout from "../../Layout";
@@ -13,9 +13,9 @@ const NotFoundPage = () => {
       <Header />
       <div className={classes.pageNotFound}>
         <Container>
-          {/* <div className={classes.pageNotFoundImg}>
+          <div className={classes.pageNotFoundImg}>
             <img src={PageNotFound} alt="PageNotFound" />
-          </div> */}
+          </div>
         </Container>
       </div>
       <Footer />

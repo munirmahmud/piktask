@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       padding: "0rem 0rem",
     },
   },
-  blogImageWrapper:{
+  blogImageWrapper: {
     height: 400,
     boxShadow: "0px 0px 10px #ddd",
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   formDescription: {
-    position: 'relative',
+    position: "relative",
     width: "100%",
     maxWidth: "100%",
     fontSize: "1.5rem",
@@ -48,10 +48,9 @@ const useStyles = makeStyles((theme) => ({
 
     "& .MuiInputLabel-outlined.Mui-focused": {
       border: "5px solid",
-      borderColor: 'yellow !important',
+      borderColor: "yellow !important",
       color: "yellow",
     },
-
   },
   sentBtn: {
     padding: "0.8rem 3.5rem",
@@ -76,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   blogAuthorInfo: {
     color: "#000",
 
-    "& h2": {
+    "& h3": {
       lineHeight: "4rem",
       fontSize: "3rem",
     },

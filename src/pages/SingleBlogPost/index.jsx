@@ -113,7 +113,7 @@ const SingleBlogPost = () => {
   return (
     <Layout
       title={`${blogDetails?.title} | Piktask`}
-      description={`${blogDetails?.description.split("\n")[0]}`}
+      description={`${blogDetails?.description?.split("\n")[0]}`}
       canonical={document.URL}
     >
       <Header />
@@ -137,10 +137,7 @@ const SingleBlogPost = () => {
             <div className={classes.blogAuthorInfo}>
               <div className={classes.shareSocialMedia}>
                 <div>
-                  <Typography
-                    variant="h2"
-                    style={{ fontWeight: "500", fontSize: "1.8rem" }}
-                  >
+                  <Typography style={{ fontWeight: "500", fontSize: "1.8rem" }}>
                     {blogDetails?.category}
                   </Typography>
                 </div>
@@ -194,7 +191,7 @@ const SingleBlogPost = () => {
                   </TelegramShareButton>
                 </div>
               </div>
-              <Typography variant="h2">{blogDetails?.title}</Typography>
+              <Typography variant="h3">{blogDetails?.title}</Typography>
               <Typography>
                 By {blogDetails?.username}{" "}
                 <span>{moment(blogDetails?.createdAt).format("LL")}</span>

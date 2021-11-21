@@ -25,7 +25,11 @@ const SingleProductDetails = () => {
     <Layout title={`${productTitle} | Piktask`} canonical={document.URL}>
       <Header />
 
-      <HeroSection size="medium" />
+      <HeroSection
+        size="medium"
+        heroTitle
+        title="Graphic Resources for Free Download"
+      />
 
       <Container className={classes.containerWrapper}>
         <ProductDetails
