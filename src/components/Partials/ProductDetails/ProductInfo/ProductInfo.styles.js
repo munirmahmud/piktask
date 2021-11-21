@@ -81,15 +81,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "1.3rem",
     },
   },
-  socialShareWrapper: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  socialShareTitle: {
-    "& h2": {
-      fontSize: "1.7rem !important",
-    },
-  },
+
   detailsContainer: {
     width: "55rem",
     marginTop: "2rem",
@@ -126,53 +118,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "1.5rem",
     [theme.breakpoints.down(480)]: {
       justifyContent: "space-between",
-    },
-  },
-  authorProfile: {
-    display: "flex",
-    alignItems: "center",
-    width: "fit-content",
-    marginRight: "5rem",
-    "@media (max-width: 768px)": {
-      marginBottom: "2rem",
-    },
-    [theme.breakpoints.down(480)]: {
-      marginRight: "6rem",
-    },
-  },
-  authorImg: {
-    width: "4.5rem",
-    height: "4.5rem",
-    borderRadius: "50%",
-    padding: "0.2rem",
-    boxShadow: "0px 0px 5px #ddd",
-    marginRight: "1.4rem",
-    objectFit: "cover",
-    color: "#000",
-    cursor: "pointer",
-
-    "@media (max-width: 768px)": {
-      width: "5.8rem",
-      height: "5.8rem",
-    },
-    [theme.breakpoints.down(480)]: {
-      width: "4.5rem",
-      height: "4.5rem",
-    },
-  },
-  profileName: {
-    color: theme.palette.secondary.main,
-    fontSize: "1.6rem",
-    fontWeight: 400,
-    textDecoration: "none !important",
-    cursor: "pointer",
-  },
-  resourceInfo: {
-    fontSize: "1.4rem",
-    fontWeight: 400,
-
-    [theme.breakpoints.down(480)]: {
-      fontSize: "1.3rem",
     },
   },
   authorBtn: {
@@ -363,9 +308,7 @@ const useStyles = makeStyles((theme) => ({
       right: 0,
     },
   },
-  tooltip: {
-    fontSize: "1.3rem",
-  },
+
   licenseTitle: {
     "& h2": {
       fontSize: "1.8rem !important",
@@ -377,13 +320,6 @@ const useStyles = makeStyles((theme) => ({
       [theme.breakpoints.down(480)]: {
         width: "100%",
       },
-    },
-  },
-  closeButton: {
-    height: "50%",
-    margin: "0.5rem",
-    "& span svg": {
-      fontSize: "2.5rem",
     },
   },
 }));

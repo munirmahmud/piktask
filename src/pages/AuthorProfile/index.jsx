@@ -1,10 +1,4 @@
-import {
-  Button,
-  CircularProgress,
-  Container,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import { Button, CircularProgress, Container, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -38,24 +32,17 @@ const AuthorProfile = () => {
 
   useEffect(() => {
     axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/contributor/${username}/statistics`
-      )
+      .get(`${process.env.REACT_APP_API_URL}/contributor/${username}/statistics`)
       .then(({ data }) => {
         if (data?.status) {
           setProfileInfo(data?.profile);
-          setThumbnail(
-            getBaseURL().bucket_base_url + "/" + data?.profile?.avatar
-          );
+          setThumbnail(getBaseURL().bucket_base_url + "/" + data?.profile?.avatar);
           setImageSummery(data?.images_summary);
           setLoading(false);
 
           if (user && user?.isLoggedIn && user?.role === "user") {
             axios
-              .get(
-                `${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.profile.id}`,
-                { headers: { Authorization: user?.token } }
-              )
+              .get(`${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.profile.id}`, { headers: { Authorization: user?.token } })
               .then((response) => {
                 if (response.data.status) {
                   setFollowing(true);
@@ -86,11 +73,7 @@ const AuthorProfile = () => {
       setOpenAuthModal(true);
     } else if (user?.isLoggedIn && user?.role === "user") {
       axios
-        .post(
-          `${process.env.REACT_APP_API_URL}/contributor/followers/${profileInfo?.id}`,
-          {},
-          { headers: { Authorization: user?.token } }
-        )
+        .post(`${process.env.REACT_APP_API_URL}/contributor/followers/${profileInfo?.id}`, {}, { headers: { Authorization: user?.token } })
         .then((response) => {
           if (response?.status === 200) {
             setFollowing(!isFollowing);
@@ -115,10 +98,7 @@ const AuthorProfile = () => {
       ogImage={thumbnail}
     >
       <Header />
-      <div
-        className={classes.authorHero}
-        style={{ backgroundImage: `url(${heroBanner})` }}
-      >
+      <div className={classes.authorHero} style={{ backgroundImage: `url(${heroBanner})` }}>
         <Container>
           {isLoading ? (
             <div
@@ -138,14 +118,7 @@ const AuthorProfile = () => {
                 <Grid container className={classes.profileWrapper}>
                   <div className={classes.authorImg}>
                     {profileInfo?.avatar ? (
-                      <img
-                        src={
-                          getBaseURL().bucket_base_url +
-                          "/" +
-                          profileInfo?.avatar
-                        }
-                        alt={profileInfo?.username}
-                      />
+                      <img src={getBaseURL().bucket_base_url + "/" + profileInfo?.avatar} alt={profileInfo?.username} />
                     ) : (
                       <img src={authorImg} alt={profileInfo?.username} />
                     )}
@@ -169,24 +142,15 @@ const AuthorProfile = () => {
                       </Typography>
                       {user?.id !== profileInfo?.id && (
                         <div>
-                          <Button
-                            className={classes.followBtn}
-                            onClick={handleFollower}
-                            value="user"
-                          >
+                          <Button className={classes.followBtn} onClick={handleFollower} value="user">
                             {!isFollowing ? <>Follow</> : <>Following</>}
                           </Button>
                         </div>
                       )}
                     </div>
                     <div className={classes.authorSocials}>
-                      {(profileInfo?.facebook ||
-                        profileInfo?.instagram ||
-                        profileInfo?.twitter) && (
-                        <SocialShare
-                          title="Follow this author:"
-                          profileInfo={profileInfo}
-                        />
+                      {(profileInfo?.facebook || profileInfo?.instagram || profileInfo?.twitter) && (
+                        <SocialShare title="Follow this author:" profileInfo={profileInfo} />
                       )}
                     </div>
                   </div>
@@ -217,11 +181,7 @@ const AuthorProfile = () => {
       )}
 
       {/* Sign up modal section*/}
-      <SignUpModal
-        openAuthModal={openAuthModal}
-        setOpenAuthModal={setOpenAuthModal}
-        role={role}
-      />
+      <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} role={role} />
       <Footer />
     </Layout>
   );
