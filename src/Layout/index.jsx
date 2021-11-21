@@ -60,7 +60,11 @@ const Layout = (props) => {
         description);
   }, [title, description, keywords, author, canonical, ogUrl, ogType, ogImage]);
 
-  return <main {...others}>{children}</main>;
+  return (
+    <div className="main-content" {...others}>
+      {children}
+    </div>
+  );
 };
 
 export default Layout;

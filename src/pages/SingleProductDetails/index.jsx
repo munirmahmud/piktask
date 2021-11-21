@@ -25,29 +25,31 @@ const SingleProductDetails = () => {
     <Layout title={`${productTitle} | Piktask`} canonical={document.URL}>
       <Header />
 
-      <HeroSection size="medium" />
+      <main>
+        <HeroSection size="medium" />
 
-      <Container className={classes.containerWrapper}>
-        <ProductDetails
-          location={location}
-          setAllTags={setAllTags}
-          imageID={imageID}
-          shareUrl={shareUrl}
-          setProductTitle={setProductTitle}
-        />
+        <Container className={classes.containerWrapper}>
+          <ProductDetails
+            location={location}
+            setAllTags={setAllTags}
+            imageID={imageID}
+            shareUrl={shareUrl}
+            setProductTitle={setProductTitle}
+          />
 
-        <Spacing space={{ height: "2.5rem" }}></Spacing>
+          <Spacing space={{ height: "2.5rem" }}></Spacing>
 
-        <SectionHeading
-          title="Related Products"
-          subtitle="Top website templates with the highest sales volume."
-          size="large"
-        />
+          <SectionHeading
+            title="Related Products"
+            subtitle="Top website templates with the highest sales volume."
+            size="large"
+          />
 
-        <RelatedImage imageID={imageID} />
+          <RelatedImage imageID={imageID} />
 
-        <TagButtons allTags={allTags} />
-      </Container>
+          <TagButtons allTags={allTags} />
+        </Container>
+      </main>
 
       <Footer />
     </Layout>
