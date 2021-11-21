@@ -76,11 +76,9 @@ const ProductInfo = ({ productDetails }) => {
   //Handle follow author
   const handleFollower = (e) => {
     // productDetails?.setLoading(true);
-    if (!user?.isLoggedIn && window.innerWidth > 900) {
+    if (!user?.isLoggedIn) {
       setRole(e.target.closest("button").value);
       setOpenAuthModal(true);
-    } else if (!user?.isLoggedIn && window.innerWidth < 900) {
-      history.push(`/login?user`);
     } else if (
       user?.id !== productDetails?.imageDetails?.user_id &&
       user &&
@@ -112,11 +110,9 @@ const ProductInfo = ({ productDetails }) => {
 
   //Handle like image
   const handleLikeBtn = (e) => {
-    if (!user?.isLoggedIn && window.innerWidth > 900) {
+    if (!user?.isLoggedIn) {
       setRole(e.target.closest("button").value);
       setOpenAuthModal(true);
-    } else if (!user?.isLoggedIn && window.innerWidth < 900) {
-      history.push(`/login?user`);
     } else if (
       user?.id !== productDetails?.imageDetails?.user_id &&
       user &&
