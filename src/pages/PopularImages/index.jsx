@@ -15,16 +15,17 @@ import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import { TopSeller } from "../../components/ui/TopSeller";
 import Layout from "../../Layout";
+import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./Popular.style";
 
 const PopularImages = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [popularProducts, setPopularProducts] = useState({});
+  const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
-    setLoading(true);
     let recentUrl;
     if (user && user?.id) {
       recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=popular&user_id=${user.id}`;
@@ -36,6 +37,7 @@ const PopularImages = () => {
       .then(({ data }) => {
         if (data?.status) {
           setPopularProducts(data?.images);
+          setThumbnail(data?.images[0]);
           setLoading(false);
         }
       })
@@ -45,8 +47,17 @@ const PopularImages = () => {
       });
   }, [user]);
 
+  const imageThumbnail = encodeURI(
+    `${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`
+  );
+
   return (
-    <Layout title="Popular Images | Piktask" canonical={document.URL}>
+    <Layout
+      title="Popular Images | Piktask"
+      canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={imageThumbnail}
+    >
       <Header />
       <HeroSection
         size="large"

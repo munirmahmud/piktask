@@ -1,11 +1,4 @@
-import {
-  Button,
-  Container,
-  FormControl,
-  Grid,
-  Select,
-  Typography,
-} from "@material-ui/core";
+import { Button, Container, FormControl, Grid, Select, Typography } from "@material-ui/core";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -20,6 +13,7 @@ import Paginations from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
+import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./Category.styles";
 
 const Category = () => {
@@ -30,12 +24,13 @@ const Category = () => {
   const user = useSelector((state) => state.user);
 
   const [popularSearchKeywords, setPopularSearchKeywords] = useState([]);
-  const [categoryProducts, setCategoryProducts] = useState([]);
+  const [categoryProducts, setCategoryProducts] = useState(null);
   const [categories, setCategories] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
+  const [thumbnail, setThumbnail] = useState("");
 
   let limit = 24;
   const count = Math.ceil(totalProduct / limit);
@@ -57,6 +52,7 @@ const Category = () => {
         .then(({ data }) => {
           if (data?.status) {
             setCategoryProducts(data?.category_image);
+            setThumbnail(data?.category_image[0]);
             setTotalProduct(data?.total);
             setLoading(false);
           }
@@ -75,9 +71,7 @@ const Category = () => {
 
   const popularKeyWords = () => {
     axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/client/search/popular_keyword?limit=10}`
-      )
+      .get(`${process.env.REACT_APP_API_URL}/client/search/popular_keyword?limit=10}`)
       .then(({ data }) => {
         if (data?.status) {
           const popularSearch = data?.keywords;
@@ -111,9 +105,7 @@ const Category = () => {
     const product = e.target.value;
     if (categoryItem?.id) {
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/categories/${categoryItem?.id}?${product}=1&limit=${limit}&page=${pageCount}`
-        )
+        .get(`${process.env.REACT_APP_API_URL}/categories/${categoryItem?.id}?${product}=1&limit=${limit}&page=${pageCount}`)
         .then(({ data }) => {
           if (data?.status) {
             setCategoryProducts(data?.category_image);
@@ -130,15 +122,13 @@ const Category = () => {
     }
   };
 
+  const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);
+
   return (
-    <Layout title={`${catName} | Piktask`} canonical={document.URL}>
+    <Layout title={`${catName} | Piktask`} canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
 
-      <HeroSection
-        size="large"
-        popularKeywords
-        title="Graphic Resource for Free Download"
-      />
+      <HeroSection size="large" popularKeywords title="Graphic Resource for Free Download" />
 
       <Container>
         {categoryProducts?.length > 0 && (
@@ -168,11 +158,13 @@ const Category = () => {
       </Container>
 
       <Container>
-        <Typography className={classes.totalResources} variant="h3">
-          {`${totalProduct} Resources`}
-        </Typography>
+        {totalProduct > 0 && (
+          <Typography className={classes.totalResources} variant="h3">
+            {`${totalProduct} Resources`}
+          </Typography>
+        )}
 
-        {isLoading ? (
+        {categoryProducts === null ? (
           <div
             style={{
               display: "flex",
@@ -185,21 +177,10 @@ const Category = () => {
             <CircularProgress color="primary" />
           </div>
         ) : (
-          <Grid
-            classes={{ container: classes.container }}
-            container
-            spacing={2}
-          >
+          <Grid classes={{ container: classes.container }} container spacing={2}>
             {categoryProducts?.length > 0 ? (
               categoryProducts?.map((photo) => (
-                <Grid
-                  key={photo?.image_id}
-                  item
-                  xs={6}
-                  sm={4}
-                  md={3}
-                  className={classes.productItem}
-                >
+                <Grid key={photo?.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
                   <Product photo={photo} />
                 </Grid>
               ))
@@ -208,14 +189,8 @@ const Category = () => {
             )}
           </Grid>
         )}
-        {totalProduct > limit && (
-          <Paginations
-            locationPath={locationPath}
-            count={count}
-            pageCount={pageCount}
-            setPageCount={setPageCount}
-          />
-        )}
+
+        {totalProduct > limit && <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
       </Container>
 
       <div className={classes.tagWrapper}>
@@ -226,13 +201,7 @@ const Category = () => {
                 Popular Search:
               </Typography>
               {popularSearchKeywords?.map((tag, index) => (
-                <Button
-                  className={classes.tagButton}
-                  key={index}
-                  tag={tag}
-                  component={Link}
-                  to={`/tag/${tag}`}
-                >
+                <Button className={classes.tagButton} key={index} tag={tag} component={Link} to={`/tag/${tag}`}>
                   {tag}
                 </Button>
               ))}
@@ -241,12 +210,7 @@ const Category = () => {
         </Container>
       </div>
 
-      <CallToAction
-        title="Join Piktask team"
-        subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
-        buttonText="Join Us"
-        uppercase
-      />
+      <CallToAction title="Join Piktask team" subtitle="Upload your first copyrighted design. Get $5 designer coupon packs" buttonText="Join Us" uppercase />
 
       <Footer />
     </Layout>

@@ -262,7 +262,7 @@ const UserProfile = () => {
   };
 
   return (
-    <Layout title="UserProfile | Piktask">
+    <Layout title="UserProfile">
       <Header />
 
       <Spacing space={{ height: "5rem" }} />

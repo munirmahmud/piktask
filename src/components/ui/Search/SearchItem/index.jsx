@@ -6,13 +6,26 @@ import useStyles from "./SearchItem.styles";
 const SearchItem = ({ item }) => {
   const classes = useStyles();
 
+  function pikTaskEncodeURI(data) {
+    if (data) {
+      return (
+        "/category" +
+        encodeURI(
+          `/${data?.category
+            .toLowerCase()
+            .trim()
+            .replace(/\s/g, "-")}/${data?.title
+            .toLowerCase()
+            .trim()
+            .replace(/\s/g, "-")}&id=${data?.image_id}`
+        )
+      );
+    }
+  }
+
   return (
     <Link
-      to={encodeURI(
-        `/images/${item?.title.toLowerCase().replace(/\s/g, "-")}&id=${
-          item?.image_id
-        }`
-      )}
+      to={encodeURI(pikTaskEncodeURI(item))}
       className={classes.searchItemWrapper}
     >
       <div className={classes.searchLeft}>

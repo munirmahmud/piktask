@@ -1,4 +1,5 @@
 import React from "react";
+import thumbnail from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
 import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
@@ -12,6 +13,8 @@ const TrendingSearch = () => {
       title="Trending Search result | Piktask"
       description="Piktask provides millions of stock photos, creatives, backgrounds and illustrations for free to fullfil your graphic design needs."
       canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={thumbnail}
     >
       <Header />
       <HeroSection

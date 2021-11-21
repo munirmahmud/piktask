@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductDetails = (props) => {
   const classes = useStyles();
-  const { imageID, setAllTags, location, shareUrl, setProductTitle } = props;
+  const { imageID, setAllTags, location, shareUrl, setProductTitle, setThumbnail } = props;
   const user = useSelector((state) => state.user);
 
   // const [downloadLicenseDialog, setDownloadLicenseDialog] = useState(false);
@@ -44,10 +44,7 @@ const ProductDetails = (props) => {
 
           if (user && user?.isLoggedIn && user.role === "user") {
             axios
-              .get(
-                `${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.detail.user_id}`,
-                { headers: { Authorization: user.token } }
-              )
+              .get(`${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.detail.user_id}`, { headers: { Authorization: user.token } })
               .then((response) => {
                 if (response.data.status) {
                   setFollowing(true);
@@ -101,13 +98,9 @@ const ProductDetails = (props) => {
       <CircularProgress color="primary" />
     </div>
   ) : (
-    <Grid
-      container
-      spacing={4}
-      classes={{ container: classes.itemDetailsContainer }}
-    >
+    <Grid container spacing={4} classes={{ container: classes.itemDetailsContainer }}>
       <Grid item md={7} sm={6} xs={12} className={classes.productColumn}>
-        <ProductImage imageDetails={imageDetails} />
+        <ProductImage setThumbnail={setThumbnail} imageDetails={imageDetails} />
       </Grid>
       <Grid item md={5} sm={6} xs={12} className={classes.productColumn}>
         <ProductInfo

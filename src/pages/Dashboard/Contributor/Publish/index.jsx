@@ -98,20 +98,15 @@ const Publish = () => {
   useEffect(() => {
     const dateFormat = "YYYY-MM-DD";
     let newDate = new Date();
-    let firstDayCurrentMonth = new Date(
-      newDate.getFullYear(),
-      newDate.getMonth(),
-      1
-    );
+    let firstDayCurrentMonth = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
     let firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
     const today = moment(newDate).format(dateFormat);
     // Author last file API
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${firstDay}&end=${today}&limit=${limit}&page=${pageCount}`,
-          { headers: { Authorization: user?.token } }
-        )
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${firstDay}&end=${today}&limit=${limit}&page=${pageCount}`, {
+          headers: { Authorization: user?.token },
+        })
         .then(({ data }) => {
           if (data?.images.length > 0) {
             setAllPublishProduct(data?.images);
@@ -142,10 +137,9 @@ const Publish = () => {
     // Current date wise publish product
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${fromDates}&end=${toDates}&limit=${limit}&page=${pageCount}`,
-          { headers: { Authorization: user?.token } }
-        )
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${fromDates}&end=${toDates}&limit=${limit}&page=${pageCount}`, {
+          headers: { Authorization: user?.token },
+        })
         .then(({ data }) => {
           if (data?.status) {
             setAllPublishProduct(data?.images);
@@ -156,7 +150,7 @@ const Publish = () => {
   };
 
   return (
-    <Layout title="Publish | Piktask">
+    <Layout title="Publish">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
@@ -171,16 +165,10 @@ const Publish = () => {
               <div className={classes.statisticsFormWrapper}>
                 <div className={classes.selectPeriodFrom}>
                   <div className={classes.fields}>
-                    <Typography
-                      className={classes.fieldTitle}
-                      variant="subtitle1"
-                    >
+                    <Typography className={classes.fieldTitle} variant="subtitle1">
                       From
                     </Typography>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
+                    <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
                         native
@@ -199,10 +187,7 @@ const Publish = () => {
                           ))}
                       </Select>
                     </FormControl>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
+                    <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
                         native
@@ -219,10 +204,7 @@ const Publish = () => {
                         ))}
                       </Select>
                     </FormControl>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
+                    <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
                         native
@@ -241,16 +223,10 @@ const Publish = () => {
                     </FormControl>
                   </div>
                   <div className={classes.fields}>
-                    <Typography
-                      className={classes.fieldTitle}
-                      variant="subtitle1"
-                    >
+                    <Typography className={classes.fieldTitle} variant="subtitle1">
                       To
                     </Typography>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
+                    <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
                         native
@@ -269,10 +245,7 @@ const Publish = () => {
                           ))}
                       </Select>
                     </FormControl>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
+                    <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
                         native
@@ -289,10 +262,7 @@ const Publish = () => {
                         ))}
                       </Select>
                     </FormControl>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
+                    <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
                         native
@@ -311,10 +281,7 @@ const Publish = () => {
                     </FormControl>
                   </div>
 
-                  <Button
-                    onClick={handleDateSubmit}
-                    className={classes.showMoreBtn}
-                  >
+                  <Button onClick={handleDateSubmit} className={classes.showMoreBtn}>
                     View More
                   </Button>
                 </div>
@@ -335,76 +302,34 @@ const Publish = () => {
               </div>
             ) : (
               <Grid container className={classes.publishGridContainer}>
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  md={12}
-                  className={classes.loaderItem}
-                >
+                <Grid item xs={12} sm={12} md={12} className={classes.loaderItem}>
                   <Card className={classes.cardRoot}>
                     <CardContent className={classes.productCard}>
                       {allPublishProduct?.length > 0 ? (
-                        <TableContainer
-                          className={classes.tableContainer}
-                          component={Paper}
-                        >
-                          <Table
-                            className={classes.table}
-                            aria-label="publish data table"
-                          >
+                        <TableContainer className={classes.tableContainer} component={Paper}>
+                          <Table className={classes.table} aria-label="publish data table">
                             <TableHead>
                               <TableRow className={classes.tableHead}>
-                                <TableCell
-                                  className={classes.tableCell}
-                                ></TableCell>
-                                <TableCell
-                                  style={{ textAlign: "left" }}
-                                  className={classes.tableCell}
-                                >
+                                <TableCell className={classes.tableCell}></TableCell>
+                                <TableCell style={{ textAlign: "left" }} className={classes.tableCell}>
                                   Title
                                 </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  Type
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  Like
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  Download
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  Earning
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                  Date
-                                </TableCell>
+                                <TableCell className={classes.tableCell}>Type</TableCell>
+                                <TableCell className={classes.tableCell}>Like</TableCell>
+                                <TableCell className={classes.tableCell}>Download</TableCell>
+                                <TableCell className={classes.tableCell}>Earning</TableCell>
+                                <TableCell className={classes.tableCell}>Date</TableCell>
                               </TableRow>
                             </TableHead>
 
                             {allPublishProduct?.map((product) => (
                               <TableBody key={product?.id}>
-                                <TableRow
-                                  key={product?.id}
-                                  className={classes.tableRowContent}
-                                >
-                                  <TableCell
-                                    className={`${classes.tableCell} ${classes.authProductWrapper}`}
-                                  >
-                                    <Link
-                                      to={`/images/${product?.title
-                                        .toLowerCase()
-                                        .replace(/\s/g, "-")}&id=${
-                                        product?.id
-                                      }`}
-                                    >
+                                <TableRow key={product?.id} className={classes.tableRowContent}>
+                                  <TableCell className={`${classes.tableCell} ${classes.authProductWrapper}`}>
+                                    <Link to={`/images/${product?.title.toLowerCase().replace(/\s/g, "-")}&id=${product?.id}`}>
                                       <img
                                         className={classes.publishImg}
-                                        src={
-                                          getBaseURL().bucket_base_url +
-                                          getBaseURL().images +
-                                          product?.preview
-                                        }
+                                        src={getBaseURL().bucket_base_url + getBaseURL().images + product?.preview}
                                         alt={product?.title}
                                       />
                                     </Link>
@@ -416,56 +341,31 @@ const Publish = () => {
                                         )} */}
                                   </TableCell>
 
-                                  <TableCell
-                                    style={{ textAlign: "left" }}
-                                    className={classes.tableCell}
-                                  >
-                                    {product?.title.split(" ").length > 4 ? (
-                                      <>{getWords(4, product?.title)}...</>
-                                    ) : (
-                                      <>{product?.title}</>
-                                    )}
+                                  <TableCell style={{ textAlign: "left" }} className={classes.tableCell}>
+                                    {product?.title.split(" ").length > 4 ? <>{getWords(4, product?.title)}...</> : <>{product?.title}</>}
                                   </TableCell>
 
-                                  <TableCell className={classes.tableCell}>
-                                    {product?.extension}
-                                  </TableCell>
+                                  <TableCell className={classes.tableCell}>{product?.extension}</TableCell>
 
-                                  <TableCell className={classes.tableCell}>
-                                    {product?.total_likes}
-                                  </TableCell>
+                                  <TableCell className={classes.tableCell}>{product?.total_likes}</TableCell>
 
-                                  <TableCell className={classes.tableCell}>
-                                    {product?.total_downloads}
-                                  </TableCell>
+                                  <TableCell className={classes.tableCell}>{product?.total_downloads}</TableCell>
 
                                   <TableCell className={classes.tableCell}>
                                     <AttachMoneyIcon />
                                     {product?.total_earning}
                                   </TableCell>
 
-                                  <TableCell className={classes.tableCell}>
-                                    {moment(product?.createdAt).format("LL")}
-                                  </TableCell>
+                                  <TableCell className={classes.tableCell}>{moment(product?.createdAt).format("LL")}</TableCell>
                                 </TableRow>
                               </TableBody>
                             ))}
                           </Table>
                         </TableContainer>
                       ) : (
-                        <ProductNotFound
-                          publishContent
-                          contributorProductNotFound
-                        />
+                        <ProductNotFound publishContent contributorProductNotFound />
                       )}
-                      {totalProduct > limit && (
-                        <Paginations
-                          locationPath={locationPath}
-                          count={count}
-                          pageCount={pageCount}
-                          setPageCount={setPageCount}
-                        />
-                      )}
+                      {totalProduct > limit && <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
                     </CardContent>
                   </Card>
                 </Grid>

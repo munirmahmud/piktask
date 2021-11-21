@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "1.6rem 2.5rem",
     boxShadow: "0 1px 2px 0 rgb(0 0 0 / 10%)",
     "& a:hover": {
-      "& $title": {
+      "& $description": {
         color: theme.palette.secondary.main,
       },
     },

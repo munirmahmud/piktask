@@ -2,6 +2,7 @@ import { Container, Grid, Typography } from "@material-ui/core";
 import React from "react";
 import bdtaskMembers from "../../assets/aboutUs/bdtask_members.jpg";
 import clientMeeting from "../../assets/aboutUs/meeting_with_client.jpg";
+import thumbnail from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
 import Spacing from "../../components/Spacing";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
@@ -12,7 +13,12 @@ import useStyles from "./AboutUs.style";
 const AboutUs = () => {
   const classes = useStyles();
   return (
-    <Layout title="About Us | Piktask" canonical={document.URL}>
+    <Layout
+      title="About Us | Piktask"
+      canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={thumbnail}
+    >
       <Header />
       <HeroSection aboutUs isSearch />
       <Spacing space={{ height: "5rem" }} />

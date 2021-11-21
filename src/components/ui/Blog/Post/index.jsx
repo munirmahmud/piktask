@@ -26,15 +26,15 @@ const Post = ({ post, recentBlog }) => {
                 />
               </div>
               <div className={classes.contentWrapper}>
+                <Typography className={classes.title}>
+                  {post?.category}
+                </Typography>
                 <Link to={`/blog/${post?.id}`} className={classes.titleLink}>
-                  <Typography className={classes.title}>
-                    {post?.category}
+                  <Typography className={classes.description} variant="h2">
+                    {getWords(4, post?.title)}...
                   </Typography>
                 </Link>
                 {/* <Typography className={classes.description} variant="h2">{getWords(4, post?.title)}...</Typography> */}
-                <Typography className={classes.description} variant="h2">
-                  {post?.title} Lorem ipsum dolor sit amet.
-                </Typography>
                 <Typography className={classes.authorInfo}>
                   By {post?.username}{" "}
                   <span>{moment(post?.createdAt).format("LL")}</span>
@@ -58,14 +58,14 @@ const Post = ({ post, recentBlog }) => {
               />
             </div>
             <div className={classes.contentWrapper}>
+              <Typography className={classes.title}>
+                {post?.category}
+              </Typography>
               <Link to={`/blog/${post?.id}`} className={classes.titleLink}>
-                <Typography className={classes.title}>
-                  {post?.category}
+                <Typography className={classes.description} variant="h2">
+                  {getWords(10, post?.title)}...
                 </Typography>
               </Link>
-              <Typography className={classes.description} variant="h2">
-                {getWords(10, post?.title)}...
-              </Typography>
               <Typography className={classes.authorInfo}>
                 By {post?.username}{" "}
                 <span>{moment(post?.createdAt).format("LL")}</span>

@@ -345,32 +345,6 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "2.5rem",
     },
   },
-  likeBtn: {
-    padding: "1rem 1.5rem",
-    backgroundColor: theme.palette.primary.main,
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
-    },
-    "& img": {
-      width: "2.7rem",
-    },
-
-    [theme.breakpoints.down(480)]: {
-      padding: "0.4rem 1.5rem",
-    },
-  },
-  likedBtn: {
-    padding: "1rem 1.5rem",
-    backgroundColor: "#E1E3EB",
-    "& svg": {
-      color: "#0088f2",
-      fontSize: "2.9rem",
-    },
-
-    [theme.breakpoints.down(480)]: {
-      padding: "0.4rem 1.5rem",
-    },
-  },
   downloadedImage: {
     position: "absolute",
     top: "-15px",

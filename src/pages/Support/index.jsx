@@ -1,5 +1,6 @@
 import { Container, Typography } from "@material-ui/core";
 import React from "react";
+import thumbnail from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
 import Spacing from "../../components/Spacing";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
@@ -11,7 +12,12 @@ const Support = () => {
   const classes = useStyles();
 
   return (
-    <Layout title="Support | Piktask" canonical={document.URL}>
+    <Layout
+      title="Support | Piktask"
+      canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={thumbnail}
+    >
       <Header />
       <HeroSection support isSearch />
       <Spacing space={{ height: "5rem" }} />
