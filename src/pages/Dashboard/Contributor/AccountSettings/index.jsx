@@ -409,6 +409,7 @@ const AccountSettings = () => {
                           variant="outlined"
                           className={`${classes.inputField}`}
                           value={username}
+                          disabled
                         />
                       </FormControl>
                     </div>

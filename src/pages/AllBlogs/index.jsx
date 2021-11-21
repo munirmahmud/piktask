@@ -41,7 +41,7 @@ const AllBlogs = () => {
   }, []);
 
   return (
-    <Layout title="AllBlogs | Piktask">
+    <Layout title="All Blog Posts | Piktask" canonical={document.URL}>
       <Header />
       <HeroSection size="medium" blogsTitle isSearch />
       <Spacing space={{ height: "3rem" }} />

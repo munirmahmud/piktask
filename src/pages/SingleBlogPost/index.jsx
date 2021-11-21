@@ -111,7 +111,11 @@ const SingleBlogPost = () => {
   };
 
   return (
-    <Layout>
+    <Layout
+      title={`${blogDetails?.title} | Piktask`}
+      description={`${blogDetails?.description.split("\n")[0]}`}
+      canonical={document.URL}
+    >
       <Header />
       <HeroSection size="medium" />
       <Spacing space={{ height: "5rem" }} />

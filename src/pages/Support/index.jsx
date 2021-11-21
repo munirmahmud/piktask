@@ -11,7 +11,7 @@ const Support = () => {
   const classes = useStyles();
 
   return (
-    <Layout title=" support | Piktask">
+    <Layout title="Support | Piktask" canonical={document.URL}>
       <Header />
       <HeroSection support isSearch />
       <Spacing space={{ height: "5rem" }} />

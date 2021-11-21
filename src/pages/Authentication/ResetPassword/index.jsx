@@ -135,7 +135,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <Layout title="ResetPassword | Piktask">
+    <Layout title="Reset Password | Piktask" canonical={document.URL}>
       <Header />
       <HeroSection />
       <Spacing space={{ height: "3.5rem" }} />

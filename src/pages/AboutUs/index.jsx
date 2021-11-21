@@ -12,7 +12,7 @@ import useStyles from "./AboutUs.style";
 const AboutUs = () => {
   const classes = useStyles();
   return (
-    <Layout>
+    <Layout title="About Us | Piktask" canonical={document.URL}>
       <Header />
       <HeroSection aboutUs isSearch />
       <Spacing space={{ height: "5rem" }} />

@@ -99,8 +99,9 @@ const Contact = () => {
   };
 
   return (
-    <Layout title=" Contact | Piktask">
+    <Layout title=" Contact | Piktask" canonical={document.URL}>
       <Header />
+
       <HeroSection contact isSearch />
       <Spacing space={{ height: "5rem" }} />
       <Container>

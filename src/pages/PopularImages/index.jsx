@@ -46,7 +46,7 @@ const PopularImages = () => {
   }, [user]);
 
   return (
-    <Layout title="Popular Image | Piktask">
+    <Layout title="Popular Images | Piktask" canonical={document.URL}>
       <Header />
       <HeroSection
         size="large"

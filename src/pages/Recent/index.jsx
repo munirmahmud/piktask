@@ -91,7 +91,7 @@ const Recent = () => {
   // }, []);
 
   return (
-    <Layout title="Recent Images | Piktask" description="Recent Images">
+    <Layout title="Recent Images | Piktask" canonical={document.URL}>
       <Header />
       <HeroSection
         size="large"
@@ -127,7 +127,12 @@ const Recent = () => {
           )}
         </Grid>
         {totalProduct > limit && (
-          <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />
+          <Paginations
+            locationPath={locationPath}
+            count={count}
+            pageCount={pageCount}
+            setPageCount={setPageCount}
+          />
         )}
       </Container>
 

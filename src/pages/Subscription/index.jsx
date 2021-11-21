@@ -9,8 +9,9 @@ const Subscription = () => {
   const classes = useStyles();
   return (
     <Layout
-      title="Subscription page piktask"
+      title="Subscription | piktask"
       description="This is subscription page"
+      canonical={document.URL}
     >
       <Header />
       <HeroSection />
