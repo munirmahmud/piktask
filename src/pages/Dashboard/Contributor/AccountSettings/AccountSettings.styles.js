@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import profileBanner from "../../../../assets/banner/profile-banner.jpg";
+import profileBanner from "../../../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
 
 const useStyles = makeStyles((theme) => ({
   adminRoot: {

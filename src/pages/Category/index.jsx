@@ -20,6 +20,7 @@ import Paginations from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
+import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./Category.styles";
 
 const Category = () => {
@@ -36,6 +37,7 @@ const Category = () => {
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
+  const [thumbnail, setThumbnail] = useState("");
 
   let limit = 24;
   const count = Math.ceil(totalProduct / limit);
@@ -57,6 +59,7 @@ const Category = () => {
         .then(({ data }) => {
           if (data?.status) {
             setCategoryProducts(data?.category_image);
+            setThumbnail(data?.category_image[0]);
             setTotalProduct(data?.total);
             setLoading(false);
           }
@@ -130,8 +133,17 @@ const Category = () => {
     }
   };
 
+  const imageThumbnail = encodeURI(
+    `${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`
+  );
+
   return (
-    <Layout title={`${catName} | Piktask`} canonical={document.URL}>
+    <Layout
+      title={`${catName} | Piktask`}
+      canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={imageThumbnail}
+    >
       <Header />
 
       <HeroSection

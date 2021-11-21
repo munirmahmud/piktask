@@ -16,7 +16,14 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductDetails = (props) => {
   const classes = useStyles();
-  const { imageID, setAllTags, location, shareUrl, setProductTitle } = props;
+  const {
+    imageID,
+    setAllTags,
+    location,
+    shareUrl,
+    setProductTitle,
+    setThumbnail,
+  } = props;
   const user = useSelector((state) => state.user);
 
   // const [downloadLicenseDialog, setDownloadLicenseDialog] = useState(false);
@@ -107,7 +114,7 @@ const ProductDetails = (props) => {
       classes={{ container: classes.itemDetailsContainer }}
     >
       <Grid item md={7} sm={6} xs={12} className={classes.productColumn}>
-        <ProductImage imageDetails={imageDetails} />
+        <ProductImage setThumbnail={setThumbnail} imageDetails={imageDetails} />
       </Grid>
       <Grid item md={5} sm={6} xs={12} className={classes.productColumn}>
         <ProductInfo

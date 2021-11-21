@@ -116,6 +116,8 @@ const SingleBlogPost = () => {
     }
   };
 
+  console.log("thumbnail", thumbnail);
+
   return (
     <Layout
       title={`${blogDetails?.title} | Piktask`}

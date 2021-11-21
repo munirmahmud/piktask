@@ -14,6 +14,7 @@ import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
 import SignUpModal from "../Authentication/SignUpModal";
+import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./SearchResults.styles";
 
 const SearchResults = () => {
@@ -31,6 +32,7 @@ const SearchResults = () => {
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
+  const [thumbnail, setThumbnail] = useState("");
 
   let limit = 24;
   const count = Math.ceil(totalProduct / limit);
@@ -70,8 +72,10 @@ const SearchResults = () => {
     axios
       .get(url)
       .then(({ data }) => {
+        console.log("data", data);
         if (data?.status) {
           setSearchResults(data?.results);
+          setThumbnail(data?.results[0]);
           setTotalProduct(data?.total);
           setLoading(false);
         }
@@ -87,8 +91,17 @@ const SearchResults = () => {
     }
   };
 
+  const imageThumbnail = encodeURI(
+    `${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`
+  );
+
   return (
-    <Layout title={`${searchKey} | Piktask`} canonical={canonicalURL}>
+    <Layout
+      title={`${searchKey}`}
+      canonical={canonicalURL}
+      ogUrl={document.URL}
+      ogImage={imageThumbnail}
+    >
       <Header></Header>
       <HeroSection
         size="large"

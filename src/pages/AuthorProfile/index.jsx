@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import authorImg from "../../assets/author.png";
 import heroBanner from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
@@ -25,8 +25,6 @@ import useStyles from "./AuthorProfile.styles";
 
 const AuthorProfile = () => {
   const classes = useStyles();
-  const history = useHistory();
-  const location = useLocation();
   const { username } = useParams();
   const user = useSelector((state) => state.user);
 
@@ -36,6 +34,7 @@ const AuthorProfile = () => {
   const [profileInfo, setProfileInfo] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [role, setRole] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
     axios
@@ -45,6 +44,9 @@ const AuthorProfile = () => {
       .then(({ data }) => {
         if (data?.status) {
           setProfileInfo(data?.profile);
+          setThumbnail(
+            getBaseURL().bucket_base_url + "/" + data?.profile?.avatar
+          );
           setImageSummery(data?.images_summary);
           setLoading(false);
 
@@ -106,9 +108,11 @@ const AuthorProfile = () => {
 
   return (
     <Layout
-      title={`${profileInfo?.username} | Piktask`}
+      title={`${profileInfo?.username}`}
       description={`Discover millions of free Vectors, Photos &amp; PSD files from ${profileInfo?.username} - Free Graphic Resources for personal and commercial use`}
       canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={thumbnail}
     >
       <Header />
       <div

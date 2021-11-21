@@ -12,6 +12,7 @@ import Loader from "../../components/ui/Loader";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
+import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./TagRelatedProducts.style";
 
 const TagTemplate = () => {
@@ -21,6 +22,7 @@ const TagTemplate = () => {
   const keywords = location.pathname.split("/tag/").pop().replace(/-/g, " ");
   const [isLoading, setLoading] = useState(false);
   const [tagRelatedProducts, setTagRelatedProducts] = useState([]);
+  const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -28,18 +30,25 @@ const TagTemplate = () => {
       .get(`${process.env.REACT_APP_API_URL}/client/search/?tag=${keywords}`)
       .then(({ data }) => {
         if (data?.status) {
-          setTagRelatedProducts(data.results);
+          setTagRelatedProducts(data?.results);
+          setThumbnail(data?.results[0]);
           setLoading(false);
         }
       })
       .catch((error) => console.log(" Related Tag Image error: ", error));
   }, [keywords]);
 
+  const imageThumbnail = encodeURI(
+    `${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`
+  );
+
   return (
     <Layout
-      title={`${tagName} | Piktask`}
-      description={`${tagName} | Piktask`}
+      title={`${tagName}`}
+      description={`${tagName}`}
       canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={imageThumbnail}
     >
       <Header />
       <HeroSection size="medium" />

@@ -20,9 +20,15 @@ const SingleProductDetails = () => {
 
   const [productTitle, setProductTitle] = useState("");
   const [allTags, setAllTags] = useState([]);
+  const [thumbnail, setThumbnail] = useState("");
 
   return (
-    <Layout title={`${productTitle} | Piktask`} canonical={document.URL}>
+    <Layout
+      title={`${productTitle}`}
+      canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={thumbnail}
+    >
       <Header />
 
       <HeroSection
@@ -38,6 +44,7 @@ const SingleProductDetails = () => {
           imageID={imageID}
           shareUrl={shareUrl}
           setProductTitle={setProductTitle}
+          setThumbnail={setThumbnail}
         />
 
         <Spacing space={{ height: "2.5rem" }}></Spacing>
