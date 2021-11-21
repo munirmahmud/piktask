@@ -70,6 +70,7 @@ const ConfirmSignup = () => {
         })
         .catch((error) => {
           console.log("Verify account error: ", error);
+          toast.error(error.message);
           setLoading(true);
           setToken("");
         });
