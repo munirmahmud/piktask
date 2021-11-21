@@ -165,6 +165,7 @@ const ProductInfo = ({ productDetails }) => {
           </Grid>
         </Grid>
 
+        {/* TODO: set author socical media - API is not ready */}
         <Grid container>
           <Grid item style={{ display: "flex", alignItems: "center" }}>
             <Typography>Share: </Typography>

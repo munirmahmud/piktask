@@ -46,8 +46,9 @@ const DownloadButton = ({ productDetails }) => {
           document.body.appendChild(link);
           link.click();
 
-          const prevState = productDetails?.imageDetails?.user?.images?.total_downloads;
-          setDownloadCount(prevState + 1);
+          const total_downloads = productDetails?.imageDetails?.user?.images?.total_downloads;
+
+          setDownloadCount(total_downloads + 1);
           setButtonLoading(false);
         }
       })
@@ -74,7 +75,9 @@ const DownloadButton = ({ productDetails }) => {
     if (shortValue % 1 !== 0) {
       shortValue = shortValue.toFixed(1);
     }
-    return shortValue + suffixes[suffixNum];
+
+    const newValue = suffixes[suffixNum] ? suffixes[suffixNum] : 0;
+    return shortValue + newValue;
   };
 
   return (
