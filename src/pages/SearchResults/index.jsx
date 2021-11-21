@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@material-ui/core";
+import { CircularProgress, Container, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -8,12 +8,12 @@ import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
-import Loader from "../../components/ui/Loader";
 import Paginations from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
 import SignUpModal from "../Authentication/SignUpModal";
+import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./SearchResults.styles";
 
 const SearchResults = () => {
@@ -26,11 +26,12 @@ const SearchResults = () => {
   const [canonicalURL, setCanonicalURL] = useState("");
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
+  const [thumbnail, setThumbnail] = useState("");
 
   let limit = 24;
   const count = Math.ceil(totalProduct / limit);
@@ -42,19 +43,9 @@ const SearchResults = () => {
   const prepareSearchQuery = () => {
     let url;
     if (categoryID && keyword) {
-      url = `${
-        process.env.REACT_APP_API_URL
-      }/client/search/?title=${searchKey.replace(
-        /-/g,
-        " "
-      )}&category_id=${categoryID}&limit=${limit}&page=${pageCount}`;
+      url = `${process.env.REACT_APP_API_URL}/client/search/?title=${searchKey.replace(/-/g, " ")}&category_id=${categoryID}&limit=${limit}&page=${pageCount}`;
     } else {
-      url = `${
-        process.env.REACT_APP_API_URL
-      }/client/search/?title=${searchKey.replace(
-        /-/g,
-        " "
-      )}&limit=${limit}&page=${pageCount}`;
+      url = `${process.env.REACT_APP_API_URL}/client/search/?title=${searchKey.replace(/-/g, " ")}&limit=${limit}&page=${pageCount}`;
     }
 
     return encodeURI(url);
@@ -70,8 +61,10 @@ const SearchResults = () => {
     axios
       .get(url)
       .then(({ data }) => {
+        console.log("data", data);
         if (data?.status) {
           setSearchResults(data?.results);
+          setThumbnail(data?.results[0]);
           setTotalProduct(data?.total);
           setLoading(false);
         }
@@ -87,34 +80,38 @@ const SearchResults = () => {
     }
   };
 
+  const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);
+
   return (
-    <Layout title={`${searchKey} | Piktask`} canonical={canonicalURL}>
+    <Layout title={`${searchKey}`} canonical={canonicalURL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header></Header>
-      <HeroSection
-        size="large"
-        popularKeywords
-        title="Graphic Resources for Free Download"
-      />
+      <HeroSection size="large" popularKeywords title="Graphic Resources for Free Download" />
 
       <Container>
-        <Typography className={classes.totalResources} variant="h3">
-          {`${totalProduct} Resources for "${searchKey.replace(/-/g, " ")}"`}
-        </Typography>
+        {totalProduct > 0 && (
+          <Typography className={classes.totalResources} variant="h3">
+            {`${totalProduct} Resources for "${searchKey.replace(/-/g, " ")}"`}
+          </Typography>
+        )}
+
         <Grid classes={{ container: classes.container }} container spacing={2}>
-          {isLoading ? (
-            <Loader />
+          {searchResults === null ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto",
+                height: 300,
+              }}
+            >
+              <CircularProgress color="primary" />
+            </div>
           ) : (
             <>
               {searchResults.length ? (
                 searchResults?.map((photo) => (
-                  <Grid
-                    key={photo.image_id}
-                    item
-                    xs={6}
-                    sm={4}
-                    md={3}
-                    className={classes.productItem}
-                  >
+                  <Grid key={photo.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
                     <Product photo={photo} />
                   </Grid>
                 ))
@@ -124,14 +121,8 @@ const SearchResults = () => {
             </>
           )}
         </Grid>
-        {totalProduct > limit && (
-          <Paginations
-            locationPath={locationPath}
-            count={count}
-            pageCount={pageCount}
-            setPageCount={setPageCount}
-          />
-        )}
+
+        {totalProduct > limit && <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
       </Container>
       <Spacing space={{ height: "3rem" }} />
 
@@ -152,10 +143,7 @@ const SearchResults = () => {
       )}
 
       {/* Sign up modal section*/}
-      <SignUpModal
-        openAuthModal={openAuthModal}
-        setOpenAuthModal={setOpenAuthModal}
-      />
+      <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} />
       <Footer></Footer>
     </Layout>
   );

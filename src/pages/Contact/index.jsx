@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import thumbnail from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
 import Spacing from "../../components/Spacing";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
@@ -99,7 +100,12 @@ const Contact = () => {
   };
 
   return (
-    <Layout title=" Contact | Piktask" canonical={document.URL}>
+    <Layout
+      title=" Contact | Piktask"
+      canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={thumbnail}
+    >
       <Header />
 
       <HeroSection contact isSearch />

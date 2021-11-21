@@ -20,36 +20,32 @@ const SingleProductDetails = () => {
 
   const [productTitle, setProductTitle] = useState("");
   const [allTags, setAllTags] = useState([]);
+  const [thumbnail, setThumbnail] = useState("");
 
   return (
-    <Layout title={`${productTitle} | Piktask`} canonical={document.URL}>
+    <Layout title={`${productTitle}`} canonical={document.URL} ogUrl={document.URL} ogImage={thumbnail}>
       <Header />
 
-      <main>
-        <HeroSection size="medium" />
+      <HeroSection size="medium" heroTitle title="Graphic Resources for Free Download" />
 
-        <Container className={classes.containerWrapper}>
-          <ProductDetails
-            location={location}
-            setAllTags={setAllTags}
-            imageID={imageID}
-            shareUrl={shareUrl}
-            setProductTitle={setProductTitle}
-          />
+      <Container className={classes.containerWrapper}>
+        <ProductDetails
+          location={location}
+          setAllTags={setAllTags}
+          imageID={imageID}
+          shareUrl={shareUrl}
+          setProductTitle={setProductTitle}
+          setThumbnail={setThumbnail}
+        />
 
-          <Spacing space={{ height: "2.5rem" }}></Spacing>
+        <Spacing space={{ height: "2.5rem" }}></Spacing>
 
-          <SectionHeading
-            title="Related Products"
-            subtitle="Top website templates with the highest sales volume."
-            size="large"
-          />
+        <SectionHeading title="Related Products" subtitle="Top website templates with the highest sales volume." size="large" />
 
-          <RelatedImage imageID={imageID} />
+        <RelatedImage imageID={imageID} />
 
-          <TagButtons allTags={allTags} />
-        </Container>
-      </main>
+        <TagButtons allTags={allTags} />
+      </Container>
 
       <Footer />
     </Layout>

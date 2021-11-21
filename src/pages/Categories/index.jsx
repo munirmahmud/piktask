@@ -16,6 +16,7 @@ const Categories = () => {
   const classes = useStyles();
   const [isLoading, setLoading] = useState(true);
   const [popularCategories, setPopularCategories] = useState([]);
+  const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
     axios
@@ -23,6 +24,7 @@ const Categories = () => {
       .then(({ data }) => {
         if (data?.status) {
           setPopularCategories(data?.categories);
+          setThumbnail(data?.categories[0]);
           setLoading(false);
         }
       })
@@ -32,8 +34,19 @@ const Categories = () => {
       });
   }, []);
 
+  const imageThumbnail = encodeURI(
+    `${getBaseURL().bucket_base_url}${getBaseURL().images}${
+      thumbnail?.thumbnail
+    }`
+  );
+
   return (
-    <Layout title="All Categories | Piktask" canonical={document.URL}>
+    <Layout
+      title="All Categories | Piktask"
+      canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={imageThumbnail}
+    >
       <Header />
       <HeroSection
         title="Graphic Resources for Free Download"

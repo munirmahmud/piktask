@@ -1,16 +1,18 @@
 import { makeStyles } from "@material-ui/styles";
-import pageNotFound from "../../assets/banner/page-not-found.jpg"
+// import pageNotFound from "../../assets/banner/page-not-found.jpg";
 
 const useStyles = makeStyles((theme) => ({
   pageNotFound: {
-    backgroundImage: `url(${pageNotFound})`,
-    backgroundPosition: "center center",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    height: "100vh",
+    // backgroundImage: `url(${pageNotFound})`,
+    // backgroundPosition: "center center",
+    // backgroundSize: "cover",
+    // backgroundRepeat: "no-repeat",
+    backgroundColor: "#000",
+    paddingTop: "10rem",
+    // height: "80vh",
   },
   pageNotFoundImg: {
-    height: "60rem",
+    height: "50rem",
     width: "100%",
     display: "flex",
     justifyContent: "center",

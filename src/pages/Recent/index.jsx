@@ -15,6 +15,7 @@ import Paginations from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
+import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./Recent.style";
 
 const Recent = () => {
@@ -30,6 +31,7 @@ const Recent = () => {
   const [totalProduct, setTotalProduct] = useState();
   let limit = 60;
   const count = Math.ceil(totalProduct / limit);
+  const [thumbnail, setThumbnail] = useState("");
 
   //Recent images API integration
   useEffect(() => {
@@ -44,6 +46,7 @@ const Recent = () => {
       .then(({ data }) => {
         if (data?.images.length > 0) {
           setRecentProduct(data?.images);
+          setThumbnail(data?.images[0]);
           setTotalProduct(data?.total);
           dispatch({
             type: "RECENT_PHOTOS",
@@ -60,46 +63,28 @@ const Recent = () => {
       });
   }, [user?.isLoggedIn, user?.id, limit, pageCount, dispatch]);
 
-  //onScroll data load
-  // useEffect(() => {
-  //   setLoading(true);
-  //   window.onscroll = () => {
-  //     if (document.documentElement.scrollTop % 300 === 0) {
-  //       pageCount = pageCount + 1;
-  //       setPageCount(pageCount);
-  //       let recentUrl;
-  //       if (user && user?.id) {
-  //         recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=recent&user_id=${user.id}&limit=8&page=${pageCount}`;
-  //       } else {
-  //         recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=recent&limit=8&page=${pageCount}`;
-  //       }
-  //       axios
-  //         .get(recentUrl)
-  //         .then(({ data }) => {
-  //           if (data?.status) {
-  //             console.log("data image", data.images);
-  //             setRecentProduct([...recentProduct, ...data.images]);
-  //             setLoading(false);
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           console.log("Category products error:", error);
-  //           setLoading(false);
-  //         });
-  //     }
-  //   };
-  // }, []);
+  const imageThumbnail = encodeURI(
+    `${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`
+  );
 
   return (
-    <Layout title="Recent Images | Piktask" canonical={document.URL}>
+    <Layout
+      title="Recent Images | Piktask"
+      canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={imageThumbnail}
+    >
       <Header />
+
       <HeroSection
         size="large"
         popularKeywords
         heroButton
         title="Graphic Resource for Free Download"
       />
+
       <Spacing space={{ height: "3rem" }} />
+
       <Container>
         <SectionHeading title="Recent Images" large />
         <Grid classes={{ container: classes.container }} container spacing={2}>
@@ -126,6 +111,7 @@ const Recent = () => {
             </>
           )}
         </Grid>
+
         {totalProduct > limit && (
           <Paginations
             locationPath={locationPath}
@@ -147,21 +133,6 @@ const Recent = () => {
 
       <Spacing space={{ height: "2.5rem" }} />
 
-      {/* <Container>
-        <SectionHeading title="Top Selling Author" large>
-          <Button
-            className={classes.headingButton}
-            component={Link}
-            to="/sellers"
-          >
-            See More
-          </Button>
-        </SectionHeading>
-      </Container> */}
-
-      {/* Top selling author */}
-      {/* <TopSeller homeTopSeller /> */}
-      {/* BLOG SECTION */}
       <Blog />
 
       <Footer />

@@ -163,7 +163,7 @@ const Product = ({ photo = null }) => {
               to={pikTaskEncodeURI(photo)}
               title={photo.title}
             >
-              <Typography variant="h2" className={classes.title}>
+              <Typography variant="h3" className={classes.title}>
                 {titleLength?.length > 5 ? (
                   <>{getWords(5, photo?.title)}...</>
                 ) : (

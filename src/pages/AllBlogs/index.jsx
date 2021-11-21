@@ -12,6 +12,7 @@ import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
 import Layout from "../../Layout";
+import { getBaseURL } from "./../../helpers/index";
 
 const useStyles = makeStyles((theme) => ({
   postsWrapper: {
@@ -28,20 +29,32 @@ const useStyles = makeStyles((theme) => ({
 const AllBlogs = () => {
   const classes = useStyles();
   const [blogsPost, setBlogsPost] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
-    setLoading(true);
     axios.get(`${process.env.REACT_APP_API_URL}/blogs/`).then(({ data }) => {
       if (data?.status) {
         setBlogsPost(data?.blogs);
+        setThumbnail(data?.blogs[0]);
         setLoading(false);
       }
     });
   }, []);
 
+  const imageThumbnail = encodeURI(
+    `${getBaseURL().bucket_base_url}${getBaseURL().images}${
+      thumbnail?.thumbnail
+    }`
+  );
+
   return (
-    <Layout title="All Blog Posts | Piktask" canonical={document.URL}>
+    <Layout
+      title="All Blog Posts | Piktask"
+      canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={imageThumbnail}
+    >
       <Header />
       <HeroSection size="medium" blogsTitle isSearch />
       <Spacing space={{ height: "3rem" }} />

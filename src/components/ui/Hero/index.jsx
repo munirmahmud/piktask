@@ -31,6 +31,7 @@ const HeroSection = (props) => {
     cookiesPolicy,
     support,
     blogsTitle,
+    heroTitle,
     guidLine,
     contact,
     contributorUser,
@@ -174,7 +175,7 @@ const HeroSection = (props) => {
           className={classes.heroWrapper}
           style={{
             backgroundImage: `url(${heroBG})`,
-            minHeight: size === "large" ? "30rem" : "15rem",
+            minHeight: size === "large" ? "30rem" : "20rem",
           }}
         >
           <Container>
@@ -185,6 +186,7 @@ const HeroSection = (props) => {
                   color="white"
                   center
                   size={size}
+                  heroTitle
                 />
               )}
 
