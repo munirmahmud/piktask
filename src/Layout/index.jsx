@@ -8,12 +8,9 @@ const Layout = (props) => {
     author = "",
     children,
     canonical,
-    ogTitle,
-    ogDescription,
     ogType,
     ogUrl,
     ogImage,
-    ogImageAlt,
     ...others
   } = props;
 
@@ -21,7 +18,7 @@ const Layout = (props) => {
     window.scrollTo(0, 0);
 
     // Before passing any props for the Layout component please check the relavant meta tags are available in the index.html file that is located in the public folder.
-    title && (document.title = title);
+    title && (document.title = `${title} | Piktask`);
     author && (document.querySelector('meta[name="author"]').content = author);
     description &&
       (document.querySelector('meta[name="description"]').content =
@@ -32,46 +29,36 @@ const Layout = (props) => {
     canonical &&
       (document.querySelector('link[rel="canonical"]').href = canonical);
 
-    ogTitle &&
-      (document.querySelector('meta[property="og:title"]').content = ogTitle);
-    ogTitle &&
-      (document.querySelector('meta[property="og:description"]').content =
-        ogTitle);
-    ogTitle &&
-      (document.querySelector('meta[name="twitter:title"]').content = ogTitle);
+    title &&
+      (document.querySelector('meta[property="og:title"]').content = title);
 
-    ogUrl && (document.querySelector('meta[name="og:url"]').content = ogUrl);
+    description &&
+      (document.querySelector('meta[property="og:description"]').content =
+        description);
+
+    title &&
+      (document.querySelector('meta[name="twitter:title"]').content = title);
+
+    ogUrl &&
+      (document.querySelector('meta[property="og:url"]').content = ogUrl);
 
     ogImage &&
-      (document.querySelector('meta[name="og:image"]').content = ogImage);
+      (document.querySelector('meta[property="og:image"]').content = ogImage);
 
-    ogImageAlt &&
-      (document.querySelector('meta[name="og:image:alt"]').content =
-        ogImageAlt);
+    title &&
+      (document.querySelector('meta[property="og:image:alt"]').content = title);
 
     ogImage &&
       (document.querySelector('meta[name="twitter:image:src"]').content =
         ogImage);
 
-    ogImage &&
-      (document.querySelector('meta[name="twitter:url"]').content = ogImage);
+    ogUrl &&
+      (document.querySelector('meta[name="twitter:url"]').content = ogUrl);
 
-    ogImage &&
+    description &&
       (document.querySelector('meta[name="twitter:description"]').content =
-        ogImage);
-  }, [
-    title,
-    description,
-    keywords,
-    author,
-    canonical,
-    ogTitle,
-    ogDescription,
-    ogUrl,
-    ogType,
-    ogImage,
-    ogImageAlt,
-  ]);
+        description);
+  }, [title, description, keywords, author, canonical, ogUrl, ogType, ogImage]);
 
   return <main {...others}>{children}</main>;
 };
