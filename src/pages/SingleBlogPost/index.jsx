@@ -46,6 +46,7 @@ const SingleBlogPost = () => {
   const [openAuthModal, setOpenAuthModal] = useState(false);
 
   const [blogDetails, setBlogDetails] = useState([]);
+  const [thumbnail, setThumbnail] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   const [recentBlogsPost, setRecentBlogsPost] = useState([]);
@@ -59,6 +60,11 @@ const SingleBlogPost = () => {
       .then(({ data }) => {
         if (data?.status) {
           setBlogDetails(data?.blog);
+          setThumbnail(
+            `${getBaseURL().bucket_base_url}${getBaseURL().blog_images}${
+              data?.blog?.thumbnail
+            }`
+          );
           setLoading(false);
         }
       });
@@ -115,6 +121,8 @@ const SingleBlogPost = () => {
       title={`${blogDetails?.title} | Piktask`}
       description={`${blogDetails?.description?.split("\n")[0]}`}
       canonical={document.URL}
+      ogUrl={document.URL}
+      ogImage={thumbnail}
     >
       <Header />
       <HeroSection size="medium" />
@@ -123,14 +131,7 @@ const SingleBlogPost = () => {
         <Grid container spacing={3} className={classes.blogContainer}>
           <Grid item sm={8} md={8} xs={12} className={classes.blogsItem}>
             <div className={classes.blogImageWrapper}>
-              <img
-                src={
-                  getBaseURL().bucket_base_url +
-                  getBaseURL().blog_images +
-                  blogDetails?.thumbnail
-                }
-                alt={blogDetails?.category}
-              />
+              <img src={thumbnail} alt={blogDetails?.category} />
             </div>
 
             <Spacing space={{ height: "2rem" }} />
@@ -205,14 +206,7 @@ const SingleBlogPost = () => {
             <Spacing space={{ height: "3rem" }} />
 
             <div className={classes.blogImageWrapper}>
-              <img
-                src={
-                  getBaseURL().bucket_base_url +
-                  getBaseURL().blog_images +
-                  blogDetails?.thumbnail
-                }
-                alt={blogDetails?.category}
-              />
+              <img src={thumbnail} alt={blogDetails?.category} />
             </div>
             <Spacing space={{ height: "4rem" }} />
             <div className={classes.blogContent}>
