@@ -2,6 +2,7 @@ import { Button, Container } from "@material-ui/core";
 import { lazy, Suspense, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import piktaskImg from "../../assets/piktask.jpg";
 import Spacing from "../../components/Spacing";
 import { CategoryCarousel } from "../../components/ui/Carousel";
 import Header from "../../components/ui/Header";
@@ -28,46 +29,29 @@ const Home = () => {
     setScrolling(window.pageYOffset);
     let currentPosition = scrolling;
 
-    if (
-      categories.length &&
-      currentPosition % 50 > 30 &&
-      index < categories.length
-    ) {
+    if (categories.length && currentPosition % 50 > 30 && index < categories.length) {
       const category = categories[index];
       setIndex((index) => index + 1);
       popularCats.push(category);
     }
   };
-
+  console.log(`${process.env.PUBLIC_URL}/piktask.jpg`);
   return (
     <Layout
       title="Graphic Resources for Free Download | Piktask"
       description="Graphic Resources for Free Download"
-      ogTitle="Free vectors, stock photos, & PSD download | Piktask"
-      ogDescription="Free vectors, stock photos, & PSD download | Piktask"
-      ogTitle=""
-      ogDescription=""
       ogUrl=""
       ogType=""
+      twitterImg={`${document.URL}${piktaskImg}`}
     >
       <Header />
       {/* <Suspense fallback={<h1>Loading...</h1>}> */}
-      <HeroSection
-        size="large"
-        popularKeywords
-        heroButton
-        heroTitle
-        title="Graphic Resources for Free Download"
-      />
+      <HeroSection size="large" popularKeywords heroButton heroTitle title="Graphic Resources for Free Download" />
       {/* </Suspense> */}
       <Container>
         <Spacing space={{ height: "3rem" }} />
         <SectionHeading title="Popular Album Collection" large>
-          <Button
-            className={classes.headingButton}
-            component={Link}
-            to="/categories"
-          >
+          <Button className={classes.headingButton} component={Link} to="/categories">
             See More
           </Button>
         </SectionHeading>
@@ -94,12 +78,7 @@ const Home = () => {
         {popularCats?.length &&
           popularCats.map((category, index) => (
             <Container key={category?.id}>
-              <Products
-                key={category?.id}
-                category={category}
-                showHeading
-                count={8}
-              />
+              <Products key={category?.id} category={category} showHeading count={8} />
             </Container>
           ))}
       </Suspense>
