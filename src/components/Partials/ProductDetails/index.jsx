@@ -102,6 +102,7 @@ const ProductDetails = (props) => {
       <Grid item md={7} sm={6} xs={12} className={classes.productColumn}>
         <ProductImage setThumbnail={setThumbnail} imageDetails={imageDetails} />
       </Grid>
+
       <Grid item md={5} sm={6} xs={12} className={classes.productColumn}>
         <ProductInfo
           productDetails={{

@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const ProductImage = ({ imageDetails, setThumbnail }) => {
   const classes = useStyles();
   const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${imageDetails?.preview}`);
+
   useEffect(() => {
     setThumbnail(imageThumbnail);
   }, [setThumbnail, imageThumbnail]);

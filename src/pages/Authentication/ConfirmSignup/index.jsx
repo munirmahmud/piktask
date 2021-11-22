@@ -66,11 +66,11 @@ const ConfirmSignup = () => {
             setLoading(true);
             setRole(res?.data.role);
             setToken("");
+            setRedirectTo(true);
           }
         })
         .catch((error) => {
-          console.log("Verify account error: ", error);
-          toast.error(error.message);
+          toast.error(error.response.data.message);
           setLoading(true);
           setToken("");
         });
