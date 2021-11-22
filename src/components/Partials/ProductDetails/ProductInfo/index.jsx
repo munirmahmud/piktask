@@ -2,7 +2,7 @@ import { Button, Grid, Typography } from "@material-ui/core";
 import moment from "moment";
 import React, { useState } from "react";
 import shareIcon from "../../../../assets/icons/share.svg";
-// import AuthorSocialMedia from "../../AuthorSocialMedia";
+import AuthorSocialMedia from "../../AuthorSocialMedia";
 import SocialShareDialog from "../../SocialShareDialog";
 import AuthorProfileInfo from "./../../AuthorProfileInfo/index";
 import CopyLink from "./../../CopyLink/index";
@@ -92,9 +92,9 @@ const ProductInfo = ({ productDetails }) => {
           </Grid>
         </Grid>
 
-        {/* <Grid container>
+        <Grid container>
           <AuthorSocialMedia productDetails={productDetails} />
-        </Grid> */}
+        </Grid>
 
         {/* <div className={classes.premiumInfo}>
                 <Typography variant="h4">

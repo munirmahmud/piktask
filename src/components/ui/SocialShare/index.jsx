@@ -1,72 +1,23 @@
-import { List, Typography } from "@material-ui/core";
+import { List } from "@material-ui/core";
 import React from "react";
-import facebookLogo from "../../../assets/icons/facebook-round.svg";
-import instagramLogo from "../../../assets/icons/instagram-round.svg";
-import twitterLogo from "../../../assets/icons/twitter-round.svg";
 import useStyles from "./SocialShare.styles";
 
-const SocialShare = ({
-  title,
-  textCase,
-  socialMedias,
-  position,
-  profileInfo,
-}) => {
+const SocialShare = (props) => {
   const classes = useStyles();
+  const { socials, copyRightSocial } = props;
 
   return (
     <div className={classes.container}>
-      <Typography
-        className={classes.title}
-        style={{
-          textTransform: textCase === "uppercase" ? "uppercase" : "capitalize",
-        }}
-      >
-        {title}
-      </Typography>
-
       <List>
-        {profileInfo?.facebook && (
-          <a href={profileInfo?.facebook} target="_blank" rel="noreferrer">
-            <img
-              className={classes.socialIcon}
-              src={facebookLogo}
-              alt={facebookLogo}
-            />
-          </a>
-        )}
-
-        {profileInfo?.instagram && (
-          <a href={profileInfo?.instagram} target="_blank" rel="noreferrer">
-            <img
-              className={classes.socialIcon}
-              src={instagramLogo}
-              alt={instagramLogo}
-            />
-          </a>
-        )}
-
-        {profileInfo?.twitter && (
-          <a href={profileInfo?.twitter} target="_blank" rel="noreferrer">
-            <img
-              className={classes.socialIcon}
-              src={twitterLogo}
-              alt={twitterLogo}
-            />
-          </a>
-        )}
-      </List>
-
-      <List>
-        {socialMedias &&
-          socialMedias?.map((media, index) => (
-            <a key={index} href={media.url} target="_blank" rel="noreferrer">
-              <img
-                className={classes.socialIcon}
-                src={media.image}
-                alt={media.name}
-              />
-            </a>
+        {socials?.length > 0 &&
+          socials?.map((media, index) => (
+            <>
+              {media.socialUrl && (
+                <a key={index} href={media.socialUrl} target="_blank" rel="noreferrer">
+                  <img className={copyRightSocial ? `${classes.socialIcon}` : `${classes.socialMedia}`} src={media.socialIcon} alt={media.socialUrl} />
+                </a>
+              )}
+            </>
           ))}
       </List>
     </div>
