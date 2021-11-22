@@ -14,41 +14,34 @@ import useStyles from "./CopyRight.styles";
 
 const CopyRight = () => {
   const classes = useStyles();
-  const socialMedias = [
+  const socialMedia = [
     {
-      name: "Dribbble",
-      url: "https://dribbble.com/piktask",
-      image: dribbble,
+      socialUrl: "https://dribbble.com/piktask",
+      socialIcon: dribbble,
     },
     {
-      name: "Behance",
-      url: "https://www.behance.net/piktask/",
-      image: behance,
+      socialUrl: "https://www.behance.net/piktask/",
+      socialIcon: behance,
     },
     {
-      name: "Instagram",
-      url: "https://www.instagram.com/piktaskltd/",
-      image: instagram,
+      socialUrl: "https://www.instagram.com/piktaskltd/",
+      socialIcon: instagram,
     },
     {
-      name: "Facebook",
-      url: "https://www.facebook.com/piktaskltd",
-      image: facebook,
+      socialUrl: "https://www.facebook.com/piktaskltd",
+      socialIcon: facebook,
     },
     {
-      name: "Pinterest",
-      url: "https://www.pinterest.com/piktaskltd",
-      image: pinterest,
+      socialUrl: "https://www.pinterest.com/piktaskltd",
+      socialIcon: pinterest,
     },
     {
-      name: "LinkedIn",
-      url: "https://www.linkedin.com/company/piktask/",
-      image: linkedIn,
+      socialUrl: "https://www.linkedin.com/company/piktask/",
+      socialIcon: linkedIn,
     },
     {
-      name: "YouTube",
-      url: "https://www.youtube.com/channel/UCoZMhCh5CVHIjBbQhfZ_k0A",
-      image: youTube,
+      socialUrl: "https://www.youtube.com/channel/UCoZMhCh5CVHIjBbQhfZ_k0A",
+      socialIcon: youTube,
     },
   ];
 
@@ -64,13 +57,11 @@ const CopyRight = () => {
             </Grid>
 
             <Grid item xs={12} sm={6} md={6}>
-              <Typography className={classes.copyRightText}>
-                &copy; Piktask International Ltd. {new Date().getFullYear()}
-              </Typography>
+              <Typography className={classes.copyRightText}>&copy; Piktask International Ltd. {new Date().getFullYear()}</Typography>
             </Grid>
 
             <Grid item xs={12} sm={3} md={3}>
-              <SocialShare socialMedias={socialMedias} />
+              <SocialShare copyRightSocial socials={socialMedia} />
             </Grid>
           </Grid>
         </div>

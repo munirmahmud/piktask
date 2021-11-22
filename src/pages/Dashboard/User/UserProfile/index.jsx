@@ -1,14 +1,6 @@
 import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Button,
-  Container,
-  FormControl,
-  FormControlLabel,
-  Grid,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, Container, FormControl, FormControlLabel, Grid, TextField, Typography } from "@material-ui/core";
 import Switch from "@mui/material/Switch";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
@@ -32,8 +24,7 @@ import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import Layout from "../../../../Layout";
 import useStyles from "./UserProfile.style";
-const clientId =
-  "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
+const clientId = "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
 
 const UserProfile = () => {
   const classes = useStyles();
@@ -53,7 +44,7 @@ const UserProfile = () => {
   const [shutterstock, setShutterstock] = useState("");
   const [pinterest, setPinterest] = useState("");
   const [behance, setBehance] = useState("");
-  const [dribble, setDribble] = useState("");
+  const [dribbble, setDribbble] = useState("");
   const [facebook, setFacebook] = useState("");
   const [twitter, setTwitter] = useState("");
   const [linkedin, setLinkedin] = useState("");
@@ -101,7 +92,7 @@ const UserProfile = () => {
             setShutterstock(data.user.shutterstock);
             setPinterest(data.user.pinterest);
             setBehance(data.user.behance);
-            setDribble(data.user.dribble);
+            setDribbble(data.user.dribbble);
             setFacebook(data.user.facebook);
             setTwitter(data.user.twitter);
             setLinkedin(data.user.linkedin);
@@ -153,8 +144,8 @@ const UserProfile = () => {
       formData.append("behance", behance);
       emptyFieldCheck++;
     }
-    if (dribble) {
-      formData.append("dribble", dribble);
+    if (dribbble) {
+      formData.append("dribbble", dribbble);
       emptyFieldCheck++;
     }
     if (facebook) {
@@ -201,16 +192,13 @@ const UserProfile = () => {
 
   //login with google
   const handleGoogleLogin = async (googleData) => {
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/auth/google_login`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          token: googleData.tokenId,
-        }),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/google_login`, {
+      method: "POST",
+      body: JSON.stringify({
+        token: googleData.tokenId,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
     const data = await res.json();
     if (data.status) {
       const token = data.token;
@@ -277,10 +265,7 @@ const UserProfile = () => {
             <div className={classes.userProfileRoot}>
               <div className={classes.headingWrapper}>
                 <div>
-                  <Typography
-                    className={classes.settingsFormTitle}
-                    variant="h4"
-                  >
+                  <Typography className={classes.settingsFormTitle} variant="h4">
                     Connect
                   </Typography>
                 </div>
@@ -289,15 +274,8 @@ const UserProfile = () => {
                   <GoogleLogin
                     clientId={clientId}
                     render={(renderProps) => (
-                      <Button
-                        className={classes.googleButton}
-                        onClick={renderProps.onClick}
-                        disabled={renderProps.disabled}
-                      >
-                        <FontAwesomeIcon
-                          className={classes.googleIcon}
-                          icon={faGoogle}
-                        />
+                      <Button className={classes.googleButton} onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        <FontAwesomeIcon className={classes.googleIcon} icon={faGoogle} />
                         <span>{!mobileView && "Connect"} Google</span>
                       </Button>
                     )}
@@ -316,15 +294,8 @@ const UserProfile = () => {
                     onClick={handleFacebookLogin}
                     callback={handleFacebookLogin}
                     render={(renderProps) => (
-                      <Button
-                        className={classes.facebookBtn}
-                        onClick={renderProps.onClick}
-                        disabled={renderProps.disabled}
-                      >
-                        <FontAwesomeIcon
-                          className={classes.facebookIconBtn}
-                          icon={faFacebookF}
-                        />
+                      <Button className={classes.facebookBtn} onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        <FontAwesomeIcon className={classes.facebookIconBtn} icon={faFacebookF} />
                         <span>{!mobileView && "Connect"} Facebook</span>
                       </Button>
                     )}
@@ -334,21 +305,11 @@ const UserProfile = () => {
 
               <hr className={classes.separator} />
 
-              <form
-                onSubmit={handleSubmit}
-                className={classes.selectPeriodFrom}
-              >
+              <form onSubmit={handleSubmit} className={classes.selectPeriodFrom}>
                 <div className={classes.cardRoot}>
-                  <Grid
-                    className={classes.profileInfoField}
-                    container
-                    spacing={0}
-                  >
+                  <Grid className={classes.profileInfoField} container spacing={0}>
                     <Grid item xs={12} md={6} sm={6}>
-                      <Typography
-                        className={classes.personalInfoTitle}
-                        variant="h4"
-                      >
+                      <Typography className={classes.personalInfoTitle} variant="h4">
                         Personal data
                       </Typography>
 
@@ -402,31 +363,14 @@ const UserProfile = () => {
                     </Grid>
 
                     <Grid item xs={12} md={6} sm={6}>
-                      <Typography
-                        className={classes.accountInfoTitle}
-                        variant="h4"
-                      >
+                      <Typography className={classes.accountInfoTitle} variant="h4">
                         Account Information
                       </Typography>
 
                       <div className={classes.personalDataField}>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          label="User Name"
-                          className={classes.formControl}
-                          name="username"
-                          value={username}
-                        />
+                        <TextField fullWidth variant="outlined" label="User Name" className={classes.formControl} name="username" value={username} />
 
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          label="Email"
-                          className={classes.formControl}
-                          name="email"
-                          value={email}
-                        />
+                        <TextField fullWidth variant="outlined" label="Email" className={classes.formControl} name="email" value={email} />
 
                         <TextField
                           error={!!errors.website}
@@ -441,16 +385,10 @@ const UserProfile = () => {
                         />
 
                         <div className={classes.dataChangeBtn}>
-                          <Link
-                            to="/reset-password"
-                            className={classes.passwordResetLink}
-                          >
+                          <Link to="/reset-password" className={classes.passwordResetLink}>
                             Forget Password?
                           </Link>
-                          <Button
-                            type="submit"
-                            className={classes.profileInfoSaveBtn}
-                          >
+                          <Button type="submit" className={classes.profileInfoSaveBtn}>
                             Save Changes
                           </Button>
                         </div>
@@ -460,10 +398,7 @@ const UserProfile = () => {
 
                   {/* Professional Portfolio section start  */}
                   <div className={classes.portfolioHeadingWrapper}>
-                    <Typography
-                      className={classes.settingsFormTitle}
-                      variant="h4"
-                    >
+                    <Typography className={classes.settingsFormTitle} variant="h4">
                       Professional Portfolio
                     </Typography>
 
@@ -471,18 +406,9 @@ const UserProfile = () => {
                   </div>
 
                   <div className={classes.cardWrapper}>
-                    <div
-                      className={`${classes.fieldsGroup} ${classes.linkField}`}
-                    >
-                      <FormControl
-                        fullWidth
-                        classes={{ fullWidth: classes.fullWidth }}
-                        className={classes.portfolioLink}
-                      >
-                        <label
-                          htmlFor="shutterstock"
-                          className={classes.portfolioIconWrapper}
-                        >
+                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                        <label htmlFor="shutterstock" className={classes.portfolioIconWrapper}>
                           <img src={shutterstockLogo} alt="Shutterstock Icon" />
                         </label>
                         <TextField
@@ -499,18 +425,9 @@ const UserProfile = () => {
                       </FormControl>
                     </div>
 
-                    <div
-                      className={`${classes.fieldsGroup} ${classes.linkField}`}
-                    >
-                      <FormControl
-                        fullWidth
-                        classes={{ fullWidth: classes.fullWidth }}
-                        className={classes.portfolioLink}
-                      >
-                        <label
-                          htmlFor="pinterest"
-                          className={classes.portfolioIconWrapper}
-                        >
+                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                        <label htmlFor="pinterest" className={classes.portfolioIconWrapper}>
                           <img src={pinterestIcon} alt="Pinterest Icon" />
                         </label>
                         <TextField
@@ -527,18 +444,9 @@ const UserProfile = () => {
                       </FormControl>
                     </div>
 
-                    <div
-                      className={`${classes.fieldsGroup} ${classes.linkField}`}
-                    >
-                      <FormControl
-                        fullWidth
-                        classes={{ fullWidth: classes.fullWidth }}
-                        className={classes.portfolioLink}
-                      >
-                        <label
-                          htmlFor="behance"
-                          className={classes.portfolioIconWrapper}
-                        >
+                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                        <label htmlFor="behance" className={classes.portfolioIconWrapper}>
                           <img src={behanceIcon} alt="Behance Icon" />
                         </label>
                         <TextField
@@ -555,63 +463,38 @@ const UserProfile = () => {
                       </FormControl>
                     </div>
 
-                    <div
-                      className={`${classes.fieldsGroup} ${classes.linkField}`}
-                    >
-                      <FormControl
-                        fullWidth
-                        classes={{ fullWidth: classes.fullWidth }}
-                        className={classes.portfolioLink}
-                      >
-                        <label
-                          htmlFor="dribbble"
-                          className={classes.portfolioIconWrapper}
-                        >
+                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                        <label htmlFor="dribbble" className={classes.portfolioIconWrapper}>
                           <img src={dribbbleIcon} alt="Dribbble Icon" />
                         </label>
                         <TextField
                           id="dribbble"
-                          error={!!errors.dribble}
-                          helperText={errors.dribble}
+                          error={!!errors.dribbble}
+                          helperText={errors.dribbble}
                           label="Your Dribbble Account"
                           variant="outlined"
                           className={`${classes.inputField}`}
                           placeholder="Your Dribbble Account"
-                          value={dribble}
-                          onChange={(e) => setDribble(e.target.value)}
+                          value={dribbble}
+                          onChange={(e) => setDribbble(e.target.value)}
                         />
                       </FormControl>
                     </div>
                   </div>
 
                   <div className={classes.socialHeadingWrapper}>
-                    <Typography
-                      className={classes.settingsFormTitle}
-                      variant="h4"
-                    >
+                    <Typography className={classes.settingsFormTitle} variant="h4">
                       Social Link
                     </Typography>
 
                     <hr className={classes.separator} />
                   </div>
                   <div className={classes.cardWrapper}>
-                    <div
-                      className={`${classes.fieldsGroup} ${classes.linkField}`}
-                    >
-                      <FormControl
-                        fullWidth
-                        classes={{ fullWidth: classes.fullWidth }}
-                        className={classes.portfolioLink}
-                      >
-                        <label
-                          htmlFor="facebook"
-                          className={classes.portfolioIconWrapper}
-                        >
-                          <img
-                            src={facebookLogo}
-                            className={classes.facebookIcon}
-                            alt="Facebook Icon"
-                          />
+                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                        <label htmlFor="facebook" className={classes.portfolioIconWrapper}>
+                          <img src={facebookLogo} className={classes.facebookIcon} alt="Facebook Icon" />
                         </label>
                         <TextField
                           id="facebook"
@@ -627,18 +510,9 @@ const UserProfile = () => {
                       </FormControl>
                     </div>
 
-                    <div
-                      className={`${classes.fieldsGroup} ${classes.linkField}`}
-                    >
-                      <FormControl
-                        fullWidth
-                        classes={{ fullWidth: classes.fullWidth }}
-                        className={classes.portfolioLink}
-                      >
-                        <label
-                          htmlFor="twitter"
-                          className={classes.portfolioIconWrapper}
-                        >
+                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                        <label htmlFor="twitter" className={classes.portfolioIconWrapper}>
                           <img src={twitterLogo} alt="Twitter Icon" />
                         </label>
                         <TextField
@@ -655,18 +529,9 @@ const UserProfile = () => {
                       </FormControl>
                     </div>
 
-                    <div
-                      className={`${classes.fieldsGroup} ${classes.linkField}`}
-                    >
-                      <FormControl
-                        fullWidth
-                        classes={{ fullWidth: classes.fullWidth }}
-                        className={classes.portfolioLink}
-                      >
-                        <label
-                          htmlFor="linkedin"
-                          className={classes.portfolioIconWrapper}
-                        >
+                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                        <label htmlFor="linkedin" className={classes.portfolioIconWrapper}>
                           <img src={linkedinLogo} alt="Linkedin Icon" />
                         </label>
                         <TextField
@@ -683,18 +548,9 @@ const UserProfile = () => {
                       </FormControl>
                     </div>
 
-                    <div
-                      className={`${classes.fieldsGroup} ${classes.linkField}`}
-                    >
-                      <FormControl
-                        fullWidth
-                        classes={{ fullWidth: classes.fullWidth }}
-                        className={classes.portfolioLink}
-                      >
-                        <label
-                          htmlFor="instagram"
-                          className={classes.portfolioIconWrapper}
-                        >
+                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                        <label htmlFor="instagram" className={classes.portfolioIconWrapper}>
                           <img src={instagramLogo} alt="Instagram Icon" />
                         </label>
                         <TextField
@@ -713,16 +569,9 @@ const UserProfile = () => {
                   </div>
 
                   <div className={classes.buttonGroup}>
-                    <Button
-                      className={`${classes.settingsBtn} ${classes.restoreBtn}`}
-                    >
-                      Cancel
-                    </Button>
+                    <Button className={`${classes.settingsBtn} ${classes.restoreBtn}`}>Cancel</Button>
 
-                    <Button
-                      type="submit"
-                      className={`${classes.settingsBtn} ${classes.saveBtn}`}
-                    >
+                    <Button type="submit" className={`${classes.settingsBtn} ${classes.saveBtn}`}>
                       Save Changes
                     </Button>
                   </div>
@@ -732,28 +581,17 @@ const UserProfile = () => {
                   </Typography>
 
                   <div className={classes.getNews}>
-                    <Typography className={classes.getNewsTitle}>
-                      I wish to receive newsletters,promotions and news from
-                      Piktask Company
-                    </Typography>
+                    <Typography className={classes.getNewsTitle}>I wish to receive newsletters,promotions and news from Piktask Company</Typography>
                     <FormControlLabel
-                      control={
-                        <Switch
-                          checked={checked}
-                          onChange={handleChange}
-                          inputProps={{ "aria-label": "controlled" }}
-                        />
-                      }
+                      control={<Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />}
                       label="Primary"
                     />
                   </div>
 
                   <div className={classes.basicInfo}>
                     <Typography>
-                      Basic information on Data Protection: Piktask Company
-                      stores your data to improve the service and, with your
-                      consent, offers news, promotions and raffles, as well as
-                      projects and releases from Piktask Company.
+                      Basic information on Data Protection: Piktask Company stores your data to improve the service and, with your consent, offers news,
+                      promotions and raffles, as well as projects and releases from Piktask Company.
                       <Link to="#" className={classes.moreInfo}>
                         More information
                       </Link>

@@ -1,16 +1,4 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@material-ui/core";
+import { Button, Card, CardContent, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -33,32 +21,22 @@ const AuthorFiles = () => {
   useEffect(() => {
     // Author last file API integration
     if (user?.isLoggedIn && user?.role === "contributor") {
-      axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=5`,
-          { headers: { Authorization: user?.token } }
-        )
-        .then(({ data }) => {
-          if (data?.status) {
-            setAuthorFiles(data?.images);
-            setLoading(false);
-          }
-        });
+      axios.get(`${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=5`, { headers: { Authorization: user?.token } }).then(({ data }) => {
+        if (data?.status) {
+          setAuthorFiles(data?.images);
+          setLoading(false);
+        }
+      });
     }
 
     // Piktask top file API  integration
     if (user?.isLoggedIn && user?.role === "contributor") {
-      axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/dashboard/top_files?limit=5`,
-          { headers: { Authorization: user?.token } }
-        )
-        .then(({ data }) => {
-          if (data?.status) {
-            setTopFiles(data?.images);
-            setLoading(false);
-          }
-        });
+      axios.get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/top_files?limit=5`, { headers: { Authorization: user?.token } }).then(({ data }) => {
+        if (data?.status) {
+          setTopFiles(data?.images);
+          setLoading(false);
+        }
+      });
     }
   }, [user?.token, user?.role, user?.isLoggedIn]);
 
@@ -69,53 +47,29 @@ const AuthorFiles = () => {
           <CardContent className={classes.authorCard}>
             <div className={classes.cardHeading}>
               <Heading tag="h2">Your Last File's</Heading>
-              <Button
-                className={classes.loadMoreBtn}
-                component={Link}
-                to={`/contributor/publish`}
-              >
+              <Button className={classes.loadMoreBtn} component={Link} to={`/contributor/publish`}>
                 Load more
               </Button>
             </div>
-            <TableContainer
-              className={classes.tableContainer}
-              component={Paper}
-            >
+            <TableContainer className={classes.tableContainer} component={Paper}>
               <Table className={classes.table} aria-label="earning data table">
                 <TableHead>
                   <TableRow className={classes.tableHead}>
                     <TableCell className={classes.tableCell}></TableCell>
                     <TableCell className={classes.tableCell}>Type</TableCell>
-                    <TableCell className={classes.tableCell}>
-                      Download
-                    </TableCell>
+                    <TableCell className={classes.tableCell}>Download</TableCell>
                     <TableCell className={classes.tableCell}>Earning</TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
                   {authorFiles?.map((authLastFile) => (
-                    <TableRow
-                      key={authLastFile?.id}
-                      className={classes.tableRowContent}
-                    >
-                      <TableCell
-                        className={`${classes.tableCell} ${classes.authProductWrapper}`}
-                      >
-                        <Link
-                          to={encodeURI(
-                            `/images/${authLastFile?.title
-                              .toLowerCase()
-                              .replace(/\s/g, "-")}&id=${authLastFile?.id}`
-                          )}
-                        >
+                    <TableRow key={authLastFile?.id} className={classes.tableRowContent}>
+                      <TableCell className={`${classes.tableCell} ${classes.authProductWrapper}`}>
+                        <Link to={encodeURI(`/images/${authLastFile?.title.toLowerCase().replace(/\s/g, "-")}&id=${authLastFile?.id}`)}>
                           <img
                             className={classes.earningImg}
-                            src={encodeURI(
-                              getBaseURL().bucket_base_url +
-                                getBaseURL().images +
-                                authLastFile?.preview
-                            )}
+                            src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + authLastFile?.preview)}
                             alt={authLastFile?.title}
                           />
                         </Link>
@@ -126,12 +80,8 @@ const AuthorFiles = () => {
                                 </div>
                               )} */}
                       </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {authLastFile?.extension}
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {authLastFile?.total_downloads}
-                      </TableCell>
+                      <TableCell className={classes.tableCell}>{authLastFile?.extension}</TableCell>
+                      <TableCell className={classes.tableCell}>{authLastFile?.total_downloads}</TableCell>
                       <TableCell className={classes.tableCell}>
                         <AttachMoneyIcon />
                         {authLastFile?.earn_per_image}
@@ -154,45 +104,25 @@ const AuthorFiles = () => {
               </Heading>
             </div>
 
-            <TableContainer
-              className={classes.tableContainer}
-              component={Paper}
-            >
+            <TableContainer className={classes.tableContainer} component={Paper}>
               <Table className={classes.table} aria-label="earning data table">
                 <TableHead>
                   <TableRow className={classes.tableHead}>
                     <TableCell className={classes.tableCell}></TableCell>
                     <TableCell className={classes.tableCell}>Type</TableCell>
-                    <TableCell className={classes.tableCell}>
-                      Downloads
-                    </TableCell>
+                    <TableCell className={classes.tableCell}>Downloads</TableCell>
                     <TableCell className={classes.tableCell}>Author</TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
                   {topFiles?.map((topFile) => (
-                    <TableRow
-                      key={topFile?.id}
-                      className={classes.tableRowContent}
-                    >
-                      <TableCell
-                        className={`${classes.tableCell} ${classes.authProductWrapper}`}
-                      >
-                        <Link
-                          to={encodeURI(
-                            `/images/${topFile?.title
-                              .toLowerCase()
-                              .replace(/\s/g, "-")}&id=${topFile?.id}`
-                          )}
-                        >
+                    <TableRow key={topFile?.id} className={classes.tableRowContent}>
+                      <TableCell className={`${classes.tableCell} ${classes.authProductWrapper}`}>
+                        <Link to={encodeURI(`/images/${topFile?.title.toLowerCase().replace(/\s/g, "-")}&id=${topFile?.id}`)}>
                           <img
                             className={classes.earningImg}
-                            src={encodeURI(
-                              getBaseURL().bucket_base_url +
-                                getBaseURL().images +
-                                topFile?.preview
-                            )}
+                            src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + topFile?.preview)}
                             alt={topFile?.title}
                           />
                         </Link>
@@ -202,35 +132,17 @@ const AuthorFiles = () => {
                                 </div>
                               )} */}
                       </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {topFile?.extension}
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {topFile?.total_downloads}
-                      </TableCell>
-                      <TableCell
-                        className={`${classes.tableCell} ${classes.authorImgWrapper}`}
-                      >
+                      <TableCell className={classes.tableCell}>{topFile?.extension}</TableCell>
+                      <TableCell className={classes.tableCell}>{topFile?.total_downloads}</TableCell>
+                      <TableCell className={`${classes.tableCell} ${classes.authorImgWrapper}`}>
                         <Link to={`/author/${topFile?.username}`}>
                           {topFile?.avatar ? (
-                            <img
-                              className={classes.authorImg}
-                              src={topFile?.avatar}
-                              alt={topFile?.username}
-                            />
+                            <img className={classes.authorImg} src={getBaseURL().bucket_base_url + "/" + topFile?.avatar} alt={topFile?.username} />
                           ) : (
-                            <img
-                              className={classes.authorImg}
-                              src={authorPhoto}
-                              alt={topFile?.username}
-                            />
+                            <img className={classes.authorImg} src={authorPhoto} alt={topFile?.username} />
                           )}
                         </Link>
-                        <img
-                          className={classes.bestAuthorBadge}
-                          src={authorBadge}
-                          alt="Badge"
-                        />
+                        <img className={classes.bestAuthorBadge} src={authorBadge} alt="Badge" />
                       </TableCell>
                     </TableRow>
                   ))}

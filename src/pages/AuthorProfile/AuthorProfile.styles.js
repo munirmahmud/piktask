@@ -126,31 +126,12 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: "0.7rem",
       paddingRight: "0.7rem",
     },
-    // backgroundColor: theme.palette.secondary.main,
-    // border: "2 ",
-    // // boxShadow: "none",
-    // borderRadius: 0,
-    // // fontSize: "1.4rem",
-    // fontWeight: 500,
-    // marginLeft: "5rem",
-    // color: "#fff",
-    // textTransform: "uppercase",
-    // transition: "all 0.3s linear",
-    // "&:hover": {
-    //   // boxShadow: "none",
-    //   backgroundColor: theme.palette.secondary.main,
-    //   color: theme.palette.common.white,
-    // },
   },
   authorSocials: {
-    "& img": {
-      width: "2.6rem",
-      height: "2.6rem",
-      borderRadius: "100%",      
-    [theme.breakpoints.down(480)]: {
-      width: "2rem",
-      height: "2rem",
-    },
+    display: "flex",
+    alignItems: "center",
+    "& p": {
+      color: "#fff",
     },
   },
 }));

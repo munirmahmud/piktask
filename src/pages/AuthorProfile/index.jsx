@@ -6,6 +6,14 @@ import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import authorImg from "../../assets/author.png";
 import heroBanner from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
+import behanceIcon from "../../assets/icons/behance.svg";
+import dribbbleIcon from "../../assets/icons/dribble.svg";
+import facebookIcon from "../../assets/icons/facebook.svg";
+import instagramIcon from "../../assets/icons/instagram.svg";
+import linkedInIcon from "../../assets/icons/linkdin.svg";
+import pinterestIcon from "../../assets/icons/pintarest.svg";
+import shutterstockIcon from "../../assets/icons/shutterstock.svg";
+import twitterIcon from "../../assets/icons/twitter.svg";
 import Spacing from "../../components/Spacing";
 import AuthorItems from "../../components/ui/AuthorItems";
 import CallToAction from "../../components/ui/CallToAction";
@@ -89,6 +97,41 @@ const AuthorProfile = () => {
     }
   };
 
+  const socialMedia = [
+    {
+      socialUrl: profileInfo?.facebook,
+      socialIcon: facebookIcon,
+    },
+    {
+      socialUrl: profileInfo?.behance,
+      socialIcon: behanceIcon,
+    },
+    {
+      socialUrl: profileInfo?.dribbble,
+      socialIcon: dribbbleIcon,
+    },
+    {
+      socialUrl: profileInfo?.instagram,
+      socialIcon: instagramIcon,
+    },
+    {
+      socialUrl: profileInfo?.linkedin,
+      socialIcon: linkedInIcon,
+    },
+    {
+      socialUrl: profileInfo?.pinterest,
+      socialIcon: pinterestIcon,
+    },
+    {
+      socialUrl: profileInfo?.shutterstock,
+      socialIcon: shutterstockIcon,
+    },
+    {
+      socialUrl: profileInfo?.twitter,
+      socialIcon: twitterIcon,
+    },
+  ];
+
   return (
     <Layout
       title={`${profileInfo?.username}`}
@@ -132,14 +175,17 @@ const AuthorProfile = () => {
                         Resources
                         <span>{profileInfo?.total_images}</span>
                       </Typography>
+
                       <Typography className={classes.infoItem} variant="body2">
                         Followers
                         <span>{profileInfo?.total_followers}</span>
                       </Typography>
+
                       <Typography className={classes.infoItem} variant="body2">
                         Downloads
                         <span>{profileInfo?.total_downloads}</span>
                       </Typography>
+
                       {user?.id !== profileInfo?.id && (
                         <div>
                           <Button className={classes.followBtn} onClick={handleFollower} value="user">
@@ -148,22 +194,35 @@ const AuthorProfile = () => {
                         </div>
                       )}
                     </div>
+
                     <div className={classes.authorSocials}>
-                      {(profileInfo?.facebook || profileInfo?.instagram || profileInfo?.twitter) && (
-                        <SocialShare title="Follow this author:" profileInfo={profileInfo} />
-                      )}
+                      {socialMedia?.length > 0 && <Typography>Follow me: </Typography>}
+                      <SocialShare title="Follow this author:" socials={socialMedia} />
                     </div>
                   </div>
                 </Grid>
               ) : (
-                <h1>No information found</h1>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "0 auto",
+                    height: 300,
+                  }}
+                >
+                  <CircularProgress color="primary" />
+                </div>
               )}
             </>
           )}
         </Container>
       </div>
+
       <AuthorItems userId={profileInfo.id} imageSummery={imageSummery} />
+
       <Spacing space={{ height: "4rem" }} />
+
       {!user?.isLoggedIn ? (
         <CallToAction
           title="Join Piktask team"
