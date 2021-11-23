@@ -1,4 +1,20 @@
-import { Card, CardContent, CircularProgress, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  FormControl,
+  Grid,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@material-ui/core";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -16,19 +32,52 @@ import useStyles from "./WithdrawHistory.style";
 const WithdrawHistory = () => {
   const classes = useStyles();
   const location = useLocation();
-  const locationPath = location.pathname;
+  const locationPath = document.location.pathname;
   const user = useSelector((state) => state.user);
   const [isLoading, setLoading] = useState(true);
   const [withdrawalHistory, setWithdrawalHistory] = useState([]);
 
   const [pageCount, setPageCount] = useState(1);
-  const [totalProduct, setTotalProduct] = useState();
+  const [totalProduct, setTotalProduct] = useState("");
 
   let limit = 20;
   const count = Math.ceil(totalProduct / limit);
 
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
+
+  // Date wise API integration
+  // From
+  const fromMonths = moment.months();
+  let [fromYear, setFromYear] = useState(moment().year());
+  let [fromMonth, setFromMonth] = useState(moment().format("MMMM"));
+  let [fromCurrentDate, setFromCurrentDate] = useState(moment().date());
+
+  // To
+  const toMonths = moment.months();
+  let [toYear, setToYear] = useState(moment().year());
+  let [toMonth, setToMonth] = useState(moment().format("MMMM"));
+  let [toCurrentDate, setToCurrentDate] = useState(moment().date());
+
+  const getAllDays = () => {
+    const days = [];
+    for (let i = 0; i < moment().daysInMonth(); i++) {
+      if (i + 1 < 10) {
+        days.push("0" + (i + 1));
+      } else {
+        days.push(i + 1);
+      }
+    }
+    return days;
+  };
+
+  const getAllYears = () => {
+    const years = [];
+    for (let i = 1990; i <= moment().year(); i++) {
+      years.push(i);
+    }
+    return years.sort((a, b) => b - a);
+  };
 
   useEffect(() => {
     const setResponsiveness = () => {
@@ -56,7 +105,7 @@ const WithdrawHistory = () => {
         .then(({ data }) => {
           if (data?.status) {
             setWithdrawalHistory(data?.history);
-            setTotalProduct();
+            setTotalProduct(data?.total);
             setLoading(false);
           }
         })
@@ -66,6 +115,41 @@ const WithdrawHistory = () => {
         });
     }
   }, [user?.isLoggedIn, user?.role, user?.token, pageCount, limit]);
+
+  const handleDateSubmit = (e) => {
+    e.preventDefault();
+
+    let fromDateMonths = moment().month(fromMonth).format("M");
+    if (fromDateMonths < 10) {
+      fromDateMonths = "0" + fromDateMonths;
+    }
+    const fromDates = fromYear + "-" + fromDateMonths + "-" + fromCurrentDate;
+
+    let toDateMonths = moment().month(toMonth).format("M");
+    if (toDateMonths < 10) {
+      toDateMonths = "0" + toDateMonths;
+    }
+    const toDates = fromYear + "-" + toDateMonths + "-" + toCurrentDate;
+
+    // Current date wise withdraw history
+    if (user?.isLoggedIn && user?.role === "contributor") {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/contributor/withdrawals/history/?start=${fromDates}&end=${toDates}&limit=${limit}&page=${pageCount}`, {
+          headers: { Authorization: user?.token },
+        })
+        .then(({ data }) => {
+          if (data?.status) {
+            setWithdrawalHistory(data?.history);
+            setTotalProduct(data?.total);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log("Withdrawals history", error.message);
+          setLoading(false);
+        });
+    }
+  };
 
   return (
     <Layout title="Withdraw History | Piktask">
@@ -83,6 +167,133 @@ const WithdrawHistory = () => {
 
             <div className={classes.headingWrapper}>
               <Heading tag="h2">Records</Heading>
+            </div>
+
+            <div className={classes.dateRanges}>
+              <div className={classes.statisticsFormWrapper}>
+                <div className={classes.selectPeriodFrom}>
+                  <div className={classes.fields}>
+                    <Typography className={classes.fieldTitle} variant="subtitle1">
+                      From
+                    </Typography>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
+                      <Select
+                        native
+                        value={fromMonth}
+                        onChange={(e) => setFromMonth(e.target.value)}
+                        inputProps={{
+                          // name: 'age',
+                          id: "months",
+                        }}
+                      >
+                        {fromMonths?.length > 0 &&
+                          fromMonths?.map((month, index) => (
+                            <option key={month} value={month}>
+                              {month}
+                            </option>
+                          ))}
+                      </Select>
+                    </FormControl>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
+                      <Select
+                        native
+                        value={fromCurrentDate}
+                        onChange={(e) => setFromCurrentDate(e.target.value)}
+                        inputProps={{
+                          id: "date",
+                        }}
+                      >
+                        {getAllDays().map((day) => (
+                          <option key={day} value={day}>
+                            {day}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
+                      <Select
+                        native
+                        value={fromYear}
+                        onChange={(e) => setFromYear(e.target.value)}
+                        inputProps={{
+                          id: "year",
+                        }}
+                      >
+                        {getAllYears().map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+                  <div className={classes.fields}>
+                    <Typography className={classes.fieldTitle} variant="subtitle1">
+                      To
+                    </Typography>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
+                      <Select
+                        native
+                        value={toMonth}
+                        onChange={(e) => setToMonth(e.target.value)}
+                        inputProps={{
+                          // name: 'age',
+                          id: "months",
+                        }}
+                      >
+                        {toMonths?.length > 0 &&
+                          toMonths?.map((month, index) => (
+                            <option key={month} value={month}>
+                              {month}
+                            </option>
+                          ))}
+                      </Select>
+                    </FormControl>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
+                      <Select
+                        native
+                        value={toCurrentDate}
+                        onChange={(e) => setToCurrentDate(e.target.value)}
+                        inputProps={{
+                          id: "date",
+                        }}
+                      >
+                        {getAllDays().map((day) => (
+                          <option key={day} value={day}>
+                            {day}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
+                      <Select
+                        native
+                        value={toYear}
+                        onChange={(e) => setToYear(e.target.value)}
+                        inputProps={{
+                          id: "year",
+                        }}
+                      >
+                        {getAllYears().map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+
+                  <Button onClick={handleDateSubmit} className={classes.showMoreBtn}>
+                    View More
+                  </Button>
+                </div>
+              </div>
             </div>
 
             <Grid container className={classes.publishGridContainer}>

@@ -8,16 +8,16 @@ const SocialShare = (props) => {
 
   return (
     <div className={classes.container}>
-      <List>
+      <List className={classes.socialIconWrapper}>
         {socials?.length > 0 &&
           socials?.map((media, index) => (
-            <>
+            <div key={index}>
               {media.socialUrl && (
                 <a key={index} href={media.socialUrl} target="_blank" rel="noreferrer">
                   <img className={copyRightSocial ? `${classes.socialIcon}` : `${classes.socialMedia}`} src={media.socialIcon} alt={media.socialUrl} />
                 </a>
               )}
-            </>
+            </div>
           ))}
       </List>
     </div>
