@@ -4,6 +4,9 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
   },
+  socialIconWrapper: {
+    display: "flex",
+  },
   title: {
     color: theme.palette.common.white,
     fontSize: "1.4rem",
