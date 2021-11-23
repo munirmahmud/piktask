@@ -57,78 +57,29 @@ const DesktopMenu = ({ history }) => {
     <>
       <div className={classes.container}>
         <Toolbar disableGutters className={classes.mainHeaderToolbar}>
-          <Button
-            component={Link}
-            to="/"
-            className={classes.logoWrapper}
-            disableRipple
-          >
+          <Button component={Link} to="/" className={classes.logoWrapper} disableRipple>
             <img src={logo} className={classes.logo} alt="Piktask" />
           </Button>
 
-          <Tabs
-            value={value}
-            className={classes.menuTab}
-            classes={{ indicator: classes.menuUnderline }}
-            onChange={handleChange}
-            aria-label="main navigation"
-          >
-            <Tab
-              className={classes.menuItem}
-              disableRipple
-              component={NavLink}
-              to={`/category/business-card-mockup`}
-              label="Business Card Mockup"
-            />
+          <Tabs value={value} className={classes.menuTab} classes={{ indicator: classes.menuUnderline }} onChange={handleChange} aria-label="main navigation">
+            <Tab className={classes.menuItem} disableRipple component={NavLink} to={`/category/business-card-mockup`} label="Business Card Mockup" />
 
-            <Tab
-              className={classes.menuItem}
-              disableRipple
-              component={NavLink}
-              to="/category/text-effect"
-              label="Text Effect"
-            />
+            <Tab className={classes.menuItem} disableRipple component={NavLink} to="/category/text-effect" label="Text Effect" />
 
-            <Tab
-              className={classes.menuItem}
-              disableRipple
-              component={NavLink}
-              to="/category/social-media-banner"
-              label="Social Media Banner"
-            />
+            <Tab className={classes.menuItem} disableRipple component={NavLink} to="/category/social-media-banner" label="Social Media Banner" />
 
-            <Tab
-              className={classes.menuItem}
-              disableRipple
-              component={NavLink}
-              to="/category/game"
-              label="Game"
-            />
+            <Tab className={classes.menuItem} disableRipple component={NavLink} to="/category/game" label="Game" />
 
-            <Tab
-              className={classes.menuItem}
-              disableRipple
-              component={NavLink}
-              to="/category/logo-mockup"
-              label="Logo Mockup"
-            />
+            <Tab className={classes.menuItem} disableRipple component={NavLink} to="/category/logo-mockup" label="Logo Mockup" />
           </Tabs>
 
           <Toolbar disableGutters className={classes.toolBarContainer}>
             {user?.isLoggedIn && user?.role === "contributor" ? (
-              <Button
-                className={classes.sellContentBtn}
-                component={Link}
-                to="/contributor/dashboard"
-              >
+              <Button className={classes.sellContentBtn} component={Link} to="/contributor/dashboard">
                 Sell Your Content
               </Button>
             ) : (
-              <Button
-                className={classes.sellContentBtn}
-                component={Link}
-                to="/contributor/join"
-              >
+              <Button className={classes.sellContentBtn} onClick={handleClick} value="contributor">
                 Sell Your Content
               </Button>
             )}
@@ -144,17 +95,9 @@ const DesktopMenu = ({ history }) => {
                 {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
                   <>
                     {user?.avatar_from === "own" ? (
-                      <img
-                        className={classes.avatar}
-                        src={getBaseURL().bucket_base_url + "/" + user?.avatar}
-                        alt={user?.username}
-                      />
+                      <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} />
                     ) : (
-                      <img
-                        className={classes.avatar}
-                        src={user?.avatar}
-                        alt={user?.username}
-                      />
+                      <img className={classes.avatar} src={user?.avatar} alt={user?.username} />
                     )}
                   </>
                 ) : (
@@ -163,16 +106,8 @@ const DesktopMenu = ({ history }) => {
                 <ArrowDropDownIcon className={classes.arrowDown} />
               </div>
             ) : (
-              <Button
-                className={classes.signInBtn}
-                onClick={handleClick}
-                value="user"
-              >
-                <img
-                  className={classes.crownIcon}
-                  src={signInIcon}
-                  alt="Crown"
-                />
+              <Button className={classes.signInBtn} onClick={handleClick} value="user">
+                <img className={classes.crownIcon} src={signInIcon} alt="Crown" />
                 Sign In
               </Button>
             )}
@@ -180,19 +115,9 @@ const DesktopMenu = ({ history }) => {
         </Toolbar>
       </div>
 
-      <CustomPopper
-        open={open}
-        handleToggle={handleToggle}
-        anchorRef={anchorRef}
-        handleClose={handleClose}
-        handleListKeyDown={handleListKeyDown}
-      />
+      <CustomPopper open={open} handleToggle={handleToggle} anchorRef={anchorRef} handleClose={handleClose} handleListKeyDown={handleListKeyDown} />
 
-      <SignUpModal
-        openAuthModal={openAuthModal}
-        setOpenAuthModal={setOpenAuthModal}
-        role={role}
-      />
+      <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} role={role} />
     </>
   );
 };

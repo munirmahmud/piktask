@@ -1,27 +1,55 @@
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import React from "react";
-
-const useStyles = makeStyles((theme) => ({}));
+import behanceIcon from "../../../assets/icons/behance.svg";
+import dribbbleIcon from "../../../assets/icons/dribble.svg";
+import facebookIcon from "../../../assets/icons/facebook.svg";
+import instagramIcon from "../../../assets/icons/instagram.svg";
+import linkedInIcon from "../../../assets/icons/linkdin.svg";
+import pinterestIcon from "../../../assets/icons/pintarest.svg";
+import shutterstockIcon from "../../../assets/icons/shutterstock.svg";
+import twitterIcon from "../../../assets/icons/twitter.svg";
+import SocialShare from "./../../ui/SocialShare/index";
 
 const AuthorSocialMedia = ({ productDetails }) => {
-  const classes = useStyles();
-  const authorSocialMedia = {
-    facebook: productDetails.imageDetails.user.facebook,
-    behance: productDetails.imageDetails.user.behance,
-    dribbble: productDetails.imageDetails.user.dribbble,
-    instagram: productDetails.imageDetails.user.instagram,
-    linkedin: productDetails.imageDetails.user.linkedin,
-    pinterest: productDetails.imageDetails.user.pinterest,
-    shutterstock: productDetails.imageDetails.user.shutterstock,
-    twitter: productDetails.imageDetails.user.twitter,
-  };
-  console.log("authorSocialMedia", authorSocialMedia);
+  const socialMedia = [
+    {
+      socialUrl: productDetails.imageDetails.user.facebook,
+      socialIcon: facebookIcon,
+    },
+    {
+      socialUrl: productDetails.imageDetails.user.behance,
+      socialIcon: behanceIcon,
+    },
+    {
+      socialUrl: productDetails.imageDetails.user.dribbble,
+      socialIcon: dribbbleIcon,
+    },
+    {
+      socialUrl: productDetails.imageDetails.user.instagram,
+      socialIcon: instagramIcon,
+    },
+    {
+      socialUrl: productDetails.imageDetails.user.linkedin,
+      socialIcon: linkedInIcon,
+    },
+    {
+      socialUrl: productDetails.imageDetails.user.pinterest,
+      socialIcon: pinterestIcon,
+    },
+    {
+      socialUrl: productDetails.imageDetails.user.shutterstock,
+      socialIcon: shutterstockIcon,
+    },
+    {
+      socialUrl: productDetails.imageDetails.user.twitter,
+      socialIcon: twitterIcon,
+    },
+  ];
+
   return (
     <Grid item style={{ display: "flex", alignItems: "center" }}>
-      <Typography>Share: </Typography>
-      <div>
-        {/* {(profileInfo?.facebook || profileInfo?.instagram || profileInfo?.twitter) && <SocialShare title="Follow this author:" profileInfo={profileInfo} />} */}
-      </div>
+      {socialMedia?.length > 0 && <Typography>Follow me: </Typography>}
+      <SocialShare socials={socialMedia} />
     </Grid>
   );
 };

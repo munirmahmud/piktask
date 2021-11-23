@@ -60,10 +60,7 @@ const PendingFiles = () => {
     setProductsSubmitted(!true);
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/images/not_submit?limit=${limit}&page=${pageCount}`,
-          { headers: { Authorization: user?.token } }
-        )
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/not_submit?limit=${limit}&page=${pageCount}`, { headers: { Authorization: user?.token } })
         .then(({ data }) => {
           if (data?.images.length > 0) {
             setPendingProducts(data?.images);
@@ -78,16 +75,7 @@ const PendingFiles = () => {
           setLoading(false);
         });
     }
-  }, [
-    user?.isLoggedIn,
-    user?.token,
-    user?.role,
-    addProductDetails,
-    successProduct,
-    pageCount,
-    limit,
-    productsSubmitted,
-  ]);
+  }, [user?.isLoggedIn, user?.token, user?.role, addProductDetails, successProduct, pageCount, limit, productsSubmitted]);
 
   const handleDelete = (image_id) => {
     if (user?.isLoggedIn && user?.role === "contributor") {
@@ -97,9 +85,7 @@ const PendingFiles = () => {
         })
         .then(({ data }) => {
           if (data?.status) {
-            const index = pendingProducts.findIndex(
-              (item) => item.token_id === image_id
-            );
+            const index = pendingProducts.findIndex((item) => item.token_id === image_id);
             pendingProducts.splice(index, 1);
             setPendingProducts([...pendingProducts]);
             setLoading(false);
@@ -133,9 +119,7 @@ const PendingFiles = () => {
       if (isSelected) {
         const index = prevItems.findIndex((item) => item.id === product.id);
         prevItems.splice(index, 1);
-        return prevItems.map((item) =>
-          item.id === product.id ? { ...item, isSelected: false } : item
-        );
+        return prevItems.map((item) => (item.id === product.id ? { ...item, isSelected: false } : item));
       }
       return [...prevItems, { ...product }];
     });
@@ -156,9 +140,7 @@ const PendingFiles = () => {
 
   const handleSubmit = async () => {
     let token_ids = [];
-    pendingProducts.map(
-      (item) => item.is_save === 1 && token_ids.push(item.token_id)
-    );
+    pendingProducts.map((item) => item.is_save === 1 && token_ids.push(item.token_id));
 
     if (token_ids?.length === 0) {
       toast.error("No submit ready product found.");
@@ -183,9 +165,7 @@ const PendingFiles = () => {
               setProductsSubmitted(pendingProducts);
             }
           });
-          toast.success(
-            response.data?.message || "Image submitted successfully"
-          );
+          toast.success(response.data?.message || "Image submitted successfully");
         }
       } catch (error) {
         console.log("Submit image", error);
@@ -207,9 +187,8 @@ const PendingFiles = () => {
                 <Heading tag="h2">Not yet submitted</Heading>
                 <Typography variant="h3">This is your first upload!</Typography>
                 <Typography>
-                  Upload and send your 20 best resources. Our team will review
-                  them to ensure they <br /> meet our requirements, so make sure
-                  they show your true potential.
+                  Upload and send your 20 best resources. Our team will review them to ensure they <br /> meet our requirements, so make sure they show your
+                  true potential.
                 </Typography>
               </div>
               <div>
@@ -217,10 +196,7 @@ const PendingFiles = () => {
                   Delete File
                 </Button> */}
                 {pendingProducts.length > 0 && (
-                  <Button
-                    className={`${classes.actionBtn} ${classes.addFileBtn}`}
-                    onClick={() => handleSubmit()}
-                  >
+                  <Button className={`${classes.actionBtn} ${classes.addFileBtn}`} onClick={() => handleSubmit()}>
                     Submit
                   </Button>
                 )}
@@ -232,10 +208,7 @@ const PendingFiles = () => {
                   Add File
                 </Button> */}
                 {pendingProducts.length > 0 && (
-                  <Button
-                    className={`${classes.actionBtn} ${classes.workInfoBtn}`}
-                    onClick={() => handleWorkInfo()}
-                  >
+                  <Button className={`${classes.actionBtn} ${classes.workInfoBtn}`} onClick={() => handleWorkInfo()}>
                     Add Work Information
                   </Button>
                 )}
@@ -260,19 +233,9 @@ const PendingFiles = () => {
               <Grid container spacing={2}>
                 {pendingProducts?.length > 0 ? (
                   pendingProducts?.map((product) => (
-                    <Grid
-                      key={product?.id}
-                      item
-                      xs={4}
-                      sm={3}
-                      md={2}
-                      className={classes.productItem}
-                    >
+                    <Grid key={product?.id} item xs={4} sm={3} md={2} className={classes.productItem}>
                       <div className={classes.btnWrapper}>
-                        <DeleteIcon
-                          onClick={() => handleDelete(product?.token_id)}
-                          className={classes.deleteIcon}
-                        />
+                        <DeleteIcon onClick={() => handleDelete(product?.token_id)} className={classes.deleteIcon} />
                       </div>
 
                       <Card
@@ -286,23 +249,11 @@ const PendingFiles = () => {
                           border: product?.is_save === 1 && "2px solid #008000",
                         }}
                       >
-                        <img
-                          src={
-                            getBaseURL().bucket_base_url +
-                            getBaseURL().images +
-                            product?.original_file
-                          }
-                          alt={product?.original_name}
-                        />
+                        <img src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file} alt={product?.original_name} />
 
                         <div className={classes.productInfo}>
-                          <Typography variant="h3">
-                            {product?.original_name}
-                          </Typography>
-                          <Typography variant="body2">
-                            File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "}
-                            MB
-                          </Typography>
+                          <Typography variant="h3">{product?.original_name}</Typography>
+                          <Typography variant="body2">File Size: {(product.size / 1024 / 1024).toFixed(2)} MB</Typography>
                         </div>
                       </Card>
                     </Grid>
@@ -312,31 +263,16 @@ const PendingFiles = () => {
                 )}
               </Grid>
             )}
-            {totalProduct > limit && (
-              <Paginations
-                locationPath={locationPath}
-                count={count}
-                pageCount={pageCount}
-                setPageCount={setPageCount}
-              />
-            )}
+            {totalProduct > limit && <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
           </div>
 
           <Spacing space={{ height: "5rem" }} />
 
-          <Drawer
-            anchor="right"
-            open={openModal}
-            onClose={() => setOpenModal(false)}
-            className={classes.editItemContainer}
-          >
+          <Drawer anchor="right" open={openModal} onClose={() => setOpenModal(false)} className={classes.editItemContainer}>
             <div className={classes.editItemHeader}>
               <div className={classes.headingContent}>
                 <Heading>Work Details</Heading>
-                <CloseIcon
-                  className={classes.closeIcon}
-                  onClick={() => setOpenModal(false)}
-                />
+                <CloseIcon className={classes.closeIcon} onClick={() => setOpenModal(false)} />
               </div>
               <hr />
             </div>

@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    // justifyContent:"center",
   },
   title: {
     color: theme.palette.common.white,
@@ -17,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
   socialIcon: {
     width: "2.8rem",
     marginRight: ".8rem",
+  },
+  socialMedia: {
+    width: "2rem",
+    marginLeft: "1rem",
   },
 }));
 

@@ -38,13 +38,7 @@ const MobileMenu = () => {
     <>
       <Toolbar disableGutters className={classes.menuWrapper}>
         <div>
-          <Button
-            component={Link}
-            to="/"
-            className={classes.headerLogo}
-            disableRipple
-            onClick={() => setOpenMobileMenu(false)}
-          >
+          <Button component={Link} to="/" className={classes.headerLogo} disableRipple onClick={() => setOpenMobileMenu(false)}>
             <img src={logo} className={classes.logo} alt="Dev" />
           </Button>
         </div>
@@ -61,17 +55,9 @@ const MobileMenu = () => {
               {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
                 <>
                   {user?.avatar_from === "own" ? (
-                    <img
-                      className={classes.avatar}
-                      src={getBaseURL().bucket_base_url + "/" + user?.avatar}
-                      alt={user?.username}
-                    />
+                    <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} />
                   ) : (
-                    <img
-                      className={classes.avatar}
-                      src={user?.avatar}
-                      alt={user?.username}
-                    />
+                    <img className={classes.avatar} src={user?.avatar} alt={user?.username} />
                   )}
                 </>
               ) : (
@@ -81,16 +67,8 @@ const MobileMenu = () => {
             </div>
           ) : (
             <div>
-              <Button
-                className={classes.signInBtn}
-                onClick={handleClick}
-                value="user"
-              >
-                <img
-                  className={classes.crownIcon}
-                  src={signInIcon}
-                  alt="Crown"
-                />
+              <Button className={classes.signInBtn} onClick={handleClick} value="user">
+                <img className={classes.crownIcon} src={signInIcon} alt="Crown" />
                 Sign In
               </Button>
             </div>
@@ -99,88 +77,47 @@ const MobileMenu = () => {
         </div>
       </Toolbar>
 
-      <SignUpModal
-        openAuthModal={openAuthModal}
-        setOpenAuthModal={setOpenAuthModal}
-        role={role}
-      />
+      <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} role={role} />
 
-      <Drawer
-        anchor="right"
-        classes={{ paper: classes.paper }}
-        open={openMobileMenu}
-        onClose={() => setOpenMobileMenu(false)}
-      >
+      <Drawer anchor="right" classes={{ paper: classes.paper }} open={openMobileMenu} onClose={() => setOpenMobileMenu(false)}>
         <div className={classes.closeIconWrapper}>
-          <CloseIcon
-            onClick={() => setOpenMobileMenu(false)}
-            className={classes.closeIcon}
-          />
-          <Button
-            component={Link}
-            to="/"
-            className={classes.drawerLogo}
-            disableRipple
-            onClick={() => setOpenMobileMenu(false)}
-          >
+          <CloseIcon onClick={() => setOpenMobileMenu(false)} className={classes.closeIcon} />
+          <Button component={Link} to="/" className={classes.drawerLogo} disableRipple onClick={() => setOpenMobileMenu(false)}>
             <img src={logo} className={classes.logo} alt="Dev" />
           </Button>
         </div>
 
         <Toolbar disableGutters className={classes.wrapperMenu}>
           <MenuList className={classes.navItems}>
-            <MenuItem
-              onClick={() => setOpenMobileMenu(false)}
-              classes={{ selected: classes.selected }}
-            >
-              <Link to="/category/business-card-mockup">
-                Business Card Mockup
-              </Link>
+            <MenuItem onClick={() => setOpenMobileMenu(false)} classes={{ selected: classes.selected }}>
+              <Link to="/category/business-card-mockup">Business Card Mockup</Link>
             </MenuItem>
 
-            <MenuItem
-              onClick={() => setOpenMobileMenu(false)}
-              classes={{ selected: classes.selected }}
-            >
+            <MenuItem onClick={() => setOpenMobileMenu(false)} classes={{ selected: classes.selected }}>
               <Link to="/category/text-effect">Text Effect</Link>
             </MenuItem>
 
-            <MenuItem
-              onClick={() => setOpenMobileMenu(false)}
-              classes={{ selected: classes.selected }}
-            >
-              <Link to="/category/social-media-banner">
-                Social Media Banner
-              </Link>
+            <MenuItem onClick={() => setOpenMobileMenu(false)} classes={{ selected: classes.selected }}>
+              <Link to="/category/social-media-banner">Social Media Banner</Link>
             </MenuItem>
 
-            <MenuItem
-              onClick={() => setOpenMobileMenu(false)}
-              classes={{ selected: classes.selected }}
-            >
+            <MenuItem onClick={() => setOpenMobileMenu(false)} classes={{ selected: classes.selected }}>
               <Link to="/category/game">Game</Link>
             </MenuItem>
 
-            <MenuItem
-              onClick={() => setOpenMobileMenu(false)}
-              classes={{ selected: classes.selected }}
-            >
+            <MenuItem onClick={() => setOpenMobileMenu(false)} classes={{ selected: classes.selected }}>
               <Link to="/category/logo-mockup">Logo Mockup</Link>
             </MenuItem>
 
             {user?.isLoggedIn && user?.role === "contributor" ? (
-              <MenuItem
-                onClick={() => setOpenMobileMenu(false)}
-                classes={{ selected: classes.selected }}
-              >
+              <MenuItem onClick={() => setOpenMobileMenu(false)} classes={{ selected: classes.selected }}>
                 <Link to="/contributor/dashboard">Sell your content</Link>
               </MenuItem>
             ) : (
-              <MenuItem
-                onClick={() => setOpenMobileMenu(false)}
-                classes={{ selected: classes.selected }}
-              >
-                <Link to="/contributor/join">Sell your content</Link>
+              <MenuItem onClick={() => setOpenMobileMenu(false)} classes={{ selected: classes.selected }}>
+                <Button style={{ color: "#fff", padding: 0 }} onClick={handleClick} value="contributor">
+                  Sell your content
+                </Button>
               </MenuItem>
             )}
           </MenuList>

@@ -13,15 +13,14 @@ import theme from "./components/ui/Theme";
 import Home from "./pages/Home";
 
 const Publish = lazy(() => import("./pages/dashboard/contributor/Publish"));
-const JoinNow = lazy(() => import("./pages/dashboard/contributor/JoinNow"));
 const Revision = lazy(() => import("./pages/dashboard/contributor/Revision"));
 const GuidLine = lazy(() => import("./pages/dashboard/contributor/GuidLine"));
-const WithdrawHistory = lazy(() => import("./pages/dashboard/contributor/WithdrawHistory"));
 const UploadFiles = lazy(() => import("./pages/dashboard/contributor/UploadFiles"));
 const RejectFiles = lazy(() => import("./pages/dashboard/contributor/RejectFiles"));
 const PendingFiles = lazy(() => import("./pages/dashboard/contributor/PendingFiles"));
 const AdminDashboard = lazy(() => import("./pages/dashboard/contributor/AdminDashboard"));
 const AccountSettings = lazy(() => import("./pages/dashboard/contributor/AccountSettings"));
+const WithdrawHistory = lazy(() => import("./pages/dashboard/contributor/WithdrawHistory"));
 const EarningManagement = lazy(() => import("./pages/dashboard/contributor/EarningManagement"));
 const ContributorPricePlan = lazy(() => import("./pages/dashboard/contributor/ContributorPricePlan"));
 
@@ -147,7 +146,6 @@ const App = () => {
           <Route exact path="/contributor/guidLine" component={GuidLine} />
           <Route exact path="/contributor/withdraw-history" component={WithdrawHistory} />
           <Route exact path="/contributor/settings" component={AccountSettings} />
-          <Route exact path="/contributor/join" component={JoinNow} />
 
           {/* User dashboard */}
           <PrivateRoute exact path="/user/profile" component={UserProfile} />
