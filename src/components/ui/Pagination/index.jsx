@@ -17,7 +17,7 @@ const Paginations = (props) => {
       setSelected(pageCount);
     }
 
-    if(productPagination) return;
+    if (productPagination) return;
 
     if (pageCount) {
       history.push(`${locationPath}?page=${pageCount}`);
@@ -26,7 +26,7 @@ const Paginations = (props) => {
 
   const handlePreviousBtn = () => {
     window.scrollTo(0, 0);
-    if(productPagination){
+    if (productPagination) {
       if (pageCount <= 1) {
         setPageCount(pageCount);
       } else {
@@ -40,11 +40,10 @@ const Paginations = (props) => {
         history.push(`${locationPath}?page=${pageCount}`);
       }
     }
-    
   };
   const handleNextBtn = () => {
     window.scrollTo(0, 0);
-    if(productPagination) {
+    if (productPagination) {
       setPageCount(pageCount + 1);
     } else {
       setPageCount(pageCount + 1);

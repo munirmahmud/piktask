@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Loader from "../Loader";
+import Paginations from "../Pagination";
 import ProductNotFound from "../ProductNotFound";
 import Product from "../Products/Product";
 import useStyles from "./AuthorItems.styles";
@@ -10,15 +11,16 @@ import useStyles from "./AuthorItems.styles";
 const AuthorItems = ({ imageSummery, userId }) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
+  const locationPath = document.location.pathname;
 
   const [authorAllResource, setAuthorAllResource] = useState();
   const [isLoading, setLoading] = useState(false);
   const [value, setValue] = useState(0);
 
-  // const [pageCount, setPageCount] = useState(1);
-  // const [totalProduct, setTotalProduct] = useState();
-  // let limit = 30;
-  // const count = Math.ceil(totalProduct / limit);
+  const [pageCount, setPageCount] = useState(1);
+  const [totalProduct, setTotalProduct] = useState();
+  let limit = 30;
+  const count = Math.ceil(totalProduct / limit);
 
   const handleActiveButton = (index) => {
     setValue(index);
@@ -63,6 +65,7 @@ const AuthorItems = ({ imageSummery, userId }) => {
 
       try {
         axios.get(authorResourcesURL).then(({ data }) => {
+          console.log("contri", data);
           if (data?.status) {
             setAuthorAllResource(data?.images);
             setLoading(false);
@@ -110,14 +113,7 @@ const AuthorItems = ({ imageSummery, userId }) => {
             <>
               {authorAllResource?.length ? (
                 authorAllResource?.map((photo) => (
-                  <Grid
-                    key={photo.image_id}
-                    item
-                    xs={6}
-                    sm={4}
-                    md={3}
-                    className={classes.productItem}
-                  >
+                  <Grid key={photo.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
                     <Product photo={photo} />
                   </Grid>
                 ))
@@ -127,6 +123,8 @@ const AuthorItems = ({ imageSummery, userId }) => {
             </>
           )}
         </Grid>
+
+        <Paginations pageCount={pageCount} setPageCount={setPageCount} count={authorAllResource?.length} locationPath={locationPath} />
       </Container>
     </>
   );
