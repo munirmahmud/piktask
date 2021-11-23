@@ -12,7 +12,7 @@ const DownloadButton = ({ productDetails }) => {
   const user = useSelector((state) => state.user);
 
   const [role, setRole] = useState("");
-  const [downloadCount, setDownloadCount] = useState("");
+  const [downloadCount, setDownloadCount] = useState(productDetails?.imageDetails?.user?.images?.total_downloads);
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
 
@@ -46,9 +46,7 @@ const DownloadButton = ({ productDetails }) => {
           document.body.appendChild(link);
           link.click();
 
-          const total_downloads = productDetails?.imageDetails?.user?.images?.total_downloads;
-
-          setDownloadCount(total_downloads + 1);
+          setDownloadCount((prevState) => prevState + 1);
           setButtonLoading(false);
         }
       })

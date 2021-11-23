@@ -1,7 +1,6 @@
-import { Button, Chip, TextField } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import CloseIcon from "@material-ui/icons/Close";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -12,14 +11,7 @@ import useStyles from "./EditItem.styles";
 const EditItem = (props) => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
-  const {
-    products,
-    setOpenModal,
-    setSelectedProducts,
-    setAddProductDetails,
-    pendingProducts,
-    setSuccessProduct,
-  } = props;
+  const { products, setOpenModal, setSelectedProducts, setAddProductDetails, pendingProducts, setSuccessProduct } = props;
 
   const [categoryName, setCategoryName] = useState("");
   const [tagsValue, setTagsValue] = useState([]);
@@ -123,6 +115,23 @@ const EditItem = (props) => {
     return;
   };
 
+  const removeKeyword = (keyword, index, e) => {
+    // const keywords = tagsValue.splice(index, 1);
+    // console.log(tagsValue.splice(index, 1));
+    // console.log("keywords", tagsValue);
+
+    setTagsValue((prev) => {
+      delete tagsValue[index];
+    });
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      setTagsValue((prevState) => [e.target.value, ...prevState]);
+      setTag("");
+    }
+  };
+
   // const handleKeywords = (e) => {
   //   // console.log(keyWordRef.current.which);
   //   setTag(e.target.value);
@@ -137,14 +146,13 @@ const EditItem = (props) => {
   // });
 
   const getTags = () => {
-    console.log("show tags", tagsValue);
     return (
       <div className={classes.tags}>
         {tagsValue?.length > 0 &&
           tagsValue?.map((tag, index) => (
             <li key={index} className="keyword">
               {tag}
-              {/* <ClearIcon onClick={(e) => removeKeyword(tag, index, e)} /> */}
+              <ClearIcon onClick={(e) => removeKeyword(tag, index, e)} />
             </li>
           ))}
       </div>
@@ -160,17 +168,11 @@ const EditItem = (props) => {
               <div key={product?.id} className={classes.productItem}>
                 <img
                   className={classes.editItemImage}
-                  src={
-                    getBaseURL().bucket_base_url +
-                    getBaseURL().images +
-                    product?.original_file
-                  }
+                  src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file}
                   alt={product?.original_name}
                 />
                 <div className={classes.closeIcon}>
-                  <CloseIcon
-                    onClick={() => handleDeleteItem(product?.token_id)}
-                  />
+                  <CloseIcon onClick={() => handleDeleteItem(product?.token_id)} />
                 </div>
               </div>
             ))}
@@ -178,12 +180,7 @@ const EditItem = (props) => {
 
         <div className={classes.fieldGroup}>
           <label htmlFor="category">Select Category</label>
-          <select
-            id="category"
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
-            onClick={handleCategoryItem}
-          >
+          <select id="category" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} onClick={handleCategoryItem}>
             {category.length > 0 ? (
               category.map((categoryItem) => (
                 <option key={categoryItem.id} value={categoryItem.id}>
@@ -200,27 +197,15 @@ const EditItem = (props) => {
 
         <div className={classes.fieldGroup}>
           <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+          <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+        </div>
+
+        <div className={`${classes.fieldGroup}`}>
+          <label htmlFor="tag">Keyword</label>
+          <input type="text" id="tag" ref={keyWordRef} value={tag} onChange={(e) => setTag(e.target.value)} onKeyPress={handleKeyPress} />
         </div>
 
         {/* <div className={`${classes.fieldGroup}`}>
-          <label htmlFor="tag">Keyword</label>
-          <Input setKeywords={setKeywords} /> */}
-        {/* <input
-            type="text"
-            id="tag"
-            ref={keyWordRef}
-            value={tag}
-            onChange={(e) => setTag(e.target.value)}
-          /> */}
-        {/* </div> */}
-
-        <div className={`${classes.fieldGroup}`}>
           <label htmlFor="keyword">Keyword</label>
           <Autocomplete
             value={tagsValue}
@@ -233,22 +218,8 @@ const EditItem = (props) => {
             // defaultValue={[keyWords[13].title]}
             fullWidth
             freeSolo
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  variant="outlined"
-                  label={option}
-                  {...getTagProps({ index })}
-                />
-              ))
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="filled"
-                placeholder="Card Design"
-              />
-            )}
+            renderTags={(value, getTagProps) => value.map((option, index) => <Chip variant="outlined" label={option} {...getTagProps({ index })} />)}
+            renderInput={(params) => <TextField {...params} variant="filled" placeholder="Card Design" />}
             closeIcon={<ClearIcon />}
             classes={{
               inputRoot: classes.inputRoot,
@@ -259,32 +230,20 @@ const EditItem = (props) => {
               focused: classes.focused,
             }}
           />
-        </div>
+        </div> */}
 
         {getTags()}
 
         <hr className={classes.seperator} />
 
         <div className={classes.buttonsWrapper}>
-          <Button
-            onClick={handleProductSubmit}
-            value="submit"
-            type="submit"
-            className={`${classes.actionBtn} ${classes.submitBtn}`}
-          >
+          <Button onClick={handleProductSubmit} value="submit" type="submit" className={`${classes.actionBtn} ${classes.submitBtn}`}>
             Submit
           </Button>
-          <Button
-            onClick={handleProductSubmit}
-            value="save"
-            className={`${classes.actionBtn} ${classes.saveBtn}`}
-          >
+          <Button onClick={handleProductSubmit} value="save" className={`${classes.actionBtn} ${classes.saveBtn}`}>
             Save
           </Button>
-          <Button
-            className={`${classes.actionBtn} ${classes.cancelBtn}`}
-            onClick={() => setOpenModal(false)}
-          >
+          <Button className={`${classes.actionBtn} ${classes.cancelBtn}`} onClick={() => setOpenModal(false)}>
             Cancel
           </Button>
         </div>
