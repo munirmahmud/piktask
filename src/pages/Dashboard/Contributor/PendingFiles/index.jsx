@@ -195,7 +195,7 @@ const PendingFiles = () => {
                 {/* <Button onClick={() => deleteSelectionProduct()} className={`${classes.actionBtn} ${classes.deleteBtn}`}>
                   Delete File
                 </Button> */}
-                {pendingProducts.length > 0 && (
+                {pendingProducts?.length > 0 && (
                   <Button className={`${classes.actionBtn} ${classes.addFileBtn}`} onClick={() => handleSubmit()}>
                     Submit
                   </Button>
@@ -207,15 +207,13 @@ const PendingFiles = () => {
                 >
                   Add File
                 </Button> */}
-                {pendingProducts.length > 0 && (
+                {pendingProducts?.length > 0 && (
                   <Button className={`${classes.actionBtn} ${classes.workInfoBtn}`} onClick={() => handleWorkInfo()}>
                     Add Work Information
                   </Button>
                 )}
               </div>
             </div>
-
-            <Spacing space={{ height: "3rem" }} />
 
             {isLoading ? (
               <div

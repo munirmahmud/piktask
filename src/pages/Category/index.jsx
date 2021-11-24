@@ -125,7 +125,7 @@ const Category = () => {
   const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);
 
   return (
-    <Layout title={`${catName} | Piktask`} canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
+    <Layout title={`${catName}`} canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
 
       <HeroSection size="large" popularKeywords title="Graphic Resource for Free Download" />

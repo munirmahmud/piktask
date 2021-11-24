@@ -1,9 +1,4 @@
-import {
-  CircularProgress,
-  Container,
-  Grid,
-  makeStyles,
-} from "@material-ui/core";
+import { CircularProgress, Container, Grid, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Spacing from "../../components/Spacing";
@@ -42,19 +37,10 @@ const AllBlogs = () => {
     });
   }, []);
 
-  const imageThumbnail = encodeURI(
-    `${getBaseURL().bucket_base_url}${getBaseURL().images}${
-      thumbnail?.thumbnail
-    }`
-  );
+  const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.thumbnail}`);
 
   return (
-    <Layout
-      title="All Blog Posts | Piktask"
-      canonical={document.URL}
-      ogUrl={document.URL}
-      ogImage={imageThumbnail}
-    >
+    <Layout title="All Blog Posts" canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
       <HeroSection size="medium" blogsTitle isSearch />
       <Spacing space={{ height: "3rem" }} />
@@ -73,10 +59,7 @@ const AllBlogs = () => {
               <CircularProgress color="primary" />
             </div>
           ) : (
-            <>
-              {blogsPost?.length > 0 &&
-                blogsPost?.map((post) => <Post key={post?.id} post={post} />)}
-            </>
+            <>{blogsPost?.length > 0 && blogsPost?.map((post) => <Post key={post?.id} post={post} />)}</>
           )}
         </Grid>
       </Container>

@@ -64,25 +64,24 @@ const UploadFiles = () => {
     // window.addEventListener("resize", setResponsiveness);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive, fileRejections } =
-    useDropzone({
-      accept: "image/*, .ai,.eps,.psd,.svg",
-      noKeyboard: true,
-      onDrop: (acceptedFiles) => {
-        setThumbImage(acceptedFiles[0]);
-        const fileData = acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        );
+  const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
+    accept: "image/*, .ai,.eps,.psd,.svg",
+    noKeyboard: true,
+    onDrop: (acceptedFiles) => {
+      setThumbImage(acceptedFiles[0]);
+      const fileData = acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        })
+      );
 
-        if (files.length === 0) {
-          setFiles(fileData);
-        } else {
-          setFiles((prevFiles) => [...fileData, ...prevFiles]);
-        }
-      },
-    });
+      if (files.length === 0) {
+        setFiles(fileData);
+      } else {
+        setFiles((prevFiles) => [...fileData, ...prevFiles]);
+      }
+    },
+  });
 
   //reject file
   const fileRejectionItems = fileRejections.map(({ file, errors }) => (
@@ -151,10 +150,7 @@ const UploadFiles = () => {
           let uploadedData = 0;
 
           for (let i = 0; i < fileSize / chunkSize + 1; i++) {
-            const chunk = ev.target.result.slice(
-              i * chunkSize,
-              i * chunkSize + chunkSize
-            );
+            const chunk = ev.target.result.slice(i * chunkSize, i * chunkSize + chunkSize);
 
             if (!i) {
               const headers = {
@@ -309,33 +305,21 @@ const UploadFiles = () => {
               <div className={classes.thumbInnerError}>
                 <div className={classes.thumbImg}>
                   {file?.name?.match(/\.(ai|eps|psd|svg)$/) ? (
-                    <img
-                      src={fileThumbnail}
-                      alt="Piktask"
-                      className={classes.fileThumbnail}
-                    />
+                    <img src={fileThumbnail} alt="Piktask" className={classes.fileThumbnail} />
                   ) : (
                     <img src={file.preview} alt="Piktask" />
                   )}
                 </div>
                 <Typography className={classes.imageTitleError}>
-                  {file.name} <br />{" "}
-                  <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                  {file.name} <br /> <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
                 </Typography>
 
                 <Box className={classes.progressBar}>
                   <LinearProgressWithLabel value={file.progress || 0} />
                 </Box>
 
-                <button
-                  className={classes.deleteBtnError}
-                  onClick={(e) => removeFile(file, index)}
-                  disabled={disableDeleteBtn}
-                >
-                  <FontAwesomeIcon
-                    className={classes.deleteIcon}
-                    icon={faTrashAlt}
-                  />
+                <button className={classes.deleteBtnError} onClick={(e) => removeFile(file, index)} disabled={disableDeleteBtn}>
+                  <FontAwesomeIcon className={classes.deleteIcon} icon={faTrashAlt} />
                 </button>
               </div>
             </div>
@@ -344,34 +328,22 @@ const UploadFiles = () => {
               <div className={classes.thumbInner}>
                 <div className={classes.thumbImg}>
                   {file?.name?.match(/\.(ai|eps|psd|svg)$/) ? (
-                    <img
-                      src={fileThumbnail}
-                      alt="thumbnail"
-                      className={classes.fileThumbnail}
-                    />
+                    <img src={fileThumbnail} alt="thumbnail" className={classes.fileThumbnail} />
                   ) : (
                     <img src={file.preview} alt="thumbnail" />
                   )}
                 </div>
 
                 <Typography className={classes.imageTitle}>
-                  {file.name} <br />{" "}
-                  <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                  {file.name} <br /> <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
                 </Typography>
 
                 <Box className={classes.progressBar}>
                   <LinearProgressWithLabel value={file.progress || 0} />
                 </Box>
 
-                <button
-                  className={classes.deleteBtn}
-                  onClick={(e) => removeFile(file, index)}
-                  disabled={disableDeleteBtn}
-                >
-                  <FontAwesomeIcon
-                    className={classes.deleteIcon}
-                    icon={faTrashAlt}
-                  />
+                <button className={classes.deleteBtn} onClick={(e) => removeFile(file, index)} disabled={disableDeleteBtn}>
+                  <FontAwesomeIcon className={classes.deleteIcon} icon={faTrashAlt} />
                 </button>
               </div>
             </div>
@@ -405,22 +377,13 @@ const UploadFiles = () => {
             <Card className={classes.cardRoot}>
               <CardContent className={classes.cardContent}>
                 <Grid container>
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    className={classes.imageTypeGrid}
-                  >
+                  <Grid item xs={12} sm={6} md={4} className={classes.imageTypeGrid}>
                     <div className={classes.checkboxCol}>
                       {/* <Heading tag="h4"></Heading> */}
                       <Typography variant="h2">Vectors</Typography>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>
-                          EPS and a JPG preview file (with the same name) up to
-                          80MB
-                        </Typography>
+                        <Typography>EPS and a JPG preview file (with the same name) up to 80MB</Typography>
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
@@ -428,68 +391,39 @@ const UploadFiles = () => {
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>
-                          Preview files must be between 820px and 510px on any
-                          of the sides.
-                        </Typography>
+                        <Typography>Preview files must be between 820px and 510px on any of the sides.</Typography>
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>
-                          Titles and tags can be included in preview file. How
-                          can I do this?
-                        </Typography>
+                        <Typography>Titles and tags can be included in preview file. How can I do this?</Typography>
                       </div>
                     </div>
                   </Grid>
 
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    className={classes.imageTypeGrid}
-                  >
+                  <Grid item xs={12} sm={6} md={4} className={classes.imageTypeGrid}>
                     <div className={classes.checkboxCol}>
                       <Heading tag="h2">PSD</Heading>
 
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>
-                          PSD between 1.5MB and 250MB and a JPG preview file
-                          (with the same name)
-                        </Typography>
+                        <Typography>PSD between 1.5MB and 250MB and a JPG preview file (with the same name)</Typography>
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>
-                          Color: sRGB, Adobe RGB, Prophoto RGB or P3
-                        </Typography>
+                        <Typography>Color: sRGB, Adobe RGB, Prophoto RGB or P3</Typography>
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>
-                          Preview files must be between 820px and 510px on any
-                          of the sides.
-                        </Typography>
+                        <Typography>Preview files must be between 820px and 510px on any of the sides.</Typography>
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>
-                          Titles and tags can be included in preview file. How
-                          can I do this?
-                        </Typography>
+                        <Typography>Titles and tags can be included in preview file. How can I do this?</Typography>
                       </div>
                     </div>
                   </Grid>
 
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    className={classes.imageTypeGrid}
-                  >
+                  <Grid item xs={12} sm={6} md={4} className={classes.imageTypeGrid}>
                     <div>
                       <Heading tag="h2">Photos</Heading>
 
@@ -499,23 +433,15 @@ const UploadFiles = () => {
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>
-                          Color: sRGB, Adobe RGB, Prophoto RGB or P3
-                        </Typography>
+                        <Typography>Color: sRGB, Adobe RGB, Prophoto RGB or P3</Typography>
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>
-                          Photos must be between 820px and 510px on any of the
-                          sides.
-                        </Typography>
+                        <Typography>Photos must be between 820px and 510px on any of the sides.</Typography>
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>
-                          Titles and tags can be included in preview file. How
-                          can I do this?
-                        </Typography>
+                        <Typography>Titles and tags can be included in preview file. How can I do this?</Typography>
                       </div>
                     </div>
                   </Grid>
@@ -529,8 +455,7 @@ const UploadFiles = () => {
               htmlFor="btn-upload"
               className={classes.fileUploadContainer}
               {...getRootProps({
-                onClick: (e) =>
-                  (e.currentTarget.style.border = "2px dashed #26AA10"),
+                onClick: (e) => (e.currentTarget.style.border = "2px dashed #26AA10"),
               })}
               style={{ border: isActive }}
             >
@@ -557,13 +482,11 @@ const UploadFiles = () => {
                     variant="body1"
                     // style={{ color: "red" }}
                   >
-                    Your image dimension exceeds the limit. Preview files must
-                    be between 820px and 510px on any of the sides.
+                    Your image dimension exceeds the limit. Preview files must be between 820px and 510px on any of the sides.
                   </Typography>
                 ) : (
                   <Typography className={classes.subtitle} variant="body1">
-                    Preview files must be between 820px and 510px on any of the
-                    sides.
+                    Preview files must be between 820px and 510px on any of the sides.
                   </Typography>
                 )}
               </div>
@@ -575,20 +498,9 @@ const UploadFiles = () => {
 
             <div className={classes.singleBorder}></div>
             <div className={classes.uploadBtnRoot}>
-              <div className={classes.rejectFileWrapper}>
-                {fileRejectionItems}
-              </div>
-              <Button
-                variant="contained"
-                className={classes.uploadBtn}
-                type="submit"
-                disabled={disableDeleteBtn || isUploadBtnDisabled}
-                onClick={handleUpload}
-              >
-                <FontAwesomeIcon
-                  icon={faCloudUploadAlt}
-                  className={classes.uploadIcon}
-                />
+              <div className={classes.rejectFileWrapper}>{fileRejectionItems}</div>
+              <Button variant="contained" className={classes.uploadBtn} type="submit" disabled={disableDeleteBtn || isUploadBtnDisabled} onClick={handleUpload}>
+                <FontAwesomeIcon icon={faCloudUploadAlt} className={classes.uploadIcon} />
                 {disableDeleteBtn ? "Uploading..." : "Upload"}
               </Button>
             </div>

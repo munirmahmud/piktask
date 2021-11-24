@@ -36,46 +36,48 @@ const MobileMenu = () => {
 
   return (
     <>
-      <Toolbar disableGutters className={classes.menuWrapper}>
-        <div>
-          <Button component={Link} to="/" className={classes.headerLogo} disableRipple onClick={() => setOpenMobileMenu(false)}>
-            <img src={logo} className={classes.logo} alt="Dev" />
-          </Button>
-        </div>
+      <div className={classes.container}>
+        <Toolbar disableGutters className={classes.menuWrapper}>
+          <div>
+            <Button component={Link} to="/" className={classes.headerLogo} disableRipple onClick={() => setOpenMobileMenu(false)}>
+              <img src={logo} className={classes.logo} alt="Dev" />
+            </Button>
+          </div>
 
-        <div className={classes.menuButton}>
-          {user?.isLoggedIn && user?.role === "user" ? (
-            <div
-              className={classes.userAvatarArea}
-              onClick={handleToggle}
-              aria-controls={open ? "menu-list-grow" : undefined}
-              aria-haspopup="true"
-              ref={anchorRef}
-            >
-              {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
-                <>
-                  {user?.avatar_from === "own" ? (
-                    <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} />
-                  ) : (
-                    <img className={classes.avatar} src={user?.avatar} alt={user?.username} />
-                  )}
-                </>
-              ) : (
-                <AccountCircleIcon className={classes.avatar} />
-              )}
-              <ArrowDropDownIcon className={classes.arrowDown} />
-            </div>
-          ) : (
-            <div>
-              <Button className={classes.signInBtn} onClick={handleClick} value="user">
-                <img className={classes.crownIcon} src={signInIcon} alt="Crown" />
-                Sign In
-              </Button>
-            </div>
-          )}
-          <MenuIcon onClick={handleMobileMenu} className={classes.menuIcon} />
-        </div>
-      </Toolbar>
+          <div className={classes.menuButton}>
+            {user?.isLoggedIn && user?.role === "user" ? (
+              <div
+                className={classes.userAvatarArea}
+                onClick={handleToggle}
+                aria-controls={open ? "menu-list-grow" : undefined}
+                aria-haspopup="true"
+                ref={anchorRef}
+              >
+                {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
+                  <>
+                    {user?.avatar_from === "own" ? (
+                      <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} />
+                    ) : (
+                      <img className={classes.avatar} src={user?.avatar} alt={user?.username} />
+                    )}
+                  </>
+                ) : (
+                  <AccountCircleIcon className={classes.avatar} />
+                )}
+                <ArrowDropDownIcon className={classes.arrowDown} />
+              </div>
+            ) : (
+              <div>
+                <Button className={classes.signInBtn} onClick={handleClick} value="user">
+                  <img className={classes.crownIcon} src={signInIcon} alt="Crown" />
+                  Sign In
+                </Button>
+              </div>
+            )}
+            <MenuIcon onClick={handleMobileMenu} className={classes.menuIcon} />
+          </div>
+        </Toolbar>
+      </div>
 
       <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} role={role} />
 

@@ -11,12 +11,7 @@ import useStyles from "./TermsConditions.style";
 const TermsConditions = () => {
   const classes = useStyles();
   return (
-    <Layout
-      title=" Terms &amp; conditions | Piktask"
-      canonical={document.URL}
-      ogUrl={document.URL}
-      ogImage={thumbnail}
-    >
+    <Layout title=" Terms &amp; conditions" canonical={document.URL} ogUrl={document.URL} ogImage={thumbnail}>
       <Header />
 
       <HeroSection terms size="medium" isSearch />
@@ -30,15 +25,10 @@ const TermsConditions = () => {
             <Spacing space={{ height: "1rem" }} />
             <div>
               <Typography className={classes.description}>
-                We own all the Piktask content that we have put on Piktask. This
-                includes the design, Software, Website, Theme, Template, Idea,
-                Feelings, and look and feel of the Piktask sites, and copyright,
-                trademarks, designs and other intellectual property on Piktask.
-                We own all the Softwares, Application, logos, service marks and
-                trade names on Piktask site. You will not copy, distribute,
-                modify or make derivative works of any of our Piktask Content or
-                use any of our intellectual property in any way not expressly
-                stated in these terms.
+                We own all the Piktask content that we have put on Piktask. This includes the design, Software, Website, Theme, Template, Idea, Feelings, and
+                look and feel of the Piktask sites, and copyright, trademarks, designs and other intellectual property on Piktask. We own all the Softwares,
+                Application, logos, service marks and trade names on Piktask site. You will not copy, distribute, modify or make derivative works of any of our
+                Piktask Content or use any of our intellectual property in any way not expressly stated in these terms.
               </Typography>
               <Spacing space={{ height: "3rem" }} />
               <div className={classes.termsTitle}>
@@ -46,11 +36,9 @@ const TermsConditions = () => {
               </div>
               <Spacing space={{ height: "1rem" }} />
               <Typography className={classes.description}>
-                Copyright, trademark and intellectual property claims: We
-                respect the intellectual property rights of others and we tried
-                to develop our softwares and application based on others
-                company's property.If anybody see any issues or any property
-                matches with your property then we will remove it.
+                Copyright, trademark and intellectual property claims: We respect the intellectual property rights of others and we tried to develop our
+                softwares and application based on others company's property.If anybody see any issues or any property matches with your property then we will
+                remove it.
               </Typography>
             </div>
           </div>

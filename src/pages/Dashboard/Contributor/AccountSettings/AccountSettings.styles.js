@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import profileBanner from "../../../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
+import profileBanner from "../../../../assets/banner/profile-banner.jpg";
 
 const useStyles = makeStyles((theme) => ({
   adminRoot: {
@@ -113,8 +113,7 @@ const useStyles = makeStyles((theme) => ({
 
   cardRoot: {
     marginBottom: "2.5rem",
-    boxShadow:
-      "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+    boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
   },
   cardWrapper: {
     padding: ".6rem 2rem 2rem",

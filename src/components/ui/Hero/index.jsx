@@ -48,9 +48,7 @@ const HeroSection = (props) => {
   // const { mobileView } = menuSate;
 
   useEffect(() => {
-    const recentImage = recentButtonRef?.current?.baseURI
-      .split("/")
-      .includes("recent");
+    const recentImage = recentButtonRef?.current?.baseURI.split("/").includes("recent");
     if (recentImage) {
       recentButtonRef?.current?.classList?.add("active");
     } else {
@@ -100,17 +98,11 @@ const HeroSection = (props) => {
         >
           <Container>
             <div className={classes.contributorMenu}>
-              <Button
-                className={classes.contributorLogo}
-                component={Link}
-                to="/"
-              >
+              <Button className={classes.contributorLogo} component={Link} to="/">
                 <img src={contributorLogo} alt="contributorLogo" />
               </Button>
 
-              {user?.token &&
-              user?.role === "contributor" &&
-              user?.isLoggedIn ? (
+              {user?.token && user?.role === "contributor" && user?.isLoggedIn ? (
                 <div
                   className={classes.userAvatarArea}
                   onClick={handleToggle}
@@ -119,22 +111,14 @@ const HeroSection = (props) => {
                   ref={anchorRef}
                 >
                   {user?.isLoggedIn && user?.avatar ? (
-                    <img
-                      className={classes.avatar}
-                      src={user?.avatar}
-                      alt={user?.username}
-                    />
+                    <img className={classes.avatar} src={user?.avatar} alt={user?.username} />
                   ) : (
                     <AccountCircleIcon className={classes.avatar} />
                   )}
                   <ArrowDropDownIcon className={classes.arrowDown} />
                 </div>
               ) : (
-                <Button
-                  className={classes.contributorLogin}
-                  onClick={handleClick}
-                  value="contributor"
-                >
+                <Button className={classes.contributorLogin} onClick={handleClick} value="contributor">
                   Login or Join Now
                 </Button>
               )}
@@ -142,53 +126,29 @@ const HeroSection = (props) => {
             <div>
               <div className={classes.contributorContent}>
                 <Typography variant="h2">Become a Contributor</Typography>
-                <Typography variant="h1">
-                  Share your creations and earn money doing what you love
-                </Typography>
-                <Button
-                  className={classes.joinNowBtn}
-                  onClick={handleClick}
-                  value="contributor"
-                >
+                <Typography variant="h1">Share your creations and earn money doing what you love</Typography>
+                <Button className={classes.joinNowBtn} onClick={handleClick} value="contributor">
                   JOIN NOW
                 </Button>
               </div>
             </div>
           </Container>
 
-          <SignUpModal
-            openAuthModal={openAuthModal}
-            setOpenAuthModal={setOpenAuthModal}
-            role={role}
-          />
+          <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} role={role} />
 
-          <CustomPopper
-            open={open}
-            handleToggle={handleToggle}
-            anchorRef={anchorRef}
-            handleClose={handleClose}
-            handleListKeyDown={handleListKeyDown}
-          />
+          <CustomPopper open={open} handleToggle={handleToggle} anchorRef={anchorRef} handleClose={handleClose} handleListKeyDown={handleListKeyDown} />
         </div>
       ) : (
         <div
           className={classes.heroWrapper}
           style={{
             backgroundImage: `url(${heroBG})`,
-            minHeight: size === "large" ? "30rem" : "20rem",
+            padding: size === "large" ? "5rem 0" : "3rem 0",
           }}
         >
           <Container>
             <div className={classes.contentWrapper}>
-              {title && (
-                <SectionHeading
-                  title={title}
-                  color="white"
-                  center
-                  size={size}
-                  heroTitle
-                />
-              )}
+              {title && <SectionHeading title={title} color="white" center size={size} heroTitle />}
 
               {terms && (
                 <Typography
@@ -308,32 +268,15 @@ const HeroSection = (props) => {
 
               {!isSearch && <Search />}
 
-              {popularKeywords && (
-                <SearchKeyWords
-                  popularKeywords={popularKeywords}
-                  heroButton={heroButton}
-                />
-              )}
+              {popularKeywords && <SearchKeyWords popularKeywords={popularKeywords} heroButton={heroButton} />}
 
               {heroButton && (
                 <div className={classes.heroButtonWrapper}>
-                  <Button
-                    ref={popularButtonRef}
-                    className={classes.popularButton}
-                    component={Link}
-                    to="/"
-                    disableRipple
-                  >
+                  <Button ref={popularButtonRef} className={classes.popularButton} component={Link} to="/" disableRipple>
                     Popular
                   </Button>
 
-                  <Button
-                    ref={recentButtonRef}
-                    className={classes.recentButton}
-                    component={Link}
-                    to="/recent/new-design"
-                    disableRipple
-                  >
+                  <Button ref={recentButtonRef} className={classes.recentButton} component={Link} to="/recent/new-design" disableRipple>
                     Recent
                   </Button>
                 </div>

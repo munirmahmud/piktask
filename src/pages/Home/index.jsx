@@ -35,10 +35,10 @@ const Home = () => {
       popularCats.push(category);
     }
   };
-  console.log(`${process.env.PUBLIC_URL}/piktask.jpg`);
+  // console.log(`${process.env.PUBLIC_URL}/piktask.jpg`);
   return (
     <Layout
-      title="Graphic Resources for Free Download | Piktask"
+      title="Graphic Resources for Free Download"
       description="Graphic Resources for Free Download"
       ogUrl=""
       ogType=""

@@ -7,7 +7,7 @@ const SocialShare = (props) => {
   const { socials, copyRightSocial } = props;
 
   return (
-    <div className={classes.container}>
+    <div className={copyRightSocial ? `${classes.containerLeft}` : `${classes.containerCenter}`}>
       <List className={classes.socialIconWrapper}>
         {socials?.length > 0 &&
           socials?.map((media, index) => (

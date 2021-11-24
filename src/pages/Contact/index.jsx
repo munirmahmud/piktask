@@ -1,13 +1,6 @@
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Button,
-  Container,
-  FormControl,
-  TextareaAutosize,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, Container, FormControl, TextareaAutosize, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -31,11 +24,11 @@ const problemCategory = [
 ];
 const Contact = () => {
   const classes = useStyles();
-  const [isLoading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   const handleSubjectChange = (event) => {
     setSubject(event.target.value);
@@ -100,12 +93,7 @@ const Contact = () => {
   };
 
   return (
-    <Layout
-      title=" Contact | Piktask"
-      canonical={document.URL}
-      ogUrl={document.URL}
-      ogImage={thumbnail}
-    >
+    <Layout title=" Contact" canonical={document.URL} ogUrl={document.URL} ogImage={thumbnail}>
       <Header />
 
       <HeroSection contact isSearch />
@@ -119,11 +107,9 @@ const Contact = () => {
             <Spacing space={{ height: "1rem" }} />
             <div>
               <Typography className={classes.description}>
-                Our Team piktask 24/7 is dedicated to support our beloved
-                Customers.We have a good support team to the client.if you need
-                any assistance for any software or service.You can just Email us
-                directly at : bdtask@gmail.com or info@bdtask.com or submit a
-                ticket. Our Response time is 24 hours maximum.
+                Our Team piktask 24/7 is dedicated to support our beloved Customers.We have a good support team to the client.if you need any assistance for any
+                software or service.You can just Email us directly at : bdtask@gmail.com or info@bdtask.com or submit a ticket. Our Response time is 24 hours
+                maximum.
               </Typography>
               <Spacing space={{ height: "3rem" }} />
               <div className={classes.termsTitle}>
@@ -131,11 +117,7 @@ const Contact = () => {
               </div>
               <Spacing space={{ height: "1rem" }} />
 
-              <form
-                autoComplete="off"
-                onSubmit={handleSubmit}
-                className={classes.contactForm}
-              >
+              <form autoComplete="off" onSubmit={handleSubmit} className={classes.contactForm}>
                 <FormControl fullWidth className={classes.fieldWrapper}>
                   <label htmlFor="name">
                     Name <span>*</span>
@@ -205,16 +187,8 @@ const Contact = () => {
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </FormControl>
-                <Button
-                  variant="contained"
-                  className={classes.sentBtn}
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  <FontAwesomeIcon
-                    icon={faEnvelope}
-                    className={classes.sentIcon}
-                  />
+                <Button variant="contained" className={classes.sentBtn} type="submit" disabled={isLoading}>
+                  <FontAwesomeIcon icon={faEnvelope} className={classes.sentIcon} />
                   {isLoading ? "Sending..." : "Send"}
                 </Button>
               </form>

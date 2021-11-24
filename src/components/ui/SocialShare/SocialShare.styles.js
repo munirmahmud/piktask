@@ -1,8 +1,13 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
+  containerLeft: {
     display: "flex",
+  },
+  containerCenter: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   socialIconWrapper: {
     display: "flex",
@@ -18,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   socialIcon: {
     width: "2.8rem",
-    marginRight: ".8rem",
+    marginLeft: "1rem",
   },
   socialMedia: {
     width: "2rem",

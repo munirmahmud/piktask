@@ -1,10 +1,4 @@
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, Checkbox, FormControlLabel, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
@@ -85,18 +79,14 @@ const Login = ({ history }) => {
   };
 
   return (
-    <Layout title="Login | Piktask" canonical={document.URL}>
+    <Layout title="Login" canonical={document.URL}>
       <Header />
 
       <div className={classes.rootContainer}>
         <Spacing space={{ height: "5rem" }} />
 
         <div className={classes.formPageContainer}>
-          <img
-            src={formIconTop}
-            alt="Background Icon"
-            className={classes.backgroundIconTop}
-          />
+          <img src={formIconTop} alt="Background Icon" className={classes.backgroundIconTop} />
 
           <div className={classes.formWrapper}>
             <div className={classes.formWrapperInner}>
@@ -104,17 +94,11 @@ const Login = ({ history }) => {
                 <Typography className={classes.formTitle} variant="h2">
                   Sign In
                 </Typography>
-                <Typography className={classes.formSubtitle}>
-                  Sign in with your email & password
-                </Typography>
+                <Typography className={classes.formSubtitle}>Sign in with your email & password</Typography>
               </div>
 
               <div>
-                <form
-                  onSubmit={handleSubmit}
-                  autoComplete="off"
-                  className={classes.form}
-                >
+                <form onSubmit={handleSubmit} autoComplete="off" className={classes.form}>
                   <TextField
                     fullWidth
                     variant="outlined"
@@ -134,11 +118,7 @@ const Login = ({ history }) => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <img
-                      src={lockIcon}
-                      alt="Show or hide password"
-                      onClick={handleShowHidePassword}
-                    />
+                    <img src={lockIcon} alt="Show or hide password" onClick={handleShowHidePassword} />
                   </div>
 
                   <FormControlLabel
@@ -149,40 +129,23 @@ const Login = ({ history }) => {
                     className={classes.checkboxLabel}
                   />
 
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    className={classes.formButton}
-                    type="submit"
-                    disabled={!username || !password}
-                  >
+                  <Button variant="contained" fullWidth className={classes.formButton} type="submit" disabled={!username || !password}>
                     Sign In
                   </Button>
 
-                  <Link
-                    to="/reset-password"
-                    className={classes.passwordResetLink}
-                  >
+                  <Link to="/reset-password" className={classes.passwordResetLink}>
                     Password Reset
                   </Link>
                   <Spacing space={{ height: "1rem" }} />
                 </form>
 
-                <Button
-                  component={Link}
-                  to="/registration"
-                  className={classes.formLink}
-                >
+                <Button component={Link} to="/registration" className={classes.formLink}>
                   Not a member? Sign up
                 </Button>
               </div>
             </div>
           </div>
-          <img
-            src={formIconBottom}
-            alt="Background"
-            className={classes.backgroundIconBottom}
-          />
+          <img src={formIconBottom} alt="Background" className={classes.backgroundIconBottom} />
         </div>
 
         <Spacing space={{ height: "5rem" }} />

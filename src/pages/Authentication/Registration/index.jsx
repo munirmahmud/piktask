@@ -1,10 +1,4 @@
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, Checkbox, FormControlLabel, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
@@ -23,8 +17,7 @@ import { auth } from "../../../database";
 import Layout from "../../../Layout";
 import useStyles from "../Auth.styles";
 
-const clientId =
-  "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
+const clientId = "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
 
 const Registration = ({ history }) => {
   const classes = useStyles();
@@ -72,10 +65,7 @@ const Registration = ({ history }) => {
       setIsLoading(false);
       return;
     } else if (!/^[a-z0-9_.]+$/.test(username)) {
-      toast.error(
-        "Username can only use lowercase letters, numbers, underscores, and dots",
-        { autoClose: 2200 }
-      );
+      toast.error("Username can only use lowercase letters, numbers, underscores, and dots", { autoClose: 2200 });
       setIsLoading(false);
       return;
     } else if (username.match(/^_/)) {
@@ -129,9 +119,7 @@ const Registration = ({ history }) => {
           });
 
           // Show success message to the user
-          toast.success(
-            `An email has been sent to ${email}. Please check and confirm your registration`
-          );
+          toast.success(`An email has been sent to ${email}. Please check and confirm your registration`);
 
           setUsername("");
           setEmail("");
@@ -152,18 +140,15 @@ const Registration = ({ history }) => {
 
   //login with google
   const handleGoogleLogin = async (googleData) => {
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/auth/google_login`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          token: googleData.tokenId,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/google_login`, {
+      method: "POST",
+      body: JSON.stringify({
+        token: googleData.tokenId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const data = await res.json();
     // store returned user somehow
     if (data.status) {
@@ -218,27 +203,21 @@ const Registration = ({ history }) => {
   };
 
   return (
-    <Layout title="Signup | Piktast" canonical={document.URL}>
+    <Layout title="Signup" canonical={document.URL}>
       {isRedirectTo && <Redirect to="/confirm-signup" />}
       <Header />
       <div className={classes.rootContainer}>
         <Spacing space={{ height: "5rem" }} />
 
         <div className={classes.formPageContainer}>
-          <img
-            src={formIconTop}
-            alt="Background Icon"
-            className={classes.backgroundIconTop}
-          />
+          <img src={formIconTop} alt="Background Icon" className={classes.backgroundIconTop} />
           <div className={classes.formWrapper}>
             <div className={classes.formWrapperInner}>
               <div className={classes.formHeading}>
                 <Typography className={classes.formTitle} variant="h2">
                   Sign Up
                 </Typography>
-                <Typography className={classes.formSubtitle}>
-                  With your social network
-                </Typography>
+                <Typography className={classes.formSubtitle}>With your social network</Typography>
               </div>
 
               <div>
@@ -271,11 +250,7 @@ const Registration = ({ history }) => {
                 </Typography>
 
                 <div>
-                  <form
-                    autoComplete="off"
-                    className={classes.form}
-                    onSubmit={handleSubmit}
-                  >
+                  <form autoComplete="off" className={classes.form} onSubmit={handleSubmit}>
                     <TextField
                       fullWidth
                       variant="outlined"
@@ -303,11 +278,7 @@ const Registration = ({ history }) => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       />
-                      <img
-                        src={lockIcon}
-                        alt="Show or hide password"
-                        onClick={handleShowHidePassword}
-                      />
+                      <img src={lockIcon} alt="Show or hide password" onClick={handleShowHidePassword} />
                     </div>
                     {/* <div className={classes.passwordField}>
                       <TextField
@@ -327,9 +298,7 @@ const Registration = ({ history }) => {
                     </div> */}
 
                     <Typography variant="body1" className={classes.helpText}>
-                      Your password must be at least 6 characters long and must
-                      contain letters, numbers and special characters. Cannot
-                      contain whitespace.
+                      Your password must be at least 6 characters long and must contain letters, numbers and special characters. Cannot contain whitespace.
                     </Typography>
 
                     <FormControlLabel
@@ -339,34 +308,19 @@ const Registration = ({ history }) => {
                       control={<Checkbox color="primary" />}
                       className={classes.checkboxLabel}
                     />
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      className={classes.formButton}
-                      type="submit"
-                      disabled={!username || !email || !password}
-                    >
+                    <Button variant="contained" fullWidth className={classes.formButton} type="submit" disabled={!username || !email || !password}>
                       Sign Up
                     </Button>
                   </form>
 
-                  <Button
-                    component={Link}
-                    to="/login"
-                    className={classes.formLink}
-                    disableRipple
-                  >
+                  <Button component={Link} to="/login" className={classes.formLink} disableRipple>
                     Already registered? Log in
                   </Button>
                 </div>
               </div>
             </div>
           </div>
-          <img
-            src={formIconBottom}
-            alt="Piktask"
-            className={classes.backgroundIconBottom}
-          />
+          <img src={formIconBottom} alt="Piktask" className={classes.backgroundIconBottom} />
         </div>
         <Spacing space={{ height: "5rem" }} />
       </div>

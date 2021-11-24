@@ -20,17 +20,17 @@ const SearchResults = () => {
   const classes = useStyles();
   const { pathname } = useLocation();
   const location = useLocation();
-  const keywords = location.pathname.split("=").pop().replace(/-/g, " ");
   const locationPath = location.pathname;
   const user = useSelector((state) => state.user);
-  const [canonicalURL, setCanonicalURL] = useState("");
+  const keywords = location.pathname.split("=").pop().replace(/-/g, " ");
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
+  const [canonicalURL, setCanonicalURL] = useState("");
   const [isLoading, setLoading] = useState(false);
 
+  const [totalProduct, setTotalProduct] = useState("");
   const [pageCount, setPageCount] = useState(1);
-  const [totalProduct, setTotalProduct] = useState();
   const [thumbnail, setThumbnail] = useState("");
 
   let limit = 24;

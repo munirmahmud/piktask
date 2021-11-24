@@ -34,25 +34,12 @@ const Categories = () => {
       });
   }, []);
 
-  const imageThumbnail = encodeURI(
-    `${getBaseURL().bucket_base_url}${getBaseURL().images}${
-      thumbnail?.thumbnail
-    }`
-  );
+  const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.thumbnail}`);
 
   return (
-    <Layout
-      title="All Categories | Piktask"
-      canonical={document.URL}
-      ogUrl={document.URL}
-      ogImage={imageThumbnail}
-    >
+    <Layout title="All Categories" canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
-      <HeroSection
-        title="Graphic Resources for Free Download"
-        size="large"
-        popularKeywords
-      />
+      <HeroSection title="Graphic Resources for Free Download" size="large" popularKeywords />
       <Spacing space={{ height: "4rem" }} />
       <Container>
         <Grid classes={{ container: classes.container }} container spacing={2}>
@@ -62,33 +49,18 @@ const Categories = () => {
             <>
               {popularCategories?.length ? (
                 popularCategories?.map((photo) => (
-                  <Grid
-                    key={photo.id}
-                    item
-                    xs={12}
-                    sm={4}
-                    md={3}
-                    className={classes.productItem}
-                  >
+                  <Grid key={photo.id} item xs={12} sm={4} md={3} className={classes.productItem}>
                     <div className={classes.catItemWrapper}>
                       <div className={classes.catItem}>
                         <Link to={`/category/${photo.slug}`}>
                           <img
                             className={classes.catImage}
-                            src={
-                              getBaseURL().bucket_base_url +
-                              getBaseURL().categories +
-                              photo?.thumbnail
-                            }
+                            src={getBaseURL().bucket_base_url + getBaseURL().categories + photo?.thumbnail}
                             alt={`${photo?.name}`}
                           />
                         </Link>
 
-                        <Button
-                          className={classes.catName}
-                          component={Link}
-                          to={`/category/${photo.slug}`}
-                        >
+                        <Button className={classes.catName} component={Link} to={`/category/${photo.slug}`}>
                           {photo?.name}
                         </Button>
                       </div>

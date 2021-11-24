@@ -19,7 +19,6 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
@@ -31,7 +30,6 @@ import useStyles from "./WithdrawHistory.style";
 
 const WithdrawHistory = () => {
   const classes = useStyles();
-  const location = useLocation();
   const locationPath = document.location.pathname;
   const user = useSelector((state) => state.user);
   const [isLoading, setLoading] = useState(true);
@@ -176,6 +174,7 @@ const WithdrawHistory = () => {
                     <Typography className={classes.fieldTitle} variant="subtitle1">
                       From
                     </Typography>
+
                     <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
@@ -195,6 +194,7 @@ const WithdrawHistory = () => {
                           ))}
                       </Select>
                     </FormControl>
+
                     <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
@@ -212,6 +212,7 @@ const WithdrawHistory = () => {
                         ))}
                       </Select>
                     </FormControl>
+
                     <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
@@ -230,10 +231,12 @@ const WithdrawHistory = () => {
                       </Select>
                     </FormControl>
                   </div>
+
                   <div className={classes.fields}>
                     <Typography className={classes.fieldTitle} variant="subtitle1">
                       To
                     </Typography>
+
                     <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
@@ -253,6 +256,7 @@ const WithdrawHistory = () => {
                           ))}
                       </Select>
                     </FormControl>
+
                     <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
@@ -270,6 +274,7 @@ const WithdrawHistory = () => {
                         ))}
                       </Select>
                     </FormControl>
+
                     <FormControl variant="outlined" className={classes.formControl}>
                       {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
                       <Select
