@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   headingWrapper: {
     display: "flex",
-    justifyContent:"space-between",
+    justifyContent: "space-between",
   },
   withdrawBtn: {
     padding: "0.2rem 3.5rem",
@@ -134,7 +134,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tabsBtnWrapper: {
-    marginBottom: "2.5rem",
+    backgroundColor: "#FFF",
+    padding: "2rem",
   },
   earningBtn: {
     padding: "0.6rem 1.5rem",
@@ -244,8 +245,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tableHead: {
     backgroundColor: theme.palette.common.white,
-    boxShadow:
-      "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;",
+    boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;",
   },
   tableCellHead: {
     fontSize: "1.6rem",

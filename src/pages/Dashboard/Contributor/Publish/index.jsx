@@ -1,36 +1,16 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  CircularProgress,
-  FormControl,
-  Grid,
-  Paper,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@material-ui/core";
-// import premiumFileSell from '../../../assets/icons/crownEnterpriseIcon.svg';
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
+import PublishProduct from "../../../../components/Partials/PublishProduct";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
-import Paginations from "../../../../components/ui/Pagination";
-import ProductNotFound from "../../../../components/ui/ProductNotFound";
-import { getBaseURL, getWords } from "../../../../helpers";
+import Pagination from "../../../../components/ui/Pagination";
 import Layout from "../../../../Layout";
+import DateSelection from "./../../../../components/ui/dashboard/contributor/DateSelection/index";
 import useStyles from "./Publish.styles";
 
 const Publish = () => {
@@ -42,6 +22,17 @@ const Publish = () => {
 
   const [isLoading, setLoading] = useState(true);
   const [allPublishProduct, setAllPublishProduct] = useState([]);
+
+  const dateFormat = "YYYY-MM-DD";
+  let newDate = new Date();
+  let firstDayCurrentMonth = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
+  let firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
+  const today = moment(newDate).format(dateFormat);
+
+  const [searchInput, setSearchInput] = useState({
+    firstDay: firstDay,
+    toDays: today,
+  });
 
   const [pageCount, setPageCount] = useState(1);
   const [totalProduct, setTotalProduct] = useState();
@@ -62,51 +53,13 @@ const Publish = () => {
     window.addEventListener("resize", () => setResponsiveness());
   }, []);
 
-  // Date wise API integration
-  // From
-  const fromMonths = moment.months();
-  let [fromYear, setFromYear] = useState(moment().year());
-  let [fromMonth, setFromMonth] = useState(moment().format("MMMM"));
-  let [fromCurrentDate, setFromCurrentDate] = useState(moment().date());
-
-  // To
-  const toMonths = moment.months();
-  let [toYear, setToYear] = useState(moment().year());
-  let [toMonth, setToMonth] = useState(moment().format("MMMM"));
-  let [toCurrentDate, setToCurrentDate] = useState(moment().date());
-
-  const getAllDays = () => {
-    const days = [];
-    for (let i = 0; i < moment().daysInMonth(); i++) {
-      if (i + 1 < 10) {
-        days.push("0" + (i + 1));
-      } else {
-        days.push(i + 1);
-      }
-    }
-    return days;
-  };
-
-  const getAllYears = () => {
-    const years = [];
-    for (let i = 1990; i <= moment().year(); i++) {
-      years.push(i);
-    }
-    return years.sort((a, b) => b - a);
-  };
-
   useEffect(() => {
-    const dateFormat = "YYYY-MM-DD";
-    let newDate = new Date();
-    let firstDayCurrentMonth = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
-    let firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
-    const today = moment(newDate).format(dateFormat);
-    // Author last file API
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${firstDay}&end=${today}&limit=${limit}&page=${pageCount}`, {
-          headers: { Authorization: user?.token },
-        })
+        .get(
+          `${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${searchInput.firstDay}&end=${searchInput.toDays}&limit=${limit}&page=${pageCount}`,
+          { headers: { Authorization: user?.token } }
+        )
         .then(({ data }) => {
           if (data?.images.length > 0) {
             setAllPublishProduct(data?.images);
@@ -117,37 +70,7 @@ const Publish = () => {
           }
         });
     }
-  }, [user?.token, dispatch, pageCount, limit, user?.isLoggedIn, user?.role]);
-
-  const handleDateSubmit = (e) => {
-    e.preventDefault();
-
-    let fromDateMonths = moment().month(fromMonth).format("M");
-    if (fromDateMonths < 10) {
-      fromDateMonths = "0" + fromDateMonths;
-    }
-    const fromDates = fromYear + "-" + fromDateMonths + "-" + fromCurrentDate;
-
-    let toDateMonths = moment().month(toMonth).format("M");
-    if (toDateMonths < 10) {
-      toDateMonths = "0" + toDateMonths;
-    }
-    const toDates = fromYear + "-" + toDateMonths + "-" + toCurrentDate;
-
-    // Current date wise publish product
-    if (user?.isLoggedIn && user?.role === "contributor") {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${fromDates}&end=${toDates}&limit=${limit}&page=${pageCount}`, {
-          headers: { Authorization: user?.token },
-        })
-        .then(({ data }) => {
-          if (data?.status) {
-            setAllPublishProduct(data?.images);
-            setLoading(false);
-          }
-        });
-    }
-  };
+  }, [user, dispatch, pageCount, limit, searchInput]);
 
   return (
     <Layout title="Publish">
@@ -161,216 +84,11 @@ const Publish = () => {
               <Heading tag="h2">Publish File</Heading>
             </div>
 
-            <div className={classes.dateRanges}>
-              <div className={classes.statisticsFormWrapper}>
-                <div className={classes.selectPeriodFrom}>
-                  <div className={classes.fields}>
-                    <Typography className={classes.fieldTitle} variant="subtitle1">
-                      From
-                    </Typography>
-                    <FormControl variant="outlined" className={classes.formControl}>
-                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
-                      <Select
-                        native
-                        value={fromMonth}
-                        onChange={(e) => setFromMonth(e.target.value)}
-                        inputProps={{
-                          // name: 'age',
-                          id: "months",
-                        }}
-                      >
-                        {fromMonths?.length > 0 &&
-                          fromMonths?.map((month, index) => (
-                            <option key={month} value={month}>
-                              {month}
-                            </option>
-                          ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl variant="outlined" className={classes.formControl}>
-                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
-                      <Select
-                        native
-                        value={fromCurrentDate}
-                        onChange={(e) => setFromCurrentDate(e.target.value)}
-                        inputProps={{
-                          id: "date",
-                        }}
-                      >
-                        {getAllDays().map((day) => (
-                          <option key={day} value={day}>
-                            {day}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl variant="outlined" className={classes.formControl}>
-                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
-                      <Select
-                        native
-                        value={fromYear}
-                        onChange={(e) => setFromYear(e.target.value)}
-                        inputProps={{
-                          id: "year",
-                        }}
-                      >
-                        {getAllYears().map((year) => (
-                          <option key={year} value={year}>
-                            {year}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>
-                  <div className={classes.fields}>
-                    <Typography className={classes.fieldTitle} variant="subtitle1">
-                      To
-                    </Typography>
-                    <FormControl variant="outlined" className={classes.formControl}>
-                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
-                      <Select
-                        native
-                        value={toMonth}
-                        onChange={(e) => setToMonth(e.target.value)}
-                        inputProps={{
-                          // name: 'age',
-                          id: "months",
-                        }}
-                      >
-                        {toMonths?.length > 0 &&
-                          toMonths?.map((month, index) => (
-                            <option key={month} value={month}>
-                              {month}
-                            </option>
-                          ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl variant="outlined" className={classes.formControl}>
-                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
-                      <Select
-                        native
-                        value={toCurrentDate}
-                        onChange={(e) => setToCurrentDate(e.target.value)}
-                        inputProps={{
-                          id: "date",
-                        }}
-                      >
-                        {getAllDays().map((day) => (
-                          <option key={day} value={day}>
-                            {day}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl variant="outlined" className={classes.formControl}>
-                      {/* <InputLabel htmlFor="months" >Months</InputLabel> */}
-                      <Select
-                        native
-                        value={toYear}
-                        onChange={(e) => setToYear(e.target.value)}
-                        inputProps={{
-                          id: "year",
-                        }}
-                      >
-                        {getAllYears().map((year) => (
-                          <option key={year} value={year}>
-                            {year}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>
+            <DateSelection setSearchInput={setSearchInput} />
 
-                  <Button onClick={handleDateSubmit} className={classes.showMoreBtn}>
-                    View More
-                  </Button>
-                </div>
-              </div>
-            </div>
+            <PublishProduct isLoading={isLoading} allPublishProduct={allPublishProduct} />
 
-            {isLoading ? (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin: "0 auto",
-                  height: 300,
-                }}
-              >
-                <CircularProgress color="primary" />
-              </div>
-            ) : (
-              <Grid container className={classes.publishGridContainer}>
-                <Grid item xs={12} sm={12} md={12} className={classes.loaderItem}>
-                  <Card className={classes.cardRoot}>
-                    <CardContent className={classes.productCard}>
-                      {allPublishProduct?.length > 0 ? (
-                        <TableContainer className={classes.tableContainer} component={Paper}>
-                          <Table className={classes.table} aria-label="publish data table">
-                            <TableHead>
-                              <TableRow className={classes.tableHead}>
-                                <TableCell className={classes.tableCell}></TableCell>
-                                <TableCell style={{ textAlign: "left" }} className={classes.tableCell}>
-                                  Title
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>Type</TableCell>
-                                <TableCell className={classes.tableCell}>Like</TableCell>
-                                <TableCell className={classes.tableCell}>Download</TableCell>
-                                <TableCell className={classes.tableCell}>Earning</TableCell>
-                                <TableCell className={classes.tableCell}>Date</TableCell>
-                              </TableRow>
-                            </TableHead>
-
-                            {allPublishProduct?.map((product) => (
-                              <TableBody key={product?.id}>
-                                <TableRow key={product?.id} className={classes.tableRowContent}>
-                                  <TableCell className={`${classes.tableCell} ${classes.authProductWrapper}`}>
-                                    <Link to={`/images/${product?.title.toLowerCase().replace(/\s/g, "-")}&id=${product?.id}`}>
-                                      <img
-                                        className={classes.publishImg}
-                                        src={getBaseURL().bucket_base_url + getBaseURL().images + product?.preview}
-                                        alt={product?.title}
-                                      />
-                                    </Link>
-
-                                    {/* {product?.item_for_sale === "sale" && (
-                                          <div className={classes.premiumIcon}>
-                                            <img src={premiumFileSell} alt="Premium Product" />
-                                          </div>
-                                        )} */}
-                                  </TableCell>
-
-                                  <TableCell style={{ textAlign: "left" }} className={classes.tableCell}>
-                                    {product?.title.split(" ").length > 4 ? <>{getWords(4, product?.title)}...</> : <>{product?.title}</>}
-                                  </TableCell>
-
-                                  <TableCell className={classes.tableCell}>{product?.extension}</TableCell>
-
-                                  <TableCell className={classes.tableCell}>{product?.total_likes}</TableCell>
-
-                                  <TableCell className={classes.tableCell}>{product?.total_downloads}</TableCell>
-
-                                  <TableCell className={classes.tableCell}>
-                                    <AttachMoneyIcon />
-                                    {product?.total_earning}
-                                  </TableCell>
-
-                                  <TableCell className={classes.tableCell}>{moment(product?.createdAt).format("LL")}</TableCell>
-                                </TableRow>
-                              </TableBody>
-                            ))}
-                          </Table>
-                        </TableContainer>
-                      ) : (
-                        <ProductNotFound publishContent contributorProductNotFound />
-                      )}
-                      {totalProduct > limit && <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </Grid>
-            )}
+            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
           </div>
           <Footer />
         </main>

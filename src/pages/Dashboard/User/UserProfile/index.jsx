@@ -73,8 +73,6 @@ const UserProfile = () => {
 
   // get user information
   useEffect(() => {
-    setLoading(true);
-
     if (user?.isLoggedIn) {
       axios
         .get(`${process.env.REACT_APP_API_URL}/user/profile`, {
@@ -196,6 +194,7 @@ const UserProfile = () => {
       method: "POST",
       body: JSON.stringify({
         token: googleData.tokenId,
+        role: "user",
       }),
       headers: { "Content-Type": "application/json" },
     });
@@ -224,6 +223,7 @@ const UserProfile = () => {
       method: "POST",
       body: JSON.stringify({
         token: facebookData.tokenId,
+        role: "user",
       }),
       headers: {
         "Content-Type": "application/json",

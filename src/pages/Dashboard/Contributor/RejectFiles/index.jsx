@@ -9,7 +9,7 @@ import AdminHeader from "../../../../components/ui/dashboard/contributor/Header"
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
-import Paginations from "../../../../components/ui/Pagination";
+import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
@@ -20,6 +20,7 @@ const RejectFiles = () => {
   const location = useLocation();
   const locationPath = location.pathname;
   const user = useSelector((state) => state.user);
+
   const [rejectMessage, setRejectMessage] = useState([]);
   const [rejectProduct, setRejectProduct] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -89,7 +90,7 @@ const RejectFiles = () => {
   };
 
   return (
-    <Layout title="RejectFiles | Piktask">
+    <Layout title="RejectFiles">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
@@ -140,7 +141,7 @@ const RejectFiles = () => {
               </Grid>
             )}
 
-            {totalProduct > limit && <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
           </div>
 
           <Spacing space={{ height: "4rem" }} />

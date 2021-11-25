@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Loader from "../Loader";
-import Paginations from "../Pagination";
+import Pagination from "../Pagination";
 import Product from "../Products/Product";
 import useStyles from "./RelatedImage.style";
 
@@ -49,27 +49,13 @@ const RelatedImage = ({ imageID }) => {
           <Loader />
         ) : (
           relatedImage?.map((photo) => (
-            <Grid
-              key={photo?.image_id}
-              item
-              xs={6}
-              sm={4}
-              md={3}
-              className={classes.productItem}
-            >
+            <Grid key={photo?.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
               <Product photo={photo} />
             </Grid>
           ))
         )}
       </Grid>
-      {totalProduct > limit && (
-        <Paginations
-          productPagination
-          count={count}
-          pageCount={pageCount}
-          setPageCount={setPageCount}
-        />
-      )}
+      {totalProduct > limit && <Pagination productPagination count={count} pageCount={pageCount} setPageCount={setPageCount} />}
     </>
   );
 };

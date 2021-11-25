@@ -10,7 +10,7 @@ import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import SectionHeading from "../../../../components/ui/Heading";
 import Loader from "../../../../components/ui/Loader";
-import Paginations from "../../../../components/ui/Pagination";
+import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import Product from "../../../../components/ui/Products/Product";
 import Layout from "../../../../Layout";
@@ -42,10 +42,7 @@ const FavoriteItems = () => {
     setLoading(true);
     if (user?.isLoggedIn) {
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/user/favourite_image/?limit=${limit}&page=${pageCount}`,
-          { headers: { Authorization: user?.token } }
-        )
+        .get(`${process.env.REACT_APP_API_URL}/user/favourite_image/?limit=${limit}&page=${pageCount}`, { headers: { Authorization: user?.token } })
         .then(({ data }) => {
           if (data?.status) {
             setFavoriteProducts(data?.images);
@@ -61,7 +58,7 @@ const FavoriteItems = () => {
   }, [user?.isLoggedIn, user?.token, pageCount, limit]);
 
   return (
-    <Layout title="Favorite Items | Piktask">
+    <Layout title="Favorite Items">
       <Header />
 
       <Spacing space={{ height: "5rem" }} />
@@ -74,11 +71,7 @@ const FavoriteItems = () => {
 
           <Grid item md={9} sm={9} xs={12} className={classes.cardItem}>
             <SectionHeading title="Favorite" large />
-            <Grid
-              classes={{ container: classes.container }}
-              container
-              spacing={2}
-            >
+            <Grid classes={{ container: classes.container }} container spacing={2}>
               {isLoading ? (
                 <Loader />
               ) : (
@@ -102,14 +95,7 @@ const FavoriteItems = () => {
                 </>
               )}
             </Grid>
-            {totalProduct > limit && (
-              <Paginations
-                locationPath={locationPath}
-                count={count}
-                pageCount={pageCount}
-                setPageCount={setPageCount}
-              />
-            )}
+            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
           </Grid>
         </Grid>
       </Container>

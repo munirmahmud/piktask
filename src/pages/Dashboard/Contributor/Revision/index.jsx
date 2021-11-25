@@ -8,7 +8,7 @@ import AdminHeader from "../../../../components/ui/dashboard/contributor/Header"
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
-import Paginations from "../../../../components/ui/Pagination";
+import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
@@ -66,12 +66,13 @@ const Revision = () => {
   }, [user?.isLoggedIn, user?.role, user?.token, pageCount, limit]);
 
   return (
-    <Layout title="Under Revision | Piktask">
+    <Layout title="Under Revision">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
         <main className={classes.content}>
           <AdminHeader />
+
           <div className={classes.cardContentWrapper}>
             <div className={classes.headingWrapepr}>
               <Heading tag="h2">Under Revision</Heading>
@@ -117,7 +118,7 @@ const Revision = () => {
               </Grid>
             )}
 
-            {totalProduct > limit && <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
 
             <Spacing space={{ height: "3rem" }} />
           </div>

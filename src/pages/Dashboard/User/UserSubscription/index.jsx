@@ -8,7 +8,7 @@ import Layout from "../../../../Layout";
 
 const UserSubscription = () => {
   return (
-    <Layout title="Subscription | Piktask" canonical={document.URL}>
+    <Layout title="Subscription" canonical={document.URL}>
       <Header />
 
       <Spacing space={{ height: "5rem" }} />
@@ -19,9 +19,8 @@ const UserSubscription = () => {
           </Grid>
           <Grid item md={9} sm={9} xs={12}>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo ut
-              inventore nesciunt laborum error a voluptatem, quam cum dolore
-              officiis deserunt iste facere tenetur incidunt?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo ut inventore nesciunt laborum error a voluptatem, quam cum dolore officiis deserunt
+              iste facere tenetur incidunt?
             </p>
           </Grid>
         </Grid>
