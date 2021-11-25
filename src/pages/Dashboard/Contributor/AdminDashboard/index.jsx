@@ -24,7 +24,7 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <Layout title="dashboard | Piktask">
+    <Layout title="dashboard">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 

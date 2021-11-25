@@ -54,7 +54,7 @@ const EmailVerification = ({ history }) => {
   saveData();
 
   return (
-    <Layout title="Email verification | Piktask" canonical={document.URL}>
+    <Layout title="Email verification" canonical={document.URL}>
       <div className={classes.cardWrapper}>
         <Card className={classes.root}>
           <CardContent>
@@ -63,17 +63,9 @@ const EmailVerification = ({ history }) => {
             </Typography>
             <br />
             <Typography variant="h5" component="h2"></Typography>
-            <Typography variant="body1">
-              Now you are redirecting to login page or click below to login
-            </Typography>
+            <Typography variant="body1">Now you are redirecting to login page or click below to login</Typography>
 
-            <Button
-              className={classes.loginBtn}
-              size="medium"
-              disableRipple
-              component={Link}
-              to="/login"
-            >
+            <Button className={classes.loginBtn} size="medium" disableRipple component={Link} to="/login">
               Login
             </Button>
           </CardContent>

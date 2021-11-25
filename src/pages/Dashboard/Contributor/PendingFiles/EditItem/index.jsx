@@ -1,8 +1,9 @@
-import { Button } from "@material-ui/core";
+import { Button, Chip, TextField } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import CloseIcon from "@material-ui/icons/Close";
+import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getBaseURL } from "../../../../../helpers";
@@ -17,24 +18,39 @@ const EditItem = (props) => {
   const [tagsValue, setTagsValue] = useState([]);
   const [category, setCategory] = useState([]);
   const [title, setTitle] = useState("");
-  const [tag, setTag] = useState([]);
-  const [keywords, setKeywords] = useState([]);
+  // const [tag, setTag] = useState([]);
+  // const [keywords, setKeywords] = useState([]);
 
-  const keyWordRef = useRef(null);
+  // const keyWordRef = useRef(null);
 
-  const handleCategoryItem = () => {
+  // const handleCategoryItem = () => {
+  //   if (user?.isLoggedIn && user?.role === "contributor") {
+  //     axios
+  //       .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
+  //       .then(({ data }) => {
+  //         if (data?.status) {
+  //           const sortedData = data?.categories.sort((a, b) => a.id - b.id);
+  //           setCategory(sortedData);
+  //         }
+  //       })
+  //       .catch((error) => console.log("Categories loading error: ", error));
+  //   }
+  // };
+
+  useEffect(() => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
         .then(({ data }) => {
           if (data?.status) {
             const sortedData = data?.categories.sort((a, b) => a.id - b.id);
-            setCategory(sortedData);
+            // setCategory(sortedData);
+            setCategory((prevState) => [{ id: "0", name: "Select Category" }, ...sortedData]);
           }
         })
         .catch((error) => console.log("Categories loading error: ", error));
     }
-  };
+  }, [user]);
 
   const keyWords = [
     // { title: "Business Card" },
@@ -115,22 +131,22 @@ const EditItem = (props) => {
     return;
   };
 
-  const removeKeyword = (keyword, index, e) => {
-    // const keywords = tagsValue.splice(index, 1);
-    // console.log(tagsValue.splice(index, 1));
-    // console.log("keywords", tagsValue);
+  // const removeKeyword = (keyword, index, e) => {
+  //   // const keywords = tagsValue.splice(index, 1);
+  //   // console.log(tagsValue.splice(index, 1));
+  //   // console.log("keywords", tagsValue);
 
-    setTagsValue((prev) => {
-      delete tagsValue[index];
-    });
-  };
+  //   setTagsValue((prev) => {
+  //     delete tagsValue[index];
+  //   });
+  // };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      setTagsValue((prevState) => [e.target.value, ...prevState]);
-      setTag("");
-    }
-  };
+  // const handleKeyPress = (e) => {
+  //   if (e.key === "Enter") {
+  //     setTagsValue((prevState) => [e.target.value, ...prevState]);
+  //     setTag("");
+  //   }
+  // };
 
   // const handleKeywords = (e) => {
   //   // console.log(keyWordRef.current.which);
@@ -145,19 +161,19 @@ const EditItem = (props) => {
   //   }
   // });
 
-  const getTags = () => {
-    return (
-      <div className={classes.tags}>
-        {tagsValue?.length > 0 &&
-          tagsValue?.map((tag, index) => (
-            <li key={index} className="keyword">
-              {tag}
-              <ClearIcon onClick={(e) => removeKeyword(tag, index, e)} />
-            </li>
-          ))}
-      </div>
-    );
-  };
+  // const getTags = () => {
+  //   return (
+  //     <div className={classes.tags}>
+  //       {tagsValue?.length > 0 &&
+  //         tagsValue?.map((tag, index) => (
+  //           <li key={index} className="keyword">
+  //             {tag}
+  //             <ClearIcon onClick={(e) => removeKeyword(tag, index, e)} />
+  //           </li>
+  //         ))}
+  //     </div>
+  //   );
+  // };
 
   return (
     <div className={classes.editItemWrapper}>
@@ -180,18 +196,13 @@ const EditItem = (props) => {
 
         <div className={classes.fieldGroup}>
           <label htmlFor="category">Select Category</label>
-          <select id="category" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} onClick={handleCategoryItem}>
-            {category.length > 0 ? (
-              category.map((categoryItem) => (
+          <select id="category" value={categoryName} onChange={(e) => setCategoryName(e.target.value)}>
+            {category?.length > 0 &&
+              category?.map((categoryItem) => (
                 <option key={categoryItem.id} value={categoryItem.id}>
                   {categoryItem?.name}
                 </option>
-              ))
-            ) : (
-              <option aria-label="None" value="">
-                Select Category
-              </option>
-            )}
+              ))}
           </select>
         </div>
 
@@ -200,12 +211,12 @@ const EditItem = (props) => {
           <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
 
-        <div className={`${classes.fieldGroup}`}>
+        {/* <div className={`${classes.fieldGroup}`}>
           <label htmlFor="tag">Keyword</label>
           <input type="text" id="tag" ref={keyWordRef} value={tag} onChange={(e) => setTag(e.target.value)} onKeyPress={handleKeyPress} />
-        </div>
+        </div> */}
 
-        {/* <div className={`${classes.fieldGroup}`}>
+        <div className={`${classes.fieldGroup}`}>
           <label htmlFor="keyword">Keyword</label>
           <Autocomplete
             value={tagsValue}
@@ -230,9 +241,9 @@ const EditItem = (props) => {
               focused: classes.focused,
             }}
           />
-        </div> */}
+        </div>
 
-        {getTags()}
+        {/* {getTags()} */}
 
         <hr className={classes.seperator} />
 
@@ -254,17 +265,17 @@ const EditItem = (props) => {
 
 export default EditItem;
 
-const Input = ({ setKeywords }) => {
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      console.log("do validate");
-      setKeywords((prev) => {
-        console.log("prev", prev);
+// const Input = ({ setKeywords }) => {
+//   const handleKeyDown = (e) => {
+//     if (e.key === "Enter") {
+//       console.log("do validate");
+//       setKeywords((prev) => {
+//         console.log("prev", prev);
 
-        return [e.target.value, ...prev];
-      });
-    }
-  };
+//         return [e.target.value, ...prev];
+//       });
+//     }
+//   };
 
-  return <input type="text" onKeyDown={handleKeyDown} />;
-};
+//   return <input type="text" onKeyDown={handleKeyDown} />;
+// };

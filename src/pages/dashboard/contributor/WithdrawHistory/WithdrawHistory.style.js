@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#0773c5",
       borderColor: "#0773c5",
-      color: "#fff",
     },
   },
 
@@ -113,10 +112,18 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem",
     fontSize: "1.6rem",
     textAlign: "left",
-
-    "& svg": {
-      marginBottom: "-0.19rem",
-    },
+  },
+  statusSuccess: {
+    color: "#03911a",
+    textTransform: "capitalize",
+  },
+  statusDanger: {
+    color: "#ff0000",
+    textTransform: "capitalize",
+  },
+  statusPending: {
+    color: "#0088f2",
+    textTransform: "capitalize",
   },
   tableRowContent: {
     "& td": {
@@ -129,6 +136,18 @@ const useStyles = makeStyles((theme) => ({
 
     "&:nth-of-type(even)": {
       backgroundColor: theme.palette.action.hover,
+    },
+  },
+  invoiceButton: {
+    padding: "0 1.5rem",
+    backgroundColor: "#0088f2",
+    color: "#fff",
+    border: ".2rem solid",
+    borderColor: "#0088f2",
+    transition: "all 0.3s linear",
+    "&:hover": {
+      backgroundColor: "#0773c5",
+      borderColor: "#0773c5",
     },
   },
 }));

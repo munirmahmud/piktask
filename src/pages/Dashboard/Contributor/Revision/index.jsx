@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CircularProgress,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import { Card, CardContent, CircularProgress, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -14,7 +8,7 @@ import AdminHeader from "../../../../components/ui/dashboard/contributor/Header"
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
-import Paginations from "../../../../components/ui/Pagination";
+import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
@@ -52,14 +46,11 @@ const Revision = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/contributor/images/pending?limit=${limit}&page=${pageCount}`,
-            {
-              headers: { Authorization: user?.token },
-            }
-          )
+          .get(`${process.env.REACT_APP_API_URL}/contributor/images/pending?limit=${limit}&page=${pageCount}`, {
+            headers: { Authorization: user?.token },
+          })
           .then(({ data }) => {
-            if (data?.images.length > 0) {
+            if (data?.images?.length > 0) {
               setRevisionProduct(data?.images);
               setTotalProduct(data?.total);
               setLoading(false);
@@ -75,19 +66,19 @@ const Revision = () => {
   }, [user?.isLoggedIn, user?.role, user?.token, pageCount, limit]);
 
   return (
-    <Layout title="Under Revision | Piktask">
+    <Layout title="Under Revision">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
         <main className={classes.content}>
           <AdminHeader />
+
           <div className={classes.cardContentWrapper}>
             <div className={classes.headingWrapepr}>
               <Heading tag="h2">Under Revision</Heading>
               <Typography>
-                Here you can see the submitted files. Our team will review them
-                and check if they meet our <br /> requirements. The files could
-                remain in this stage for a few days. Please be patient!
+                Here you can see the submitted files. Our team will review them and check if they meet our <br /> requirements. The files could remain in this
+                stage for a few days. Please be patient!
               </Typography>
             </div>
 
@@ -109,33 +100,14 @@ const Revision = () => {
               <Grid container spacing={2}>
                 {revisionProduct?.length > 0 ? (
                   revisionProduct?.map((product) => (
-                    <Grid
-                      key={product?.id}
-                      item
-                      xs={3}
-                      sm={2}
-                      md={2}
-                      className={classes.productItem}
-                    >
+                    <Grid key={product?.id} item xs={3} sm={2} md={2} className={classes.productItem}>
                       <Card className={classes.cardWrapper}>
                         <div className={classes.cardImage}>
-                          <img
-                            src={
-                              getBaseURL().bucket_base_url +
-                              getBaseURL().images +
-                              product?.original_file
-                            }
-                            alt={product.original_name}
-                          />
+                          <img src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file} alt={product.original_name} />
                         </div>
                         <CardContent className={classes.cardContent}>
-                          <Typography variant="h3">
-                            {product.original_name}
-                          </Typography>
-                          <Typography>
-                            File Size: {(product.size / 1024 / 1024).toFixed(2)}{" "}
-                            MB
-                          </Typography>
+                          <Typography variant="h3">{product.original_name}</Typography>
+                          <Typography>File Size: {(product.size / 1024 / 1024).toFixed(2)} MB</Typography>
                         </CardContent>
                       </Card>
                     </Grid>
@@ -146,14 +118,7 @@ const Revision = () => {
               </Grid>
             )}
 
-            {totalProduct > limit && (
-              <Paginations
-                locationPath={locationPath}
-                count={count}
-                pageCount={pageCount}
-                setPageCount={setPageCount}
-              />
-            )}
+            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
 
             <Spacing space={{ height: "3rem" }} />
           </div>

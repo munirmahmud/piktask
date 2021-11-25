@@ -1,15 +1,14 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    height: "100%",
+  },
   menuWrapper: {
-    padding: "0.4rem 0",
+    // padding: "1.2rem 0",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-
-    "@media (max-width: 577px)": {
-      padding: 0,
-    },
   },
   menuIcon: {
     fontSize: "4rem",
@@ -104,7 +103,6 @@ const useStyles = makeStyles((theme) => ({
   closeIconWrapper: {
     backgroundColor: "rgb(1 32 54)",
     padding: "1rem",
-    // boxShadow: "0px 0px 50px 50px rgb(1 32 54)",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -141,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   headerLogo: {
-    width: 135,
+    width: 140,
     padding: 0,
     "& .MuiButton-label": {
       justifyContent: "flex-start",

@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Link as MuiLink,
   List,
   ListItem,
   TextField,
@@ -27,27 +26,22 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import authorPhoto from "../../../../../assets/author.png";
 import behanceIcon from "../../../../../assets/icons/behance.svg";
-import dribbleIcon from "../../../../../assets/icons/dribble.svg";
+import dribbbleIcon from "../../../../../assets/icons/dribble.svg";
 import facebookIcon from "../../../../../assets/icons/facebook.svg";
 import instagramIcon from "../../../../../assets/icons/instagram.svg";
-import linkedinIcon from "../../../../../assets/icons/linkedin.svg";
+import linkedInIcon from "../../../../../assets/icons/linkdin.svg";
 import pinterestIcon from "../../../../../assets/icons/pintarest.svg";
 import shutterstockIcon from "../../../../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../../../../assets/icons/twitter.svg";
 import { getBaseURL } from "../../../../../helpers";
+import SocialShare from "./../../../SocialShare/index";
 import useStyles from "./UserSideBar.style";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`authentication-tabpanel-${index}`}
-      aria-labelledby={`authentication-tab-${index}`}
-      {...other}
-    >
+    <div role="tabpanel" hidden={value !== index} id={`authentication-tabpanel-${index}`} aria-labelledby={`authentication-tab-${index}`} {...other}>
       {value === index && children}
     </div>
   );
@@ -131,10 +125,7 @@ const UserSideBar = () => {
       setValue(3);
     } else if (window.location.pathname === "/user/devices" && value !== 4) {
       setValue(4);
-    } else if (
-      window.location.pathname === "/user/subscription" &&
-      value !== 5
-    ) {
+    } else if (window.location.pathname === "/user/subscription" && value !== 5) {
       setValue(5);
     }
   }, [value]);
@@ -226,6 +217,41 @@ const UserSideBar = () => {
     }
   };
 
+  const socialMedia = [
+    {
+      socialUrl: userProfile.facebook,
+      socialIcon: facebookIcon,
+    },
+    {
+      socialUrl: userProfile.behance,
+      socialIcon: behanceIcon,
+    },
+    {
+      socialUrl: userProfile.dribbble,
+      socialIcon: dribbbleIcon,
+    },
+    {
+      socialUrl: userProfile.instagram,
+      socialIcon: instagramIcon,
+    },
+    {
+      socialUrl: userProfile.linkedin,
+      socialIcon: linkedInIcon,
+    },
+    {
+      socialUrl: userProfile.pinterest,
+      socialIcon: pinterestIcon,
+    },
+    {
+      socialUrl: userProfile.shutterstock,
+      socialIcon: shutterstockIcon,
+    },
+    {
+      socialUrl: userProfile.twitter,
+      socialIcon: twitterIcon,
+    },
+  ];
+
   return (
     <>
       {mobileView ? (
@@ -250,10 +276,7 @@ const UserSideBar = () => {
               <div className={classes.profileImage}>
                 {profilePicture ? (
                   <div>
-                    <img
-                      src={getBaseURL().bucket_base_url + "/" + profilePicture}
-                      alt={user?.username}
-                    />
+                    <img src={getBaseURL().bucket_base_url + "/" + profilePicture} alt={user?.username} />
                   </div>
                 ) : (
                   <img src={authorPhoto} alt={user?.username} />
@@ -262,14 +285,7 @@ const UserSideBar = () => {
                   <div className={classes.bgOverlay}>
                     <label htmlFor="upload_photo">
                       <PhotoCameraIcon className={classes.uploadIcon} />
-                      <input
-                        type="file"
-                        name="profile_picture"
-                        accept="image/*"
-                        id="upload_photo"
-                        style={{ display: "none" }}
-                        onChange={handleUpdateImage}
-                      />
+                      <input type="file" name="profile_picture" accept="image/*" id="upload_photo" style={{ display: "none" }} onChange={handleUpdateImage} />
                     </label>
                   </div>
                 </div>
@@ -280,89 +296,8 @@ const UserSideBar = () => {
                 <Typography>{user?.email}</Typography>
               </div>
 
-              <div className={classes.socialMedia}>
-                {userProfile?.facebook && (
-                  <MuiLink href={`${userProfile?.facebook}`} target="_blank">
-                    <img
-                      src={facebookIcon}
-                      className={classes.facebookIcon}
-                      alt="facebookIcon"
-                    />
-                  </MuiLink>
-                )}
-
-                {userProfile?.twitter && (
-                  <MuiLink href={`${userProfile?.twitter}`} target="_blank">
-                    <img
-                      src={twitterIcon}
-                      className={classes.twitterIcon}
-                      alt="twitterIcon"
-                    />
-                  </MuiLink>
-                )}
-
-                {userProfile?.linkedin && (
-                  <MuiLink href={`${userProfile?.linkedin}`} target="_blank">
-                    <img
-                      src={linkedinIcon}
-                      className={classes.linkedinIcon}
-                      alt="linkedinIcon"
-                    />
-                  </MuiLink>
-                )}
-
-                {userProfile?.instagram && (
-                  <MuiLink href={`${userProfile?.instagram}`} target="_blank">
-                    <img
-                      src={instagramIcon}
-                      className={classes.instagramIcon}
-                      alt="instagramIcon"
-                    />
-                  </MuiLink>
-                )}
-
-                {userProfile?.shutterstock && (
-                  <MuiLink
-                    href={`${userProfile?.shutterstock}`}
-                    target="_blank"
-                  >
-                    <img
-                      src={shutterstockIcon}
-                      className={classes.shutterstockIcon}
-                      alt="shutterstockIcon"
-                    />
-                  </MuiLink>
-                )}
-
-                {userProfile?.pinterest && (
-                  <MuiLink href={`${userProfile?.pinterest}`} target="_blank">
-                    <img
-                      src={pinterestIcon}
-                      className={classes.pinterestIcon}
-                      alt="pinterestIcon"
-                    />
-                  </MuiLink>
-                )}
-
-                {userProfile?.behance && (
-                  <MuiLink href={`${userProfile?.behance}`} target="_blank">
-                    <img
-                      src={behanceIcon}
-                      className={classes.behanceIcon}
-                      alt="behanceIcon"
-                    />
-                  </MuiLink>
-                )}
-
-                {userProfile?.dribble && (
-                  <MuiLink href={`${userProfile?.dribble}`} target="_blank">
-                    <img
-                      src={dribbleIcon}
-                      className={classes.dribbleIcon}
-                      alt="dribbleIcon"
-                    />
-                  </MuiLink>
-                )}
+              <div className={classes.socialIcons}>
+                <SocialShare socials={socialMedia} />
               </div>
             </div>
           </Card>
@@ -435,10 +370,7 @@ const UserSideBar = () => {
               <span>My Subscription</span>
             </ListItem> */}
 
-                <ListItem
-                  className={classes.userMenuItem}
-                  onClick={handleSignout}
-                >
+                <ListItem className={classes.userMenuItem} onClick={handleSignout}>
                   <PowerSettingsNewIcon />
                   <span>Logout</span>
                 </ListItem>
@@ -448,9 +380,7 @@ const UserSideBar = () => {
 
           <Card className={classes.closedAccount}>
             <CardContent>
-              <Typography onClick={handleDialogOpen}>
-                Close My Account
-              </Typography>
+              <Typography onClick={handleDialogOpen}>Close My Account</Typography>
             </CardContent>
 
             {/* close account modal */}
@@ -462,39 +392,24 @@ const UserSideBar = () => {
               aria-describedby="alert-dialog-description"
             >
               <TabPanel {...a11yProps(0)} value={tabIndex} index={0}>
-                <DialogTitle className={classes.closeAccountTitle}>
-                  {"Are you sure?"}
-                </DialogTitle>
+                <DialogTitle className={classes.closeAccountTitle}>{"Are you sure?"}</DialogTitle>
 
                 <DialogContent>
                   <DialogContentText id="alert-dialog-description">
-                    Note that you will close your Piktask accounts! Your premium
-                    subscription will also be canceled with no refund.
+                    Note that you will close your Piktask accounts! Your premium subscription will also be canceled with no refund.
                   </DialogContentText>
                 </DialogContent>
 
                 <DialogActions>
-                  <Button
-                    onClick={handleDialogClose}
-                    className={classes.keepAccountBtn}
-                    autoFocus
-                  >
+                  <Button onClick={handleDialogClose} className={classes.keepAccountBtn} autoFocus>
                     keep Account
                   </Button>
                   {user.signupBy !== "email" ? (
-                    <Button
-                      onClick={handleCloseAccount}
-                      className={classes.closeAccountBtn}
-                      autoFocus
-                    >
+                    <Button onClick={handleCloseAccount} className={classes.closeAccountBtn} autoFocus>
                       Close Account
                     </Button>
                   ) : (
-                    <Button
-                      onClick={handleChangeTab}
-                      className={classes.closeAccountBtn}
-                      autoFocus
-                    >
+                    <Button onClick={handleChangeTab} className={classes.closeAccountBtn} autoFocus>
                       Close Account
                     </Button>
                   )}
@@ -503,9 +418,7 @@ const UserSideBar = () => {
 
               <TabPanel {...a11yProps(1)} value={tabIndex} index={1}>
                 <div style={{ padding: "2rem", width: "60rem" }}>
-                  <DialogTitle className={classes.closeAccountsTitle}>
-                    {"Are you sure?"}
-                  </DialogTitle>
+                  <DialogTitle className={classes.closeAccountsTitle}>{"Are you sure?"}</DialogTitle>
 
                   <form onSubmit={handleCloseAccount}>
                     <TextField
@@ -520,18 +433,10 @@ const UserSideBar = () => {
                     />
 
                     <DialogActions>
-                      <Button
-                        onClick={handleDialogClose}
-                        className={classes.keepAccountBtn}
-                        autoFocus
-                      >
+                      <Button onClick={handleDialogClose} className={classes.keepAccountBtn} autoFocus>
                         keep Account
                       </Button>
-                      <Button
-                        className={classes.closeAccountBtn}
-                        autoFocus
-                        type="submit"
-                      >
+                      <Button className={classes.closeAccountBtn} autoFocus type="submit">
                         Close Account
                       </Button>
                     </DialogActions>

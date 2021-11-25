@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   productNotFround: {
     margin: "0 auto",
-    padding: "5rem 0",
+    // padding: "2rem 0",
     textAlign: "center",
   },
   uploadBtn: {
@@ -36,8 +36,9 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   notFoundImage: {
+    // width: "45rem",
     "& img": {
-      width: "45rem",
+      width: "100%",
       objectFit: "cover",
     },
   },

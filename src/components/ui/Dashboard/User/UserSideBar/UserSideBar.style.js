@@ -83,67 +83,8 @@ const useStyles = makeStyles((theme) => ({
       marginTop: "0.2rem",
     },
   },
-  socialMedia: {
-    textAlign: "center",
+  socialIcons: {
     marginTop: "1.5rem",
-    cursor: "pointer",
-    "& a": {
-      padding: "0rem",
-      minWidth: "0rem",
-      transition: "all 0.3s linear",
-      "&:hover": {
-        transform: "translateY(-0.7rem)",
-      },
-    },
-  },
-  facebookIcon: {
-    width: "1.7rem",
-    height: "auto",
-    cursor: "pointer",
-  },
-  twitterIcon: {
-    width: "1.8rem",
-    height: "auto",
-    marginLeft: "1.2rem",
-    cursor: "pointer",
-  },
-  linkedinIcon: {
-    width: "1.7rem",
-    height: "auto",
-    marginLeft: "1.2rem",
-    cursor: "pointer",
-  },
-  instagramIcon: {
-    width: "1.7rem",
-    height: "auto",
-    marginBottom: "-0.2rem",
-    marginLeft: "1.2rem",
-    cursor: "pointer",
-  },
-  shutterstockIcon: {
-    width: "1.5rem",
-    height: "auto",
-    marginLeft: "1.2rem",
-    cursor: "pointer",
-  },
-  pinterestIcon: {
-    width: "1.7rem",
-    height: "auto",
-    marginLeft: "1.2rem",
-    cursor: "pointer",
-  },
-  behanceIcon: {
-    width: "1.8rem",
-    height: "auto",
-    marginLeft: "1.2rem",
-    cursor: "pointer",
-  },
-  dribbleIcon: {
-    width: "1.8rem",
-    height: "auto",
-    marginBottom: "-0.1rem",
-    marginLeft: "1.2rem",
-    cursor: "pointer",
   },
   userMenuList: {
     boxShadow: "0 1px 2px 0 rgb(0 0 0 / 10%)",

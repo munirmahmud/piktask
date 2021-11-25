@@ -21,9 +21,10 @@ import useStyles from "./Popular.style";
 const PopularImages = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
+
   const [isLoading, setLoading] = useState(true);
-  const [popularProducts, setPopularProducts] = useState({});
   const [thumbnail, setThumbnail] = useState("");
+  const [popularProducts, setPopularProducts] = useState({});
 
   useEffect(() => {
     let recentUrl;
@@ -47,23 +48,12 @@ const PopularImages = () => {
       });
   }, [user]);
 
-  const imageThumbnail = encodeURI(
-    `${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`
-  );
+  const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);
 
   return (
-    <Layout
-      title="Popular Images | Piktask"
-      canonical={document.URL}
-      ogUrl={document.URL}
-      ogImage={imageThumbnail}
-    >
+    <Layout title="Popular Images" canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
-      <HeroSection
-        size="large"
-        popularKeywords
-        title="Graphic Resource for Free Download"
-      />
+      <HeroSection size="large" popularKeywords title="Graphic Resource for Free Download" />
       <Spacing space={{ height: "3rem" }} />
       <Container>
         <SectionHeading title="Popular Images" large />
@@ -74,14 +64,7 @@ const PopularImages = () => {
             <>
               {popularProducts?.length ? (
                 popularProducts?.map((photo) => (
-                  <Grid
-                    key={photo.image_id}
-                    item
-                    xs={6}
-                    sm={4}
-                    md={3}
-                    className={classes.productItem}
-                  >
+                  <Grid key={photo.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
                     <Product photo={photo} />
                   </Grid>
                 ))
@@ -104,11 +87,7 @@ const PopularImages = () => {
 
       <Container>
         <SectionHeading title="Top Selling Author" large>
-          <Button
-            className={classes.headingButton}
-            component={Link}
-            to="/sellers"
-          >
+          <Button className={classes.headingButton} component={Link} to="/sellers">
             See More
           </Button>
         </SectionHeading>

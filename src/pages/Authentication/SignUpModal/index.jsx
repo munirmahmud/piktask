@@ -1,16 +1,6 @@
 import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Button,
-  Checkbox,
-  Dialog,
-  DialogContent,
-  FormControlLabel,
-  Grid,
-  Tab,
-  Tabs,
-  Typography,
-} from "@material-ui/core";
+import { Button, Checkbox, Dialog, DialogContent, FormControlLabel, Grid, Tab, Tabs, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
@@ -29,20 +19,13 @@ import Spacing from "../../../components/Spacing";
 import { auth } from "../../../database";
 import useStyles from "./SignUpModal.styles";
 
-const clientId =
-  "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
+const clientId = "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`authentication-tabpanel-${index}`}
-      aria-labelledby={`authentication-tab-${index}`}
-      {...other}
-    >
+    <div role="tabpanel" hidden={value !== index} id={`authentication-tabpanel-${index}`} aria-labelledby={`authentication-tab-${index}`} {...other}>
       {value === index && children}
     </div>
   );
@@ -68,7 +51,6 @@ const SignUpModal = (props) => {
   const [isRedirectTo, setRedirectTo] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
-
   const [authData, setAuthData] = useState({
     userName: "",
     email: "",
@@ -97,6 +79,8 @@ const SignUpModal = (props) => {
   };
 
   const handleChangeTab = () => {
+    authData.userName = "";
+    authData.password = "";
     return tabIndex === 0 ? setTabIndex(1) : tabIndex === 1 && setTabIndex(0);
   };
 
@@ -129,7 +113,6 @@ const SignUpModal = (props) => {
           localStorage.setItem("token", token);
           const decodedToken = jwt_decode(token.split(" ")[1]);
           localStorage.setItem("profileImage", decodedToken.avatar);
-
           setLoading(false);
 
           if (decodedToken.email) {
@@ -141,6 +124,7 @@ const SignUpModal = (props) => {
               },
             });
           }
+
           if (decodedToken.role === "contributor") {
             history.push("/contributor/dashboard");
           } else if (location.pathname) {
@@ -173,10 +157,7 @@ const SignUpModal = (props) => {
       setLoading(false);
       return;
     } else if (!/^[a-z0-9_.]+$/.test(authData.userName)) {
-      toast.error(
-        "Username can only use lowercase letters, numbers, underscores, and dots",
-        { autoClose: 2200 }
-      );
+      toast.error("Username can only use lowercase letters, numbers, underscores, and dots", { autoClose: 2200 });
       setLoading(false);
       return;
     } else if (authData.userName.match(/^_/)) {
@@ -229,12 +210,7 @@ const SignUpModal = (props) => {
             url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
             handleCodeInApp: true,
           });
-
-          // Show success message to the user
-          toast.success(
-            `An email has been sent to ${authData.email}. Please check and confirm your registration`
-          );
-
+          toast.success(`An email has been sent to ${authData.email}. Please check and confirm your registration`);
           authData.userName = "";
           authData.email = "";
           authData.password = "";
@@ -255,17 +231,14 @@ const SignUpModal = (props) => {
 
   //login with google
   const handleGoogleLogin = async (googleData) => {
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/auth/google_login`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          token: googleData.tokenId,
-          role: role,
-        }),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/google_login`, {
+      method: "POST",
+      body: JSON.stringify({
+        token: googleData.tokenId,
+        role: role,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
 
     const data = await res.json();
     // store user data in localStorage
@@ -285,6 +258,7 @@ const SignUpModal = (props) => {
           },
         });
       }
+
       if (decodedToken.role === "contributor") {
         history.push("/contributor/dashboard");
       } else if (location.pathname) {
@@ -297,17 +271,14 @@ const SignUpModal = (props) => {
 
   //login with facebook
   const handleFacebookLogin = async (facebookData) => {
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/auth/facebook_login`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          token: facebookData.tokenId,
-          role: role,
-        }),
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/facebook_login`, {
+      method: "POST",
+      body: JSON.stringify({
+        token: facebookData.tokenId,
+        role: role,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
 
     const data = await res.json();
     // store user data in localStorage
@@ -327,6 +298,7 @@ const SignUpModal = (props) => {
           },
         });
       }
+
       if (decodedToken.role === "contributor") {
         history.push("/contributor/dashboard");
       } else if (location.pathname) {
@@ -352,17 +324,11 @@ const SignUpModal = (props) => {
           <Grid container>
             <Grid item xs={12} sm={5}>
               <div className={classes.leftPanel}>
-                <img
-                  className={classes.authLogo}
-                  src={logoWhite}
-                  alt="Piktask"
-                />
+                <img className={classes.authLogo} src={logoWhite} alt="Piktask" />
                 <Typography>Enjoy Free Download Now!</Typography>
                 <Typography>*Get 50% OFF Discount for Premium Plan</Typography>
                 <Typography>*Download 6 Images for Free Everyday</Typography>
-                <Typography>
-                  *2,600,000+ Images to energize your Design
-                </Typography>
+                <Typography>*2,600,000+ Images to energize your Design</Typography>
 
                 <Spacing space={{ height: 30 }} />
 
@@ -373,32 +339,11 @@ const SignUpModal = (props) => {
             <Grid item xs={12} sm={7}>
               <div className={classes.rightPanel}>
                 <div className={classes.closeModal}>
-                  <CloseIcon
-                    fontSize="large"
-                    onClick={() => setOpenAuthModal(false)}
-                  />
+                  <CloseIcon fontSize="large" onClick={() => setOpenAuthModal(false)} />
                 </div>
-                <Tabs
-                  value={tabIndex}
-                  onChange={handleChangeTab}
-                  aria-label="authentication tabs"
-                  className={classes.tabsWrapper}
-                  variant="fullWidth"
-                >
-                  <Tab
-                    label="Login"
-                    {...a11yProps(0)}
-                    className={classes.tabItem}
-                    classes={{ selected: classes.selected }}
-                    disableRipple
-                  />
-                  <Tab
-                    label="Sign Up"
-                    {...a11yProps(1)}
-                    className={classes.tabItem}
-                    classes={{ selected: classes.selected }}
-                    disableRipple
-                  />
+                <Tabs value={tabIndex} onChange={handleChangeTab} aria-label="authentication tabs" className={classes.tabsWrapper} variant="fullWidth">
+                  <Tab label="Login" {...a11yProps(0)} className={classes.tabItem} classes={{ selected: classes.selected }} disableRipple />
+                  <Tab label="Sign Up" {...a11yProps(1)} className={classes.tabItem} classes={{ selected: classes.selected }} disableRipple />
                 </Tabs>
                 {/* End tabs */}
 
@@ -416,15 +361,8 @@ const SignUpModal = (props) => {
                   <GoogleLogin
                     clientId={clientId}
                     render={(renderProps) => (
-                      <Button
-                        className={classes.googleButton}
-                        onClick={renderProps.onClick}
-                        disabled={renderProps.disabled}
-                      >
-                        <FontAwesomeIcon
-                          className={classes.googleIcon}
-                          icon={faGoogle}
-                        />
+                      <Button className={classes.googleButton} onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        <FontAwesomeIcon className={classes.googleIcon} icon={faGoogle} />
                         <span>Google</span>
                       </Button>
                     )}
@@ -443,15 +381,8 @@ const SignUpModal = (props) => {
                     onClick={handleFacebookLogin}
                     callback={handleFacebookLogin}
                     render={(renderProps) => (
-                      <Button
-                        className={classes.facebookBtn}
-                        onClick={renderProps.onClick}
-                        disabled={renderProps.disabled}
-                      >
-                        <FontAwesomeIcon
-                          className={classes.facebookIconBtn}
-                          icon={faFacebookF}
-                        />
+                      <Button className={classes.facebookBtn} onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        <FontAwesomeIcon className={classes.facebookIconBtn} icon={faFacebookF} />
                         <span>Facebook</span>
                       </Button>
                     )}
@@ -469,12 +400,7 @@ const SignUpModal = (props) => {
                 {/* Tab panel for Sign In */}
                 <TabPanel value={tabIndex} index={0}>
                   <form onSubmit={handleSignIn}>
-                    <InputField
-                      label="User Name / Email"
-                      name="userName"
-                      value={authData.userName}
-                      onChange={handleAuthData}
-                    />
+                    <InputField label="User Name / Email" name="userName" value={authData.userName} onChange={handleAuthData} />
 
                     <div className={classes.passwordField}>
                       <InputField
@@ -484,26 +410,15 @@ const SignUpModal = (props) => {
                         value={authData.password}
                         onChange={handleAuthData}
                       />
-                      <img
-                        src={lockIcon}
-                        alt="Show or hide password"
-                        onClick={handleShowHidePassword}
-                      />
+                      <img src={lockIcon} alt="Show or hide password" onClick={handleShowHidePassword} />
                     </div>
 
-                    <CustomBtn
-                      disabled={isLoading}
-                      type="submit"
-                      text="Sign In"
-                    />
+                    <CustomBtn disabled={isLoading} type="submit" text="Sign In" />
                   </form>
 
                   <Spacing space={{ height: "1.5rem" }} />
 
-                  <Link
-                    to="/reset-password"
-                    className={classes.passwordResetLink}
-                  >
+                  <Link to="/reset-password" className={classes.passwordResetLink}>
                     Password Reset
                   </Link>
 
@@ -515,19 +430,9 @@ const SignUpModal = (props) => {
                 {/* Tab panel for Sign Up */}
                 <TabPanel value={tabIndex} index={1}>
                   <form onSubmit={handleSubmit}>
-                    <InputField
-                      label="User Name"
-                      name="userName"
-                      value={authData.userName}
-                      onChange={handleAuthData}
-                    />
+                    <InputField label="User Name" name="userName" value={authData.userName} onChange={handleAuthData} />
 
-                    <InputField
-                      label="Email"
-                      name="email"
-                      value={authData.email}
-                      onChange={handleAuthData}
-                    />
+                    <InputField label="Email" name="email" value={authData.email} onChange={handleAuthData} />
 
                     <div className={classes.passwordField}>
                       <InputField
@@ -537,34 +442,17 @@ const SignUpModal = (props) => {
                         value={authData.password}
                         onChange={handleAuthData}
                       />
-                      <img
-                        src={lockIcon}
-                        alt="Show or hide password"
-                        onClick={handleShowHidePassword}
-                      />
+                      <img src={lockIcon} alt="Show or hide password" onClick={handleShowHidePassword} />
                     </div>
 
-                    <CustomBtn
-                      text="Sign Up"
-                      disabledBtn={
-                        !authData.userName ||
-                        !authData.email ||
-                        !authData.password
-                      }
-                    />
+                    <CustomBtn text="Sign Up" disabledBtn={!authData.userName || !authData.email || !authData.password} />
                   </form>
 
                   <Spacing space={{ height: "0.5rem" }} />
 
                   <FormControlLabel
                     className={classes.checkboxLabel}
-                    control={
-                      <Checkbox
-                        name="receiveNewsLetter"
-                        size="medium"
-                        className={classes.checkbox}
-                      />
-                    }
+                    control={<Checkbox name="receiveNewsLetter" size="medium" className={classes.checkbox} />}
                     label="I do not wish to receive news and promotions from piktask Company by email."
                   />
 

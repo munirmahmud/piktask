@@ -27,7 +27,6 @@ const AccountSettings = () => {
   const user = useSelector((state) => state.user);
 
   const [profilePicture, setProfilePicture] = useState("");
-
   const [paymentMethod, setPaymentMethod] = useState([]);
   const [payment, setPayment] = useState("");
   const [name, setName] = useState("");
@@ -321,12 +320,13 @@ const AccountSettings = () => {
   };
 
   return (
-    <Layout title="Profile | Piktask">
+    <Layout title="Profile">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
         <main className={classes.content}>
           <AdminHeader />
+
           <div className={classes.profileContentWrapper}>
             <div className={classes.settingsHero}>
               <div className={classes.authorProfileImage}>
@@ -372,6 +372,7 @@ const AccountSettings = () => {
                           onChange={(e) => setName(e.target.value)}
                         />
                       </FormControl>
+
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.lastField}>
                         <TextField id="username" label="User Name" variant="outlined" className={`${classes.inputField}`} value={username} disabled />
                       </FormControl>
@@ -381,6 +382,7 @@ const AccountSettings = () => {
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
                         <TextField id="email" label="Email" variant="outlined" className={`${classes.inputField}`} value={email} />
                       </FormControl>
+
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
                         <TextField
                           fullWidth
@@ -406,6 +408,7 @@ const AccountSettings = () => {
                           onChange={(e) => setPhone(e.target.value)}
                         />
                       </FormControl>
+
                       <FormControl variant="outlined" fullWidth classes={{ fullWidth: classes.fullWidth }}>
                         <TextField
                           SelectProps={{
@@ -468,6 +471,7 @@ const AccountSettings = () => {
                           onChange={(e) => setLocationAddress(e.target.value)}
                         />
                       </FormControl>
+
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.lastField}>
                         <TextField
                           id="billingaddress"
@@ -520,6 +524,7 @@ const AccountSettings = () => {
                           />
                         </FormControl>
                       )}
+
                       {payment === "Payoneer" && (
                         <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
                           <TextField
@@ -533,6 +538,7 @@ const AccountSettings = () => {
                           />
                         </FormControl>
                       )}
+
                       {payment === "Bank" && (
                         <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
                           <TextField
@@ -563,6 +569,7 @@ const AccountSettings = () => {
                               onChange={(e) => setAccountNumber(e.target.value)}
                             />
                           </FormControl>
+
                           <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
                             <TextField
                               id="routingNumber"
@@ -576,6 +583,7 @@ const AccountSettings = () => {
                             />
                           </FormControl>
                         </div>
+
                         <div className={classes.fieldsGroup}>
                           <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.inputImage}>
                             <TextField
@@ -589,6 +597,7 @@ const AccountSettings = () => {
                               onChange={(e) => setSwiftCode(e.target.value)}
                             />
                           </FormControl>
+
                           <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
                             <TextField
                               id="branch"
@@ -601,6 +610,7 @@ const AccountSettings = () => {
                             />
                           </FormControl>
                         </div>
+
                         <div>
                           <FormControl className={classes.bankCountryName} classes={{ fullWidth: classes.fullWidth }}>
                             <TextField
@@ -637,6 +647,7 @@ const AccountSettings = () => {
                         <label htmlFor="shutterstock" className={classes.portfolioIconWrapper}>
                           <img src={shutterstockIcon} alt="Shutterstock Icon" />
                         </label>
+
                         <TextField
                           id="shutterstock"
                           // error={!!errors.shutterstock}
@@ -650,6 +661,7 @@ const AccountSettings = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="pinterest" className={classes.portfolioIconWrapper}>
@@ -666,6 +678,7 @@ const AccountSettings = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="behance" className={classes.portfolioIconWrapper}>
@@ -684,6 +697,7 @@ const AccountSettings = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="dribbble" className={classes.portfolioIconWrapper}>
@@ -733,6 +747,7 @@ const AccountSettings = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="twitter" className={classes.portfolioIconWrapper}>
@@ -751,6 +766,7 @@ const AccountSettings = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="linkedin" className={classes.portfolioIconWrapper}>
@@ -769,6 +785,7 @@ const AccountSettings = () => {
                         />
                       </FormControl>
                     </div>
+
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="instagram" className={classes.portfolioIconWrapper}>

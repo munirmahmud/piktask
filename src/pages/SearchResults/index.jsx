@@ -8,7 +8,7 @@ import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
-import Paginations from "../../components/ui/Pagination";
+import Pagination from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
@@ -20,17 +20,17 @@ const SearchResults = () => {
   const classes = useStyles();
   const { pathname } = useLocation();
   const location = useLocation();
-  const keywords = location.pathname.split("=").pop().replace(/-/g, " ");
   const locationPath = location.pathname;
   const user = useSelector((state) => state.user);
-  const [canonicalURL, setCanonicalURL] = useState("");
+  const keywords = location.pathname.split("=").pop().replace(/-/g, " ");
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
+  const [canonicalURL, setCanonicalURL] = useState("");
   const [isLoading, setLoading] = useState(false);
 
+  const [totalProduct, setTotalProduct] = useState("");
   const [pageCount, setPageCount] = useState(1);
-  const [totalProduct, setTotalProduct] = useState();
   const [thumbnail, setThumbnail] = useState("");
 
   let limit = 24;
@@ -122,7 +122,7 @@ const SearchResults = () => {
           )}
         </Grid>
 
-        {totalProduct > limit && <Paginations locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+        {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
       </Container>
       <Spacing space={{ height: "3rem" }} />
 

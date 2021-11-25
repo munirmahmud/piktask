@@ -11,7 +11,7 @@ import Header from "../../components/ui/Header";
 import SectionHeading from "../../components/ui/Heading";
 import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
-import Paginations from "../../components/ui/Pagination";
+import Pagination from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
@@ -63,25 +63,13 @@ const Recent = () => {
       });
   }, [user?.isLoggedIn, user?.id, limit, pageCount, dispatch]);
 
-  const imageThumbnail = encodeURI(
-    `${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`
-  );
+  const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);
 
   return (
-    <Layout
-      title="Recent Images | Piktask"
-      canonical={document.URL}
-      ogUrl={document.URL}
-      ogImage={imageThumbnail}
-    >
+    <Layout title="Recent Images" canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
 
-      <HeroSection
-        size="large"
-        popularKeywords
-        heroButton
-        title="Graphic Resource for Free Download"
-      />
+      <HeroSection size="large" popularKeywords heroButton title="Graphic Resource for Free Download" />
 
       <Spacing space={{ height: "3rem" }} />
 
@@ -94,14 +82,7 @@ const Recent = () => {
             <>
               {recentProduct?.length ? (
                 recentProduct?.map((photo, index) => (
-                  <Grid
-                    key={index}
-                    item
-                    xs={6}
-                    sm={4}
-                    md={3}
-                    className={classes.productItem}
-                  >
+                  <Grid key={index} item xs={6} sm={4} md={3} className={classes.productItem}>
                     <Product photo={photo} />
                   </Grid>
                 ))
@@ -112,14 +93,7 @@ const Recent = () => {
           )}
         </Grid>
 
-        {totalProduct > limit && (
-          <Paginations
-            locationPath={locationPath}
-            count={count}
-            pageCount={pageCount}
-            setPageCount={setPageCount}
-          />
-        )}
+        {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
       </Container>
 
       <Spacing space={{ height: "3.5rem" }} />

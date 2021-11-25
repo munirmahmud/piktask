@@ -1,11 +1,4 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import { Button, Card, CardContent, Container, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -17,7 +10,7 @@ import UserSideBar from "../../../../components/ui/dashboard/user/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import SectionHeading from "../../../../components/ui/Heading";
-import Paginations from "../../../../components/ui/Pagination";
+import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
@@ -41,10 +34,7 @@ const UserFollowing = () => {
 
     if (user?.isLoggedIn) {
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/user/following_list?limit=${limit}&page=${pageCount}`,
-          { headers: { Authorization: user?.token } }
-        )
+        .get(`${process.env.REACT_APP_API_URL}/user/following_list?limit=${limit}&page=${pageCount}`, { headers: { Authorization: user?.token } })
         .then(({ data }) => {
           if (data?.status) {
             setFollowersItem(data?.following);
@@ -60,7 +50,7 @@ const UserFollowing = () => {
   }, [user?.isLoggedIn, user?.token, pageCount, limit]);
 
   return (
-    <Layout title="Followings | Piktask">
+    <Layout title="Followings">
       <Header />
       <Spacing space={{ height: "5rem" }} />
       <Container>
@@ -80,44 +70,25 @@ const UserFollowing = () => {
                         <div className={classes.followerProfile}>
                           <div className={classes.viewFollowerInfo}>
                             <div className={classes.followerImage}>
-                              {followItem?.avatar ? (
-                                <img
-                                  src={followItem?.avatar}
-                                  alt={followItem?.username}
-                                />
-                              ) : (
-                                <img src={authorImg} alt="Author" />
-                              )}
+                              {followItem?.avatar ? <img src={followItem?.avatar} alt={followItem?.username} /> : <img src={authorImg} alt="Author" />}
                             </div>
 
                             <div className={classes.followerInfo}>
-                              <Typography
-                                className={classes.followerName}
-                                variant="h3"
-                              >
+                              <Typography className={classes.followerName} variant="h3">
                                 {followItem?.username}
                               </Typography>
 
                               <div className={classes.followerDetails}>
-                                <Typography
-                                  className={classes.followerInfoItem}
-                                  variant="body2"
-                                >
+                                <Typography className={classes.followerInfoItem} variant="body2">
                                   Resources
                                   <span>{followItem?.total_images}</span>
                                 </Typography>
 
-                                <Typography
-                                  className={classes.followerInfoItem}
-                                  variant="body2"
-                                >
+                                <Typography className={classes.followerInfoItem} variant="body2">
                                   Followers
                                   <span>{followItem?.total_follower}</span>
                                 </Typography>
-                                <Typography
-                                  className={classes.followerInfoItem}
-                                  variant="body2"
-                                >
+                                <Typography className={classes.followerInfoItem} variant="body2">
                                   Downloads
                                   <span>{followItem?.total_download}</span>
                                 </Typography>
@@ -126,11 +97,7 @@ const UserFollowing = () => {
                           </div>
 
                           <div className={classes.viewProfileBtn}>
-                            <Button
-                              component={Link}
-                              to={`/author/${followItem?.username}`}
-                              className={classes.viewMoreBtn}
-                            >
+                            <Button component={Link} to={`/author/${followItem?.username}`} className={classes.viewMoreBtn}>
                               View Profile
                             </Button>
                           </div>
@@ -141,18 +108,8 @@ const UserFollowing = () => {
                         <div className={classes.followerContent}>
                           <div className={classes.followerResources}>
                             {followItem?.images.map((followerResource) => (
-                              <Card
-                                key={followerResource?.id}
-                                className={classes.followerFiles}
-                              >
-                                <img
-                                  src={
-                                    getBaseURL().bucket_base_url +
-                                    getBaseURL().images +
-                                    followerResource?.preview
-                                  }
-                                  alt=""
-                                />
+                              <Card key={followerResource?.id} className={classes.followerFiles}>
+                                <img src={getBaseURL().bucket_base_url + getBaseURL().images + followerResource?.preview} alt="" />
                               </Card>
                             ))}
                           </div>
@@ -164,14 +121,7 @@ const UserFollowing = () => {
               ) : (
                 <ProductNotFound noCollection="User Following" />
               )}
-              {totalProduct > limit && (
-                <Paginations
-                  locationPath={locationPath}
-                  count={count}
-                  pageCount={pageCount}
-                  setPageCount={setPageCount}
-                />
-              )}
+              {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
             </Grid>
           </Grid>
         </Grid>

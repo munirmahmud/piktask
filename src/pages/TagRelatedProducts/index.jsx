@@ -42,7 +42,7 @@ const TagTemplate = () => {
   return (
     <Layout title={`${tagName}`} description={`${tagName}`} canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
-      <HeroSection size="medium" />
+      <HeroSection size="medium" title="Graphic Resources for Free Download" />
       <Container>
         {tagRelatedProducts?.length > 0 && (
           <Typography className={classes.totalResources} variant="h4">
@@ -65,7 +65,7 @@ const TagTemplate = () => {
             </div>
           ) : (
             <>
-              {tagRelatedProducts.length ? (
+              {tagRelatedProducts?.length ? (
                 tagRelatedProducts?.map((photo) => (
                   <Grid key={photo.image_id} item xs={12} sm={4} md={3} className={classes.productItem}>
                     <Product photo={photo} />

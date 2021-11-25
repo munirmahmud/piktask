@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     position: "relative",
-    minHeight: "18rem",
+    padding: "3rem 0",
     "&::before": {
       content: '""',
       position: "absolute",

@@ -8,16 +8,10 @@ import useStyles from "./Subscription.style";
 const Subscription = () => {
   const classes = useStyles();
   return (
-    <Layout
-      title="Subscription | piktask"
-      description="This is subscription page"
-      canonical={document.URL}
-    >
+    <Layout title="Subscription" description="This is subscription page" canonical={document.URL}>
       <Header />
       <HeroSection />
-      <h1 className={classes.headerText}>
-        Subscription page are coming soon....
-      </h1>
+      <h1 className={classes.headerText}>Subscription page are coming soon....</h1>
       <Footer />
     </Layout>
   );

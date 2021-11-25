@@ -166,10 +166,12 @@ const AuthorProfile = () => {
                       <img src={authorImg} alt={profileInfo?.username} />
                     )}
                   </div>
+
                   <div className={classes.authorInfo}>
                     <Typography className={classes.authorName} variant="h3">
                       {profileInfo?.username}
                     </Typography>
+
                     <div className={classes.resourceDetails}>
                       <Typography className={classes.infoItem} variant="body2">
                         Resources

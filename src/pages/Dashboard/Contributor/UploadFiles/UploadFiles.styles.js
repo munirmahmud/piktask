@@ -469,9 +469,9 @@ const useStyles = makeStyles((theme) => ({
     transition: "all 0.2s linear",
     marginLeft: "2rem",
     cursor: "pointer",
-    "&:hover": {
-      backgroundColor: "#fcb5b5",
-    },
+    // "&:hover": {
+    //   backgroundColor: "#fcb5b5",
+    // },
     "& svg": {
       color: "red",
       fontSize: "1.8rem",

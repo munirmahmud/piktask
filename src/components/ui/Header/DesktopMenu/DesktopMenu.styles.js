@@ -6,6 +6,9 @@ const useStyles = makeStyles((theme) => ({
   },
   mainHeaderToolbar: {
     height: "100%",
+    [theme.breakpoints.down(769)]: {
+      display: "none",
+    },
   },
   logoWrapper: {
     width: 153,
@@ -16,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     "@media (max-width: 1024px)": {
-      width: "12rem",
+      width: "13rem",
 
       "& img": {
         width: "100%",
@@ -29,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
   menuTab: {
     marginLeft: 25,
-    [theme.breakpoints.down(769)]: {
-      display: "none",
-    },
   },
   menuUnderline: {
     height: 0,
@@ -65,27 +65,6 @@ const useStyles = makeStyles((theme) => ({
   },
   toolBarContainer: {
     marginLeft: "auto",
-    display: "flex",
-    justifyContent: "flex-end",
-    height: "100%",
-
-    "@media (max-width: 768px)": {
-      justifyContent: "flex-end",
-      "& a": {
-        paddingRight: "2rem",
-        paddingLeft: "2rem",
-        marginLeft: "0.5rem",
-      },
-    },
-    "@media (max-width: 480px)": {
-      "& a": {
-        paddingRight: ".6rem",
-        paddingLeft: ".6rem",
-        marginLeft: "0rem",
-        fontSize: "1.4rem",
-        minWidth: "fit-content",
-      },
-    },
   },
   sellContentBtn: {
     ...theme.typography.button,
@@ -99,11 +78,6 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#0088f2",
       borderColor: "#0088f2",
-    },
-    "@media (max-width: 1024px)": {
-      paddingRight: "1rem",
-      paddingLeft: "1rem",
-      fontSize: "1.4rem",
     },
   },
   userAvatarArea: {

@@ -1,11 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CircularProgress,
-  Drawer,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import { Card, CardContent, CircularProgress, Drawer, Grid, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -16,7 +9,7 @@ import AdminHeader from "../../../../components/ui/dashboard/contributor/Header"
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
-import Paginations from "../../../../components/ui/Pagination";
+import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
@@ -27,6 +20,7 @@ const RejectFiles = () => {
   const location = useLocation();
   const locationPath = location.pathname;
   const user = useSelector((state) => state.user);
+
   const [rejectMessage, setRejectMessage] = useState([]);
   const [rejectProduct, setRejectProduct] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -56,14 +50,11 @@ const RejectFiles = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       try {
         axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/contributor/images/rejected?limit=${limit}&page=${pageCount}`,
-            {
-              headers: { Authorization: user?.token },
-            }
-          )
+          .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected?limit=${limit}&page=${pageCount}`, {
+            headers: { Authorization: user?.token },
+          })
           .then(({ data }) => {
-            if (data?.images.length > 0) {
+            if (data?.images?.length > 0) {
               setRejectProduct(data?.images);
               setTotalProduct(data?.total);
               setLoading(false);
@@ -84,12 +75,9 @@ const RejectFiles = () => {
       setOpenModal(true);
       try {
         axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/contributor/images/rejected/${product?.token_id}`,
-            {
-              headers: { Authorization: user?.token },
-            }
-          )
+          .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected/${product?.token_id}`, {
+            headers: { Authorization: user?.token },
+          })
           .then(({ data }) => {
             if (data?.status) {
               setRejectMessage(data.reasons);
@@ -102,7 +90,7 @@ const RejectFiles = () => {
   };
 
   return (
-    <Layout title="RejectFiles | Piktask">
+    <Layout title="RejectFiles">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
@@ -112,9 +100,8 @@ const RejectFiles = () => {
             <div className={classes.headingWrapepr}>
               <Heading tag="h2">Reject Files</Heading>
               <Typography>
-                Here you will see your rejected resources. The reason for
-                rejection is specified in each <br /> case. For more
-                information, consult our Reasons for rejection.
+                Here you will see your rejected resources. The reason for rejection is specified in each <br /> case. For more information, consult our Reasons
+                for rejection.
               </Typography>
             </div>
 
@@ -136,54 +123,25 @@ const RejectFiles = () => {
               <Grid container spacing={2}>
                 {rejectProduct?.length > 0 ? (
                   rejectProduct?.map((product) => (
-                    <Grid
-                      key={product?.id}
-                      item
-                      xs={4}
-                      sm={2}
-                      md={2}
-                      className={classes.productItem}
-                    >
-                      <Card
-                        className={classes.cardWrapper}
-                        onClick={() => handleClick(product)}
-                      >
+                    <Grid key={product?.id} item xs={4} sm={2} md={2} className={classes.productItem}>
+                      <Card className={classes.cardWrapper} onClick={() => handleClick(product)}>
                         <div className={classes.cardImage}>
-                          <img
-                            src={
-                              getBaseURL().bucket_base_url +
-                              getBaseURL().images +
-                              product?.original_file
-                            }
-                            alt={product?.original_name}
-                          />
+                          <img src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file} alt={product?.original_name} />
                         </div>
 
                         <CardContent className={classes.cardContent}>
-                          <Typography variant="h3">
-                            {product?.original_name}
-                          </Typography>
+                          <Typography variant="h3">{product?.original_name}</Typography>
                         </CardContent>
                       </Card>
                     </Grid>
                   ))
                 ) : (
-                  <ProductNotFound
-                    rejectFileContent
-                    contributorProductNotFound
-                  />
+                  <ProductNotFound rejectFileContent contributorProductNotFound />
                 )}
               </Grid>
             )}
 
-            {totalProduct > limit && (
-              <Paginations
-                locationPath={locationPath}
-                count={count}
-                pageCount={pageCount}
-                setPageCount={setPageCount}
-              />
-            )}
+            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
           </div>
 
           <Spacing space={{ height: "4rem" }} />
@@ -204,10 +162,7 @@ const RejectFiles = () => {
             <Typography variant="h3" className={classes.headingTitle}>
               Reasons for rejection
             </Typography>
-            <CloseIcon
-              className={classes.closeIcon}
-              onClick={() => setOpenModal(false)}
-            />
+            <CloseIcon className={classes.closeIcon} onClick={() => setOpenModal(false)} />
           </div>
         </div>
         <hr />
