@@ -64,7 +64,7 @@ const HistoryTable = ({ withdrawalHistory, setLoading, isLoading }) => {
                       <TableCell className={classes.tableCell}>Transfer</TableCell>
                       <TableCell className={classes.tableCell}>Status</TableCell>
                       <TableCell className={classes.tableCell}>Reason</TableCell>
-                      <TableCell className={classes.tableCell}>Action</TableCell>
+                      <TableCell className={classes.tableCell}>Invoice</TableCell>
                     </TableRow>
                   </TableHead>
 

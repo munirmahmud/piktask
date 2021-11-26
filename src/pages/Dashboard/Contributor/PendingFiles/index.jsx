@@ -103,7 +103,7 @@ const PendingFiles = () => {
   };
 
   const selectedProduct = (e, product) => {
-    if (product.is_save === 1) return;
+    // if (product.is_save === 1) return;
 
     if (!product.isSelected) {
       product.isSelected = true;

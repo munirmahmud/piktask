@@ -20,7 +20,7 @@ const Categories = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/categories/popular`)
+      .get(`${process.env.REACT_APP_API_URL}/categories/popular?limit=50`)
       .then(({ data }) => {
         if (data?.status) {
           setPopularCategories(data?.categories);

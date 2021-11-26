@@ -2,7 +2,7 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Container, FormControl, TextareaAutosize, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import thumbnail from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
 import Spacing from "../../components/Spacing";
@@ -12,16 +12,6 @@ import HeroSection from "../../components/ui/Hero";
 import Layout from "../../Layout";
 import useStyles from "./Contact.style";
 
-const problemCategory = [
-  { label: " Select a problem category" },
-  { value: "Advertise with us", label: "Advertise with us" },
-  { value: "Collaboration Offer", label: "Collaboration Offer" },
-  { value: "Download Issue", label: "Download Issue" },
-  { value: "I found an error/bug", label: "I found an error/bug" },
-  { value: "Payment Failed", label: "Payment Failed" },
-  { value: "Suggestions", label: "Suggestions" },
-  { value: "Others", label: "Others" },
-];
 const Contact = () => {
   const classes = useStyles();
   const [name, setName] = useState("");
@@ -29,10 +19,25 @@ const Contact = () => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const [issueItem, setIssueItem] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/others/contact_us/issues`)
+      .then(({ data }) => {
+        console.log("data", data);
+        if (data?.status) {
+          const sortedData = data?.getIssues.sort((a, b) => a.id - b.id);
+          setIssueItem((prevState) => [{ id: "0", name: "Select a category" }, ...sortedData]);
+        }
+      })
+      .catch((error) => console.log("Categories loading error: ", error));
+  }, []);
 
   const handleSubjectChange = (event) => {
     setSubject(event.target.value);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -53,7 +58,7 @@ const Contact = () => {
       return;
     } else if (!subject) {
       setLoading(false);
-      toast.error("Please select a problem category.", { autoClose: 2200 });
+      toast.error("Please select a category.", { autoClose: 2200 });
       return;
     } else if (!message) {
       setLoading(false);
@@ -167,11 +172,12 @@ const Contact = () => {
                       native: true,
                     }}
                   >
-                    {problemCategory.map((option, index) => (
-                      <option key={index} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
+                    {issueItem?.length > 0 &&
+                      issueItem?.map((issueItemItem) => (
+                        <option key={issueItemItem.id} value={issueItemItem.id}>
+                          {issueItemItem?.name}
+                        </option>
+                      ))}
                   </TextField>
                 </FormControl>
                 <FormControl fullWidth className={classes.fieldWrapper}>
