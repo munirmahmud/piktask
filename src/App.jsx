@@ -70,7 +70,6 @@ const App = () => {
     // Check token auth state
     const token = window.localStorage.getItem("token");
     const avatar = window.localStorage.getItem("profileImage");
-    let decodeToken = {};
 
     if (token) {
       const decodeToken = jwt_decode(token.split(" ")[1]);
@@ -87,7 +86,6 @@ const App = () => {
       }
 
       const expired = new Date(decodeToken.exp * 1000) - new Date();
-      console.log("expired", expired);
 
       setTimeout(() => {
         setTokenExpired(true);
