@@ -10,6 +10,7 @@ import DownloadButton from "./DownloadButton/index";
 import FavouriteButton from "./FavouriteButton/index";
 import FollowButton from "./FollowButton/index,";
 import useStyles from "./ProductInfo.styles";
+import SaveButton from "./SaveButton";
 
 const ProductInfo = ({ productDetails }) => {
   const classes = useStyles();
@@ -35,6 +36,7 @@ const ProductInfo = ({ productDetails }) => {
           </Button>
 
           <CopyLink location={location} />
+          <SaveButton productDetails={productDetails} location={location} />
         </div>
 
         <Grid container className={classes.detailsContainer}>

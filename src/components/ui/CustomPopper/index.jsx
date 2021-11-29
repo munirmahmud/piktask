@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { getBaseURL } from "../../../helpers";
-import { loginTimeExpired } from "./../../../helpers/index";
 // import crownGreenIcon from "../../../assets/icons/crownGreenIcon.svg";
 import useStyles from "./Popper.styles";
 
@@ -25,11 +24,9 @@ const CustomPopper = ({ open, handleToggle, anchorRef, handleClose, handleListKe
 
   const [downloadCount, setDownloadCount] = useState("");
   const [downloadLimit, setDownloadLimit] = useState("");
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-
     if (user?.isLoggedIn && user?.role === "user") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/profile/download_count`, {
@@ -44,9 +41,7 @@ const CustomPopper = ({ open, handleToggle, anchorRef, handleClose, handleListKe
         })
         .catch((error) => {
           console.log("Download error", error.response);
-          if (error.response.status === 401) {
-            loginTimeExpired();
-          }
+          setLoading(false);
         });
     }
   }, [user?.token, user?.isLoggedIn, user?.role]);

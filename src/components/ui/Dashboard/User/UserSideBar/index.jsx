@@ -276,7 +276,17 @@ const UserSideBar = () => {
               <div className={classes.profileImage}>
                 {profilePicture ? (
                   <div>
-                    <img src={getBaseURL().bucket_base_url + "/" + profilePicture} alt={user?.username} />
+                    {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
+                      <>
+                        {user?.avatar_from === "own" ? (
+                          <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} />
+                        ) : (
+                          <img className={classes.avatar} src={user?.avatar} alt={user?.username} />
+                        )}
+                      </>
+                    ) : (
+                      <img src={getBaseURL().bucket_base_url + "/" + profilePicture} alt={user?.username} />
+                    )}
                   </div>
                 ) : (
                   <img src={authorPhoto} alt={user?.username} />

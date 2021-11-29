@@ -70,7 +70,11 @@ const UserFollowing = () => {
                         <div className={classes.followerProfile}>
                           <div className={classes.viewFollowerInfo}>
                             <div className={classes.followerImage}>
-                              {followItem?.avatar ? <img src={followItem?.avatar} alt={followItem?.username} /> : <img src={authorImg} alt="Author" />}
+                              {followItem?.avatar ? (
+                                <img src={getBaseURL().bucket_base_url + "/" + followItem?.avatar} alt={followItem?.username} />
+                              ) : (
+                                <img src={authorImg} alt="Author" />
+                              )}
                             </div>
 
                             <div className={classes.followerInfo}>

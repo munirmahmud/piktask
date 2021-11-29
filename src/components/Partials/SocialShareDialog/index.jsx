@@ -2,8 +2,6 @@ import { Dialog, DialogContent, DialogTitle, IconButton, makeStyles } from "@mat
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
 import {
-  EmailIcon,
-  EmailShareButton,
   FacebookIcon,
   FacebookMessengerIcon,
   FacebookMessengerShareButton,
@@ -70,10 +68,6 @@ const SocialShareDialog = ({ productDetails, setOpen, open }) => {
           >
             <PinterestIcon size={40} style={{ margin: "0.4rem" }} round={true} />
           </PinterestShareButton>
-
-          <EmailShareButton url={productDetails?.shareUrl}>
-            <EmailIcon size={40} style={{ margin: "0.4rem" }} round={true} />
-          </EmailShareButton>
 
           <FacebookShareButton url={productDetails?.shareUrl}>
             <FacebookIcon size={40} style={{ margin: "0.4rem" }} round={true} />

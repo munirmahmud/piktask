@@ -6,6 +6,7 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { PinterestIcon, PinterestShareButton } from "react-share";
 import { toast } from "react-toastify";
 import downloadIcon from "../../../../assets/download.svg";
 import { getBaseURL, getWords } from "../../../../helpers";
@@ -77,6 +78,18 @@ const Product = ({ photo = null }) => {
               <img src={crownIcon} alt="Premium" />
             </IconButton>
           )} */}
+          <IconButton
+            disableRipple
+            classes={{ root: classes.pinterestIcon }}
+            className={classes.iconBtn}
+            title="Premium for Commercial Use"
+            component={Link}
+            to={`/subscription`}
+          >
+            <PinterestShareButton url={document.location.pathname} media={encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${photo?.preview}`)}>
+              <PinterestIcon size={30} round={true} />
+            </PinterestShareButton>
+          </IconButton>
 
           {!photo?.isLike && !isLike ? (
             <IconButton ref={likeRef} classes={{ root: classes.favouriteIcon }} className={classes.iconBtn} onClick={handleLikeBtn}>
