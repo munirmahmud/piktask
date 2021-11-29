@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
+import PinterestIcon from "@mui/icons-material/Pinterest";
 import React from "react";
-import { PinterestIcon, PinterestShareButton } from "react-share";
-import pinterestIcon from "../../../../../assets/icons/pinterest.png";
+import { PinterestShareButton } from "react-share";
 import { getBaseURL } from "../../../../../helpers";
 
 const useStyles = makeStyles((theme) => ({
@@ -9,18 +9,18 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.3rem",
   },
   button: {
-    ...theme.typography.button,
-    fontSize: "1.3rem",
-    padding: ".6rem 2.5rem",
+    fontSize: "1.5rem",
+    padding: "0.8rem 2rem",
+    backgroundColor: "#d50707",
+    color: "#fff",
     fontWeight: 500,
-    border: "1px solid #D9DBE1",
-    color: "#14323F",
+    border: "1px solid #d50707",
+    borderRadius: 20,
     marginLeft: "1.5rem",
-    "& img": {
-      width: 15,
-    },
-    "&:hover": {
-      backgroundColor: "#F0F7EF",
+    "& svg": {
+      fontSize: "2rem",
+      marginBottom: "-0.5rem",
+      marginRight: "0.5rem",
     },
     [theme.breakpoints.up(1279)]: {
       marginLeft: ".8rem",
@@ -42,14 +42,12 @@ const useStyles = makeStyles((theme) => ({
 const SaveButton = ({ location, productDetails }) => {
   const classes = useStyles();
   return (
-    <PinterestShareButton
-      className={classes.button}
-      url={location}
-      media={encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${productDetails?.imageDetails?.preview}`)}
-    >
-      <PinterestIcon size={20} round={true} />
-      <img src={pinterestIcon} alt="" />
-      Save
+    <PinterestShareButton url={location} media={encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${productDetails?.imageDetails?.preview}`)}>
+      <div className={classes.button}>
+        {/* <PinterestIcon size={20} round={true} /> */}
+        <PinterestIcon />
+        Save
+      </div>
     </PinterestShareButton>
   );
 };

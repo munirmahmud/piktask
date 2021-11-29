@@ -35,9 +35,8 @@ const ProductInfo = ({ productDetails }) => {
             Share
           </Button>
 
-          <SaveButton productDetails={productDetails} location={location} />
-
           <CopyLink location={location} />
+          <SaveButton productDetails={productDetails} location={location} />
         </div>
 
         <Grid container className={classes.detailsContainer}>

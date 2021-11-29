@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { getBaseURL } from "../../../helpers";
-import { expiredLoginTime } from "./../../../helpers/index";
 // import crownGreenIcon from "../../../assets/icons/crownGreenIcon.svg";
 import useStyles from "./Popper.styles";
 
@@ -42,9 +41,6 @@ const CustomPopper = ({ open, handleToggle, anchorRef, handleClose, handleListKe
         })
         .catch((error) => {
           console.log("Download error", error.response);
-          if (error.response.status === 401) {
-            expiredLoginTime();
-          }
           setLoading(false);
         });
     }

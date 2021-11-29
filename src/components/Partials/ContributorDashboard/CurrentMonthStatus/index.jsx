@@ -39,9 +39,6 @@ const CurrentMonthStatus = () => {
           }
         })
         .catch((error) => {
-          // if(error.response.data.status === 401){
-
-          // }
           console.log("Dashboard summery", error);
           setLoading(false);
         });
