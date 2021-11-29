@@ -96,40 +96,21 @@ const Products = (props) => {
         <>
           {piktaskProduct.length !== 0 && (
             <SectionHeading title="Piktask Collection" large>
-              <Button
-                className={classes.headingButton}
-                component={Link}
-                to={"category/piktask-collection"}
-              >
+              <Button className={classes.headingButton} component={Link} to={"category/piktask-collection"}>
                 See More
               </Button>
             </SectionHeading>
           )}
 
-          <Grid
-            classes={{ container: classes.container }}
-            container
-            spacing={2}
-          >
+          <Grid classes={{ container: classes.container }} container spacing={2}>
             {isLoading ? (
               <Loader item={piktaskProduct} />
             ) : (
               <>
                 {piktaskProduct?.length > 0 &&
                   piktaskProduct?.slice(0, 16).map((photo) => (
-                    <Grid
-                      key={photo?.image_id}
-                      item
-                      xs={6}
-                      sm={4}
-                      md={3}
-                      className={classes.productItem}
-                    >
-                      <Product
-                        key={photo?.image_id}
-                        catId={piktaskProduct?.id}
-                        photo={photo}
-                      />
+                    <Grid key={photo?.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
+                      <Product key={photo?.image_id} catId={piktaskProduct?.id} photo={photo} />
                     </Grid>
                   ))}
               </>
@@ -140,40 +121,21 @@ const Products = (props) => {
         <>
           {images.length !== 0 && showHeading && (
             <SectionHeading title={category?.name} large>
-              <Button
-                className={classes.headingButton}
-                component={Link}
-                to={`category/${category?.slug}`}
-              >
+              <Button className={classes.headingButton} component={Link} to={`category/${category?.slug}`}>
                 See More
               </Button>
             </SectionHeading>
           )}
 
-          <Grid
-            classes={{ container: classes.container }}
-            container
-            spacing={2}
-          >
+          <Grid classes={{ container: classes.container }} container spacing={2}>
             {isLoading ? (
               <Loader item={images} />
             ) : (
               <>
                 {images?.length > 0 &&
                   images?.slice(0, count).map((photo) => (
-                    <Grid
-                      key={photo?.image_id}
-                      item
-                      xs={6}
-                      sm={4}
-                      md={3}
-                      className={classes.productItem}
-                    >
-                      <Product
-                        key={photo?.image_id}
-                        catId={category?.id}
-                        photo={photo}
-                      />
+                    <Grid key={photo?.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
+                      <Product key={photo?.image_id} catId={category?.id} photo={photo} />
                     </Grid>
                   ))}
               </>

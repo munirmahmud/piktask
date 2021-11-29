@@ -71,6 +71,7 @@ const FavouriteButton = ({ productDetails }) => {
     } else {
       if (user?.isLoggedIn && user?.role === "contributor") {
         toast.error("Please, login as a user", { autoClose: 2200 });
+        setOpenAuthModal(true);
       } else {
         toast.error("You can't like yourself", { autoClose: 2000 });
       }

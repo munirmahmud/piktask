@@ -1,10 +1,4 @@
-import {
-  Button,
-  Collapse,
-  List,
-  ListItem,
-  ListItemText,
-} from "@material-ui/core";
+import { Button, Collapse, List, ListItem, ListItemText } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import CardMembershipIcon from "@material-ui/icons/CardMembership";
@@ -28,60 +22,33 @@ const Sidebar = () => {
   useEffect(() => {
     if (window.location.pathname === "/contributor/dashboard" && value !== 0) {
       setValue(0);
-    } else if (
-      window.location.pathname === "/contributor/upload" &&
-      value !== 1
-    ) {
+    } else if (window.location.pathname === "/contributor/upload" && value !== 1) {
       setOpen(true);
       setValue(1);
       setSelectedItem(1);
-    } else if (
-      window.location.pathname === "/contributor/pending" &&
-      value !== 2
-    ) {
+    } else if (window.location.pathname === "/contributor/pending" && value !== 2) {
       setOpen(true);
       setValue(1);
       setSelectedItem(2);
-    } else if (
-      window.location.pathname === "/contributor/revision" &&
-      value !== 3
-    ) {
+    } else if (window.location.pathname === "/contributor/revision" && value !== 3) {
       setOpen(true);
       setValue(1);
       setSelectedItem(3);
-    } else if (
-      window.location.pathname === "/contributor/reject" &&
-      value !== 4
-    ) {
+    } else if (window.location.pathname === "/contributor/reject" && value !== 4) {
       setOpen(true);
       setValue(1);
       setSelectedItem(4);
-    } else if (
-      window.location.pathname === "/contributor/publish" &&
-      value !== 5
-    ) {
+    } else if (window.location.pathname === "/contributor/publish" && value !== 5) {
       setOpen(true);
       setValue(1);
       setSelectedItem(5);
-    } else if (
-      window.location.pathname === "/contributor/earnings" &&
-      value !== 6
-    ) {
+    } else if (window.location.pathname === "/contributor/earnings" && value !== 6) {
       setValue(6);
-    } else if (
-      window.location.pathname === "/contributor/contributor-price-plan" &&
-      value !== 7
-    ) {
+    } else if (window.location.pathname === "/contributor/contributor-price-plan" && value !== 7) {
       setValue(7);
-    } else if (
-      window.location.pathname === "/contributor/guidLine" &&
-      value !== 8
-    ) {
+    } else if (window.location.pathname === "/contributor/guidLine" && value !== 8) {
       setValue(8);
-    } else if (
-      window.location.pathname === "/contributor/settings" &&
-      value !== 9
-    ) {
+    } else if (window.location.pathname === "/contributor/settings" && value !== 9) {
       setValue(9);
     }
   }, [value]);
@@ -106,6 +73,7 @@ const Sidebar = () => {
           <img src={logo} className={classes.sidebarLogo} alt="Piktask" />
         </Button>
       </div>
+
       <List component="nav" aria-labelledby="nested-sidebar-nav">
         <ListItem
           classes={{
@@ -119,6 +87,7 @@ const Sidebar = () => {
           <DashboardIcon />
           <ListItemText primary="Dashboard" />
         </ListItem>
+
         <ListItem
           classes={{
             gutters: classes.gutters,
@@ -136,50 +105,18 @@ const Sidebar = () => {
         </ListItem>
 
         <Collapse in={open} timeout="auto" unmountOnExit>
-          <List
-            component="div"
-            disablePadding
-            className={classes.submenuContainer}
-          >
-            <ListItem
-              component={Link}
-              to="/contributor/pending"
-              className={classes.nested}
-              selected={value === 1 && selectedItem === 2}
-            >
-              <ListItemText
-                primary={`Not yet submitted(${totalProductCount?.notSubmit})`}
-              />
+          <List component="div" disablePadding className={classes.submenuContainer}>
+            <ListItem component={Link} to="/contributor/pending" className={classes.nested} selected={value === 1 && selectedItem === 2}>
+              <ListItemText primary={`Not yet submitted(${totalProductCount?.notSubmit})`} />
             </ListItem>
-            <ListItem
-              component={Link}
-              to="/contributor/revision"
-              className={classes.nested}
-              selected={value === 1 && selectedItem === 3}
-            >
-              <ListItemText
-                primary={`Under Revision(${totalProductCount?.pendingCount})`}
-              />
+            <ListItem component={Link} to="/contributor/revision" className={classes.nested} selected={value === 1 && selectedItem === 3}>
+              <ListItemText primary={`Under Revision(${totalProductCount?.pendingCount})`} />
             </ListItem>
-            <ListItem
-              component={Link}
-              to="/contributor/reject"
-              className={classes.nested}
-              selected={value === 1 && selectedItem === 4}
-            >
-              <ListItemText
-                primary={`Rejections(${totalProductCount?.rejectCount})`}
-              />
+            <ListItem component={Link} to="/contributor/reject" className={classes.nested} selected={value === 1 && selectedItem === 4}>
+              <ListItemText primary={`Rejections(${totalProductCount?.rejectCount})`} />
             </ListItem>
-            <ListItem
-              component={Link}
-              to="/contributor/publish"
-              className={classes.nested}
-              selected={value === 1 && selectedItem === 5}
-            >
-              <ListItemText
-                primary={`Published(${totalProductCount?.publishCount})`}
-              />
+            <ListItem component={Link} to="/contributor/publish" className={classes.nested} selected={value === 1 && selectedItem === 5}>
+              <ListItemText primary={`Published(${totalProductCount?.publishCount})`} />
             </ListItem>
           </List>
         </Collapse>
@@ -218,7 +155,7 @@ const Sidebar = () => {
           selected={value === 8}
         >
           <HelpOutlineIcon />
-          <ListItemText primary="Guidline" />
+          <ListItemText primary="Guideline" />
         </ListItem>
         <ListItem
           classes={{

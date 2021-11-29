@@ -36,12 +36,10 @@ const UploadFiles = () => {
   const history = useHistory();
   const user = useSelector((state) => state.user);
 
-  const [description, setDescription] = useState("");
   const [imageError, setImageError] = useState({});
 
-  const [isLoading, setLoading] = useState(false);
   let isUploadBtnDisabled = true;
-  let disableUploadButton;
+  // let disableUploadButton;
   const [disableDeleteBtn, setDisableDeleteBtn] = useState(false);
   const [disabledBtn, setDisabledBtn] = useState(false);
 
@@ -50,18 +48,17 @@ const UploadFiles = () => {
   const [thumbImage, setThumbImage] = useState("");
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const [isImageDimensionOkay, setImageDimensionOkay] = useState(false);
-  const [progress, setProgress] = useState([]);
 
   const { mobileView } = menuSate;
   //mobile responsive
   useEffect(() => {
-    // const setResponsiveness = () => {
-    //   return window.innerWidth < 769
-    //     ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-    //     : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    // };
-    // setResponsiveness();
-    // window.addEventListener("resize", setResponsiveness);
+    const setResponsiveness = () => {
+      return window.innerWidth < 769
+        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
+        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
+    };
+    setResponsiveness();
+    window.addEventListener("resize", setResponsiveness);
   }, []);
 
   const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
@@ -102,7 +99,7 @@ const UploadFiles = () => {
     const element = file;
     const fileName = element.name.split(".")[0];
 
-    let timer = null;
+    // let timer = null;
 
     return new Promise((resolve, reject) => {
       var fr = new FileReader();
@@ -235,10 +232,10 @@ const UploadFiles = () => {
       toast.error("Sorry, you did not upload any files.");
       return;
     }
-    disableUploadButton = true;
+    // disableUploadButton = true;
     isUploadBtnDisabled = true;
     setDisableDeleteBtn(true);
-    setDisabledBtn(true);
+    // setDisabledBtn(true);
 
     for (let i = 0; i < files.length; i++) {
       let temp_files = [...files];
@@ -262,7 +259,18 @@ const UploadFiles = () => {
   function checkFileSize(file) {
     let fileStatus = [];
 
+    let fileName = [];
+    let mainFileName = [];
+
     files?.map((file) => {
+      if (file.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+        fileName.push(file.name.split(".")[0]);
+      }
+
+      if (file.name.match(/\.(eps|psd|ai|svg)$/)) {
+        mainFileName.push(file.name.split(".")[0]);
+      }
+
       if (
         (file.name.match(/\.(jpg|jpeg|png|gif)$/) && file.size < 104858) ||
         file.size > 83886080 ||
@@ -271,15 +279,23 @@ const UploadFiles = () => {
       ) {
         fileStatus.push(true);
         isUploadBtnDisabled = false;
-        return;
+        return false;
       } else {
         fileStatus.push(false);
         isUploadBtnDisabled = true;
-        return;
+        return true;
       }
     });
 
     const checkFile = fileStatus.find((item) => item === true);
+
+    const checkFileName = mainFileName.find((element) => !fileName.includes(element));
+
+    if (checkFileName) {
+      console.log("checkFileName", checkFileName);
+      isUploadBtnDisabled = true;
+      return true;
+    }
 
     if (fileStatus.length > 0) {
       if (checkFile) {
