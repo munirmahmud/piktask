@@ -64,23 +64,31 @@ const App = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [isDataLoaded, setDataLoaded] = useState(true);
+  // const [isTokenExpired, setTokenExpired] = useState(false);
 
   useEffect(() => {
-    // Check username/password auth state
-    const setToken = window.localStorage.getItem("token") || "";
-    const avatar = window.localStorage.getItem("profileImage") || "";
-    if (setToken) {
-      const decode = jwt_decode(setToken.split(" ")[1]);
+    // Check token auth state
+    const token = window.localStorage.getItem("token");
+    const avatar = window.localStorage.getItem("profileImage");
+    if (token) {
+      const decode = jwt_decode(token.split(" ")[1]);
       if (decode.email) {
         dispatch({
           type: "SET_USER",
           payload: {
             ...decode,
-            token: setToken,
+            token: token,
             avatar: avatar,
           },
         });
       }
+
+      // Login expired
+      // var expired = new Date(decode.exp * 1000);
+      // console.log("expired", expired);
+      // setTimeout(() => {
+      //   setTokenExpired(true);
+      // }, expired);
     }
 
     // Popular categories API integration
@@ -110,25 +118,29 @@ const App = () => {
   useEffect(() => {
     // Upload total count
     if (user?.isLoggedIn && user?.role === "contributor") {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/images/total_count`, {
-          headers: { Authorization: user?.token },
-        })
-        .then(({ data }) => {
-          if (data?.status) {
-            dispatch({
-              type: "TOTAL_PRODUCT_COUNT",
-              payload: { ...data },
-            });
-          }
-        });
+      axios.get(`${process.env.REACT_APP_API_URL}/contributor/images/total_count`, { headers: { Authorization: user?.token } }).then(({ data }) => {
+        if (data?.status) {
+          dispatch({
+            type: "TOTAL_PRODUCT_COUNT",
+            payload: { ...data },
+          });
+        }
+      });
     }
   }, [user?.isLoggedIn, user?.role, user?.token, dispatch]);
+
+  // const tokenExpiredAndUserSignOut = () => {
+  //   if (isTokenExpired) {
+  //     localStorage.removeItem("token");
+  //     return (window.location.href = "/");
+  //   }
+  // };
 
   return isDataLoaded ? (
     <LinearProgress />
   ) : (
     <ThemeProvider theme={theme}>
+      {/* {tokenExpiredAndUserSignOut()} */}
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />

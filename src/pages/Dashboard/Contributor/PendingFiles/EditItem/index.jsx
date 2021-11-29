@@ -1,9 +1,9 @@
-import { Button, Chip, TextField } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import CloseIcon from "@material-ui/icons/Close";
-import Autocomplete from "@mui/material/Autocomplete";
+// import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getBaseURL } from "../../../../../helpers";
@@ -18,24 +18,10 @@ const EditItem = (props) => {
   const [tagsValue, setTagsValue] = useState([]);
   const [category, setCategory] = useState([]);
   const [title, setTitle] = useState("");
-  // const [tag, setTag] = useState([]);
+
+  const [tag, setTag] = useState([]);
   // const [keywords, setKeywords] = useState([]);
-
-  // const keyWordRef = useRef(null);
-
-  // const handleCategoryItem = () => {
-  //   if (user?.isLoggedIn && user?.role === "contributor") {
-  //     axios
-  //       .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
-  //       .then(({ data }) => {
-  //         if (data?.status) {
-  //           const sortedData = data?.categories.sort((a, b) => a.id - b.id);
-  //           setCategory(sortedData);
-  //         }
-  //       })
-  //       .catch((error) => console.log("Categories loading error: ", error));
-  //   }
-  // };
+  const keyWordRef = useRef(null);
 
   useEffect(() => {
     if (user?.isLoggedIn && user?.role === "contributor") {
@@ -52,9 +38,9 @@ const EditItem = (props) => {
     }
   }, [user]);
 
-  const keyWords = [
-    // { title: "Business Card" },
-  ];
+  // const keyWords = [
+  //   // { title: "Business Card" },
+  // ];
 
   const images = [];
   products.forEach((element) => {
@@ -131,22 +117,25 @@ const EditItem = (props) => {
     return;
   };
 
-  // const removeKeyword = (keyword, index, e) => {
-  //   // const keywords = tagsValue.splice(index, 1);
-  //   // console.log(tagsValue.splice(index, 1));
-  //   // console.log("keywords", tagsValue);
+  const removeKeyword = (keyword, index, e) => {
+    tagsValue.splice(index, 1);
+    setTagsValue([...tagsValue]);
+  };
 
-  //   setTagsValue((prev) => {
-  //     delete tagsValue[index];
-  //   });
-  // };
-
-  // const handleKeyPress = (e) => {
-  //   if (e.key === "Enter") {
-  //     setTagsValue((prevState) => [e.target.value, ...prevState]);
-  //     setTag("");
-  //   }
-  // };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      setTagsValue((prevState) => {
+        const isInArray = prevState?.find((item) => e.target.value.includes(item));
+        if (isInArray) {
+          toast.error("Tag already exist");
+          return [...prevState];
+        } else {
+          return [...tag.split(","), ...prevState];
+        }
+      });
+      setTag("");
+    }
+  };
 
   // const handleKeywords = (e) => {
   //   // console.log(keyWordRef.current.which);
@@ -161,19 +150,19 @@ const EditItem = (props) => {
   //   }
   // });
 
-  // const getTags = () => {
-  //   return (
-  //     <div className={classes.tags}>
-  //       {tagsValue?.length > 0 &&
-  //         tagsValue?.map((tag, index) => (
-  //           <li key={index} className="keyword">
-  //             {tag}
-  //             <ClearIcon onClick={(e) => removeKeyword(tag, index, e)} />
-  //           </li>
-  //         ))}
-  //     </div>
-  //   );
-  // };
+  const getTags = () => {
+    return (
+      <div className={classes.tags}>
+        {tagsValue?.length > 0 &&
+          tagsValue?.map((tag, index) => (
+            <li key={index} className="keyword">
+              {tag}
+              <ClearIcon onClick={(e) => removeKeyword(tag, index, e)} />
+            </li>
+          ))}
+      </div>
+    );
+  };
 
   return (
     <div className={classes.editItemWrapper}>
@@ -211,12 +200,12 @@ const EditItem = (props) => {
           <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
 
-        {/* <div className={`${classes.fieldGroup}`}>
+        <div className={`${classes.fieldGroup}`}>
           <label htmlFor="tag">Keyword</label>
           <input type="text" id="tag" ref={keyWordRef} value={tag} onChange={(e) => setTag(e.target.value)} onKeyPress={handleKeyPress} />
-        </div> */}
+        </div>
 
-        <div className={`${classes.fieldGroup}`}>
+        {/* <div className={`${classes.fieldGroup}`}>
           <label htmlFor="keyword">Keyword</label>
           <Autocomplete
             value={tagsValue}
@@ -241,9 +230,9 @@ const EditItem = (props) => {
               focused: classes.focused,
             }}
           />
-        </div>
+        </div> */}
 
-        {/* {getTags()} */}
+        {getTags()}
 
         <hr className={classes.seperator} />
 

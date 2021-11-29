@@ -60,8 +60,8 @@ const FollowButton = ({ productDetails }) => {
     } else {
       if (user?.isLoggedIn && user?.role === "contributor") {
         toast.error("Please, login as a user", { autoClose: 2200 });
+        setOpenAuthModal(true);
       } else {
-        // setOpenAuthModal(true);
         toast.error("You can't follow yourself", { autoClose: 2000 });
       }
     }

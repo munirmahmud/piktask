@@ -1,19 +1,9 @@
-import {
-  Button,
-  Collapse,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  MenuItem,
-  MenuList,
-  Toolbar,
-} from "@material-ui/core";
+import { Collapse, List, ListItem, ListItemText } from "@material-ui/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import useStyles from "./MobileSidebarMenu.styles";
-import { useSelector } from "react-redux";
 
 const MobileSidebarMenu = () => {
   const user = useSelector((state) => state.user);
@@ -32,6 +22,7 @@ const MobileSidebarMenu = () => {
       setValue(1);
       setSelectedItem(1);
     } else if (window.location.pathname === "/contributor/pending" && value !== 2) {
+      setOpen(true);
       setValue(1);
       setSelectedItem(2);
     } else if (window.location.pathname === "/contributor/revision" && value !== 3) {
@@ -48,27 +39,25 @@ const MobileSidebarMenu = () => {
       setSelectedItem(5);
     } else if (window.location.pathname === "/contributor/earnings" && value !== 6) {
       setValue(6);
-    } else if (window.location.pathname === "/admin/plan" && value !== 7) {
+    } else if (window.location.pathname === "/contributor/contributor-price-plan" && value !== 7) {
       setValue(7);
     } else if (window.location.pathname === "/contributor/guidLine" && value !== 8) {
       setValue(8);
+    } else if (window.location.pathname === "/contributor/settings" && value !== 9) {
+      setValue(9);
     }
   }, [value]);
 
-  const handleChange = (e, index) => {
-    setValue(index);
-  };
+  // const handleChange = (e, index) => {
+  //   setValue(index);
+  // };
 
   const handleClick = () => {
     setOpen(!open);
   };
   return (
     <>
-      <List
-        component="nav"
-        aria-labelledby="nested-sidebar-nav"
-        className={classes.mobileSidebarMenu}
-      >
+      <List component="nav" aria-labelledby="nested-sidebar-nav" className={classes.mobileSidebarMenu}>
         <ListItem
           classes={{
             gutters: classes.gutters,
@@ -91,47 +80,26 @@ const MobileSidebarMenu = () => {
           to="/contributor/upload"
           selected={value === 1}
         >
-          <ListItemText primary="Upload File" />
+          <ListItemText primary="Files" />
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
 
         <Collapse in={open} timeout="auto" unmountOnExit>
-          <List
-            component="div"
-            disablePadding
-            className={classes.submenuContainer}
-          >
-            {/* <ListItem
-              component={Link}
-              to="/admin/submit"
-              className={classes.nested}
-              selected={value === 0}
-            >
-              <ListItemText primary="Submit File(50)" />
-            </ListItem> */}
-            <ListItem
-              component={Link}
-              to="/contributor/revision"
-              className={classes.nested}
-              selected={value === 1 && selectedItem === 3}
-            >
-              <ListItemText primary="Under Revision(30)" />
+          <List component="div" disablePadding className={classes.submenuContainer}>
+            <ListItem component={Link} to="/contributor/pending" className={classes.nested} selected={value === 0}>
+              <ListItemText primary="Not yet submitted" />
             </ListItem>
-            <ListItem
-              component={Link}
-              to="/contributor/reject"
-              className={classes.nested}
-              selected={value === 1 && selectedItem === 4}
-            >
-              <ListItemText primary="Reject File(6)" />
+
+            <ListItem component={Link} to="/contributor/revision" className={classes.nested} selected={value === 1 && selectedItem === 3}>
+              <ListItemText primary="Under Revision" />
             </ListItem>
-            <ListItem
-              component={Link}
-              to="/contributor/publish"
-              className={classes.nested}
-              selected={value === 1 && selectedItem === 5}
-            >
-              <ListItemText primary="Publish(24)" />
+
+            <ListItem component={Link} to="/contributor/reject" className={classes.nested} selected={value === 1 && selectedItem === 4}>
+              <ListItemText primary="Rejections" />
+            </ListItem>
+
+            <ListItem component={Link} to="/contributor/publish" className={classes.nested} selected={value === 1 && selectedItem === 5}>
+              <ListItemText primary="Published" />
             </ListItem>
           </List>
         </Collapse>
@@ -155,7 +123,7 @@ const MobileSidebarMenu = () => {
           }}
           onClick={handleClick}
           component={Link}
-          to="/admin/plan"
+          to="/contributor/contributor-price-plan"
           selected={value === 7}
         >
           <ListItemText primary="Contributor Price Plan" />
@@ -170,7 +138,20 @@ const MobileSidebarMenu = () => {
           to="/contributor/guidLine"
           selected={value === 8}
         >
-          <ListItemText primary="Guidline" />
+          <ListItemText primary="Guideline" />
+        </ListItem>
+
+        <ListItem
+          classes={{
+            gutters: classes.gutters,
+            selected: classes.selectedItem,
+          }}
+          onClick={handleClick}
+          component={Link}
+          to="/contributor/settings"
+          selected={value === 9}
+        >
+          <ListItemText primary="Account Setting" />
         </ListItem>
       </List>
     </>

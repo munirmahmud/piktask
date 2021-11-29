@@ -58,16 +58,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "3.5rem",
     },
   },
-  userName: {
-    paddingLeft: "1rem",
-    fontSize: "1.8rem",
-    fontWeight: 500,
-    color: "#1B3F4E",
-    [theme.breakpoints.down(426)]: {
-      fontSize: "1.4rem",
-      paddingLeft: "0.8rem",
-    },
-  },
   arrowDown: {
     fontSize: "3.5rem",
     color: "#376579",
@@ -85,12 +75,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   logo: {
-    width: "10rem",
+    width: "12rem",
   },
   closeIconWrapper: {
-    backgroundColor: "#063B52",
+    backgroundColor: "rgb(1 32 54)",
     padding: "1rem",
-    boxShadow: "0px 0px 50px 50px #042C3D",
+    boxShadow: "0px 0px 50px 50px rgb(1 32 54)",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",

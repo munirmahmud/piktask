@@ -12,6 +12,11 @@ export const dateFormat = (time) => {
   return time;
 };
 
+export const loginTimeExpired = () => {
+  localStorage.removeItem("token");
+  return (window.location.href = "/");
+};
+
 export const getBaseURL = () => {
   const clientURL = localStorage.getItem("imageBaseURL");
 

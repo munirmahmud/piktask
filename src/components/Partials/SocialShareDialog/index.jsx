@@ -17,6 +17,7 @@ import {
   TwitterIcon,
   TwitterShareButton,
 } from "react-share";
+import { getBaseURL } from "./../../../helpers/index";
 
 const useStyles = makeStyles((theme) => ({
   socialShareWrapper: {
@@ -63,7 +64,10 @@ const SocialShareDialog = ({ productDetails, setOpen, open }) => {
             justifyContent: "space-between",
           }}
         >
-          <PinterestShareButton url={productDetails?.shareUrl} media={productDetails?.imageLink}>
+          <PinterestShareButton
+            url={productDetails?.shareUrl}
+            media={encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${productDetails?.imageDetails?.preview}`)}
+          >
             <PinterestIcon size={40} style={{ margin: "0.4rem" }} round={true} />
           </PinterestShareButton>
 

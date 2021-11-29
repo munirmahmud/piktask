@@ -69,7 +69,7 @@ const Contact = () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
-    formData.append("subject", subject);
+    formData.append("contact_categories_id", subject);
     formData.append("message", message);
 
     const url = `${process.env.REACT_APP_API_URL}/others/contact_us`;

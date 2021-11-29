@@ -55,6 +55,9 @@ const RelatedImage = ({ imageID }) => {
           ))
         )}
       </Grid>
+      {/* <div>
+        <Button className={classes.loadMoreBtn}>Load More</Button>
+      </div> */}
       {totalProduct > limit && <Pagination productPagination count={count} pageCount={pageCount} setPageCount={setPageCount} />}
     </>
   );

@@ -10,6 +10,16 @@ import useStyles from "./PublishProduct.style";
 const PublishProduct = (props) => {
   const classes = useStyles();
   const { isLoading, allPublishProduct } = props;
+
+  function pikTaskEncodeURI(data) {
+    if (data) {
+      return (
+        "/category" +
+        encodeURI(`/${data?.category.toLowerCase().trim().replace(/\s/g, "-")}/${data?.title.toLowerCase().trim().replace(/\s/g, "-")}&id=${data?.image_id}`)
+      );
+    }
+  }
+
   return (
     <>
       {isLoading ? (
@@ -50,7 +60,7 @@ const PublishProduct = (props) => {
                         <TableBody key={product?.image_id}>
                           <TableRow key={product?.image_id} className={classes.tableRowContent}>
                             <TableCell className={`${classes.tableCell} ${classes.authProductWrapper}`}>
-                              <Link to={`/images/${product?.title.toLowerCase().replace(/\s/g, "-")}&id=${product?.id}`}>
+                              <Link to={pikTaskEncodeURI(product)}>
                                 <img
                                   className={classes.publishImg}
                                   src={getBaseURL().bucket_base_url + getBaseURL().images + product?.preview}
