@@ -64,24 +64,32 @@ const App = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [isDataLoaded, setDataLoaded] = useState(true);
-  // const [isTokenExpired, setTokenExpired] = useState(false);
+  const [isTokenExpired, setTokenExpired] = useState(false);
 
   useEffect(() => {
     // Check token auth state
     const token = window.localStorage.getItem("token");
     const avatar = window.localStorage.getItem("profileImage");
+
     if (token) {
-      const decode = jwt_decode(token.split(" ")[1]);
-      if (decode.email) {
+      const decodeToken = jwt_decode(token.split(" ")[1]);
+
+      if (decodeToken.email) {
         dispatch({
           type: "SET_USER",
           payload: {
-            ...decode,
+            ...decodeToken,
             token: token,
             avatar: avatar,
           },
         });
       }
+
+      // Send user to the home page if token is expired
+      const expired = new Date(decodeToken.exp * 1000) - new Date();
+      setTimeout(() => {
+        setTokenExpired(true);
+      }, expired);
     }
 
     // Popular categories API integration
@@ -122,18 +130,19 @@ const App = () => {
     }
   }, [user?.isLoggedIn, user?.role, user?.token, dispatch]);
 
-  // const tokenExpiredAndUserSignOut = () => {
-  //   if (isTokenExpired) {
-  //     localStorage.removeItem("token");
-  //     return (window.location.href = "/");
-  //   }
-  // };
+  const tokenExpiredAndUserSignOut = () => {
+    if (isTokenExpired) {
+      localStorage.removeItem("token");
+      return (window.location.href = "/");
+    }
+  };
 
   return isDataLoaded ? (
     <LinearProgress />
   ) : (
     <ThemeProvider theme={theme}>
-      {/* {tokenExpiredAndUserSignOut()} */}
+      {tokenExpiredAndUserSignOut()}
+
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
