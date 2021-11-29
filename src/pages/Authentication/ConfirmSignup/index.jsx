@@ -9,6 +9,7 @@ import Footer from "../../../components/ui/Footer";
 import Header from "../../../components/ui/Header";
 import Layout from "../../../Layout";
 import useStyles from "../ResetPassword/ResetPassword.styles";
+import HeroSection from "./../../../components/ui/Hero/index";
 
 const ConfirmSignup = () => {
   const classes = useStyles();
@@ -33,7 +34,7 @@ const ConfirmSignup = () => {
   //For Set Password
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(false);
+    setLoading(true);
 
     if (!token) {
       setLoading(true);
@@ -63,7 +64,7 @@ const ConfirmSignup = () => {
         .then((res) => {
           if (res.status === 200) {
             toast.success(res.data.message);
-            setLoading(true);
+            setLoading(false);
             setRole(res?.data.role);
             setToken("");
             setRedirectTo(true);
@@ -71,21 +72,24 @@ const ConfirmSignup = () => {
         })
         .catch((error) => {
           toast.error(error.response.data.message);
-          setLoading(true);
+          setLoading(false);
           setToken("");
         });
     }
   };
 
   return (
-    <Layout title="Confirm Signup | Piktask" canonical={document.URL}>
+    <Layout title="Confirm Signup" canonical={document.URL}>
       {/* if confirm redirect to login */}
       {isRedirectTo && <Redirect to={`/login?${role}`} />}
       <Header />
-      <Spacing space={{ height: "2.5rem" }} />
+
+      <HeroSection title="Graphic Resources for Free Download" />
+
+      <Spacing space={{ height: "10rem" }} />
       <Container>
         <Grid container spacing={0} alignItems="center" justifyContent="center">
-          <Grid item sm={12} md={6}>
+          <Grid item xs={12} sm={6} md={6}>
             <div className={classes.cardWrapper} style={{ padding: "4rem" }}>
               <div className={classes.cardHeadingWrapper}>
                 <Typography className={classes.cardHeading} variant="h2">
@@ -95,20 +99,14 @@ const ConfirmSignup = () => {
                 <Spacing space={{ height: "1.5rem" }} />
 
                 <Typography className={classes.cardSubtitle}>
-                  We've sent you an email with some digits. Please check your
-                  email and enter below to confirm your signup.
+                  We've sent you an email with some digits. Please check your email and enter below to confirm your signup.
                 </Typography>
               </div>
 
               <Spacing space={{ height: "3.5rem" }} />
 
               <form autoComplete="off" onSubmit={handleSubmit}>
-                <InputField
-                  label="Enter Token"
-                  name="token"
-                  value={token}
-                  onChange={(e) => setToken(e.target.value)}
-                />
+                <InputField label="Enter Token" name="token" value={token} onChange={(e) => setToken(e.target.value)} />
 
                 <CustomBtn text="Confirm Signup" disabledBtn={isLoading} />
               </form>
@@ -117,7 +115,7 @@ const ConfirmSignup = () => {
         </Grid>
       </Container>
 
-      <Spacing space={{ height: "5rem" }} />
+      <Spacing space={{ height: "10rem" }} />
 
       <Footer />
     </Layout>

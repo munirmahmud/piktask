@@ -10,7 +10,7 @@ import useStyles from "./CopyrightInfo.style";
 const CopyrightInfo = () => {
   const classes = useStyles();
   return (
-    <Layout title="Copyright information | Piktask" canonical={document.URL}>
+    <Layout title="Copyright information" canonical={document.URL}>
       <Header />
 
       <HeroSection copyrightInfo size="medium" isSearch />
@@ -24,15 +24,10 @@ const CopyrightInfo = () => {
             <Spacing space={{ height: "1rem" }} />
             <div className={classes.guidLineContent}>
               <Typography className={classes.description}>
-                We own all the Piktask content that we have put on Piktask. This
-                includes the design,Software,Website, Theme, Template,Idea,
-                Feelings, and look and feel of the Piktask sites, and copyright,
-                trademarks, designs and other intellectual property on Piktask.
-                We own all the Softwares, Application, logos, service marks and
-                trade names on Piktask site. You will not copy, distribute,
-                modify or make derivative works of any of our Piktask Content or
-                use any of our intellectual property in any way not expressly
-                stated in these terms.
+                We own all the Piktask content that we have put on Piktask. This includes the design,Software,Website, Theme, Template,Idea, Feelings, and look
+                and feel of the Piktask sites, and copyright, trademarks, designs and other intellectual property on Piktask. We own all the Softwares,
+                Application, logos, service marks and trade names on Piktask site. You will not copy, distribute, modify or make derivative works of any of our
+                Piktask Content or use any of our intellectual property in any way not expressly stated in these terms.
               </Typography>
               <Spacing space={{ height: "3rem" }} />
               <div className={classes.copyRightTitle}>
@@ -40,11 +35,9 @@ const CopyrightInfo = () => {
               </div>
               <Spacing space={{ height: "1rem" }} />
               <Typography className={classes.description}>
-                Copyright, trademark and intellectual property claims: We
-                respect the intellectual property rights of others and we tried
-                to develop our softwares and application based on others
-                company's property.If anybody see any issues or any propoerty
-                matches with your property then we will remove it.
+                Copyright, trademark and intellectual property claims: We respect the intellectual property rights of others and we tried to develop our
+                softwares and application based on others company's property.If anybody see any issues or any propoerty matches with your property then we will
+                remove it.
               </Typography>
             </div>
           </div>

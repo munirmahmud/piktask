@@ -1,15 +1,8 @@
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Button,
-  Container,
-  FormControl,
-  TextareaAutosize,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, Container, FormControl, TextareaAutosize, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import thumbnail from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
 import Spacing from "../../components/Spacing";
@@ -19,27 +12,32 @@ import HeroSection from "../../components/ui/Hero";
 import Layout from "../../Layout";
 import useStyles from "./Contact.style";
 
-const problemCategory = [
-  { label: " Select a problem category" },
-  { value: "Advertise with us", label: "Advertise with us" },
-  { value: "Collaboration Offer", label: "Collaboration Offer" },
-  { value: "Download Issue", label: "Download Issue" },
-  { value: "I found an error/bug", label: "I found an error/bug" },
-  { value: "Payment Failed", label: "Payment Failed" },
-  { value: "Suggestions", label: "Suggestions" },
-  { value: "Others", label: "Others" },
-];
 const Contact = () => {
   const classes = useStyles();
-  const [isLoading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const [issueItem, setIssueItem] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/others/contact_us/issues`)
+      .then(({ data }) => {
+        console.log("data", data);
+        if (data?.status) {
+          const sortedData = data?.getIssues.sort((a, b) => a.id - b.id);
+          setIssueItem((prevState) => [{ id: "0", name: "Select a category" }, ...sortedData]);
+        }
+      })
+      .catch((error) => console.log("Categories loading error: ", error));
+  }, []);
 
   const handleSubjectChange = (event) => {
     setSubject(event.target.value);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -60,7 +58,7 @@ const Contact = () => {
       return;
     } else if (!subject) {
       setLoading(false);
-      toast.error("Please select a problem category.", { autoClose: 2200 });
+      toast.error("Please select a category.", { autoClose: 2200 });
       return;
     } else if (!message) {
       setLoading(false);
@@ -100,12 +98,7 @@ const Contact = () => {
   };
 
   return (
-    <Layout
-      title=" Contact | Piktask"
-      canonical={document.URL}
-      ogUrl={document.URL}
-      ogImage={thumbnail}
-    >
+    <Layout title=" Contact" canonical={document.URL} ogUrl={document.URL} ogImage={thumbnail}>
       <Header />
 
       <HeroSection contact isSearch />
@@ -119,11 +112,9 @@ const Contact = () => {
             <Spacing space={{ height: "1rem" }} />
             <div>
               <Typography className={classes.description}>
-                Our Team piktask 24/7 is dedicated to support our beloved
-                Customers.We have a good support team to the client.if you need
-                any assistance for any software or service.You can just Email us
-                directly at : bdtask@gmail.com or info@bdtask.com or submit a
-                ticket. Our Response time is 24 hours maximum.
+                Our Team piktask 24/7 is dedicated to support our beloved Customers.We have a good support team to the client.if you need any assistance for any
+                software or service.You can just Email us directly at : bdtask@gmail.com or info@bdtask.com or submit a ticket. Our Response time is 24 hours
+                maximum.
               </Typography>
               <Spacing space={{ height: "3rem" }} />
               <div className={classes.termsTitle}>
@@ -131,11 +122,7 @@ const Contact = () => {
               </div>
               <Spacing space={{ height: "1rem" }} />
 
-              <form
-                autoComplete="off"
-                onSubmit={handleSubmit}
-                className={classes.contactForm}
-              >
+              <form autoComplete="off" onSubmit={handleSubmit} className={classes.contactForm}>
                 <FormControl fullWidth className={classes.fieldWrapper}>
                   <label htmlFor="name">
                     Name <span>*</span>
@@ -185,11 +172,12 @@ const Contact = () => {
                       native: true,
                     }}
                   >
-                    {problemCategory.map((option, index) => (
-                      <option key={index} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
+                    {issueItem?.length > 0 &&
+                      issueItem?.map((issueItemItem) => (
+                        <option key={issueItemItem.id} value={issueItemItem.id}>
+                          {issueItemItem?.name}
+                        </option>
+                      ))}
                   </TextField>
                 </FormControl>
                 <FormControl fullWidth className={classes.fieldWrapper}>
@@ -205,16 +193,8 @@ const Contact = () => {
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </FormControl>
-                <Button
-                  variant="contained"
-                  className={classes.sentBtn}
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  <FontAwesomeIcon
-                    icon={faEnvelope}
-                    className={classes.sentIcon}
-                  />
+                <Button variant="contained" className={classes.sentBtn} type="submit" disabled={isLoading}>
+                  <FontAwesomeIcon icon={faEnvelope} className={classes.sentIcon} />
                   {isLoading ? "Sending..." : "Send"}
                 </Button>
               </form>

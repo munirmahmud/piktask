@@ -62,8 +62,8 @@ const EmailVerification = lazy(() => import("./pages/Authentication/EmailVerific
 
 const App = () => {
   const dispatch = useDispatch();
-  const [isDataLoaded, setDataLoaded] = useState(true);
   const user = useSelector((state) => state.user);
+  const [isDataLoaded, setDataLoaded] = useState(true);
 
   useEffect(() => {
     // Check username/password auth state

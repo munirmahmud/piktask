@@ -10,25 +10,16 @@ import Layout from "../../Layout";
 const TrendingSearch = () => {
   return (
     <Layout
-      title="Trending Search result | Piktask"
+      title="Trending Search result"
       description="Piktask provides millions of stock photos, creatives, backgrounds and illustrations for free to fullfil your graphic design needs."
       canonical={document.URL}
       ogUrl={document.URL}
       ogImage={thumbnail}
     >
       <Header />
-      <HeroSection
-        size="large"
-        creativeWorksDone
-        title="Graphic Resource for Free Download"
-      />
+      <HeroSection size="large" creativeWorksDone title="Graphic Resource for Free Download" />
       <PopularKeyWords />
-      <CallToAction
-        title="Join Piktask team"
-        subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
-        buttonText="Join Us"
-        uppercase
-      />
+      <CallToAction title="Join Piktask team" subtitle="Upload your first copyrighted design. Get $5 designer coupon packs" buttonText="Join Us" uppercase />
       <Footer />
     </Layout>
   );

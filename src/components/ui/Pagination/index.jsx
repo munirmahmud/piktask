@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 import Spacing from "../../Spacing";
 import useStyles from "./Pagination.style";
 
-const Paginations = (props) => {
+const Pagination = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const { pageCount, setPageCount, count, locationPath, productPagination } = props;
@@ -79,4 +79,4 @@ const Paginations = (props) => {
   );
 };
 
-export default Paginations;
+export default Pagination;

@@ -135,9 +135,10 @@ const ResetPassword = () => {
   };
 
   return (
-    <Layout title="Reset Password | Piktask" canonical={document.URL}>
+    <Layout title="Reset Password" canonical={document.URL}>
       <Header />
-      <HeroSection />
+
+      <HeroSection title="Graphic Resources for Free Download" />
       <Spacing space={{ height: "3.5rem" }} />
 
       <Container>
@@ -153,15 +154,13 @@ const ResetPassword = () => {
 
                 {!passwordChange && (
                   <Typography className={classes.cardSubtitle}>
-                    Enter your email address below and we’ll send a special
-                    reset password link to your inbox.
+                    Enter your email address below and we’ll send a special reset password link to your inbox.
                   </Typography>
                 )}
 
                 {passwordChange && (
                   <Typography className={classes.cardSubtitle}>
-                    Enter your Token, New Password and Confirm Password <br />{" "}
-                    to reset your password.
+                    Enter your Token, New Password and Confirm Password <br /> to reset your password.
                   </Typography>
                 )}
               </div>
@@ -169,71 +168,24 @@ const ResetPassword = () => {
               <Spacing space={{ height: "3.5rem" }} />
 
               <form autoComplete="off" onSubmit={handleSubmit}>
-                {!passwordChange && (
-                  <InputField
-                    label="Email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                )}
+                {!passwordChange && <InputField label="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />}
+                {passwordChange && <InputField label="Enter Your Token" name="token" value={token} onChange={(e) => setToken(e.target.value)} />}
+                {passwordChange && <InputField label="New Password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />}
                 {passwordChange && (
-                  <InputField
-                    label="Enter Your Token"
-                    name="token"
-                    value={token}
-                    onChange={(e) => setToken(e.target.value)}
-                  />
-                )}
-                {passwordChange && (
-                  <InputField
-                    label="New Password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                )}
-                {passwordChange && (
-                  <InputField
-                    label="Confirm Password"
-                    name="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
+                  <InputField label="Confirm Password" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                 )}
 
-                {!passwordChange && (
-                  <CustomBtn
-                    text="Reset Password"
-                    disabledBtn={isLoading || !email}
-                  />
-                )}
+                {!passwordChange && <CustomBtn text="Reset Password" disabledBtn={isLoading || !email} />}
                 {passwordChange && (
-                  <CustomBtn
-                    text="Set Password"
-                    disabledBtn={
-                      isLoading || !token || !password || !confirmPassword
-                    }
-                    onClick={() => handleSetPassword()}
-                  />
+                  <CustomBtn text="Set Password" disabledBtn={isLoading || !token || !password || !confirmPassword} onClick={() => handleSetPassword()} />
                 )}
               </form>
 
               <div className={classes.formButtonGroups}>
-                <Button
-                  component={Link}
-                  to="/login"
-                  className={classes.formLink}
-                  disableRipple
-                >
+                <Button component={Link} to="/login" className={classes.formLink} disableRipple>
                   Login
                 </Button>
-                <Button
-                  component={Link}
-                  to="/registration"
-                  className={classes.formLink}
-                  disableRipple
-                >
+                <Button component={Link} to="/registration" className={classes.formLink} disableRipple>
                   Not a member? Sign up
                 </Button>
               </div>

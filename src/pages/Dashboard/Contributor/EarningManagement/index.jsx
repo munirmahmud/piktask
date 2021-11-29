@@ -1,4 +1,4 @@
-import { Button, FormControl, Select, Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import axios from "axios";
 import Chart from "chart.js";
 import moment from "moment";
@@ -11,6 +11,7 @@ import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import TotalCountHistory from "../../../../components/ui/dashboard/contributor/TotalCountHistory";
 import Footer from "../../../../components/ui/Footer";
 import Layout from "../../../../Layout";
+import DateSelection from "./../../../../components/ui/dashboard/contributor/DateSelection/index";
 import useStyles from "./EarningManagement.styles";
 import TabPanel from "./TabPanel";
 import WithdrawModal from "./WithdrawModal";
@@ -20,21 +21,31 @@ const EarningManagement = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
 
-  const [onClickEvent, setOnClickEvent] = useState(true);
-  const [earningData, setEarningData] = useState(0);
   const [isLoading, setLoading] = useState(true);
+  const [earningData, setEarningData] = useState(0);
+  const [onClickEvent, setOnClickEvent] = useState(true);
   const [openWithdrawModal, setWithdrawModal] = useState(false);
 
-  const [username, setUsername] = useState("");
-  const [paymentGateway, setPaymentGateway] = useState("");
-  const [paypalAccount, setPaypalAccount] = useState("");
   const [payoneerAccount, setPayoneerAccount] = useState("");
+  const [paymentGateway, setPaymentGateway] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [paypalAccount, setPaypalAccount] = useState("");
   const [totalBalance, setTotalBalance] = useState("");
   const [minWithdraw, setMinWithdraw] = useState("");
-  const [accountNumber, setAccountNumber] = useState("");
-
   const [chartData, setChartData] = useState({});
-  const [selectName, setSelectName] = useState("earning");
+  const [username, setUsername] = useState("");
+
+  // Date formation
+  const dateFormat = "YYYY-MM-DD";
+  let newDate = new Date();
+  let firstDayCurrentMonth = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
+  let firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
+  const today = moment(newDate).format(dateFormat);
+
+  const [searchInput, setSearchInput] = useState({
+    firstDay: firstDay,
+    toDays: today,
+  });
 
   // Mobile responsive
   const [menuSate, setMenuSate] = useState({ mobileView: false });
@@ -57,22 +68,10 @@ const EarningManagement = () => {
       let totalCount = [];
       let labelCount = [];
 
-      const dateFormat = "YYYY-MM-DD";
-      let newDate = new Date();
-      let firstDayCurrentMonth = new Date(
-        newDate.getFullYear(),
-        newDate.getMonth(),
-        1
-      );
-      let firstDay = firstDayCurrentMonth.toISOString().substring(0, 10);
-      const today = moment(newDate).format(dateFormat);
-      // let todayCurrentMonth = newDate.toISOString().substring(0, 10);
-
       axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${firstDay}&end=${today}&status=earning`,
-          { headers: { Authorization: user?.token } }
-        )
+        .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${searchInput.firstDay}&end=${searchInput.toDays}&status=earning`, {
+          headers: { Authorization: user?.token },
+        })
         .then(({ data }) => {
           if (data?.status) {
             data?.images.forEach((element) => {
@@ -95,7 +94,7 @@ const EarningManagement = () => {
           }
         });
     }
-  }, [user?.token, user?.isLoggedIn, user?.role]);
+  }, [user, searchInput]);
 
   const handleChange = (e, newValue) => {
     setEarningData(newValue);
@@ -108,99 +107,8 @@ const EarningManagement = () => {
     };
   };
 
-  // Date wise dashboard statistics API integration
-  // From
-  const fromMonths = moment.months();
-  let [fromYear, setFromYear] = useState(moment().year());
-  let [fromMonth, setFromMonth] = useState(moment().format("MMMM"));
-  // let [fromCurrentDate, setFromCurrentDate] = useState(moment(1).date());
-  let [fromCurrentDate, setFromCurrentDate] = useState("01");
-
-  // To
-  const toMonths = moment.months();
-  let [toYear, setToYear] = useState(moment().year());
-  let [toMonth, setToMonth] = useState(moment().format("MMMM"));
-  let [toCurrentDate, setToCurrentDate] = useState(moment().date());
-
-  const getAllDays = () => {
-    const days = [];
-    for (let i = 0; i < moment().daysInMonth(); i++) {
-      if (i + 1 < 10) {
-        days.push("0" + (i + 1));
-      } else {
-        days.push(i + 1);
-      }
-    }
-    return days;
-  };
-
-  const getAllYears = () => {
-    const years = [];
-    for (let i = 1990; i <= moment().year(); i++) {
-      years.push(i);
-    }
-    return years.sort((a, b) => b - a);
-  };
-
-  let fromDateMonths = moment().month(fromMonth).format("M");
-  if (fromDateMonths < 10) {
-    fromDateMonths = "0" + fromDateMonths;
-  }
-
-  let fromDates = fromYear + "-" + fromDateMonths + "-" + fromCurrentDate;
-
-  let toDateMonths = moment().month(toMonth).format("M");
-  if (toDateMonths < 10) {
-    toDateMonths = "0" + toDateMonths;
-  }
-
-  let toDates = fromYear + "-" + toDateMonths + "-" + toCurrentDate;
-
-  const format2 = "YYYY-MM-DD";
-  const date = new Date(toDates);
-  const today = moment(date).format(format2);
-
-  const handleDateSubmit = (e) => {
-    e.preventDefault();
-
-    if (user?.isLoggedIn && user?.role === "contributor") {
-      let totalCount = [];
-      let labelCount = [];
-
-      axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${fromDates}&end=${today}&status=${selectName}`,
-          { headers: { Authorization: user?.token } }
-        )
-        .then(({ data }) => {
-          if (data?.status) {
-            data?.images.forEach((element) => {
-              totalCount.push(element.value);
-              labelCount.push(element.date);
-            });
-            setChartData({
-              labels: labelCount,
-              datasets: [
-                {
-                  label: `${
-                    selectName.charAt(0).toUpperCase() + selectName.slice(1)
-                  }`,
-                  data: totalCount,
-                  backgroundColor: "#2195F2",
-                  borderColor: "#2195F2",
-                  fill: false,
-                },
-              ],
-            });
-            setLoading(false);
-          }
-        });
-    }
-  };
-
   const handleSelectedGraphRatio = (e) => {
     var selectedName = e.target.name;
-    setSelectName(e.target.name);
 
     if (user?.isLoggedIn && user?.role === "contributor") {
       let totalCount = [];
@@ -208,7 +116,7 @@ const EarningManagement = () => {
 
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${fromDates}&end=${toDates}&status=${selectedName}`,
+          `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${searchInput.firstDay}&end=${searchInput.toDays}&status=${selectedName}`,
           { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
@@ -221,9 +129,7 @@ const EarningManagement = () => {
               labels: labelCount,
               datasets: [
                 {
-                  label: `${
-                    selectedName.charAt(0).toUpperCase() + selectedName.slice(1)
-                  }`,
+                  label: `${selectedName.charAt(0).toUpperCase() + selectedName.slice(1)}`,
                   backgroundColor: "#2195F2",
                   borderColor: "#2195F2",
                   data: totalCount,
@@ -290,9 +196,7 @@ const EarningManagement = () => {
   const handleWithdrawInfo = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/withdrawals/info`, {
-          headers: { Authorization: user?.token },
-        })
+        .get(`${process.env.REACT_APP_API_URL}/contributor/withdrawals/info`, { headers: { Authorization: user?.token } })
         .then(({ data }) => {
           if (data?.status) {
             setUsername(data.username);
@@ -314,27 +218,23 @@ const EarningManagement = () => {
   };
 
   return (
-    <Layout title="Earning Management | Piktask">
+    <Layout title="Earning Management">
       <div className={classes.adminRoot}>
         {mobileView ? null : <Sidebar className={classes.adminSidebar} />}
 
         <main className={classes.content}>
           <AdminHeader />
+
           <div className={classes.earningManagementWrapper}>
             <div className={classes.headingWrapper}>
               <Heading tag="h2">Earning Management</Heading>
+
               <div>
-                <Button
-                  className={classes.withdrawBtn}
-                  onClick={() => handleWithdrawInfo()}
-                >
+                <Button className={classes.withdrawBtn} onClick={() => handleWithdrawInfo()}>
                   Withdraw
                 </Button>
-                <Button
-                  className={classes.withdrawHistoryBtn}
-                  component={Link}
-                  to="/contributor/withdraw-history"
-                >
+
+                <Button className={classes.withdrawHistoryBtn} component={Link} to="/contributor/withdraw-history">
                   Withdraw History
                 </Button>
               </div>
@@ -347,152 +247,7 @@ const EarningManagement = () => {
                 Select Period
               </Typography>
 
-              <div className={classes.statisticsFormWrapper}>
-                <div className={classes.selectPeriodFrom}>
-                  <div className={classes.fields}>
-                    <Typography
-                      className={classes.fieldTitle}
-                      variant="subtitle1"
-                    >
-                      From
-                    </Typography>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
-                      <Select
-                        native
-                        value={fromMonth}
-                        onChange={(e) => setFromMonth(e.target.value)}
-                        inputProps={{
-                          // name: 'age',
-                          id: "months",
-                        }}
-                      >
-                        {fromMonths.length > 0 &&
-                          fromMonths.map((month, index) => (
-                            <option key={month} value={month}>
-                              {month}
-                            </option>
-                          ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
-                      <Select
-                        native
-                        value={fromCurrentDate}
-                        onChange={(e) => setFromCurrentDate(e.target.value)}
-                        inputProps={{
-                          id: "date",
-                        }}
-                      >
-                        {getAllDays().map((day) => (
-                          <option key={day} value={day}>
-                            {day}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
-                      <Select
-                        native
-                        value={fromYear}
-                        onChange={(e) => setFromYear(e.target.value)}
-                        inputProps={{
-                          id: "year",
-                        }}
-                      >
-                        {getAllYears().map((year) => (
-                          <option key={year} value={year}>
-                            {year}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>
-                  <div className={classes.fields}>
-                    <Typography
-                      className={classes.fieldTitle}
-                      variant="subtitle1"
-                    >
-                      To
-                    </Typography>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
-                      <Select
-                        native
-                        value={toMonth}
-                        onChange={(e) => setToMonth(e.target.value)}
-                        inputProps={{
-                          // name: 'age',
-                          id: "months",
-                        }}
-                      >
-                        {toMonths.length > 0 &&
-                          toMonths.map((month, index) => (
-                            <option key={month} value={month}>
-                              {month}
-                            </option>
-                          ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
-                      <Select
-                        native
-                        value={toCurrentDate}
-                        onChange={(e) => setToCurrentDate(e.target.value)}
-                        inputProps={{
-                          id: "date",
-                        }}
-                      >
-                        {getAllDays().map((day) => (
-                          <option key={day} value={day}>
-                            {day}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
-                      <Select
-                        native
-                        value={toYear}
-                        onChange={(e) => setToYear(e.target.value)}
-                        inputProps={{
-                          id: "year",
-                        }}
-                      >
-                        {getAllYears().map((year) => (
-                          <option key={year} value={year}>
-                            {year}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>
-
-                  <Button
-                    onClick={(e) => handleDateSubmit(e)}
-                    className={classes.showMoreBtn}
-                  >
-                    Display Statistics
-                  </Button>
-                </div>
-              </div>
-              {/* End Statistics form */}
+              <DateSelection earningManagementBtn setSearchInput={setSearchInput} />
 
               <div
                 value={earningData}
@@ -512,6 +267,7 @@ const EarningManagement = () => {
                 >
                   Earning
                 </button>
+
                 <button
                   {...selectData(1)}
                   onClick={(e) => {
@@ -523,6 +279,7 @@ const EarningManagement = () => {
                 >
                   Download
                 </button>
+
                 <button
                   {...selectData(2)}
                   onClick={(e) => {
@@ -537,32 +294,19 @@ const EarningManagement = () => {
               </div>
 
               <TabPanel value={earningData} index={0}>
-                <canvas
-                  id="earningChart"
-                  ref={refChart}
-                  width="600"
-                  height="200"
-                ></canvas>
+                <canvas id="earningChart" ref={refChart} width="600" height="200"></canvas>
               </TabPanel>
 
               <TabPanel value={earningData} index={1}>
-                <canvas
-                  id="earningChart"
-                  ref={refChart}
-                  width="600"
-                  height="200"
-                ></canvas>
+                <canvas id="earningChart" ref={refChart} width="600" height="200"></canvas>
               </TabPanel>
+
               <TabPanel value={earningData} index={2}>
-                <canvas
-                  id="earningChart"
-                  ref={refChart}
-                  width="600"
-                  height="200"
-                ></canvas>
+                <canvas id="earningChart" ref={refChart} width="600" height="200"></canvas>
               </TabPanel>
             </div>
           </div>
+
           <WithdrawModal
             openWithdrawModal={openWithdrawModal}
             setWithdrawModal={setWithdrawModal}
@@ -574,6 +318,7 @@ const EarningManagement = () => {
             totalBalance={totalBalance}
             minWithdraw={minWithdraw}
           />
+
           <Footer />
         </main>
       </div>

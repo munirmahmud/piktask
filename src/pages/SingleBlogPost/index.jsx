@@ -1,11 +1,4 @@
-import {
-  Button,
-  Container,
-  FormControl,
-  Grid,
-  TextareaAutosize,
-  Typography,
-} from "@material-ui/core";
+import { Button, Container, FormControl, Grid, TextareaAutosize, Typography } from "@material-ui/core";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -55,19 +48,13 @@ const SingleBlogPost = () => {
     setLoading(true);
 
     // All Blogs API integration
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/blogs/${id}`)
-      .then(({ data }) => {
-        if (data?.status) {
-          setBlogDetails(data?.blog);
-          setThumbnail(
-            `${getBaseURL().bucket_base_url}${getBaseURL().blog_images}${
-              data?.blog?.thumbnail
-            }`
-          );
-          setLoading(false);
-        }
-      });
+    axios.get(`${process.env.REACT_APP_API_URL}/blogs/${id}`).then(({ data }) => {
+      if (data?.status) {
+        setBlogDetails(data?.blog);
+        setThumbnail(`${getBaseURL().bucket_base_url}${getBaseURL().blog_images}${data?.blog?.thumbnail}`);
+        setLoading(false);
+      }
+    });
 
     // Recent Blogs API integration
     axios.get(`${process.env.REACT_APP_API_URL}/blogs/`).then(({ data }) => {
@@ -120,7 +107,7 @@ const SingleBlogPost = () => {
 
   return (
     <Layout
-      title={`${blogDetails?.title} | Piktask`}
+      title={`${blogDetails?.title}`}
       description={`${blogDetails?.description?.split("\n")[0]}`}
       canonical={document.URL}
       ogUrl={document.URL}
@@ -140,64 +127,37 @@ const SingleBlogPost = () => {
             <div className={classes.blogAuthorInfo}>
               <div className={classes.shareSocialMedia}>
                 <div>
-                  <Typography style={{ fontWeight: "500", fontSize: "1.8rem" }}>
-                    {blogDetails?.category}
-                  </Typography>
+                  <Typography style={{ fontWeight: "500", fontSize: "1.8rem" }}>{blogDetails?.category}</Typography>
                 </div>
                 <div style={{ display: "flex" }}>
                   <EmailShareButton url={shareUrl}>
-                    <EmailIcon
-                      size={25}
-                      style={{ margin: "0.4rem" }}
-                      round={true}
-                    />
+                    <EmailIcon size={25} style={{ margin: "0.4rem" }} round={true} />
                   </EmailShareButton>
 
                   <FacebookShareButton url={shareUrl}>
-                    <FacebookIcon
-                      size={25}
-                      style={{ margin: "0.4rem" }}
-                      round={true}
-                    />
+                    <FacebookIcon size={25} style={{ margin: "0.4rem" }} round={true} />
                   </FacebookShareButton>
 
                   <FacebookMessengerShareButton url={shareUrl}>
-                    <FacebookMessengerIcon
-                      size={25}
-                      style={{ margin: "0.4rem" }}
-                      round={true}
-                    />
+                    <FacebookMessengerIcon size={25} style={{ margin: "0.4rem" }} round={true} />
                   </FacebookMessengerShareButton>
 
                   <TwitterShareButton url={shareUrl}>
-                    <TwitterIcon
-                      size={25}
-                      style={{ margin: "0.4rem" }}
-                      round={true}
-                    />
+                    <TwitterIcon size={25} style={{ margin: "0.4rem" }} round={true} />
                   </TwitterShareButton>
 
                   <LinkedinShareButton url={shareUrl}>
-                    <LinkedinIcon
-                      size={25}
-                      style={{ margin: "0.4rem" }}
-                      round={true}
-                    />
+                    <LinkedinIcon size={25} style={{ margin: "0.4rem" }} round={true} />
                   </LinkedinShareButton>
 
                   <TelegramShareButton url={shareUrl}>
-                    <TelegramIcon
-                      size={25}
-                      style={{ margin: "0.4rem" }}
-                      round={true}
-                    />
+                    <TelegramIcon size={25} style={{ margin: "0.4rem" }} round={true} />
                   </TelegramShareButton>
                 </div>
               </div>
               <Typography variant="h3">{blogDetails?.title}</Typography>
               <Typography>
-                By {blogDetails?.username}{" "}
-                <span>{moment(blogDetails?.createdAt).format("LL")}</span>
+                By {blogDetails?.username} <span>{moment(blogDetails?.createdAt).format("LL")}</span>
               </Typography>
             </div>
 
@@ -234,12 +194,7 @@ const SingleBlogPost = () => {
                     onChange={(e) => setComment(e.target.value)}
                   />
                 </FormControl>
-                <Button
-                  variant="contained"
-                  className={classes.sentBtn}
-                  type="submit"
-                  disabled={isLoading}
-                >
+                <Button variant="contained" className={classes.sentBtn} type="submit" disabled={isLoading}>
                   {isLoading ? "Sending..." : "Send"}
                 </Button>
               </form>
@@ -249,12 +204,7 @@ const SingleBlogPost = () => {
           <Grid item sm={4} md={4} xs={12} className={classes.blogsItem}>
             <Grid container spacing={0} className={classes.postsWrapper}>
               <SectionHeading title="Recent Blog" large></SectionHeading>
-              {recentBlogsPost?.length > 0 &&
-                recentBlogsPost
-                  ?.slice(0, 3)
-                  .map((post) => (
-                    <Post recentBlog key={post?.id} post={post} />
-                  ))}
+              {recentBlogsPost?.length > 0 && recentBlogsPost?.slice(0, 3).map((post) => <Post recentBlog key={post?.id} post={post} />)}
             </Grid>
           </Grid>
         </Grid>
@@ -265,10 +215,7 @@ const SingleBlogPost = () => {
         </div>
       </Container>
       <Spacing space={{ height: "2rem" }} />
-      <SignUpModal
-        openAuthModal={openAuthModal}
-        setOpenAuthModal={setOpenAuthModal}
-      />
+      <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} />
       <Footer />
     </Layout>
   );
