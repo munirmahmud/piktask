@@ -12,6 +12,7 @@ const AuthorItems = ({ imageSummery, userId }) => {
   const classes = useStyles();
   const locationPath = document.location.pathname;
   const user = useSelector((state) => state.user);
+  const locationPath = document.location.pathname;
 
   const [authorAllResource, setAuthorAllResource] = useState();
   const [isLoading, setLoading] = useState(true);
