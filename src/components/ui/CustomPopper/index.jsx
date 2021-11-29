@@ -1,13 +1,4 @@
-import {
-  ClickAwayListener,
-  Grid,
-  Grow,
-  MenuItem,
-  MenuList,
-  Paper,
-  Popper,
-  Typography,
-} from "@material-ui/core";
+import { ClickAwayListener, Grid, Grow, MenuItem, MenuList, Paper, Popper, Typography } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import EuroIcon from "@material-ui/icons/Euro";
@@ -22,16 +13,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { getBaseURL } from "../../../helpers";
+import { loginTimeExpired } from "./../../../helpers/index";
 // import crownGreenIcon from "../../../assets/icons/crownGreenIcon.svg";
 import useStyles from "./Popper.styles";
 
-const CustomPopper = ({
-  open,
-  handleToggle,
-  anchorRef,
-  handleClose,
-  handleListKeyDown,
-}) => {
+const CustomPopper = ({ open, handleToggle, anchorRef, handleClose, handleListKeyDown }) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -57,7 +43,10 @@ const CustomPopper = ({
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.log("Download error", error.response);
+          if (error.response.status === 401) {
+            loginTimeExpired();
+          }
         });
     }
   }, [user?.token, user?.isLoggedIn, user?.role]);
@@ -80,66 +69,34 @@ const CustomPopper = ({
   };
 
   return (
-    <Popper
-      open={open}
-      anchorEl={anchorRef?.current}
-      role={undefined}
-      transition
-      disablePortal
-      className={classes.dropDownMenuContainer}
-    >
+    <Popper open={open} anchorEl={anchorRef?.current} role={undefined} transition disablePortal className={classes.dropDownMenuContainer}>
       {({ TransitionProps, placement }) => (
         <Grow
           {...TransitionProps}
           style={{
-            transformOrigin:
-              placement === "bottom" ? "center top" : "center bottom",
+            transformOrigin: placement === "bottom" ? "center top" : "center bottom",
           }}
         >
           <Paper>
             <ClickAwayListener onClickAway={handleClose}>
-              <MenuList
-                autoFocusItem={open}
-                id="menu-list-grow"
-                onKeyDown={handleListKeyDown}
-                className={classes.dropdownMenuWrapper}
-              >
+              <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown} className={classes.dropdownMenuWrapper}>
                 <Grid container className={classes.gridUserInfo}>
                   <Grid item xs={6} className={classes.userInDropdown}>
                     <div className={classes.avatarCircle}>
-                      {user?.isLoggedIn &&
-                      user?.avatar &&
-                      user?.avatar !== "null" ? (
+                      {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
                         <>
                           {user?.avatar_from === "own" ? (
-                            <img
-                              className={classes.avatar}
-                              src={
-                                getBaseURL().bucket_base_url +
-                                "/" +
-                                user?.avatar
-                              }
-                              alt={user?.username}
-                            />
+                            <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} />
                           ) : (
-                            <img
-                              className={classes.avatar}
-                              src={user?.avatar}
-                              alt={user?.username}
-                            />
+                            <img className={classes.avatar} src={user?.avatar} alt={user?.username} />
                           )}
                         </>
                       ) : (
-                        <AccountCircleIcon
-                          className={classes.dropdownUserAvatar}
-                        />
+                        <AccountCircleIcon className={classes.dropdownUserAvatar} />
                       )}
                     </div>
                     <div>
-                      <Typography
-                        variant="h3"
-                        className={classes.dropdownUserName}
-                      >
+                      <Typography variant="h3" className={classes.dropdownUserName}>
                         {user?.username}
                       </Typography>
                       <Typography variant="body1" className={classes.userEmail}>
@@ -182,12 +139,7 @@ const CustomPopper = ({
 
                 {user?.role === "user" && (
                   <div>
-                    <MenuItem
-                      className={classes.userMenuItem}
-                      onClick={handleClose}
-                      component={Link}
-                      to="/user/profile"
-                    >
+                    <MenuItem className={classes.userMenuItem} onClick={handleClose} component={Link} to="/user/profile">
                       <div className={classes.userMenuIcon}>
                         <PersonOutlineIcon />
                         <span>Edit Profile</span>
@@ -195,12 +147,7 @@ const CustomPopper = ({
                       <ArrowForwardIosIcon />
                     </MenuItem>
 
-                    <MenuItem
-                      className={classes.userMenuItem}
-                      onClick={handleClose}
-                      component={Link}
-                      to="/user/favorites"
-                    >
+                    <MenuItem className={classes.userMenuItem} onClick={handleClose} component={Link} to="/user/favorites">
                       <div className={classes.userMenuIcon}>
                         <FavoriteBorderIcon />
                         <span>Favourite</span>
@@ -208,12 +155,7 @@ const CustomPopper = ({
                       <ArrowForwardIosIcon />
                     </MenuItem>
 
-                    <MenuItem
-                      className={classes.userMenuItem}
-                      onClick={handleClose}
-                      component={Link}
-                      to="/user/downloads"
-                    >
+                    <MenuItem className={classes.userMenuItem} onClick={handleClose} component={Link} to="/user/downloads">
                       <div className={classes.userMenuIcon}>
                         <GetAppIcon />
                         <span>
@@ -223,12 +165,7 @@ const CustomPopper = ({
                       <ArrowForwardIosIcon />
                     </MenuItem>
 
-                    <MenuItem
-                      className={classes.userMenuItem}
-                      onClick={handleClose}
-                      component={Link}
-                      to="/user/following"
-                    >
+                    <MenuItem className={classes.userMenuItem} onClick={handleClose} component={Link} to="/user/following">
                       <div className={classes.userMenuIcon}>
                         <PeopleOutlineIcon />
                         <span>Following</span>
@@ -253,12 +190,7 @@ const CustomPopper = ({
 
                 {user?.role === "contributor" && (
                   <div>
-                    <MenuItem
-                      className={classes.userMenuItem}
-                      onClick={handleClose}
-                      component={Link}
-                      to="/contributor/earnings"
-                    >
+                    <MenuItem className={classes.userMenuItem} onClick={handleClose} component={Link} to="/contributor/earnings">
                       <div className={classes.userMenuIcon}>
                         <EuroIcon />
                         <span>Earning Management</span>
@@ -266,12 +198,7 @@ const CustomPopper = ({
                       <ArrowForwardIosIcon />
                     </MenuItem>
 
-                    <MenuItem
-                      className={classes.userMenuItem}
-                      onClick={handleClose}
-                      component={Link}
-                      to="/contributor/settings"
-                    >
+                    <MenuItem className={classes.userMenuItem} onClick={handleClose} component={Link} to="/contributor/settings">
                       <div className={classes.userMenuIcon}>
                         <AccountCircleIcon />
                         <span>Account Setting</span>

@@ -1,10 +1,4 @@
-import {
-  Button,
-  CardContent,
-  CardMedia,
-  IconButton,
-  Typography,
-} from "@material-ui/core";
+import { Button, CardContent, CardMedia, IconButton, Typography } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import axios from "axios";
@@ -16,12 +10,7 @@ import { toast } from "react-toastify";
 import downloadIcon from "../../../../assets/download.svg";
 import { getBaseURL, getWords } from "../../../../helpers";
 import SignUpModal from "../../../../pages/Authentication/SignUpModal";
-import {
-  ButtonWrapper,
-  CardFooter,
-  CardWrapper,
-  useStyles,
-} from "./Product.styles";
+import { ButtonWrapper, CardFooter, CardWrapper, useStyles } from "./Product.styles";
 
 const Product = ({ photo = null }) => {
   const classes = useStyles();
@@ -38,17 +27,9 @@ const Product = ({ photo = null }) => {
   const handleLikeBtn = () => {
     if (!user?.isLoggedIn && !user?.role === "user") {
       setOpenAuthModal(true);
-    } else if (
-      user?.id !== photo?.user_id &&
-      user?.isLoggedIn &&
-      user?.role === "user"
-    ) {
+    } else if (user?.id !== photo?.user_id && user?.isLoggedIn && user?.role === "user") {
       axios
-        .post(
-          `${process.env.REACT_APP_API_URL}/images/${photo?.image_id}/like`,
-          {},
-          { headers: { Authorization: user?.token } }
-        )
+        .post(`${process.env.REACT_APP_API_URL}/images/${photo?.image_id}/like`, {}, { headers: { Authorization: user?.token } })
         .then(({ data }) => {
           if (data?.status) {
             setLike(true);
@@ -75,15 +56,7 @@ const Product = ({ photo = null }) => {
     if (data) {
       return (
         "/category" +
-        encodeURI(
-          `/${photo?.category
-            .toLowerCase()
-            .trim()
-            .replace(/\s/g, "-")}/${data?.title
-            .toLowerCase()
-            .trim()
-            .replace(/\s/g, "-")}&id=${data?.image_id}`
-        )
+        encodeURI(`/${photo?.category.toLowerCase().trim().replace(/\s/g, "-")}/${data?.title.toLowerCase().trim().replace(/\s/g, "-")}&id=${data?.image_id}`)
       );
     }
   }
@@ -106,21 +79,11 @@ const Product = ({ photo = null }) => {
           )} */}
 
           {!photo?.isLike && !isLike ? (
-            <IconButton
-              ref={likeRef}
-              classes={{ root: classes.favouriteIcon }}
-              className={classes.iconBtn}
-              onClick={handleLikeBtn}
-            >
+            <IconButton ref={likeRef} classes={{ root: classes.favouriteIcon }} className={classes.iconBtn} onClick={handleLikeBtn}>
               <FavoriteBorderIcon fontSize={"large"} />
             </IconButton>
           ) : (
-            <IconButton
-              ref={likeRef}
-              classes={{ root: classes.favouriteIconBtn }}
-              className={classes.iconBtn}
-              onClick={handleLikeBtn}
-            >
+            <IconButton ref={likeRef} classes={{ root: classes.favouriteIconBtn }} className={classes.iconBtn} onClick={handleLikeBtn}>
               <FavoriteBorderIcon fontSize={"large"} />
             </IconButton>
           )}
@@ -129,104 +92,56 @@ const Product = ({ photo = null }) => {
         {photo?.extension === "png" ? (
           <div className={classes.itemTransparent}>
             <Link to={pikTaskEncodeURI(photo)}>
-              <img
-                className={classes.image}
-                src={encodeURI(
-                  getBaseURL().bucket_base_url +
-                    getBaseURL().images +
-                    photo?.preview
-                )}
-                alt={`${photo?.title}`}
-              />
+              <img className={classes.image} src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)} alt={`${photo?.title}`} />
             </Link>
           </div>
         ) : (
           <div className={classes.itemContainer}>
             <Link to={pikTaskEncodeURI(photo)}>
-              <img
-                className={classes.image}
-                src={encodeURI(
-                  getBaseURL().bucket_base_url +
-                    getBaseURL().images +
-                    photo?.preview
-                )}
-                alt={`${photo?.title}`}
-              />
+              <img className={classes.image} src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)} alt={`${photo?.title}`} />
             </Link>
           </div>
         )}
 
         <div className={classes.itemFooter}>
           <CardContent className={classes.productTitle}>
-            <Link
-              className={classes.titleLink}
-              to={pikTaskEncodeURI(photo)}
-              title={photo.title}
-            >
+            <Link className={classes.titleLink} to={pikTaskEncodeURI(photo)} title={photo.title}>
               <Typography variant="h3" className={classes.title}>
-                {titleLength?.length > 5 ? (
-                  <>{getWords(5, photo?.title)}...</>
-                ) : (
-                  <>{photo?.title}</>
-                )}
+                {titleLength?.length > 5 ? <>{getWords(5, photo?.title)}...</> : <>{photo?.title}</>}
               </Typography>
             </Link>
           </CardContent>
 
           <CardContent className={classes.cardFooter}>
             <CardFooter className={classes.cardAuthorInfo}>
-              <Link
-                to={`/author/${photo?.username}`}
-                className={classes.avatar}
-              >
+              <Link to={`/author/${photo?.username}`} className={classes.avatar}>
                 {photo?.avatar ? (
-                  <CardMedia
-                    component="img"
-                    className={classes.authorImage}
-                    image={getBaseURL().bucket_base_url + "/" + photo?.avatar}
-                    title={photo?.name}
-                  />
+                  <CardMedia component="img" className={classes.authorImage} image={getBaseURL().bucket_base_url + "/" + photo?.avatar} title={photo?.name} />
                 ) : (
                   <AccountCircleIcon className={classes.authorImage} />
                 )}
               </Link>
 
-              <Typography
-                paragraph
-                className={classes.profileName}
-                component={Link}
-                to={`/author/${photo?.username}`}
-              >
+              <Typography paragraph className={classes.profileName} component={Link} to={`/author/${photo?.username}`}>
                 {photo?.username}
               </Typography>
             </CardFooter>
 
             <Typography variant="body1" className={classes.itemStatus}>
-              <img
-                className={classes.downloadIcon}
-                src={downloadIcon}
-                alt="Total Download"
-              />
+              <img className={classes.downloadIcon} src={downloadIcon} alt="Total Download" />
               {photo?.total_download}
               <FavoriteBorderIcon className={classes.heartIcon} /> {likeCount}
             </Typography>
 
             <ButtonWrapper>
-              <Button
-                className={classes.categoryButton}
-                component={Link}
-                to={pikTaskEncodeURI(photo)}
-              >
+              <Button className={classes.categoryButton} component={Link} to={pikTaskEncodeURI(photo)}>
                 Download
               </Button>
             </ButtonWrapper>
           </CardContent>
         </div>
       </CardWrapper>
-      <SignUpModal
-        openAuthModal={openAuthModal}
-        setOpenAuthModal={setOpenAuthModal}
-      />
+      <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} />
     </>
   );
 };

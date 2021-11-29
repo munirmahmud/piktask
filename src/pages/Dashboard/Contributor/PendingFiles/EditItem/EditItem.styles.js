@@ -4,7 +4,6 @@ const useStyles = makeStyles((theme) => ({
   editItemWrapper: {
     width: "45rem",
     padding: "2rem 2rem",
-
     "@media (max-width: 600px)": {
       width: "100%",
       padding: "1rem 1rem",
@@ -58,9 +57,6 @@ const useStyles = makeStyles((theme) => ({
     "& svg": {
       fontSize: "2rem",
     },
-    // "&:hover": {
-    //   color: "#FB5252",
-    // },
   },
   fieldGroup: {
     marginBottom: "1rem",
@@ -84,7 +80,6 @@ const useStyles = makeStyles((theme) => ({
         outline: "1px",
       },
     },
-
     "& input": {
       width: "100%",
       border: "1px solid #ddd",
@@ -101,7 +96,6 @@ const useStyles = makeStyles((theme) => ({
       resize: "none",
     },
   },
-
   inputRoot: {
     backgroundColor: `${theme.palette.common.white} !important`,
     padding: "1.5rem !important",
@@ -142,7 +136,6 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: "0px solid transparent",
     },
   },
-
   buttonsWrapper: {
     display: "flex",
     alignItems: "center",
@@ -184,11 +177,11 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: "500",
     },
   },
-
   tags: {
     display: "flex",
     alignSelf: "flex-start",
     listStyle: "none",
+    flexWrap: "wrap",
 
     "& li": {
       margin: 3,
