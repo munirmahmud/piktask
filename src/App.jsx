@@ -82,13 +82,6 @@ const App = () => {
           },
         });
       }
-
-      // Login expired
-      // var expired = new Date(decode.exp * 1000);
-      // console.log("expired", expired);
-      // setTimeout(() => {
-      //   setTokenExpired(true);
-      // }, expired);
     }
 
     // Popular categories API integration

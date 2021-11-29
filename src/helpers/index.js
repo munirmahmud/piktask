@@ -12,7 +12,7 @@ export const dateFormat = (time) => {
   return time;
 };
 
-export const loginTimeExpired = () => {
+export const expiredLoginTime = () => {
   localStorage.removeItem("token");
   return (window.location.href = "/");
 };

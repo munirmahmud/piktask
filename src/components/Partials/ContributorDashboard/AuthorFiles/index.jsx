@@ -66,27 +66,27 @@ const AuthorFiles = () => {
           </div>
         ) : (
           <Card className={classes.cardRoot}>
-            <CardContent className={classes.authorCard}>
-              <div className={classes.cardHeading}>
-                <Heading tag="h2">Your Last File's</Heading>
-                <Button className={classes.loadMoreBtn} component={Link} to={`/contributor/publish`}>
-                  Load more
-                </Button>
-              </div>
-              <TableContainer className={classes.tableContainer} component={Paper}>
-                <Table className={classes.table} aria-label="earning data table">
-                  <TableHead>
-                    <TableRow className={classes.tableHead}>
-                      <TableCell className={classes.tableCell}></TableCell>
-                      <TableCell className={classes.tableCell}>Type</TableCell>
-                      <TableCell className={classes.tableCell}>Download</TableCell>
-                      <TableCell className={classes.tableCell}>Earning</TableCell>
-                    </TableRow>
-                  </TableHead>
+            {authorFiles?.length ? (
+              <CardContent className={classes.authorCard}>
+                <div className={classes.cardHeading}>
+                  <Heading tag="h2">Your Latest File's</Heading>
+                  <Button className={classes.loadMoreBtn} component={Link} to={`/contributor/publish`}>
+                    Load more
+                  </Button>
+                </div>
+                <TableContainer className={classes.tableContainer} component={Paper}>
+                  <Table className={classes.table} aria-label="earning data table">
+                    <TableHead>
+                      <TableRow className={classes.tableHead}>
+                        <TableCell className={classes.tableCell}></TableCell>
+                        <TableCell className={classes.tableCell}>Type</TableCell>
+                        <TableCell className={classes.tableCell}>Download</TableCell>
+                        <TableCell className={classes.tableCell}>Earning</TableCell>
+                      </TableRow>
+                    </TableHead>
 
-                  <TableBody>
-                    {authorFiles?.length ? (
-                      authorFiles?.map((authLastFile) => (
+                    <TableBody>
+                      {authorFiles?.map((authLastFile) => (
                         <TableRow key={authLastFile?.id} className={classes.tableRowContent}>
                           <TableCell className={`${classes.tableCell} ${classes.authProductWrapper}`}>
                             <Link to={pikTaskEncodeURI(authLastFile)}>
@@ -110,14 +110,14 @@ const AuthorFiles = () => {
                             {authLastFile?.earn_per_image}
                           </TableCell>
                         </TableRow>
-                      ))
-                    ) : (
-                      <ProductNotFound contributorProductNotFound />
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </CardContent>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            ) : (
+              <ProductNotFound contributorProductNotFound />
+            )}
           </Card>
         )}
       </Grid>

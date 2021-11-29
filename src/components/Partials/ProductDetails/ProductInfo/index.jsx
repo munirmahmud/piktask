@@ -10,6 +10,7 @@ import DownloadButton from "./DownloadButton/index";
 import FavouriteButton from "./FavouriteButton/index";
 import FollowButton from "./FollowButton/index,";
 import useStyles from "./ProductInfo.styles";
+import SaveButton from "./SaveButton";
 
 const ProductInfo = ({ productDetails }) => {
   const classes = useStyles();
@@ -33,6 +34,8 @@ const ProductInfo = ({ productDetails }) => {
             <img className={classes.buttonIcon} src={shareIcon} alt="Share" />
             Share
           </Button>
+
+          <SaveButton productDetails={productDetails} location={location} />
 
           <CopyLink location={location} />
         </div>
