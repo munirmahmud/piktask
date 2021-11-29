@@ -46,7 +46,7 @@ const AuthorItems = ({ imageSummery, userId }) => {
       let url;
 
       if (user?.isLoggedIn && user?.id) {
-        url = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${productExtension}?limit=${limit}&page=${pageCount}$userId=${user?.id}`;
+        url = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${productExtension}?limit=${limit}&page=${pageCount}&userId=${user?.id}`;
       } else {
         url = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${productExtension}?limit=${limit}&page=${pageCount}`;
       }

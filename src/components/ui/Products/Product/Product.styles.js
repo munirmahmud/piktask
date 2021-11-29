@@ -7,9 +7,9 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F8F8F8",
     boxShadow: "0 1px 2px 0 rgb(0 0 0 / 10%)",
     zIndex: 0,
-    
+
     "&:hover": {
-      "& $singlePageLink, $favouriteIcon, $favouriteIconBtn": {
+      "& $singlePageLink, $favouriteIcon, $favouriteIconBtn, $pinterestIcon": {
         opacity: 1,
         visibility: "visible",
       },
@@ -40,7 +40,7 @@ export const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     visibility: "hidden",
     opacity: 0,
-    boxShadow:"rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
+    boxShadow: "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
 
     "&:hover": {
       backgroundColor: "#0088f2",
@@ -71,6 +71,11 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: "#0773c5",
       borderColor: "#0773c5",
     },
+  },
+  pinterestIcon: {
+    marginBottom: 2,
+    visibility: "hidden",
+    opacity: 0,
   },
   premiumIcon: {
     backgroundColor: "#FDAF01",
@@ -144,7 +149,7 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: "auto",
     paddingBottom: "4px !important",
   },
-  avatar:{
+  avatar: {
     width: 37,
     height: 37,
     borderRadius: "100%",

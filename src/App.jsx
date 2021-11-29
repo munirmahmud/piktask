@@ -85,8 +85,8 @@ const App = () => {
         });
       }
 
+      // Send user to the home page if token is expired
       const expired = new Date(decodeToken.exp * 1000) - new Date();
-
       setTimeout(() => {
         setTokenExpired(true);
       }, expired);
