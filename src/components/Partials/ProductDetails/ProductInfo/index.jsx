@@ -66,7 +66,7 @@ const ProductInfo = ({ productDetails }) => {
             <div className={classes.singleItem}>
               <Typography>
                 <strong>Created: </strong>
-                {moment(productDetails?.imageDetails?.createdAt).format("LL")}
+                {moment(productDetails?.imageDetails?.createdAt).format("ll")}
               </Typography>
 
               <Typography>
@@ -78,7 +78,7 @@ const ProductInfo = ({ productDetails }) => {
             <div className={classes.singleItem}>
               <Typography>
                 <strong>Scope of authorization: </strong>
-                personal/enterprise
+                Personal/Enterprise
               </Typography>
             </div>
           </Grid>

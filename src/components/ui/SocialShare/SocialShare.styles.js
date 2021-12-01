@@ -11,6 +11,8 @@ const useStyles = makeStyles((theme) => ({
   },
   socialIconWrapper: {
     display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
   },
   title: {
     color: theme.palette.common.white,
@@ -28,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
   socialMedia: {
     width: "2rem",
     marginLeft: "1rem",
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
   },
 }));
 

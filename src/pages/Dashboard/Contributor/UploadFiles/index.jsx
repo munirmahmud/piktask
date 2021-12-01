@@ -292,7 +292,7 @@ const UploadFiles = () => {
     const checkFileName = mainFileName.find((element) => !fileName.includes(element));
 
     if (checkFileName) {
-      console.log("checkFileName", checkFileName);
+      toast.error(`${checkFileName} no preview file`);
       isUploadBtnDisabled = true;
       return true;
     }
@@ -407,7 +407,7 @@ const UploadFiles = () => {
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>Preview files must be between 820px and 510px on any of the sides.</Typography>
+                        <Typography>Preview files must be between 800px and 500px on any of the sides.</Typography>
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
@@ -430,7 +430,7 @@ const UploadFiles = () => {
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>Preview files must be between 820px and 510px on any of the sides.</Typography>
+                        <Typography>Preview files must be between 800px and 500px on any of the sides.</Typography>
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
@@ -453,7 +453,7 @@ const UploadFiles = () => {
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
-                        <Typography>Photos must be between 820px and 510px on any of the sides.</Typography>
+                        <Typography>Photos must be between 800px and 500px on any of the sides.</Typography>
                       </div>
                       <div className={classes.labelItem}>
                         <CheckCircleRoundedIcon />
@@ -502,7 +502,7 @@ const UploadFiles = () => {
                   </Typography>
                 ) : (
                   <Typography className={classes.subtitle} variant="body1">
-                    Preview files must be between 820px and 510px on any of the sides.
+                    Preview files must be between 800px and 500px on any of the sides.
                   </Typography>
                 )}
               </div>

@@ -48,6 +48,7 @@ const RelatedImage = ({ imageID }) => {
         {isLoading ? (
           <Loader />
         ) : (
+          relatedImage?.length > 0 &&
           relatedImage?.map((photo) => (
             <Grid key={photo?.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
               <Product photo={photo} />

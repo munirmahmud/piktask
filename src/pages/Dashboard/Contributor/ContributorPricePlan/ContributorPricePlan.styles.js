@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
   },
   pricePlanBanner: {
     backgroundImage: `url(${pricePlanBanner})`,
-    backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     padding: "100px 0",
     borderRadius: "1rem",

@@ -11,10 +11,10 @@ const useStyles = makeStyles((theme) => ({
   button: {
     fontSize: "1.5rem",
     padding: "0.8rem 2rem",
-    backgroundColor: "#d50707",
+    backgroundColor: "#a70000",
     color: "#fff",
     fontWeight: 500,
-    border: "1px solid #d50707",
+    border: "1px solid #a70000",
     borderRadius: 20,
     marginLeft: "1.5rem",
     "& svg": {

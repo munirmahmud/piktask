@@ -13,10 +13,10 @@ const AuthorItems = ({ imageSummery, userId }) => {
   const locationPath = document.location.pathname;
   const user = useSelector((state) => state.user);
 
-  const [authorAllResource, setAuthorAllResource] = useState();
+  const [authorAllResource, setAuthorAllResource] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [value, setValue] = useState(0);
-  const [productExtension, setProductExtension] = useState("");
+  const [productExtension, setProductExtension] = useState();
   const [extension, setExtension] = useState("");
   const [productCount, setProductCount] = useState("");
 
@@ -28,10 +28,6 @@ const AuthorItems = ({ imageSummery, userId }) => {
   const handleActiveButton = (event, newValue) => {
     setValue(newValue);
   };
-
-  console.log("imageSummery[0]?.extension", imageSummery[0]?.extension);
-  console.log("productExtension", productExtension);
-  console.log("totalProduct", productExtension, totalProduct);
 
   useEffect(() => {
     if (extension) {
@@ -51,24 +47,26 @@ const AuthorItems = ({ imageSummery, userId }) => {
         url = `${process.env.REACT_APP_API_URL}/contributor/${userId}/images/${productExtension}?limit=${limit}&page=${pageCount}`;
       }
 
-      try {
-        axios.get(url).then(({ data }) => {
+      axios
+        .get(url)
+        .then(({ data }) => {
           if (data?.status) {
             setAuthorAllResource(data?.images);
             setLoading(false);
           }
+        })
+        .catch((error) => {
+          console.log("All author resources", error);
+          setLoading(false);
         });
-      } catch (error) {
-        console.log("All author resources", error);
-        setLoading(false);
-      }
     }
   }, [userId, imageSummery, user, limit, pageCount, productExtension, extension, productCount]);
 
   const handleAuthorResource = (tag) => {
-    if (tag) {
-      setProductCount(tag.images);
-      setExtension(tag.extension);
+    setProductExtension("");
+    if (tag?.extension) {
+      setProductCount(tag?.images);
+      setExtension(tag?.extension);
       setPageCount(1);
     }
   };
@@ -117,7 +115,7 @@ const AuthorItems = ({ imageSummery, userId }) => {
           </>
         )}
       </Grid>
-      {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+      {totalProduct > limit && <Pagination productPagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
     </Container>
   );
 };

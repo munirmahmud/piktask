@@ -51,9 +51,16 @@ export const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   navItem: {
+    color: "#fff",
+    cursor: "pointer",
     padding: ".6rem 0",
+    transition: "color 0.3s linear",
     "&:first-child": {
       paddingTop: 0,
+    },
+    "&:hover": {
+      textDecoration: "none",
+      color: theme.palette.secondary.main,
     },
   },
   navLink: {

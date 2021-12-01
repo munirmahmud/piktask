@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   notFoundImage: {
-    // width: "45rem",
+    width: "45rem",
+    margin: "0 auto",
     "& img": {
       width: "100%",
       objectFit: "cover",

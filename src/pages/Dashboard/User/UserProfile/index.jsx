@@ -14,16 +14,17 @@ import behanceIcon from "../../../../assets/icons/behance.svg";
 import dribbbleIcon from "../../../../assets/icons/dribble.svg";
 import facebookLogo from "../../../../assets/icons/facebook.svg";
 import instagramLogo from "../../../../assets/icons/instagram.svg";
-import linkedinLogo from "../../../../assets/icons/linkedin.svg";
+import linkedinLogo from "../../../../assets/icons/linkdin.svg";
 import pinterestIcon from "../../../../assets/icons/pintarest.svg";
 import shutterstockLogo from "../../../../assets/icons/shutterstock.svg";
-import twitterLogo from "../../../../assets/icons/twitter.svg";
+import twitterLogo from "../../../../assets/icons/twitter-svg.svg";
 import Spacing from "../../../../components/Spacing";
 import UserSideBar from "../../../../components/ui/dashboard/user/UserSideBar";
 import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import Layout from "../../../../Layout";
 import useStyles from "./UserProfile.style";
+
 const clientId = "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
 
 const UserProfile = () => {
@@ -73,36 +74,35 @@ const UserProfile = () => {
 
   // get user information
   useEffect(() => {
-    if (user?.isLoggedIn) {
+    if (user?.isLoggedIn && user?.role === "user") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/user/profile`, {
-          headers: { Authorization: user?.token },
-        })
+        .get(`${process.env.REACT_APP_API_URL}/user/profile`, { headers: { Authorization: user?.token } })
         .then(({ data }) => {
           if (data?.status) {
-            setName(data.user.name);
-            setUsername(data.user.username);
-            setEmail(data.user.email);
-            setLocationAddress(data.user.location);
-            setJob_position(data.user.job_position);
-            setPhone(data.user.phone);
-            setWebsite(data.user.website);
-            setShutterstock(data.user.shutterstock);
-            setPinterest(data.user.pinterest);
-            setBehance(data.user.behance);
-            setDribbble(data.user.dribbble);
-            setFacebook(data.user.facebook);
-            setTwitter(data.user.twitter);
-            setLinkedin(data.user.linkedin);
-            setInstagram(data.user.instagram);
+            localStorage.setItem("userProfileInfo", JSON.stringify(data?.user));
+            setName(data?.user?.name);
+            setUsername(data?.user?.username);
+            setEmail(data?.user?.email);
+            setLocationAddress(data?.user?.location);
+            setJob_position(data?.user?.job_position);
+            setPhone(data?.user?.phone);
+            setWebsite(data?.user?.website);
+            setShutterstock(data?.user?.shutterstock);
+            setPinterest(data?.user?.pinterest);
+            setBehance(data?.user?.behance);
+            setDribbble(data?.user?.dribbble);
+            setFacebook(data?.user?.facebook);
+            setTwitter(data?.user?.twitter);
+            setLinkedin(data?.user?.linkedin);
+            setInstagram(data?.user?.instagram);
             setLoading(false);
           }
         })
         .catch((error) => {
-          console.log(error.message);
+          console.log("User profile", error.message);
         });
     }
-  }, [user?.token, user?.isLoggedIn]);
+  }, [user?.token, user?.isLoggedIn, user?.role]);
 
   //Update user profile
   const handleSubmit = (e) => {
@@ -162,7 +162,7 @@ const UserProfile = () => {
       emptyFieldCheck++;
     }
 
-    if (emptyFieldCheck) {
+    if (emptyFieldCheck && user?.isLoggedIn && user?.role === "user") {
       const url = `${process.env.REACT_APP_API_URL}/user/profile`;
       axios({
         method: "put",

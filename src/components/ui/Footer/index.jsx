@@ -1,18 +1,11 @@
-import {
-  Collapse,
-  Container,
-  Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  Typography,
-} from "@material-ui/core";
+import { Collapse, Container, Grid, List, ListItem, ListItemIcon, Typography } from "@material-ui/core";
 import ExpandLessRoundedIcon from "@mui/icons-material/ExpandLessRounded";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import ListItemButton from "@mui/material/ListItemButton";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import SignUpModal from "../../../pages/Authentication/SignUpModal";
 import Copyright from "./CopyRight";
 import { useStyles } from "./Footer.styles";
 
@@ -20,10 +13,12 @@ const Footer = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
 
+  const [openAuthModal, setOpenAuthModal] = useState(false);
   const [information, setInformation] = useState(true);
   const [contact, setContact] = useState(true);
   const [legal, setLegal] = useState(true);
   const [open, setOpen] = useState(true);
+  const [role, setRole] = useState("");
 
   const handleClick = () => {
     setOpen(!open);
@@ -41,6 +36,7 @@ const Footer = () => {
   //mobile responsive
   const [menuSate, setMenuSate] = useState({ mobileView: false });
   const { mobileView } = menuSate;
+
   useEffect(() => {
     const setResponsiveness = () => {
       return window.innerWidth < 769
@@ -50,6 +46,11 @@ const Footer = () => {
     setResponsiveness();
     window.addEventListener("resize", () => setResponsiveness());
   }, []);
+
+  const handleModalOpen = () => {
+    setRole("contributor");
+    setOpenAuthModal(true);
+  };
 
   return (
     <footer className={classes.footerRoot}>
@@ -63,18 +64,12 @@ const Footer = () => {
 
               <List className={classes.menuWrapper}>
                 <ListItem className={classes.navItem}>
-                  <Link
-                    className={classes.navLink}
-                    to="/category/business-card-mockup"
-                  >
+                  <Link className={classes.navLink} to="/category/business-card-mockup">
                     Business Card Mockup
                   </Link>
                 </ListItem>
                 <ListItem className={classes.navItem}>
-                  <Link
-                    className={classes.navLink}
-                    to="/category/social-media-banner"
-                  >
+                  <Link className={classes.navLink} to="/category/social-media-banner">
                     Social Media Banner
                   </Link>
                 </ListItem>
@@ -90,6 +85,7 @@ const Footer = () => {
                 </ListItem>
               </List>
             </Grid>
+
             <Grid item xs={6} sm={3} md={3} className={classes.footerWrapper}>
               <Typography variant="h3" className={classes.footerHeading}>
                 Content
@@ -107,10 +103,7 @@ const Footer = () => {
                   </Link>
                 </ListItem>
                 <ListItem className={classes.navItem}>
-                  <Link
-                    className={classes.navLink}
-                    to="/search-key/trending-search"
-                  >
+                  <Link className={classes.navLink} to="/search-key/trending-search">
                     Search trends
                   </Link>
                 </ListItem>
@@ -121,41 +114,29 @@ const Footer = () => {
                 </ListItem>
               </List>
             </Grid>
+
             <Grid item xs={6} sm={3} md={3} className={classes.footerWrapper}>
               <Typography variant="h3" className={classes.footerHeading}>
                 Information
               </Typography>
 
               <List className={classes.menuWrapper}>
-                {/* <ListItem className={classes.navItem}>
-                <Link className={classes.navLink} to="#">
-                  Plans &amp; pricing
-                </Link>
-              </ListItem>
-              <ListItem className={classes.navItem}>
-                <Link className={classes.navLink} to="#">
-                  Affiliate
-                </Link>
-              </ListItem> */}
                 <ListItem className={classes.navItem}>
                   <Link className={classes.navLink} to="/aboutUs">
                     About us
                   </Link>
                 </ListItem>
-                <ListItem className={classes.navItem}>
-                  {user?.isLoggedIn && user?.role === "contributor" ? (
-                    <Link
-                      className={classes.navLink}
-                      to="/contributor/dashboard"
-                    >
-                      Sell your content
-                    </Link>
-                  ) : (
-                    <Link className={classes.navLink} to="/contributor/join">
-                      Sell your content
-                    </Link>
-                  )}
-                </ListItem>
+
+                {user?.isLoggedIn && user?.role === "contributor" ? (
+                  <ListItem className={classes.navItem} component={Link} to="/contributor/dashboard">
+                    Sell Your Content
+                  </ListItem>
+                ) : (
+                  <ListItem className={classes.navItem} onClick={handleModalOpen} value="contributor">
+                    Sell Your Content
+                  </ListItem>
+                )}
+
                 <ListItem className={classes.navItem}>
                   <Link className={classes.navLink} to="/support">
                     Support
@@ -168,6 +149,7 @@ const Footer = () => {
                 </ListItem>
               </List>
             </Grid>
+
             <Grid item xs={6} sm={3} md={3} className={classes.footerWrapper}>
               <Typography variant="h3" className={classes.footerHeading}>
                 Legal
@@ -199,112 +181,61 @@ const Footer = () => {
           </Grid>
         </Container>
       ) : (
-        <List
-          className={classes.collapseRoot}
-          component="nav"
-          aria-labelledby="nested-list-subheader"
-        >
-          <ListItemButton
-            className={classes.listItemBtn}
-            disableRipple
-            onClick={handleClick}
-          >
+        <List className={classes.collapseRoot} component="nav" aria-labelledby="nested-list-subheader">
+          <ListItemButton className={classes.listItemBtn} disableRipple onClick={handleClick}>
             <ListItemIcon className={classes.listItemIcon} />
             <ListItem className={classes.title}>CATEGORIES</ListItem>
-            {open ? (
-              <ExpandMoreRoundedIcon className={classes.arrowIcon} />
-            ) : (
-              <ExpandLessRoundedIcon className={classes.arrowIcon} />
-            )}
+            {open ? <ExpandMoreRoundedIcon className={classes.arrowIcon} /> : <ExpandLessRoundedIcon className={classes.arrowIcon} />}
           </ListItemButton>
-          <Collapse
-            className={classes.collapseInfo}
-            in={!open}
-            timeout="auto"
-            unmountOnExit
-          >
+          <Collapse className={classes.collapseInfo} in={!open} timeout="auto" unmountOnExit>
             <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/category/business-card-mockup"
-                >
+                <Link className={classes.collapseNavLink} to="/category/business-card-mockup">
                   Business Card Mockup
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/category/social-media-banner"
-                >
+                <Link className={classes.collapseNavLink} to="/category/social-media-banner">
                   Social Media Banner
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/category/logo-mockup"
-                >
+                <Link className={classes.collapseNavLink} to="/category/logo-mockup">
                   Logo Mockup
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/category/text-effect"
-                >
+                <Link className={classes.collapseNavLink} to="/category/text-effect">
                   Text Effect
                 </Link>
               </ListItemButton>
             </List>
           </Collapse>
 
-          <ListItemButton
-            className={classes.listItemBtn}
-            disableRipple
-            onClick={handleContact}
-          >
+          <ListItemButton className={classes.listItemBtn} disableRipple onClick={handleContact}>
             <ListItemIcon className={classes.listItemIcon} />
             <ListItem className={classes.title}>CONTENT</ListItem>
-            {contact ? (
-              <ExpandMoreRoundedIcon className={classes.arrowIcon} />
-            ) : (
-              <ExpandLessRoundedIcon className={classes.arrowIcon} />
-            )}
+            {contact ? <ExpandMoreRoundedIcon className={classes.arrowIcon} /> : <ExpandLessRoundedIcon className={classes.arrowIcon} />}
           </ListItemButton>
-          <Collapse
-            className={classes.collapseInfo}
-            in={!contact}
-            timeout="auto"
-            unmountOnExit
-          >
+          <Collapse className={classes.collapseInfo} in={!contact} timeout="auto" unmountOnExit>
             <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/recent/new-design"
-                >
+                <Link className={classes.collapseNavLink} to="/recent/new-design">
                   New resources
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/images/popular-images"
-                >
+                <Link className={classes.collapseNavLink} to="/images/popular-images">
                   The most popular content
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/search-key/trending-search"
-                >
+                <Link className={classes.collapseNavLink} to="/search-key/trending-search">
                   Search trends
                 </Link>
               </ListItemButton>
@@ -317,25 +248,12 @@ const Footer = () => {
             </List>
           </Collapse>
 
-          <ListItemButton
-            className={classes.listItemBtn}
-            disableRipple
-            onClick={handleInformation}
-          >
+          <ListItemButton className={classes.listItemBtn} disableRipple onClick={handleInformation}>
             <ListItemIcon className={classes.listItemIcon} />
             <ListItem className={classes.title}>INFORMATION</ListItem>
-            {information ? (
-              <ExpandMoreRoundedIcon className={classes.arrowIcon} />
-            ) : (
-              <ExpandLessRoundedIcon className={classes.arrowIcon} />
-            )}
+            {information ? <ExpandMoreRoundedIcon className={classes.arrowIcon} /> : <ExpandLessRoundedIcon className={classes.arrowIcon} />}
           </ListItemButton>
-          <Collapse
-            className={classes.collapseInfo}
-            in={!information}
-            timeout="auto"
-            unmountOnExit
-          >
+          <Collapse className={classes.collapseInfo} in={!information} timeout="auto" unmountOnExit>
             <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
                 <Link className={classes.collapseNavLink} to="/aboutUs">
@@ -345,17 +263,11 @@ const Footer = () => {
               <br />
               <ListItemButton sx={{ pl: 4 }}>
                 {user?.isLoggedIn && user?.role === "contributor" ? (
-                  <Link
-                    className={classes.collapseNavLink}
-                    to="/contributor/dashboard"
-                  >
+                  <Link className={classes.collapseNavLink} to="/contributor/dashboard">
                     Sell your content
                   </Link>
                 ) : (
-                  <Link
-                    className={classes.collapseNavLink}
-                    to="/contributor/join"
-                  >
+                  <Link className={classes.collapseNavLink} to="/contributor/join">
                     Sell your content
                   </Link>
                 )}
@@ -375,62 +287,33 @@ const Footer = () => {
             </List>
           </Collapse>
 
-          <ListItemButton
-            className={classes.listItemBtn}
-            disableRipple
-            onClick={handleLegal}
-          >
+          <ListItemButton className={classes.listItemBtn} disableRipple onClick={handleLegal}>
             <ListItemIcon className={classes.listItemIcon} />
             <ListItem className={classes.title}>LEGAL</ListItem>
-            {legal ? (
-              <ExpandMoreRoundedIcon className={classes.arrowIcon} />
-            ) : (
-              <ExpandLessRoundedIcon className={classes.arrowIcon} />
-            )}
+            {legal ? <ExpandMoreRoundedIcon className={classes.arrowIcon} /> : <ExpandLessRoundedIcon className={classes.arrowIcon} />}
           </ListItemButton>
-          <Collapse
-            className={classes.collapseInfo}
-            in={!legal}
-            timeout="auto"
-            unmountOnExit
-          >
+          <Collapse className={classes.collapseInfo} in={!legal} timeout="auto" unmountOnExit>
             <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/termsConditions"
-                  rel="noreferrer"
-                >
+                <Link className={classes.collapseNavLink} to="/termsConditions" rel="noreferrer">
                   Terms &amp; conditions
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/licenseAgreement"
-                  rel="noreferrer"
-                >
+                <Link className={classes.collapseNavLink} to="/licenseAgreement" rel="noreferrer">
                   License Agreement
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/copyrightInformation"
-                  rel="noreferrer"
-                >
+                <Link className={classes.collapseNavLink} to="/copyrightInformation" rel="noreferrer">
                   Copyright information
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link
-                  className={classes.collapseNavLink}
-                  to="/cookiesPolicy"
-                  rel="noreferrer"
-                >
+                <Link className={classes.collapseNavLink} to="/cookiesPolicy" rel="noreferrer">
                   Cookies policy
                 </Link>
               </ListItemButton>
@@ -439,6 +322,7 @@ const Footer = () => {
         </List>
       )}
       <Copyright />
+      <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} role={role} />
     </footer>
   );
 };
