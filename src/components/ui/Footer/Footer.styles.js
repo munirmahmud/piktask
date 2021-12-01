@@ -8,23 +8,15 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: "5rem",
-    paddingTop: "5rem",
+    padding: "8rem 0",
     [theme.breakpoints.down(769)]: {
       display: "none",
     },
   },
   footerWrapper: {
-    // paddingLeft: "11rem !important",
-
-    "@media (max-width: 1200px)": {
-      // paddingLeft: "5rem",
-    },
-
     "@media (max-width: 769px)": {
       marginTop: "2rem",
     },
-
     "@media (max-width: 576px)": {
       maxWidth: "100%",
       flexBasis: "100%",
@@ -51,15 +43,23 @@ export const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   navItem: {
-    padding: ".6rem 0",
+    color: "#ddd",
+    fontSize: "1.5rem",
+    cursor: "pointer",
+    padding: "0.8rem 0",
+    transition: "color 0.3s linear",
     "&:first-child": {
       paddingTop: 0,
+    },
+    "&:hover": {
+      textDecoration: "none",
+      color: theme.palette.secondary.main,
     },
   },
   navLink: {
     fontSize: "1.5rem",
     textDecoration: "none",
-    color: "#fff",
+    color: "#ddd",
     fontWeight: 400,
     fontFamily: "'Roboto', sans-serif",
     transition: "color 0.3s linear",

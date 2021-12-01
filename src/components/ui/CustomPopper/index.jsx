@@ -29,7 +29,7 @@ const CustomPopper = ({ open, handleToggle, anchorRef, handleClose, handleListKe
   useEffect(() => {
     if (user?.isLoggedIn && user?.role === "user") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/profile/download_count`, {
+        .get(`${process.env.REACT_APP_API_URL}/user/download_count`, {
           headers: { Authorization: user?.token },
         })
         .then(({ data }) => {

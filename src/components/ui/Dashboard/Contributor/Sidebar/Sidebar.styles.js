@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 const drawerWidth = 280;
 const useStyles = makeStyles((theme) => ({
   sidebarWrapper: {
-    backgroundColor: "#001c30",
+    backgroundColor: "#012036",
     width: "28rem",
     height: "100%",
     position: "fixed",
@@ -15,10 +15,10 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       background: "transparent",
     },
-    
+
     "@media (max-width: 1024px)": {
       width: "12rem",
-      
+
       "& img": {
         width: "100%",
       },

@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   tableCell: {
     padding: "1rem",
     fontSize: "1.6rem",
-    textAlign: "center",
+    // textAlign: "center",
     "& svg": {
       marginBottom: "-0.19rem",
     },

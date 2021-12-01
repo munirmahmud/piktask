@@ -26,9 +26,7 @@ const Product = ({ photo = null }) => {
   const [isLike, setLike] = useState(false);
 
   const handleLikeBtn = () => {
-    if (!user?.isLoggedIn && !user?.role === "user") {
-      setOpenAuthModal(true);
-    } else if (user?.id !== photo?.user_id && user?.isLoggedIn && user?.role === "user") {
+    if (user?.id !== photo?.user_id && user?.isLoggedIn && user?.role === "user") {
       axios
         .post(`${process.env.REACT_APP_API_URL}/images/${photo?.image_id}/like`, {}, { headers: { Authorization: user?.token } })
         .then(({ data }) => {
@@ -118,7 +116,7 @@ const Product = ({ photo = null }) => {
 
         <div className={classes.itemFooter}>
           <CardContent className={classes.productTitle}>
-            <Link className={classes.titleLink} to={pikTaskEncodeURI(photo)} title={photo.title}>
+            <Link className={classes.titleLink} to={pikTaskEncodeURI(photo)} title={photo?.title}>
               <Typography variant="h3" className={classes.title}>
                 {titleLength?.length > 5 ? <>{getWords(5, photo?.title)}...</> : <>{photo?.title}</>}
               </Typography>

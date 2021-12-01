@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   menuItem: {
     opacity: 1,
     minWidth: "1rem",
-    fontSize: "13px",
+    fontSize: 14,
     transition: "all 0.3s ease",
     "&.active": {
       color: theme.palette.secondary.main,

@@ -11,6 +11,7 @@ import Footer from "../../../../components/ui/Footer";
 import Pagination from "../../../../components/ui/Pagination";
 import Layout from "../../../../Layout";
 import DateSelection from "./../../../../components/ui/dashboard/contributor/DateSelection/index";
+// import { expiredLoginTime } from "./../../../../helpers/index";
 import useStyles from "./Publish.styles";
 
 const Publish = () => {
@@ -61,13 +62,19 @@ const Publish = () => {
           { headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
-          if (data?.images.length > 0) {
+          if (data?.images?.length > 0) {
             setAllPublishProduct(data?.images);
             setTotalProduct(data?.total);
             setLoading(false);
           } else {
             setLoading(false);
           }
+        })
+        .catch((error) => {
+          // if (error.response.data.status === 401) {
+          //   expiredLoginTime();
+          //   console.log("Published file", error);
+          // }
         });
     }
   }, [user, dispatch, pageCount, limit, searchInput]);

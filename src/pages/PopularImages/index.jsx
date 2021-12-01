@@ -1,8 +1,7 @@
-import { Button, Container, Grid } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import Spacing from "../../components/Spacing";
 import Blog from "../../components/ui/Blog";
 import CallToAction from "../../components/ui/CallToAction";
@@ -13,7 +12,7 @@ import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
-import { TopSeller } from "../../components/ui/TopSeller";
+// import { TopSeller } from "../../components/ui/TopSeller";
 import Layout from "../../Layout";
 import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./Popular.style";
@@ -83,18 +82,16 @@ const PopularImages = () => {
         buttonText="Get Started"
       />
 
-      <Spacing space={{ height: "2.5rem" }} />
-
-      <Container>
+      {/* <Container>
         <SectionHeading title="Top Selling Author" large>
           <Button className={classes.headingButton} component={Link} to="/sellers">
             See More
           </Button>
         </SectionHeading>
-      </Container>
+      </Container> */}
 
       {/* Top selling author */}
-      <TopSeller homeTopSeller />
+      {/* <TopSeller homeTopSeller /> */}
       {/* BLOG SECTION */}
       <Blog />
 

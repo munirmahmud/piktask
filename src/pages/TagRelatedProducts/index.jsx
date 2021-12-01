@@ -42,7 +42,7 @@ const TagTemplate = () => {
   return (
     <Layout title={`${tagName}`} description={`${tagName}`} canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
-      <HeroSection size="medium" title="Graphic Resources for Free Download" />
+      <HeroSection size="medium" popularKeywords title="Graphic Resources for Free Download" />
       <Container>
         {tagRelatedProducts?.length > 0 && (
           <Typography className={classes.totalResources} variant="h4">

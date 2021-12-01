@@ -78,10 +78,18 @@ const AuthorFiles = () => {
                   <Table className={classes.table} aria-label="earning data table">
                     <TableHead>
                       <TableRow className={classes.tableHead}>
-                        <TableCell className={classes.tableCell}></TableCell>
-                        <TableCell className={classes.tableCell}>Type</TableCell>
-                        <TableCell className={classes.tableCell}>Download</TableCell>
-                        <TableCell className={classes.tableCell}>Earning</TableCell>
+                        <TableCell align="left" className={classes.tableCell}>
+                          Item
+                        </TableCell>
+                        <TableCell align="center" className={classes.tableCell}>
+                          Type
+                        </TableCell>
+                        <TableCell align="center" className={classes.tableCell}>
+                          Download
+                        </TableCell>
+                        <TableCell align="center" className={classes.tableCell}>
+                          Earning
+                        </TableCell>
                       </TableRow>
                     </TableHead>
 
@@ -103,9 +111,13 @@ const AuthorFiles = () => {
                                   </div>
                                 )} */}
                           </TableCell>
-                          <TableCell className={classes.tableCell}>{authLastFile?.extension}</TableCell>
-                          <TableCell className={classes.tableCell}>{authLastFile?.total_downloads}</TableCell>
-                          <TableCell className={classes.tableCell}>
+                          <TableCell align="center" className={classes.tableCell}>
+                            {authLastFile?.extension}
+                          </TableCell>
+                          <TableCell align="center" className={classes.tableCell}>
+                            {authLastFile?.total_downloads}
+                          </TableCell>
+                          <TableCell align="center" className={classes.tableCell}>
                             <AttachMoneyIcon />
                             {authLastFile?.earn_per_image}
                           </TableCell>
@@ -148,10 +160,18 @@ const AuthorFiles = () => {
                 <Table className={classes.table} aria-label="earning data table">
                   <TableHead>
                     <TableRow className={classes.tableHead}>
-                      <TableCell className={classes.tableCell}></TableCell>
-                      <TableCell className={classes.tableCell}>Type</TableCell>
-                      <TableCell className={classes.tableCell}>Downloads</TableCell>
-                      <TableCell className={classes.tableCell}>Author</TableCell>
+                      <TableCell align="left" className={classes.tableCell}>
+                        Item
+                      </TableCell>
+                      <TableCell align="center" className={classes.tableCell}>
+                        Type
+                      </TableCell>
+                      <TableCell align="center" className={classes.tableCell}>
+                        Downloads
+                      </TableCell>
+                      <TableCell align="center" className={classes.tableCell}>
+                        Author
+                      </TableCell>
                     </TableRow>
                   </TableHead>
 
@@ -173,9 +193,13 @@ const AuthorFiles = () => {
                                 </div>
                               )} */}
                           </TableCell>
-                          <TableCell className={classes.tableCell}>{topFile?.extension}</TableCell>
-                          <TableCell className={classes.tableCell}>{topFile?.total_downloads}</TableCell>
-                          <TableCell className={`${classes.tableCell} ${classes.authorImgWrapper}`}>
+                          <TableCell align="center" className={classes.tableCell}>
+                            {topFile?.extension}
+                          </TableCell>
+                          <TableCell align="center" className={classes.tableCell}>
+                            {topFile?.total_downloads}
+                          </TableCell>
+                          <TableCell align="center" className={`${classes.tableCell} ${classes.authorImgWrapper}`}>
                             <Link to={`/author/${topFile?.username}`}>
                               {topFile?.avatar ? (
                                 <img className={classes.authorImg} src={getBaseURL().bucket_base_url + "/" + topFile?.avatar} alt={topFile?.username} />
