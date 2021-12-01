@@ -10,13 +10,13 @@ const DateSelection = (props) => {
   const fromMonths = moment.months();
   let [fromYear, setFromYear] = useState(moment().year());
   let [fromMonth, setFromMonth] = useState(moment().format("MMMM"));
-  let [fromCurrentDate, setFromCurrentDate] = useState(moment().date());
+  let [fromCurrentDate, setFromCurrentDate] = useState("01");
 
   // To
   const toMonths = moment.months();
   let [toYear, setToYear] = useState(moment().year());
   let [toMonth, setToMonth] = useState(moment().format("MMMM"));
-  let [toCurrentDate, setToCurrentDate] = useState(moment().date());
+  let [toCurrentDate, setToCurrentDate] = useState("01");
 
   const getAllDays = () => {
     const days = [];
@@ -40,6 +40,7 @@ const DateSelection = (props) => {
 
   const handleDateSubmit = (e) => {
     e.preventDefault();
+    setSearchInput("");
 
     let fromDateMonths = moment().month(fromMonth).format("M");
     if (fromDateMonths < 10) {

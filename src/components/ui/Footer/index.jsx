@@ -99,7 +99,7 @@ const Footer = () => {
                 </ListItem>
                 <ListItem className={classes.navItem}>
                   <Link className={classes.navLink} to="/images/popular-images">
-                    The most popular content
+                    Most popular content
                   </Link>
                 </ListItem>
                 <ListItem className={classes.navItem}>

@@ -28,7 +28,6 @@ const UserSideBar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const userProfileInfo = localStorage.getItem("userProfileInfo");
 
   const [profilePicture, setProfilePicture] = useState("");
   const [userProfile, setUserProfile] = useState({});
@@ -50,13 +49,24 @@ const UserSideBar = () => {
 
   useEffect(() => {
     // get user information
-    if (user?.isLoggedIn && user?.role === "user" && userProfileInfo) {
-      const userProfileData = JSON.parse(userProfileInfo);
-      setUserProfile(userProfileData);
-      setProfilePicture(userProfileData?.avatar);
-      setLoading(false);
+    if (user?.isLoggedIn && user?.role === "user") {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/user/profile`, {
+          headers: { Authorization: user?.token },
+        })
+        .then(({ data }) => {
+          if (data?.status) {
+            setUserProfile(data.user);
+            setProfilePicture(data.user.avatar);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log("User profile", error.message);
+          setLoading(false);
+        });
     }
-  }, [user?.isLoggedIn, user?.role, userProfileInfo]);
+  }, [user?.token, user?.isLoggedIn, user?.role]);
 
   const handleUpdateImage = (e) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, TextField, Typography } from "@material-ui/core";
+import { Button, Checkbox, FormControlLabel, Radio, RadioGroup, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
@@ -24,7 +24,7 @@ const Login = ({ history }) => {
   const [value, setValue] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const role = location.search.split("?").pop();
+  const [role, setRole] = useState("");
 
   useEffect(() => {
     return () => {
@@ -36,8 +36,28 @@ const Login = ({ history }) => {
     setValue((value) => !value);
   };
 
+  const handleUserRole = (e) => {
+    setRole(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
+    if (!username) {
+      toast.error("User name should not be empty!");
+      setLoading(false);
+      return;
+    } else if (!password) {
+      toast.error("Password is required!");
+      setLoading(false);
+      return;
+    } else if (!role) {
+      toast.error("Please, select your role.");
+      setLoading(false);
+      return;
+    }
+
     axios
       .post(`${process.env.REACT_APP_API_URL}/auth/login`, {
         username,
@@ -61,9 +81,9 @@ const Login = ({ history }) => {
             });
           }
           if (decodedToken.role === "contributor") {
-            history.push("/contributor/dashboard");
+            history.push(location.state.from.pathname);
           } else if (decodedToken.role === "user") {
-            history.push("/");
+            history.push(location.state.from.pathname);
           } else {
             history.replace(from);
           }
@@ -74,6 +94,7 @@ const Login = ({ history }) => {
         toast.error(error.response.data.message);
         setUsername("");
         setPassword("");
+        setRole("");
         setLoading(false);
       });
   };
@@ -121,6 +142,11 @@ const Login = ({ history }) => {
                     <img src={lockIcon} alt="Show or hide password" onClick={handleShowHidePassword} />
                   </div>
 
+                  <RadioGroup onChange={handleUserRole} row aria-label="gender" name="row-radio-buttons-group">
+                    <FormControlLabel value="user" control={<Radio />} label="User" />
+                    <FormControlLabel value="contributor" control={<Radio />} label="Contributor" />
+                  </RadioGroup>
+
                   <FormControlLabel
                     value="end"
                     label="I can't remember my password"
@@ -129,7 +155,7 @@ const Login = ({ history }) => {
                     className={classes.checkboxLabel}
                   />
 
-                  <Button variant="contained" fullWidth className={classes.formButton} type="submit" disabled={!username || !password}>
+                  <Button variant="contained" fullWidth className={classes.formButton} type="submit" disabled={!username || !password || !role}>
                     Sign In
                   </Button>
 
@@ -139,9 +165,9 @@ const Login = ({ history }) => {
                   <Spacing space={{ height: "1rem" }} />
                 </form>
 
-                <Button component={Link} to="/registration" className={classes.formLink}>
+                {/* <Button component={Link} to="/registration" className={classes.formLink}>
                   Not a member? Sign up
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>

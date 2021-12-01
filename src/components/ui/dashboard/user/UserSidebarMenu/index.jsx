@@ -40,7 +40,6 @@ const UserSidebarMenu = () => {
       history.push("/");
       localStorage.removeItem("token");
       localStorage.removeItem("profileImage");
-      localStorage.removeItem("userProfileInfo");
 
       dispatch({
         type: "LOGOUT",

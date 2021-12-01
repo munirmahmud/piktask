@@ -1,12 +1,7 @@
-import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Container, FormControl, FormControlLabel, Grid, TextField, Typography } from "@material-ui/core";
 import Switch from "@mui/material/Switch";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import GoogleLogin from "react-google-login";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -79,7 +74,6 @@ const UserProfile = () => {
         .get(`${process.env.REACT_APP_API_URL}/user/profile`, { headers: { Authorization: user?.token } })
         .then(({ data }) => {
           if (data?.status) {
-            localStorage.setItem("userProfileInfo", JSON.stringify(data?.user));
             setName(data?.user?.name);
             setUsername(data?.user?.username);
             setEmail(data?.user?.email);
@@ -189,65 +183,65 @@ const UserProfile = () => {
   };
 
   //login with google
-  const handleGoogleLogin = async (googleData) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/google_login`, {
-      method: "POST",
-      body: JSON.stringify({
-        token: googleData.tokenId,
-        role: "user",
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await res.json();
-    if (data.status) {
-      const token = data.token;
-      localStorage.setItem("token", token);
-      const decodedToken = jwt_decode(token.split(" ")[1]);
-      localStorage.setItem("profileImage", decodedToken.avatar);
-      if (decodedToken.email) {
-        dispatch({
-          type: "SET_USER",
-          payload: {
-            ...decodedToken,
-            token,
-          },
-        });
-      }
-      toast.success(data.message);
-      pathHistory.replace(from);
-    }
-  };
+  // const handleGoogleLogin = async (googleData) => {
+  //   const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/google_login`, {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       token: googleData.tokenId,
+  //       role: "user",
+  //     }),
+  //     headers: { "Content-Type": "application/json" },
+  //   });
+  //   const data = await res.json();
+  //   if (data.status) {
+  //     const token = data.token;
+  //     localStorage.setItem("token", token);
+  //     const decodedToken = jwt_decode(token.split(" ")[1]);
+  //     localStorage.setItem("profileImage", decodedToken.avatar);
+  //     if (decodedToken.email) {
+  //       dispatch({
+  //         type: "SET_USER",
+  //         payload: {
+  //           ...decodedToken,
+  //           token,
+  //         },
+  //       });
+  //     }
+  //     toast.success(data.message);
+  //     pathHistory.replace(from);
+  //   }
+  // };
   //login with facebook
-  const handleFacebookLogin = async (facebookData) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/facebook_login`, {
-      method: "POST",
-      body: JSON.stringify({
-        token: facebookData.tokenId,
-        role: "user",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    if (data.status) {
-      const token = data.token;
-      localStorage.setItem("token", token);
-      const decodedToken = jwt_decode(token.split(" ")[1]);
-      localStorage.setItem("profileImage", decodedToken.avatar);
-      if (decodedToken.email) {
-        dispatch({
-          type: "SET_USER",
-          payload: {
-            ...decodedToken,
-            token,
-          },
-        });
-      }
-      toast.success(data.message);
-      pathHistory.replace(from);
-    }
-  };
+  // const handleFacebookLogin = async (facebookData) => {
+  //   const res = await fetch(`${process.env.REACT_APP_API_URL}/facebook_login`, {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       token: facebookData.tokenId,
+  //       role: "user",
+  //     }),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   const data = await res.json();
+  //   if (data.status) {
+  //     const token = data.token;
+  //     localStorage.setItem("token", token);
+  //     const decodedToken = jwt_decode(token.split(" ")[1]);
+  //     localStorage.setItem("profileImage", decodedToken.avatar);
+  //     if (decodedToken.email) {
+  //       dispatch({
+  //         type: "SET_USER",
+  //         payload: {
+  //           ...decodedToken,
+  //           token,
+  //         },
+  //       });
+  //     }
+  //     toast.success(data.message);
+  //     pathHistory.replace(from);
+  //   }
+  // };
 
   return (
     <Layout title="UserProfile">
@@ -266,11 +260,12 @@ const UserProfile = () => {
               <div className={classes.headingWrapper}>
                 <div>
                   <Typography className={classes.settingsFormTitle} variant="h4">
-                    Connect
+                    {/* Connect */}
+                    Profile Settings
                   </Typography>
                 </div>
 
-                <div className={classes.socialsButtons}>
+                {/* <div className={classes.socialsButtons}>
                   <GoogleLogin
                     clientId={clientId}
                     render={(renderProps) => (
@@ -300,7 +295,7 @@ const UserProfile = () => {
                       </Button>
                     )}
                   />
-                </div>
+                </div> */}
               </div>
 
               <hr className={classes.separator} />
@@ -368,7 +363,7 @@ const UserProfile = () => {
                       </Typography>
 
                       <div className={classes.personalDataField}>
-                        <TextField fullWidth variant="outlined" label="User Name" className={classes.formControl} name="username" value={username} />
+                        <TextField fullWidth variant="outlined" label="User Name" disabled className={classes.formControl} name="username" value={username} />
 
                         <TextField fullWidth variant="outlined" label="Email" className={classes.formControl} name="email" value={email} />
 
@@ -386,7 +381,7 @@ const UserProfile = () => {
 
                         <div className={classes.dataChangeBtn}>
                           <Link to="/reset-password" className={classes.passwordResetLink}>
-                            Forget Password?
+                            Change Password
                           </Link>
                           <Button type="submit" className={classes.profileInfoSaveBtn}>
                             Save Changes

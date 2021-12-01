@@ -52,7 +52,6 @@ const CustomPopper = ({ open, handleToggle, anchorRef, handleClose, handleListKe
       history.push("/");
       localStorage.removeItem("token");
       localStorage.removeItem("profileImage");
-      localStorage.removeItem("userProfileInfo");
 
       dispatch({
         type: "LOGOUT",

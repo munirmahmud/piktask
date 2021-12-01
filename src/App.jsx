@@ -149,17 +149,17 @@ const App = () => {
 
         <Suspense fallback={<LinearProgress />}>
           {/* Contributor Dashboard */}
-          <Route exact path="/contributor/dashboard" component={AdminDashboard} />
-          <Route exact path="/contributor/upload" component={UploadFiles} />
-          <Route exact path="/contributor/pending" component={PendingFiles} />
-          <Route exact path="/contributor/revision" component={Revision} />
-          <Route exact path="/contributor/reject" component={RejectFiles} />
-          <Route exact path="/contributor/publish" component={Publish} />
-          <Route exact path="/contributor/earnings" component={EarningManagement} />
-          <Route exact path="/contributor/contributor-price-plan" component={ContributorPricePlan} />
-          <Route exact path="/contributor/guidLine" component={GuidLine} />
-          <Route exact path="/contributor/withdraw-history" component={WithdrawHistory} />
-          <Route exact path="/contributor/settings" component={AccountSettings} />
+          <PrivateRoute exact path="/contributor/dashboard" component={AdminDashboard} />
+          <PrivateRoute exact path="/contributor/upload" component={UploadFiles} />
+          <PrivateRoute exact path="/contributor/pending" component={PendingFiles} />
+          <PrivateRoute exact path="/contributor/revision" component={Revision} />
+          <PrivateRoute exact path="/contributor/reject" component={RejectFiles} />
+          <PrivateRoute exact path="/contributor/publish" component={Publish} />
+          <PrivateRoute exact path="/contributor/earnings" component={EarningManagement} />
+          <PrivateRoute exact path="/contributor/contributor-price-plan" component={ContributorPricePlan} />
+          <PrivateRoute exact path="/contributor/guidLine" component={GuidLine} />
+          <PrivateRoute exact path="/contributor/withdraw-history" component={WithdrawHistory} />
+          <PrivateRoute exact path="/contributor/settings" component={AccountSettings} />
 
           {/* User dashboard */}
           <PrivateRoute exact path="/user/profile" component={UserProfile} />
