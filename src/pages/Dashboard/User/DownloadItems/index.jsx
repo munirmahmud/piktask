@@ -38,9 +38,15 @@ const DownloadItems = () => {
 
   useEffect(() => {
     setLoading(true);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn) {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/user/downloads?limit=${limit}&page=${pageCount}`, { headers: { Authorization: user?.token } })
+        .get(`${process.env.REACT_APP_API_URL}/user/downloads?limit=${limit}&page=${pageCount}`, {
+          cancelToken: source.token,
+          headers: { Authorization: user?.token },
+        })
         .then(({ data }) => {
           if (data?.status) {
             setDownloadsItem(data?.downloads);
@@ -53,6 +59,8 @@ const DownloadItems = () => {
           setLoading(false);
         });
     }
+
+    return () => source.cancel();
   }, [user?.isLoggedIn, user?.token, pageCount, limit]);
 
   return (

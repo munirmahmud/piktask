@@ -1,4 +1,4 @@
-import { Button, CardContent, Grid, Typography } from "@material-ui/core";
+import { Button, CardContent, CircularProgress, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -19,6 +19,9 @@ const CurrentMonthStatus = () => {
   const [earnPreviousMonth, setEarnPreviousMonth] = useState({});
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     // Author current month earning API integration
     if (user?.isLoggedIn && user?.role === "contributor") {
       var newDate = new Date();
@@ -28,7 +31,7 @@ const CurrentMonthStatus = () => {
 
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/summery/?start=${firstDay}&end=${todayCurrentMonth}`, {
-          headers: { Authorization: user?.token },
+          headers: { cancelToken: source.token, Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -55,7 +58,7 @@ const CurrentMonthStatus = () => {
 
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/summery/?start=${previousFirstDays}&end=${previousFirstDay}`, {
-          headers: { Authorization: user?.token },
+          headers: { cancelToken: source.token, Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -66,70 +69,88 @@ const CurrentMonthStatus = () => {
           }
         });
     }
+
+    return () => source.cancel();
   }, [user?.isLoggedIn, user?.role, user?.token]);
 
   return (
-    <div className={classes.dashboardGridContainer}>
-      <div className={classes.totalStatus}>
-        <Heading tag="h2">Current Month</Heading>
-        <Button className={classes.loadMoreBtn} component={Link} to={`/contributor/earnings`}>
-          More status
-        </Button>
-      </div>
-      <Grid container>
-        <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
-          <CardContent className={classes.statisticsContent}>
-            <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
-              <img src={moneyIcon} alt="Money" />
-            </div>
-            <Typography className={classes.totalCount} variant="h1">
-              ${earnCurrentMonth?.total_earning}
-              <span>Earning</span>
-            </Typography>
-            <Typography className={classes.lastTotalCount}>Last month: ${earnPreviousMonth?.total_earning}</Typography>
-          </CardContent>
-        </Grid>
+    <>
+      {isLoading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "0 auto",
+            height: 300,
+          }}
+        >
+          <CircularProgress color="primary" />
+        </div>
+      ) : (
+        <div className={classes.dashboardGridContainer}>
+          <div className={classes.totalStatus}>
+            <Heading tag="h2">Current Month</Heading>
+            <Button className={classes.loadMoreBtn} component={Link} to={`/contributor/earnings`}>
+              More status
+            </Button>
+          </div>
+          <Grid container>
+            <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
+              <CardContent className={classes.statisticsContent}>
+                <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
+                  <img src={moneyIcon} alt="Money" />
+                </div>
+                <Typography className={classes.totalCount} variant="h1">
+                  ${earnCurrentMonth?.total_earning}
+                  <span>Earning</span>
+                </Typography>
+                <Typography className={classes.lastTotalCount}>Last month: ${earnPreviousMonth?.total_earning}</Typography>
+              </CardContent>
+            </Grid>
 
-        <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
-          <CardContent className={classes.statisticsContent}>
-            <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
-              <img src={arrowDown} alt="Download" />
-            </div>
-            <Typography className={classes.totalCount} variant="h1">
-              {earnCurrentMonth?.total_downloads}
-              <span>Download</span>
-            </Typography>
-            <Typography className={classes.lastTotalCount}>Last month: {earnPreviousMonth?.total_downloads}</Typography>
-          </CardContent>
-        </Grid>
+            <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
+              <CardContent className={classes.statisticsContent}>
+                <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
+                  <img src={arrowDown} alt="Download" />
+                </div>
+                <Typography className={classes.totalCount} variant="h1">
+                  {earnCurrentMonth?.total_downloads}
+                  <span>Download</span>
+                </Typography>
+                <Typography className={classes.lastTotalCount}>Last month: {earnPreviousMonth?.total_downloads}</Typography>
+              </CardContent>
+            </Grid>
 
-        <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
-          <CardContent className={classes.statisticsContent}>
-            <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
-              <img src={followerIcon} alt="FollowerIcon" />
-            </div>
-            <Typography className={classes.totalCount} variant="h1">
-              {earnCurrentMonth?.total_follower}
-              <span>Follower</span>
-            </Typography>
-            <Typography className={classes.lastTotalCount}>Last month: {earnPreviousMonth?.total_follower}</Typography>
-          </CardContent>
-        </Grid>
+            <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
+              <CardContent className={classes.statisticsContent}>
+                <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
+                  <img src={followerIcon} alt="FollowerIcon" />
+                </div>
+                <Typography className={classes.totalCount} variant="h1">
+                  {earnCurrentMonth?.total_follower}
+                  <span>Follower</span>
+                </Typography>
+                <Typography className={classes.lastTotalCount}>Last month: {earnPreviousMonth?.total_follower}</Typography>
+              </CardContent>
+            </Grid>
 
-        <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
-          <CardContent className={classes.statisticsContent}>
-            <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
-              <img src={box} alt="Products" />
-            </div>
-            <Typography className={classes.totalCount} variant="h1">
-              {earnCurrentMonth?.total_image}
-              <span>Files</span>
-            </Typography>
-            <Typography className={classes.lastTotalCount}>Last month: {earnPreviousMonth?.total_image}</Typography>
-          </CardContent>
-        </Grid>
-      </Grid>
-    </div>
+            <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
+              <CardContent className={classes.statisticsContent}>
+                <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
+                  <img src={box} alt="Products" />
+                </div>
+                <Typography className={classes.totalCount} variant="h1">
+                  {earnCurrentMonth?.total_image}
+                  <span>Files</span>
+                </Typography>
+                <Typography className={classes.lastTotalCount}>Last month: {earnPreviousMonth?.total_image}</Typography>
+              </CardContent>
+            </Grid>
+          </Grid>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -48,11 +48,14 @@ const UserSideBar = () => {
   }, []);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     // get user information
     if (user?.isLoggedIn && user?.role === "user") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/user/profile`, {
-          headers: { Authorization: user?.token },
+          headers: { cancelToken: source.token, Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -66,6 +69,8 @@ const UserSideBar = () => {
           setLoading(false);
         });
     }
+
+    return () => source.cancel();
   }, [user?.token, user?.isLoggedIn, user?.role]);
 
   const handleUpdateImage = (e) => {
@@ -76,6 +81,9 @@ const UserSideBar = () => {
       return;
     }
 
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     const formData = new FormData();
     formData.append("profile_picture", file);
 
@@ -85,6 +93,7 @@ const UserSideBar = () => {
         method: "put",
         url,
         headers: {
+          cancelToken: source.token,
           Authorization: user?.token,
           "Content-Type": "multipart/form-data",
         },
@@ -111,6 +120,8 @@ const UserSideBar = () => {
           setLoading(false);
         });
     }
+
+    return () => source.cancel();
   };
 
   const socialMedia = [

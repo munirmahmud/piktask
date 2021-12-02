@@ -46,9 +46,11 @@ const SingleBlogPost = () => {
 
   useEffect(() => {
     setLoading(true);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     // All Blogs API integration
-    axios.get(`${process.env.REACT_APP_API_URL}/blogs/${id}`).then(({ data }) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/blogs/${id}`, { cancelToken: source.token }).then(({ data }) => {
       if (data?.status) {
         setBlogDetails(data?.blog);
         setThumbnail(`${getBaseURL().bucket_base_url}${getBaseURL().blog_images}${data?.blog?.thumbnail}`);
@@ -63,12 +65,16 @@ const SingleBlogPost = () => {
         setLoading(false);
       }
     });
+
+    return () => source.cancel();
   }, [id]);
 
   const [comment, setComment] = useState("");
 
   const handleCommentPost = (e) => {
     e.preventDefault();
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     if (!comment) {
       toast.error("Comment field is required", { autoClose: 2200 });
@@ -84,7 +90,7 @@ const SingleBlogPost = () => {
         method: "post",
         url,
         data: formData,
-        headers: { Authorization: user.token },
+        headers: { cancelToken: source.token, Authorization: user.token },
       })
         .then((res) => {
           if (res?.status) {
@@ -101,9 +107,9 @@ const SingleBlogPost = () => {
           setLoading(false);
         });
     }
-  };
 
-  console.log("thumbnail", thumbnail);
+    return () => source.cancel();
+  };
 
   return (
     <Layout

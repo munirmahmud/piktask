@@ -63,6 +63,9 @@ const EarningManagement = () => {
   }, []);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     // Total earning management statistics API integrate
     if (user?.isLoggedIn && user?.role === "contributor") {
       let totalCount = [];
@@ -70,6 +73,7 @@ const EarningManagement = () => {
 
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${searchInput.firstDay}&end=${searchInput.toDays}&status=earning`, {
+          cancelToken: source.token,
           headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
@@ -94,6 +98,8 @@ const EarningManagement = () => {
           }
         });
     }
+
+    return () => source.cancel();
   }, [user, searchInput]);
 
   const handleChange = (e, newValue) => {
@@ -109,6 +115,8 @@ const EarningManagement = () => {
 
   const handleSelectedGraphRatio = (e) => {
     var selectedName = e.target.name;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     if (user?.isLoggedIn && user?.role === "contributor") {
       let totalCount = [];
@@ -117,7 +125,7 @@ const EarningManagement = () => {
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/contributor/dashboard/statistics/?start=${searchInput.firstDay}&end=${searchInput.toDays}&status=${selectedName}`,
-          { headers: { Authorization: user?.token } }
+          { cancelToken: source.token, headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.status) {
@@ -141,6 +149,8 @@ const EarningManagement = () => {
           }
         });
     }
+
+    return () => source.cancel();
   };
 
   useEffect(() => {
@@ -194,9 +204,17 @@ const EarningManagement = () => {
   }, [onClickEvent, chartData]);
 
   const handleWithdrawInfo = () => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/withdrawals/info`, { headers: { Authorization: user?.token } })
+        .get(`${process.env.REACT_APP_API_URL}/contributor/withdrawals/info`, {
+          headers: {
+            cancelToken: source.token,
+            Authorization: user?.token,
+          },
+        })
         .then(({ data }) => {
           if (data?.status) {
             setUsername(data.username);
@@ -215,6 +233,8 @@ const EarningManagement = () => {
           setLoading(false);
         });
     }
+
+    return () => source.cancel();
   };
 
   return (

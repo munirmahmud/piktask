@@ -39,8 +39,11 @@ const AuthorProfile = () => {
   const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     axios
-      .get(`${process.env.REACT_APP_API_URL}/contributor/${username}/statistics`)
+      .get(`${process.env.REACT_APP_API_URL}/contributor/${username}/statistics`, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.status) {
           setProfileInfo(data?.profile);
@@ -67,6 +70,8 @@ const AuthorProfile = () => {
         console.log("statistics", error);
         setLoading(false);
       });
+
+    return () => source.cancel();
   }, [username, user]);
 
   const handleJoinUsButton = () => {
@@ -76,12 +81,19 @@ const AuthorProfile = () => {
   };
 
   const handleFollower = (e) => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (!user?.isLoggedIn) {
       setRole(e.target.closest("button").value);
       setOpenAuthModal(true);
     } else if (user?.isLoggedIn && user?.role === "user") {
       axios
-        .post(`${process.env.REACT_APP_API_URL}/contributor/followers/${profileInfo?.id}`, {}, { headers: { Authorization: user?.token } })
+        .post(
+          `${process.env.REACT_APP_API_URL}/contributor/followers/${profileInfo?.id}`,
+          {},
+          { cancelToken: source.token, headers: { Authorization: user?.token } }
+        )
         .then((response) => {
           if (response?.status === 200) {
             setFollowing(!isFollowing);
@@ -96,6 +108,8 @@ const AuthorProfile = () => {
         toast.error("You can't follow yourself", { autoClose: 2000 });
       }
     }
+
+    return () => source.cancel();
   };
 
   const socialMedia = [

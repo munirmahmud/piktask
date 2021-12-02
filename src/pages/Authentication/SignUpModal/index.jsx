@@ -218,6 +218,7 @@ const SignUpModal = (props) => {
           setRedirectTo(true);
         } else {
           console.warn("Something went wrong with signup");
+          setLoading(false);
         }
       })
       .catch((error) => {

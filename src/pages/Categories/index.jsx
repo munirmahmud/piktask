@@ -19,8 +19,11 @@ const Categories = () => {
   const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     axios
-      .get(`${process.env.REACT_APP_API_URL}/categories/popular?limit=50`)
+      .get(`${process.env.REACT_APP_API_URL}/categories/popular?limit=50`, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.status) {
           setPopularCategories(data?.categories);
@@ -32,6 +35,8 @@ const Categories = () => {
         setLoading(false);
         console.log("Popular categories error: ", error);
       });
+
+    return () => source.cancel();
   }, []);
 
   const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.thumbnail}`);

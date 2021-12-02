@@ -55,11 +55,14 @@ const Publish = () => {
   }, []);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/contributor/images/published/?start=${searchInput.firstDay}&end=${searchInput.toDays}&limit=${limit}&page=${pageCount}`,
-          { headers: { Authorization: user?.token } }
+          { cancelToken: source.token, headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.images?.length > 0) {
@@ -71,12 +74,15 @@ const Publish = () => {
           }
         })
         .catch((error) => {
+          console.log("Published product", error);
           // if (error.response.data.status === 401) {
           //   expiredLoginTime();
           //   console.log("Published file", error);
           // }
         });
     }
+
+    return () => source.cancel();
   }, [user, dispatch, pageCount, limit, searchInput]);
 
   return (

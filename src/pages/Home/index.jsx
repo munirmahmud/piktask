@@ -34,8 +34,10 @@ const Home = () => {
       setIndex((index) => index + 1);
       popularCats.push(category);
     }
+
+    return () => setScrolling(0);
   };
-  // console.log(`${process.env.PUBLIC_URL}/piktask.jpg`);
+
   return (
     <Layout
       title="Graphic Resources for Free Download"

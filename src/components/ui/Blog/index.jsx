@@ -12,12 +12,17 @@ const Blog = () => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/blogs/`).then(({ data }) => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
+    axios.get(`${process.env.REACT_APP_API_URL}/blogs/`, { cancelToken: source.token }).then(({ data }) => {
       if (data?.status) {
         setBlogsPost(data?.blogs);
         setLoading(false);
       }
     });
+
+    return () => source.cancel();
   }, []);
 
   return (
@@ -33,17 +38,10 @@ const Blog = () => {
         </Grid>
 
         <Grid container spacing={2} className={classes.postsWrapper}>
-          {blogsPost?.length > 0 &&
-            blogsPost
-              ?.slice(0, 4)
-              .map((post) => <Post key={post?.id} post={post} />)}
+          {blogsPost?.length > 0 && blogsPost?.slice(0, 4).map((post) => <Post key={post?.id} post={post} />)}
         </Grid>
         <div className={classes.seeMoreButton}>
-          <Button
-            to="/allBlogs/blogs"
-            component={Link}
-            className={classes.moreButton}
-          >
+          <Button to="/allBlogs/blogs" component={Link} className={classes.moreButton}>
             See More
           </Button>
         </div>

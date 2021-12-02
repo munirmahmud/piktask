@@ -43,25 +43,30 @@ const Revision = () => {
   }, []);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "contributor") {
-      try {
-        axios
-          .get(`${process.env.REACT_APP_API_URL}/contributor/images/pending?limit=${limit}&page=${pageCount}`, {
-            headers: { Authorization: user?.token },
-          })
-          .then(({ data }) => {
-            if (data?.images?.length > 0) {
-              setRevisionProduct(data?.images);
-              setTotalProduct(data?.total);
-              setLoading(false);
-            } else {
-              setLoading(false);
-            }
-          });
-      } catch (error) {
-        console.log("Revision product", error);
-        setLoading(false);
-      }
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/pending?limit=${limit}&page=${pageCount}`, {
+          cancelToken: source.token,
+          headers: { Authorization: user?.token },
+        })
+        .then(({ data }) => {
+          if (data?.images?.length > 0) {
+            setRevisionProduct(data?.images);
+            setTotalProduct(data?.total);
+            setLoading(false);
+          } else {
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log("Revision product", error);
+          setLoading(false);
+        });
+
+      return () => source.cancel();
     }
   }, [user?.isLoggedIn, user?.role, user?.token, pageCount, limit]);
 

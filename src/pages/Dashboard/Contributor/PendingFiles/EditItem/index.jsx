@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button, Checkbox, FormControlLabel } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import CloseIcon from "@material-ui/icons/Close";
 // import Autocomplete from "@mui/material/Autocomplete";
@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getBaseURL } from "../../../../../helpers";
+import Spacing from "./../../../../../components/Spacing/index";
 import useStyles from "./EditItem.styles";
 
 const EditItem = (props) => {
@@ -20,7 +21,6 @@ const EditItem = (props) => {
   const [title, setTitle] = useState("");
 
   const [tag, setTag] = useState([]);
-  // const [keywords, setKeywords] = useState([]);
   const keyWordRef = useRef(null);
 
   useEffect(() => {
@@ -38,10 +38,6 @@ const EditItem = (props) => {
     }
   }, [user]);
 
-  // const keyWords = [
-  //   // { title: "Business Card" },
-  // ];
-
   const images = [];
   products.forEach((element) => {
     images.push(element.token_id);
@@ -50,6 +46,8 @@ const EditItem = (props) => {
   const handleProductSubmit = async (e) => {
     e.preventDefault();
     const action = e.currentTarget.value;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     if (!categoryName) {
       toast.error("Please select a category", { autoClose: 2200 });
@@ -74,6 +72,7 @@ const EditItem = (props) => {
         const response = await axios({
           method: "put",
           url,
+          cancelToken: source.token,
           headers: {
             Authorization: user?.token,
             "Content-Type": "application/json",
@@ -110,6 +109,8 @@ const EditItem = (props) => {
     }
     setSelectedProducts([]);
     setOpenModal(false);
+
+    return () => source.cancel();
   };
 
   const handleDeleteItem = (id) => {
@@ -137,19 +138,6 @@ const EditItem = (props) => {
     }
   };
 
-  // const handleKeywords = (e) => {
-  //   // console.log(keyWordRef.current.which);
-  //   setTag(e.target.value);
-  // };
-
-  // keyWordRef?.current?.addEventListener("keyup", (e) => {
-  //   if (e.key === "Enter" || e.key === 13) {
-  //     console.log(e.target.value);
-  //     setKeywords((prevTag) => [e.target.value, ...prevTag]);
-  //     setTag("");
-  //   }
-  // });
-
   const getTags = () => {
     return (
       <div className={classes.tags}>
@@ -162,6 +150,12 @@ const EditItem = (props) => {
           ))}
       </div>
     );
+  };
+
+  const [openSchema, setOpenSchema] = useState("");
+
+  const handleSchemaInput = () => {
+    setOpenSchema(!openSchema);
   };
 
   return (
@@ -200,41 +194,34 @@ const EditItem = (props) => {
           <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
 
-        <div className={`${classes.fieldGroup}`}>
+        <div className={classes.fieldGroup}>
           <label htmlFor="tag">Keyword</label>
           <input type="text" id="tag" ref={keyWordRef} value={tag} onChange={(e) => setTag(e.target.value)} onKeyPress={handleKeyPress} />
         </div>
 
-        {/* <div className={`${classes.fieldGroup}`}>
-          <label htmlFor="keyword">Keyword</label>
-          <Autocomplete
-            value={tagsValue}
-            onChange={(event, newValue) => {
-              setTagsValue(newValue);
-            }}
-            multiple
-            id="keyword"
-            options={keyWords.map((option) => option.title)}
-            // defaultValue={[keyWords[13].title]}
-            fullWidth
-            freeSolo
-            renderTags={(value, getTagProps) => value.map((option, index) => <Chip variant="outlined" label={option} {...getTagProps({ index })} />)}
-            renderInput={(params) => <TextField {...params} variant="filled" placeholder="Card Design" />}
-            closeIcon={<ClearIcon />}
-            classes={{
-              inputRoot: classes.inputRoot,
-              inputFocused: classes.inputFocused,
-              tag: classes.tag,
-              clearIndicator: classes.clearIndicator,
-              input: classes.input,
-              focused: classes.focused,
-            }}
-          />
-        </div> */}
-
         {getTags()}
 
-        <hr className={classes.seperator} />
+        <hr className={classes.separator} />
+
+        <div style={{ alignSelf: "flex-start" }}>
+          <FormControlLabel onClick={handleSchemaInput} value="schema" control={<Checkbox />} label="Schema" />
+        </div>
+
+        {openSchema && (
+          <>
+            <div className={classes.fieldGroup}>
+              <label htmlFor="title">Title</label>
+              <input type="text" id="title" />
+            </div>
+
+            <div className={classes.fieldGroup}>
+              <label htmlFor="title">Keyword</label>
+              <input type="text" id="keyword" />
+            </div>
+          </>
+        )}
+
+        <Spacing space={{ height: "2rem" }} />
 
         <div className={classes.buttonsWrapper}>
           <Button onClick={handleProductSubmit} value="submit" type="submit" className={`${classes.actionBtn} ${classes.submitBtn}`}>
@@ -253,18 +240,3 @@ const EditItem = (props) => {
 };
 
 export default EditItem;
-
-// const Input = ({ setKeywords }) => {
-//   const handleKeyDown = (e) => {
-//     if (e.key === "Enter") {
-//       console.log("do validate");
-//       setKeywords((prev) => {
-//         console.log("prev", prev);
-
-//         return [e.target.value, ...prev];
-//       });
-//     }
-//   };
-
-//   return <input type="text" onKeyDown={handleKeyDown} />;
-// };

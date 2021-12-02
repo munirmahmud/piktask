@@ -52,11 +52,14 @@ const WithdrawHistory = () => {
   }, []);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/contributor/withdrawals/history/?start=${searchInput.firstDay}&end=${searchInput.toDays}&limit=${limit}&page=${pageCount}`,
-          { headers: { Authorization: user?.token } }
+          { cancelToken: source.token, headers: { Authorization: user?.token } }
         )
         .then(({ data }) => {
           if (data?.status) {
@@ -70,6 +73,8 @@ const WithdrawHistory = () => {
           setLoading(false);
         });
     }
+
+    return () => source.cancel();
   }, [user, pageCount, limit, searchInput]);
 
   return (

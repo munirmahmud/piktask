@@ -52,6 +52,8 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", fixedHeader);
+
+    return () => window.removeEventListener("scroll", fixedHeader);
   }, []);
 
   return (

@@ -25,8 +25,11 @@ const TagTemplate = () => {
 
   useEffect(() => {
     setLoading(true);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     axios
-      .get(`${process.env.REACT_APP_API_URL}/client/search/?tag=${keywords}`)
+      .get(`${process.env.REACT_APP_API_URL}/client/search/?tag=${keywords}`, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.status) {
           setTagRelatedProducts(data?.results);
@@ -35,6 +38,8 @@ const TagTemplate = () => {
         }
       })
       .catch((error) => console.log(" Related Tag Image error: ", error));
+
+    return () => source.cancel();
   }, [keywords]);
 
   const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);

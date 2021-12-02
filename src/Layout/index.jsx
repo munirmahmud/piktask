@@ -33,7 +33,7 @@ const Layout = (props) => {
     ogUrl && (document.querySelector('meta[name="twitter:url"]').content = ogUrl);
 
     description && (document.querySelector('meta[name="twitter:description"]').content = description);
-  }, [title, description, keywords, author, canonical, ogUrl, ogType, ogImage]);
+  }, [title, description, keywords, author, canonical, ogUrl, ogType, ogImage, twitterImg]);
 
   return (
     <div className="main-content" {...others}>
