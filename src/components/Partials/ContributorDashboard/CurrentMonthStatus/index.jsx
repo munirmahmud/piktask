@@ -96,9 +96,8 @@ const CurrentMonthStatus = () => {
                 <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
                   <img src={moneyIcon} alt="Money" />
                 </div>
-
                 <Typography className={classes.totalCount} variant="h1">
-                  {earnCurrentMonth ? `$${earnCurrentMonth?.total_earning}` : ""}
+                  ${earnCurrentMonth?.total_earning}
                   <span>Earning</span>
                 </Typography>
                 <Typography className={classes.lastTotalCount}>Last month: ${earnPreviousMonth?.total_earning}</Typography>
