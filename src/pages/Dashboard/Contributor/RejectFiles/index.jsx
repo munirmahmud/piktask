@@ -47,46 +47,58 @@ const RejectFiles = () => {
   }, []);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "contributor") {
-      try {
-        axios
-          .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected?limit=${limit}&page=${pageCount}`, {
-            headers: { Authorization: user?.token },
-          })
-          .then(({ data }) => {
-            if (data?.images?.length > 0) {
-              setRejectProduct(data?.images);
-              setTotalProduct(data?.total);
-              setLoading(false);
-            } else {
-              setLoading(false);
-            }
-          });
-      } catch (error) {
-        console.log("Rejected product", error);
-        setLoading(false);
-      }
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected?limit=${limit}&page=${pageCount}`, {
+          cancelToken: source.token,
+          headers: { Authorization: user?.token },
+        })
+        .then(({ data }) => {
+          if (data?.images?.length > 0) {
+            setRejectProduct(data?.images);
+            setTotalProduct(data?.total);
+            setLoading(false);
+          } else {
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log("Rejected product", error);
+          setLoading(false);
+        });
     }
+
+    return () => source.cancel();
   }, [user?.isLoggedIn, user?.role, user?.token, pageCount, limit]);
 
   const handleClick = (product) => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     // Reject API integration
     if (product?.token_id) {
       setOpenModal(true);
-      try {
-        axios
-          .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected/${product?.token_id}`, {
-            headers: { Authorization: user?.token },
-          })
-          .then(({ data }) => {
-            if (data?.status) {
-              setRejectMessage(data.reasons);
-            }
-          });
-      } catch (error) {
-        console.log("Reject issue", error);
-      }
+
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/rejected/${product?.token_id}`, {
+          cancelToken: source.token,
+          headers: { Authorization: user?.token },
+        })
+        .then(({ data }) => {
+          if (data?.status) {
+            setRejectMessage(data.reasons);
+          }
+        })
+        .catch((error) => {
+          console.log("Reject issue", error);
+          setLoading(false);
+        });
     }
+
+    return () => source.cancel();
   };
 
   return (
@@ -97,7 +109,7 @@ const RejectFiles = () => {
         <main className={classes.content}>
           <AdminHeader />
           <div className={classes.rejectFilesWrapper}>
-            <div className={classes.headingWrapepr}>
+            <div className={classes.headingWrapper}>
               <Heading tag="h2">Reject Files</Heading>
               <Typography>
                 Here you will see your rejected resources. The reason for rejection is specified in each <br /> case. For more information, consult our Reasons

@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, TextField, Typography } from "@material-ui/core";
+import { Button, Checkbox, FormControlLabel, Radio, RadioGroup, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
@@ -34,6 +34,7 @@ const Registration = ({ history }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
 
   const handleShowHidePassword = () => {
     setValue((value) => !value);
@@ -49,6 +50,10 @@ const Registration = ({ history }) => {
       document.body.style.backgroundColor = "";
     };
   }, [user, history]);
+
+  const handleUserRole = (e) => {
+    setRole(e.target.value);
+  };
 
   //Registration form submit and validation
   const handleSubmit = async (e) => {
@@ -110,6 +115,7 @@ const Registration = ({ history }) => {
         email,
         password,
         confirmPassword: password,
+        role,
       })
       .then(async (res) => {
         if (res?.status === 200) {
@@ -124,6 +130,7 @@ const Registration = ({ history }) => {
           setUsername("");
           setEmail("");
           setPassword("");
+          setRole("");
           setIsLoading(false);
           setRedirectTo(true);
         } else {
@@ -135,6 +142,7 @@ const Registration = ({ history }) => {
         setUsername("");
         setEmail("");
         setPassword("");
+        setRole("");
       });
   };
 
@@ -280,22 +288,11 @@ const Registration = ({ history }) => {
                       />
                       <img src={lockIcon} alt="Show or hide password" onClick={handleShowHidePassword} />
                     </div>
-                    {/* <div className={classes.passwordField}>
-                      <TextField
-                        fullWidth
-                        variant="outlined"
-                        label="Confirm Password"
-                        type={confirmValue ? "text" : "password"}
-                        className={classes.formControl}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                      />
-                      <img
-                        src={lockIcon}
-                        alt="Show or hide password"
-                        onClick={handleShowHideConfirmPassword}
-                      />
-                    </div> */}
+
+                    <RadioGroup onChange={handleUserRole} row aria-label="gender" name="row-radio-buttons-group">
+                      <FormControlLabel value="user" control={<Radio />} label="User" />
+                      <FormControlLabel value="contributor" control={<Radio />} label="Contributor" />
+                    </RadioGroup>
 
                     <Typography variant="body1" className={classes.helpText}>
                       Your password must be at least 6 characters long and must contain letters, numbers and special characters. Cannot contain whitespace.
@@ -308,7 +305,7 @@ const Registration = ({ history }) => {
                       control={<Checkbox color="primary" />}
                       className={classes.checkboxLabel}
                     />
-                    <Button variant="contained" fullWidth className={classes.formButton} type="submit" disabled={!username || !email || !password}>
+                    <Button variant="contained" fullWidth className={classes.formButton} type="submit" disabled={!username || !email || !password || !role}>
                       Sign Up
                     </Button>
                   </form>

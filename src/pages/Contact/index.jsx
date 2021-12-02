@@ -22,8 +22,11 @@ const Contact = () => {
   const [issueItem, setIssueItem] = useState([]);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     axios
-      .get(`${process.env.REACT_APP_API_URL}/others/contact_us/issues`)
+      .get(`${process.env.REACT_APP_API_URL}/others/contact_us/issues`, { cancelToken: source.token })
       .then(({ data }) => {
         console.log("data", data);
         if (data?.status) {
@@ -32,6 +35,8 @@ const Contact = () => {
         }
       })
       .catch((error) => console.log("Categories loading error: ", error));
+
+    return () => source.cancel();
   }, []);
 
   const handleSubjectChange = (event) => {
@@ -40,6 +45,8 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const validateEmail =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -77,6 +84,7 @@ const Contact = () => {
       method: "post",
       url,
       data: formData,
+      cancelToken: source.token,
     })
       .then((res) => {
         if (res?.status === 200) {
@@ -95,6 +103,8 @@ const Contact = () => {
         }
         setLoading(false);
       });
+
+    return () => source.cancel();
   };
 
   return (

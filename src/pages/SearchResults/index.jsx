@@ -58,8 +58,11 @@ const SearchResults = () => {
     setCanonicalURL(location.join("/"));
 
     const url = prepareSearchQuery();
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     axios
-      .get(url)
+      .get(url, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.status) {
           setSearchResults(data?.results);
@@ -71,6 +74,8 @@ const SearchResults = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    return () => source.cancel();
   }, [pathname, pageCount]);
 
   const handleJoinUsButton = () => {

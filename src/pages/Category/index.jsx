@@ -38,6 +38,9 @@ const Category = () => {
   const categoryItem = categories.find((item) => item?.slug === catName);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (categoryItem?.id) {
       let relatedImageURL;
 
@@ -48,7 +51,7 @@ const Category = () => {
       }
 
       axios
-        .get(relatedImageURL)
+        .get(relatedImageURL, { cancelToken: source.token })
         .then(({ data }) => {
           if (data?.status) {
             setCategoryProducts(data?.category_image);
@@ -67,11 +70,16 @@ const Category = () => {
 
     getCategories();
     popularKeyWords();
+
+    return () => source.cancel();
   }, [categoryItem?.id, pageCount, limit, user]);
 
   const popularKeyWords = () => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     axios
-      .get(`${process.env.REACT_APP_API_URL}/client/search/popular_keyword?limit=10}`)
+      .get(`${process.env.REACT_APP_API_URL}/client/search/popular_keyword?limit=10}`, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.status) {
           const popularSearch = data?.keywords;
@@ -83,11 +91,16 @@ const Category = () => {
         console.log("Popular search keywords", error);
         setLoading(false);
       });
+
+    return () => source.cancel();
   };
 
   const getCategories = () => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     axios
-      .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
+      .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.status) {
           setCategories(data.categories);
@@ -98,14 +111,19 @@ const Category = () => {
         console.log("Categories error:", error);
         setLoading(false);
       });
+
+    return () => source.cancel();
   };
 
   //Fetch api to get data for the category page by sorting by popularity
   const getCategoryProducts = (e) => {
     const product = e.target.value;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (categoryItem?.id) {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/categories/${categoryItem?.id}?${product}=1&limit=${limit}&page=${pageCount}`)
+        .get(`${process.env.REACT_APP_API_URL}/categories/${categoryItem?.id}?${product}=1&limit=${limit}&page=${pageCount}`, { cancelToken: source.token })
         .then(({ data }) => {
           if (data?.status) {
             setCategoryProducts(data?.category_image);
@@ -120,6 +138,8 @@ const Category = () => {
     } else {
       setLoading(false);
     }
+
+    return () => source.cancel();
   };
 
   const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);

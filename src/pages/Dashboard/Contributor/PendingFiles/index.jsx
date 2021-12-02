@@ -58,9 +58,16 @@ const PendingFiles = () => {
     setAddProductDetails(!true);
     setSuccessProduct(!true);
     setProductsSubmitted(!true);
+
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/images/not_submit?limit=${limit}&page=${pageCount}`, { headers: { Authorization: user?.token } })
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/not_submit?limit=${limit}&page=${pageCount}`, {
+          cancelToken: source.token,
+          headers: { Authorization: user?.token },
+        })
         .then(({ data }) => {
           if (data?.images.length > 0) {
             setPendingProducts(data?.images);
@@ -74,13 +81,19 @@ const PendingFiles = () => {
           console.log("Not submit", error);
           setLoading(false);
         });
+
+      return () => source.cancel();
     }
   }, [user?.isLoggedIn, user?.token, user?.role, addProductDetails, successProduct, pageCount, limit, productsSubmitted]);
 
   const handleDelete = (image_id) => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .delete(`${process.env.REACT_APP_API_URL}/images/${image_id}`, {
+          cancelToken: source.token,
           headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
@@ -99,6 +112,8 @@ const PendingFiles = () => {
         .catch((error) => {
           console.log("Product delete", error);
         });
+
+      return () => source.cancel();
     }
   };
 
@@ -147,12 +162,16 @@ const PendingFiles = () => {
       return;
     }
 
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "contributor") {
       const url = `${process.env.REACT_APP_API_URL}/images/submit`;
       try {
         const response = await axios({
           method: "put",
           url,
+          cancelToken: source.token,
           headers: {
             Authorization: user?.token,
             "Content-Type": "application/json",
@@ -172,6 +191,8 @@ const PendingFiles = () => {
         toast.success(error.response.data?.message || "Image submitted fail");
       }
     }
+
+    return () => source.cancel();
   };
 
   return (

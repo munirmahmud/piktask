@@ -21,6 +21,8 @@ const RelatedImage = ({ imageID }) => {
   useEffect(() => {
     // related product API
     let relatedImageURL;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     if (user?.isLoggedIn && user?.id && user?.role === "user") {
       relatedImageURL = `${process.env.REACT_APP_API_URL}/images/${imageID}/related_image?limit=${limit}&page=${pageCount}&user_id=${user?.id}`;
@@ -28,7 +30,7 @@ const RelatedImage = ({ imageID }) => {
       relatedImageURL = `${process.env.REACT_APP_API_URL}/images/${imageID}/related_image?limit=${limit}&page=${pageCount}`;
     }
     axios
-      .get(relatedImageURL)
+      .get(relatedImageURL, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.status) {
           setRelatedImage(data?.images);
@@ -40,6 +42,8 @@ const RelatedImage = ({ imageID }) => {
         console.log("Related image error: ", error);
         setLoading(false);
       });
+
+    return () => source.cancel();
   }, [imageID, user?.id, user?.isLoggedIn, user?.role, limit, pageCount]);
 
   return (

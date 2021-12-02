@@ -1,12 +1,4 @@
-import {
-  ClickAwayListener,
-  Grow,
-  IconButton,
-  Input,
-  MenuItem,
-  Paper,
-  Popper,
-} from "@material-ui/core";
+import { ClickAwayListener, Grow, IconButton, Input, MenuItem, Paper, Popper } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import CloseIcon from "@material-ui/icons/Close";
@@ -124,8 +116,11 @@ const Search = () => {
     if (!searchQuery || searchQuery.trim() === "") return;
     setLoading(true);
 
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     const URL = prepareSearchQuery(searchQuery);
-    const response = await axios.get(URL).catch((err) => {
+    const response = await axios.get(URL, { cancelToken: source.token }).catch((err) => {
       console.log("Error", err);
     });
 
@@ -134,6 +129,8 @@ const Search = () => {
       setSearchResults(response.data.results);
     }
     setLoading(false);
+
+    return () => source.cancel();
   };
 
   useDebounce(searchQuery, 500, searchPhotos);
@@ -176,32 +173,16 @@ const Search = () => {
     setIsExpanded(false);
 
     if (searchCategoryID) {
-      history.push(
-        `/search/title=${searchQuery
-          .toLowerCase()
-          .replace(/\s/g, "-")}&category_id=${searchCategoryID}`
-      );
+      history.push(`/search/title=${searchQuery.toLowerCase().replace(/\s/g, "-")}&category_id=${searchCategoryID}`);
     } else {
-      history.push(
-        `/search/title=${searchQuery.toLowerCase().replace(/\s/g, "-")}`
-      );
+      history.push(`/search/title=${searchQuery.toLowerCase().replace(/\s/g, "-")}`);
     }
   };
 
   return (
     <>
-      <form
-        action=""
-        autoComplete="off"
-        onSubmit={handleSearch}
-        className={classes.formSubmit}
-      >
-        <motion.div
-          className={classes.searchWrapper}
-          variants={containerVariants}
-          transition={containerTransition}
-          ref={parentRef}
-        >
+      <form action="" autoComplete="off" onSubmit={handleSearch} className={classes.formSubmit}>
+        <motion.div className={classes.searchWrapper} variants={containerVariants} transition={containerTransition} ref={parentRef}>
           <Input
             fullWidth
             className={classes.inputField}
@@ -245,36 +226,20 @@ const Search = () => {
                 className={classes.searchCats}
               >
                 <span>{searchCategoryName}</span>
-                {openSearchCategory ? (
-                  <ArrowDropUpIcon fontSize="large" />
-                ) : (
-                  <ArrowDropDownIcon fontSize="large" />
-                )}
+                {openSearchCategory ? <ArrowDropUpIcon fontSize="large" /> : <ArrowDropDownIcon fontSize="large" />}
               </div>
 
-              <Popper
-                open={openSearchCategory}
-                anchorEl={anchorRef.current}
-                role={undefined}
-                transition
-                disablePortal
-                style={{ zIndex: 9999 }}
-              >
+              <Popper open={openSearchCategory} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{ zIndex: 9999 }}>
                 {({ TransitionProps, placement }) => (
                   <Grow
                     {...TransitionProps}
                     style={{
-                      transformOrigin:
-                        placement === "bottom" ? "center top" : "center bottom",
+                      transformOrigin: placement === "bottom" ? "center top" : "center bottom",
                     }}
                   >
                     <Paper className={classes.categoryPaper}>
                       <ClickAwayListener onClickAway={handleClose}>
-                        <ul
-                          id="search-category-lists"
-                          onKeyDown={handleListKeyDown}
-                          className={classes.searchCatItem}
-                        >
+                        <ul id="search-category-lists" onKeyDown={handleListKeyDown} className={classes.searchCatItem}>
                           {categories?.length !== 0 ? (
                             categories?.map((category) => (
                               <li

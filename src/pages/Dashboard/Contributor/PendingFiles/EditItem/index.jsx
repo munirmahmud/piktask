@@ -46,6 +46,8 @@ const EditItem = (props) => {
   const handleProductSubmit = async (e) => {
     e.preventDefault();
     const action = e.currentTarget.value;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     if (!categoryName) {
       toast.error("Please select a category", { autoClose: 2200 });
@@ -70,6 +72,7 @@ const EditItem = (props) => {
         const response = await axios({
           method: "put",
           url,
+          cancelToken: source.token,
           headers: {
             Authorization: user?.token,
             "Content-Type": "application/json",
@@ -106,6 +109,8 @@ const EditItem = (props) => {
     }
     setSelectedProducts([]);
     setOpenModal(false);
+
+    return () => source.cancel();
   };
 
   const handleDeleteItem = (id) => {

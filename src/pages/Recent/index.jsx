@@ -36,13 +36,16 @@ const Recent = () => {
   //Recent images API integration
   useEffect(() => {
     let recentUrl;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.id) {
       recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=recent&limit=${limit}&page=${pageCount}&user_id=${user.id}`;
     } else {
       recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=recent&limit=${limit}&page=${pageCount}`;
     }
     axios
-      .get(recentUrl)
+      .get(recentUrl, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.images.length > 0) {
           setRecentProduct(data?.images);
@@ -61,6 +64,8 @@ const Recent = () => {
         console.log("Category products error:", error);
         setLoading(false);
       });
+
+    return () => source.cancel();
   }, [user?.isLoggedIn, user?.id, limit, pageCount, dispatch]);
 
   const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);

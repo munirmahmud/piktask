@@ -28,25 +28,34 @@ const AuthorFiles = () => {
   }
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     // Author last file API integration
     if (user?.isLoggedIn && user?.role === "contributor") {
-      axios.get(`${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=5`, { headers: { Authorization: user?.token } }).then(({ data }) => {
-        if (data?.status) {
-          setAuthorFiles(data?.images);
-          setLoading(false);
-        }
-      });
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=5`, { headers: { cancelToken: source.token, Authorization: user?.token } })
+        .then(({ data }) => {
+          if (data?.status) {
+            setAuthorFiles(data?.images);
+            setLoading(false);
+          }
+        });
     }
 
     // Piktask top file API  integration
     if (user?.isLoggedIn && user?.role === "contributor") {
-      axios.get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/top_files?limit=5`, { headers: { Authorization: user?.token } }).then(({ data }) => {
-        if (data?.status) {
-          setTopFiles(data?.images);
-          setLoading(false);
-        }
-      });
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/top_files?limit=5`, { headers: { cancelToken: source.token, Authorization: user?.token } })
+        .then(({ data }) => {
+          if (data?.status) {
+            setTopFiles(data?.images);
+            setLoading(false);
+          }
+        });
     }
+
+    return () => source.cancel();
   }, [user?.token, user?.role, user?.isLoggedIn]);
 
   return (

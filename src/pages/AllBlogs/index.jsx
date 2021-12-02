@@ -28,13 +28,18 @@ const AllBlogs = () => {
   const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/blogs/`).then(({ data }) => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
+    axios.get(`${process.env.REACT_APP_API_URL}/blogs/`, { cancelToken: source.token }).then(({ data }) => {
       if (data?.status) {
         setBlogsPost(data?.blogs);
         setThumbnail(data?.blogs[0]);
         setLoading(false);
       }
     });
+
+    return () => source.cancel();
   }, []);
 
   const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.thumbnail}`);

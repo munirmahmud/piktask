@@ -28,9 +28,12 @@ const ProductDetails = (props) => {
 
   useEffect(() => {
     setLoading(true);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     // Match image ID
     axios
-      .get(`${process.env.REACT_APP_API_URL}/images/${imageID}`)
+      .get(`${process.env.REACT_APP_API_URL}/images/${imageID}`, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.success) {
           setImageDetails(data?.detail);
@@ -44,7 +47,10 @@ const ProductDetails = (props) => {
 
           if (user && user?.isLoggedIn && user.role === "user") {
             axios
-              .get(`${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.detail.user_id}`, { headers: { Authorization: user.token } })
+              .get(`${process.env.REACT_APP_API_URL}/contributor/follow_status/${data.detail.user_id}`, {
+                cancelToken: source.token,
+                headers: { Authorization: user.token },
+              })
               .then((response) => {
                 if (response.data.status) {
                   setFollowing(true);
@@ -67,7 +73,7 @@ const ProductDetails = (props) => {
     if (user && user?.isLoggedIn && user?.role === "user") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/images/${imageID}/like_status`, {
-          headers: { Authorization: user?.token },
+          headers: { cancelToken: source.token, Authorization: user?.token },
         })
         .then(({ data }) => {
           if (!data?.status) {
@@ -83,6 +89,8 @@ const ProductDetails = (props) => {
         })
         .catch((error) => console.log("Like status error: ", error));
     }
+
+    return () => source.cancel();
   }, [imageID, user, user?.token, setAllTags, setProductTitle]);
 
   return isLoading ? (

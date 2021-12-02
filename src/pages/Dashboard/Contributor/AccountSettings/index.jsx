@@ -81,10 +81,13 @@ const AccountSettings = () => {
 
   // get contributor information
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/profile`, {
-          headers: { Authorization: user?.token },
+          headers: { cancelToken: source.token, Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -124,11 +127,16 @@ const AccountSettings = () => {
           setLoading(false);
         });
     }
+
+    return () => source.cancel();
   }, [user?.token, user?.isLoggedIn, user?.role]);
 
   //Update contributor profile
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const formData = new FormData();
     let checkEmptyField = 0;
@@ -238,6 +246,7 @@ const AccountSettings = () => {
       axios({
         method: "put",
         url,
+        cancelToken: source.token,
         headers: {
           Authorization: user?.token,
           "Content-Type": "application/json",
@@ -255,14 +264,19 @@ const AccountSettings = () => {
     } else {
       toast.error("Please insert profile info", { autoClose: 2200 });
     }
+
+    return () => source.cancel();
   };
 
   //payment getWay
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/payment`, {
-          headers: { Authorization: user?.token },
+          headers: { cancelToken: source.token, Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -273,6 +287,8 @@ const AccountSettings = () => {
           console.log(error.message);
         });
     }
+
+    return () => source.cancel();
   }, [user.token, user?.isLoggedIn, user?.role]);
 
   const handleUpdateImage = (e) => {
@@ -286,12 +302,16 @@ const AccountSettings = () => {
     const formData = new FormData();
     formData.append("profile_picture", file);
 
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     const url = `${process.env.REACT_APP_API_URL}/profile/profile_picture`;
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios({
         method: "put",
         url,
         headers: {
+          cancelToken: source.token,
           Authorization: user?.token,
           "Content-Type": "multipart/form-data",
         },
@@ -317,6 +337,8 @@ const AccountSettings = () => {
           setLoading(false);
         });
     }
+
+    return () => source.cancel();
   };
 
   return (

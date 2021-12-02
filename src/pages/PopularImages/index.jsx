@@ -27,13 +27,16 @@ const PopularImages = () => {
 
   useEffect(() => {
     let recentUrl;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user && user?.id) {
       recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=popular&user_id=${user.id}`;
     } else {
       recentUrl = `${process.env.REACT_APP_API_URL}/images?sort_by=popular`;
     }
     axios
-      .get(recentUrl)
+      .get(recentUrl, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.status) {
           setPopularProducts(data?.images);
@@ -45,6 +48,8 @@ const PopularImages = () => {
         console.log("Category products error:", error);
         setLoading(false);
       });
+
+    return () => source.cancel();
   }, [user]);
 
   const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);

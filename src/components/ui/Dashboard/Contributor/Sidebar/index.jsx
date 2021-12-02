@@ -53,10 +53,6 @@ const Sidebar = () => {
     }
   }, [value]);
 
-  // const handleChange = (e, index) => {
-  //   setValue(index);
-  // };
-
   const handleClick = () => {
     setOpen(!open);
   };
@@ -64,12 +60,7 @@ const Sidebar = () => {
   return (
     <aside className={classes.sidebarWrapper}>
       <div className={classes.logoWrapper}>
-        <Button
-          component={Link}
-          to="/"
-          // className={classes.logoWrapper}
-          disableRipple
-        >
+        <Button component={Link} to="/" disableRipple>
           <img src={logo} className={classes.sidebarLogo} alt="Piktask" />
         </Button>
       </div>

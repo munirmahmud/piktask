@@ -87,6 +87,10 @@ const Login = ({ history }) => {
           } else {
             history.replace(from);
           }
+
+          setUsername("");
+          setPassword("");
+          setRole("");
           setLoading(false);
         }
       })

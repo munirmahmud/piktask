@@ -2,8 +2,8 @@ import { Button, Container, FormControl, FormControlLabel, Grid, TextField, Typo
 import Switch from "@mui/material/Switch";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import behanceIcon from "../../../../assets/icons/behance.svg";
 import dribbbleIcon from "../../../../assets/icons/dribble.svg";
@@ -20,15 +20,9 @@ import Header from "../../../../components/ui/Header";
 import Layout from "../../../../Layout";
 import useStyles from "./UserProfile.style";
 
-const clientId = "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
-
 const UserProfile = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const pathHistory = useHistory();
-  const location = useLocation();
   const user = useSelector((state) => state.user);
-  const { from } = location.state || { from: { pathname: "/" } };
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -69,9 +63,12 @@ const UserProfile = () => {
 
   // get user information
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "user") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/user/profile`, { headers: { Authorization: user?.token } })
+        .get(`${process.env.REACT_APP_API_URL}/user/profile`, { cancelToken: source.token, headers: { Authorization: user?.token } })
         .then(({ data }) => {
           if (data?.status) {
             setName(data?.user?.name);
@@ -96,11 +93,16 @@ const UserProfile = () => {
           console.log("User profile", error.message);
         });
     }
+
+    return () => source.cancel();
   }, [user?.token, user?.isLoggedIn, user?.role]);
 
   //Update user profile
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const formData = new FormData();
     let emptyFieldCheck = 0;
@@ -161,6 +163,7 @@ const UserProfile = () => {
       axios({
         method: "put",
         url,
+        cancelToken: source.token,
         headers: {
           Authorization: user.token,
           "Content-Type": "application/json",
@@ -180,68 +183,9 @@ const UserProfile = () => {
     } else {
       toast.error("Please insert profile info");
     }
-  };
 
-  //login with google
-  // const handleGoogleLogin = async (googleData) => {
-  //   const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/google_login`, {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       token: googleData.tokenId,
-  //       role: "user",
-  //     }),
-  //     headers: { "Content-Type": "application/json" },
-  //   });
-  //   const data = await res.json();
-  //   if (data.status) {
-  //     const token = data.token;
-  //     localStorage.setItem("token", token);
-  //     const decodedToken = jwt_decode(token.split(" ")[1]);
-  //     localStorage.setItem("profileImage", decodedToken.avatar);
-  //     if (decodedToken.email) {
-  //       dispatch({
-  //         type: "SET_USER",
-  //         payload: {
-  //           ...decodedToken,
-  //           token,
-  //         },
-  //       });
-  //     }
-  //     toast.success(data.message);
-  //     pathHistory.replace(from);
-  //   }
-  // };
-  //login with facebook
-  // const handleFacebookLogin = async (facebookData) => {
-  //   const res = await fetch(`${process.env.REACT_APP_API_URL}/facebook_login`, {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       token: facebookData.tokenId,
-  //       role: "user",
-  //     }),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   const data = await res.json();
-  //   if (data.status) {
-  //     const token = data.token;
-  //     localStorage.setItem("token", token);
-  //     const decodedToken = jwt_decode(token.split(" ")[1]);
-  //     localStorage.setItem("profileImage", decodedToken.avatar);
-  //     if (decodedToken.email) {
-  //       dispatch({
-  //         type: "SET_USER",
-  //         payload: {
-  //           ...decodedToken,
-  //           token,
-  //         },
-  //       });
-  //     }
-  //     toast.success(data.message);
-  //     pathHistory.replace(from);
-  //   }
-  // };
+    return () => source.cancel();
+  };
 
   return (
     <Layout title="UserProfile">
@@ -264,38 +208,6 @@ const UserProfile = () => {
                     Profile Settings
                   </Typography>
                 </div>
-
-                {/* <div className={classes.socialsButtons}>
-                  <GoogleLogin
-                    clientId={clientId}
-                    render={(renderProps) => (
-                      <Button className={classes.googleButton} onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                        <FontAwesomeIcon className={classes.googleIcon} icon={faGoogle} />
-                        <span>{!mobileView && "Connect"} Google</span>
-                      </Button>
-                    )}
-                    buttonText="Login"
-                    onSuccess={handleGoogleLogin}
-                    onFailure={handleGoogleLogin}
-                    cookiePolicy={"single_host_origin"}
-                  />
-
-                  <Spacing space={{ margin: "0 0.5rem" }} />
-
-                  <FacebookLogin
-                    appId="168140328625744"
-                    autoLoad={false}
-                    fields="name,email,picture"
-                    onClick={handleFacebookLogin}
-                    callback={handleFacebookLogin}
-                    render={(renderProps) => (
-                      <Button className={classes.facebookBtn} onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                        <FontAwesomeIcon className={classes.facebookIconBtn} icon={faFacebookF} />
-                        <span>{!mobileView && "Connect"} Facebook</span>
-                      </Button>
-                    )}
-                  />
-                </div> */}
               </div>
 
               <hr className={classes.separator} />
@@ -316,7 +228,7 @@ const UserProfile = () => {
                           className={classes.formControl}
                           name="name"
                           value={name}
-                          defaultValue={name}
+                          // defaultValue={name}
                           onChange={(e) => setName(e.target.value)}
                         />
 

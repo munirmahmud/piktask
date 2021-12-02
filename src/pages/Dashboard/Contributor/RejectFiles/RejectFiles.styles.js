@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   noItemsFound: {
     marginLeft: "1.5rem",
   },
-  headingWrapepr: {
+  headingWrapper: {
     marginTop: "2rem",
     marginBottom: "1.5rem",
     "& p": {

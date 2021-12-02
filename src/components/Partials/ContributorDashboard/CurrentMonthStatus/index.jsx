@@ -19,6 +19,9 @@ const CurrentMonthStatus = () => {
   const [earnPreviousMonth, setEarnPreviousMonth] = useState({});
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     // Author current month earning API integration
     if (user?.isLoggedIn && user?.role === "contributor") {
       var newDate = new Date();
@@ -28,7 +31,7 @@ const CurrentMonthStatus = () => {
 
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/summery/?start=${firstDay}&end=${todayCurrentMonth}`, {
-          headers: { Authorization: user?.token },
+          headers: { cancelToken: source.token, Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -55,7 +58,7 @@ const CurrentMonthStatus = () => {
 
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/summery/?start=${previousFirstDays}&end=${previousFirstDay}`, {
-          headers: { Authorization: user?.token },
+          headers: { cancelToken: source.token, Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -66,6 +69,8 @@ const CurrentMonthStatus = () => {
           }
         });
     }
+
+    return () => source.cancel();
   }, [user?.isLoggedIn, user?.role, user?.token]);
 
   return (
