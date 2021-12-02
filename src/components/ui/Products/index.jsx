@@ -48,6 +48,9 @@ const Products = (props) => {
   useEffect(() => {
     if (category?.id === 53) return;
 
+    const cancelToken = axios.CancelToken;
+    const source = cancelToken.source();
+
     let categoryURL;
 
     if (user?.id && user?.role === "user") {
@@ -56,38 +59,62 @@ const Products = (props) => {
       categoryURL = `${process.env.REACT_APP_API_URL}/categories/${category?.id}`;
     }
     if (category) {
-      axios.get(categoryURL).then(({ data }) => {
-        if (data?.status) {
-          setImages(data?.category_image);
-          setLoading(false);
-          dispatch({
-            type: "CATEGORY_BASED_ITEMS",
-            payload: {
-              totalImages: data?.total,
-              images: data?.category_image,
-            },
-          });
-        }
-      });
+      axios
+        .get(categoryURL, { cancelToken: source.token })
+        .then(({ data }) => {
+          if (data?.status) {
+            setImages(data?.category_image);
+            setLoading(false);
+            dispatch({
+              type: "CATEGORY_BASED_ITEMS",
+              payload: {
+                totalImages: data?.total,
+                images: data?.category_image,
+              },
+            });
+          }
+        })
+        .catch((error) => {
+          if (axios.isCancel(error)) {
+            // console.log("Request canceled", error.response);
+          } else {
+            // console.log("Else message, handles error");
+          }
+        });
     } else {
       setLoading(true);
     }
+
+    return () => source.cancel();
   }, [dispatch, category, user?.id, user?.role]);
 
   useEffect(() => {
     let categoryURL;
+    const cancelToken = axios.CancelToken;
+    const source = cancelToken.source();
 
     if (user?.id && user?.role === "user") {
       categoryURL = `${process.env.REACT_APP_API_URL}/categories/53?limit=16&user_id=${user?.id}`;
     } else {
       categoryURL = `${process.env.REACT_APP_API_URL}/categories/53/?limit=16`;
     }
-    axios.get(categoryURL).then(({ data }) => {
-      if (data?.status) {
-        setPiktaskProduct(data?.category_image);
-        setLoading(false);
-      }
-    });
+    axios
+      .get(categoryURL, { cancelToken: source.token })
+      .then(({ data }) => {
+        if (data?.status) {
+          setPiktaskProduct(data?.category_image);
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        if (axios.isCancel(error)) {
+          // console.log("Request canceld for categories", error);
+        } else {
+          // console.log("Request canceld else", error);
+        }
+      });
+
+    return () => source.cancel();
   }, [user?.id, user?.role]);
 
   return (
