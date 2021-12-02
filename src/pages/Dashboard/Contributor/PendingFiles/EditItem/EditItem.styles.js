@@ -9,12 +9,12 @@ const useStyles = makeStyles((theme) => ({
       padding: "1rem 1rem",
     },
   },
-  seperator: {
+  separator: {
     backgroundColor: "#ddd",
     border: "0px solid transparent",
     height: ".1rem",
     width: "100%",
-    marginTop: "3rem",
+    marginTop: "1rem",
     marginBottom: "3rem",
   },
   formRoot: {
@@ -66,14 +66,14 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
 
     "& label": {
-      fontSize: "1.6rem",
+      fontSize: "1.4rem",
       fontWeight: 500,
       marginBottom: "0.8rem",
     },
     "& select": {
       width: "100%",
       border: "1px solid #ddd",
-      padding: "1.8rem",
+      padding: "1rem",
       borderRadius: theme.shape.borderRadius,
       fontSize: "1.6rem",
       "&:focus": {
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     "& input": {
       width: "100%",
       border: "1px solid #ddd",
-      padding: "1.8rem",
+      padding: "1rem",
       borderRadius: theme.shape.borderRadius,
       fontSize: "1.6rem",
     },

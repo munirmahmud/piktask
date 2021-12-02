@@ -61,7 +61,6 @@ const SearchResults = () => {
     axios
       .get(url)
       .then(({ data }) => {
-        console.log("data", data);
         if (data?.status) {
           setSearchResults(data?.results);
           setThumbnail(data?.results[0]);

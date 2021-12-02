@@ -57,7 +57,7 @@ const CopyRight = () => {
             </Grid>
 
             <Grid item xs={12} sm={6} md={6}>
-              <Typography className={classes.copyRightText}>&copy; Piktask International Ltd. {new Date().getFullYear()}</Typography>
+              <Typography className={classes.copyRightText}>copyright &copy; Piktask - All Right Reserved, {new Date().getFullYear()}</Typography>
             </Grid>
 
             <Grid item xs={12} sm={3} md={3}>
