@@ -61,6 +61,14 @@ const UserSideBar = () => {
           if (data?.status) {
             setUserProfile(data.user);
             setProfilePicture(data.user.avatar);
+
+            dispatch({
+              type: "USER_PROFILE",
+              payload: {
+                ...data?.user,
+              },
+            });
+
             setLoading(false);
           }
         })
@@ -71,7 +79,7 @@ const UserSideBar = () => {
     }
 
     return () => source.cancel();
-  }, [user?.token, user?.isLoggedIn, user?.role]);
+  }, [user?.token, user?.isLoggedIn, user?.role, dispatch]);
 
   const handleUpdateImage = (e) => {
     e.preventDefault();

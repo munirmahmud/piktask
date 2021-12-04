@@ -3,7 +3,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router";
 import { Link, useParams } from "react-router-dom";
 import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
@@ -19,8 +18,7 @@ import useStyles from "./Category.styles";
 const Category = () => {
   const classes = useStyles();
   const { catName } = useParams();
-  const location = useLocation();
-  const locationPath = location.pathname;
+  const locationPath = document.location.pathname;
   const user = useSelector((state) => state.user);
 
   const [popularSearchKeywords, setPopularSearchKeywords] = useState([]);
@@ -32,7 +30,7 @@ const Category = () => {
   const [totalProduct, setTotalProduct] = useState();
   const [thumbnail, setThumbnail] = useState("");
 
-  let limit = 24;
+  let limit = 32;
   const count = Math.ceil(totalProduct / limit);
 
   const categoryItem = categories.find((item) => item?.slug === catName);
@@ -118,6 +116,7 @@ const Category = () => {
   //Fetch api to get data for the category page by sorting by popularity
   const getCategoryProducts = (e) => {
     const product = e.target.value;
+
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
 

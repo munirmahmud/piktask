@@ -69,7 +69,7 @@ const MobileMenu = () => {
             ) : (
               <div>
                 <Button className={classes.signInBtn} onClick={handleClick} value="user">
-                  <img className={classes.crownIcon} src={signInIcon} alt="Crown" />
+                  <img className={classes.crownIcon} src={signInIcon} alt="Crown" width="14px" height="14px" />
                   Sign In
                 </Button>
               </div>

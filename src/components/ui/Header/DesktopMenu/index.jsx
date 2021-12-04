@@ -95,9 +95,9 @@ const DesktopMenu = ({ history }) => {
                 {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
                   <>
                     {user?.avatar_from === "own" ? (
-                      <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} />
+                      <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} width="36px" height="36px" />
                     ) : (
-                      <img className={classes.avatar} src={user?.avatar} alt={user?.username} />
+                      <img className={classes.avatar} src={user?.avatar} alt={user?.username} width="36px" height="36px" />
                     )}
                   </>
                 ) : (
@@ -107,7 +107,7 @@ const DesktopMenu = ({ history }) => {
               </div>
             ) : (
               <Button className={classes.signInBtn} onClick={handleClick} value="user">
-                <img className={classes.crownIcon} src={signInIcon} alt="Crown" />
+                <img className={classes.crownIcon} src={signInIcon} alt="Crown" width="14px" height="14px" />
                 Sign In
               </Button>
             )}

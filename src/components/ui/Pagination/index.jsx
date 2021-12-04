@@ -21,6 +21,8 @@ const Pagination = (props) => {
 
     if (pageCount) {
       history.push(`${locationPath}?page=${pageCount}`);
+    } else {
+      history.push(`${locationPath}`);
     }
   }, [pageCount, count, history, locationPath, productPagination]);
 
@@ -41,6 +43,7 @@ const Pagination = (props) => {
       }
     }
   };
+
   const handleNextBtn = () => {
     window.scrollTo(0, 0);
     if (productPagination) {

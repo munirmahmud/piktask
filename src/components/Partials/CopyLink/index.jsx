@@ -66,7 +66,7 @@ const CopyLink = ({ location }) => {
           classes={{ tooltip: classes.tooltip }}
         >
           <Button className={classes.button} onClick={() => handleCopyUrl()}>
-            <img className={classes.buttonIcon} src={copyIcon} alt="Copy Link" />
+            <img className={classes.buttonIcon} src={copyIcon} alt="Copy Link" width="13px" height="11px" />
             Copy Link
           </Button>
         </Tooltip>

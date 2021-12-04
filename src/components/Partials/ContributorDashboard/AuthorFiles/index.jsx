@@ -111,6 +111,8 @@ const AuthorFiles = () => {
                                 className={classes.earningImg}
                                 src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + authLastFile?.preview)}
                                 alt={authLastFile?.title}
+                                width="100px"
+                                height="62px"
                               />
                             </Link>
 
@@ -194,6 +196,8 @@ const AuthorFiles = () => {
                                 className={classes.earningImg}
                                 src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + topFile?.preview)}
                                 alt={topFile?.title}
+                                width="100px"
+                                height="62px"
                               />
                             </Link>
                             {/* {topFile?.item_for_sale === "sale" && (
@@ -211,12 +215,18 @@ const AuthorFiles = () => {
                           <TableCell align="center" className={`${classes.tableCell} ${classes.authorImgWrapper}`}>
                             <Link to={`/author/${topFile?.username}`}>
                               {topFile?.avatar ? (
-                                <img className={classes.authorImg} src={getBaseURL().bucket_base_url + "/" + topFile?.avatar} alt={topFile?.username} />
+                                <img
+                                  className={classes.authorImg}
+                                  src={getBaseURL().bucket_base_url + "/" + topFile?.avatar}
+                                  alt={topFile?.username}
+                                  width="42px"
+                                  height="42px"
+                                />
                               ) : (
-                                <img className={classes.authorImg} src={authorPhoto} alt={topFile?.username} />
+                                <img className={classes.authorImg} src={authorPhoto} alt={topFile?.username} width="42px" height="42px" />
                               )}
                             </Link>
-                            <img className={classes.bestAuthorBadge} src={authorBadge} alt="Badge" />
+                            <img className={classes.bestAuthorBadge} src={authorBadge} alt="Badge" width="18px" height="31px" />
                           </TableCell>
                         </TableRow>
                       ))

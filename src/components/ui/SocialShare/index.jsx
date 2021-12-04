@@ -4,7 +4,7 @@ import useStyles from "./SocialShare.styles";
 
 const SocialShare = (props) => {
   const classes = useStyles();
-  const { socials, copyRightSocial } = props;
+  const { socials, copyRightSocial, width = "20px", height = "20px" } = props;
 
   return (
     <div className={copyRightSocial ? `${classes.containerLeft}` : `${classes.containerCenter}`}>
@@ -14,7 +14,13 @@ const SocialShare = (props) => {
             <div key={index}>
               {media.socialUrl && (
                 <a key={index} href={media.socialUrl} target="_blank" rel="noreferrer">
-                  <img className={copyRightSocial ? `${classes.socialIcon}` : `${classes.socialMedia}`} src={media.socialIcon} alt={media.socialUrl} />
+                  <img
+                    className={copyRightSocial ? `${classes.socialIcon}` : `${classes.socialMedia}`}
+                    src={media.socialIcon}
+                    alt={media.socialUrl}
+                    width={width}
+                    height={height}
+                  />
                 </a>
               )}
             </div>

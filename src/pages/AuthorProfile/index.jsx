@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import authorImg from "../../assets/author.png";
-import heroBanner from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
+import heroBanner from "../../assets/banner/hero-banner.jpg";
 import behanceIcon from "../../assets/icons/behance.svg";
 import dribbbleIcon from "../../assets/icons/dribble.svg";
 import facebookIcon from "../../assets/icons/facebook.svg";
@@ -176,9 +176,9 @@ const AuthorProfile = () => {
                 <Grid container className={classes.profileWrapper}>
                   <div className={classes.authorImg}>
                     {profileInfo?.avatar ? (
-                      <img src={getBaseURL().bucket_base_url + "/" + profileInfo?.avatar} alt={profileInfo?.username} />
+                      <img src={getBaseURL().bucket_base_url + "/" + profileInfo?.avatar} alt={profileInfo?.username} width="90px" height="90px" />
                     ) : (
-                      <img src={authorImg} alt={profileInfo?.username} />
+                      <img src={authorImg} alt={profileInfo?.username} width="90px" height="90px" />
                     )}
                   </div>
 
