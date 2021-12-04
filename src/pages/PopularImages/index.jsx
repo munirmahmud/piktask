@@ -1,14 +1,10 @@
 import { Container, Grid } from "@material-ui/core";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Spacing from "../../components/Spacing";
-import Blog from "../../components/ui/Blog";
-import CallToAction from "../../components/ui/CallToAction";
-import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import SectionHeading from "../../components/ui/Heading";
-import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
@@ -16,6 +12,11 @@ import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
 import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./Popular.style";
+
+const HeroSection = lazy(() => import("../../components/ui/Hero"));
+const CallToAction = lazy(() => import("../../components/ui/CallToAction"));
+const Blog = lazy(() => import("../../components/ui/Blog"));
+const Footer = lazy(() => import("../../components/ui/Footer"));
 
 const PopularImages = () => {
   const classes = useStyles();
@@ -57,8 +58,13 @@ const PopularImages = () => {
   return (
     <Layout title="Popular Images" canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
-      <HeroSection size="large" popularKeywords title="Graphic Resource for Free Download" />
+
+      <Suspense fallback={<Loader />}>
+        <HeroSection size="large" popularKeywords title="Graphic Resource for Free Download" />
+      </Suspense>
+
       <Spacing space={{ height: "3rem" }} />
+
       <Container>
         <SectionHeading title="Popular Images" large />
         <Grid classes={{ container: classes.container }} container spacing={2}>
@@ -79,13 +85,17 @@ const PopularImages = () => {
           )}
         </Grid>
       </Container>
+
       <Spacing space={{ height: "3rem" }} />
-      <CallToAction
-        title="Daily 10 image/photos Download"
-        subtitle="Top website templates with the highest sales volume."
-        buttonLink="/subscription"
-        buttonText="Get Started"
-      />
+
+      <Suspense fallback={<Loader />}>
+        <CallToAction
+          title="Daily 10 image/photos Download"
+          subtitle="Top website templates with the highest sales volume."
+          buttonLink="/subscription"
+          buttonText="Get Started"
+        />
+      </Suspense>
 
       {/* <Container>
         <SectionHeading title="Top Selling Author" large>
@@ -98,9 +108,13 @@ const PopularImages = () => {
       {/* Top selling author */}
       {/* <TopSeller homeTopSeller /> */}
       {/* BLOG SECTION */}
-      <Blog />
+      <Suspense fallback={<Loader />}>
+        <Blog />
+      </Suspense>
 
-      <Footer />
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };

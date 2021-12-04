@@ -99,7 +99,7 @@ const CurrentMonthStatus = () => {
             <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
               <CardContent className={classes.statisticsContent}>
                 <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
-                  <img src={moneyIcon} alt="Money" />
+                  <img src={moneyIcon} alt="Money" width="20px" height="20px" />
                 </div>
                 <Typography className={classes.totalCount} variant="h1">
                   ${earnCurrentMonth?.total_earning}
@@ -112,7 +112,7 @@ const CurrentMonthStatus = () => {
             <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
               <CardContent className={classes.statisticsContent}>
                 <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
-                  <img src={arrowDown} alt="Download" />
+                  <img src={arrowDown} alt="Download" width="20px" height="20px" />
                 </div>
                 <Typography className={classes.totalCount} variant="h1">
                   {earnCurrentMonth?.total_downloads}
@@ -125,7 +125,7 @@ const CurrentMonthStatus = () => {
             <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
               <CardContent className={classes.statisticsContent}>
                 <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
-                  <img src={followerIcon} alt="FollowerIcon" />
+                  <img src={followerIcon} alt="FollowerIcon" width="20px" height="20px" />
                 </div>
                 <Typography className={classes.totalCount} variant="h1">
                   {earnCurrentMonth?.total_follower}
@@ -138,7 +138,7 @@ const CurrentMonthStatus = () => {
             <Grid item xs={6} sm={6} md={3} className={classes.loaderItem}>
               <CardContent className={classes.statisticsContent}>
                 <div className={`${classes.arrowIcon} ${classes.statisticsIcon}`}>
-                  <img src={box} alt="Products" />
+                  <img src={box} alt="Products" width="20px" height="20px" />
                 </div>
                 <Typography className={classes.totalCount} variant="h1">
                   {earnCurrentMonth?.total_image}

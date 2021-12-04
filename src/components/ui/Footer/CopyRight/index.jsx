@@ -61,7 +61,7 @@ const CopyRight = () => {
             </Grid>
 
             <Grid item xs={12} sm={3} md={3}>
-              <SocialShare copyRightSocial socials={socialMedia} />
+              <SocialShare copyRightSocial socials={socialMedia} width="28px" height="28px" />
             </Grid>
           </Grid>
         </div>

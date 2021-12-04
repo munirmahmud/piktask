@@ -81,9 +81,15 @@ const CustomPopper = ({ open, handleToggle, anchorRef, handleClose, handleListKe
                       {user?.isLoggedIn && user?.avatar && user?.avatar !== "null" ? (
                         <>
                           {user?.avatar_from === "own" ? (
-                            <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} />
+                            <img
+                              className={classes.avatar}
+                              src={getBaseURL().bucket_base_url + "/" + user?.avatar}
+                              alt={user?.username}
+                              width="46px"
+                              height="46px"
+                            />
                           ) : (
-                            <img className={classes.avatar} src={user?.avatar} alt={user?.username} />
+                            <img className={classes.avatar} src={user?.avatar} alt={user?.username} width="46px" height="46px" />
                           )}
                         </>
                       ) : (

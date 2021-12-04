@@ -48,7 +48,7 @@ const DashboardMobileMenu = () => {
         <Grid container spacing={2} classes={{ container: classes.container }}>
           <Grid item xs={2}>
             <Link to="/" className={classes.adminLogoLink}>
-              <img className={classes.adminLogo} src={logo} alt="Piktask" />
+              <img className={classes.adminLogo} src={logo} alt="Piktask" width="150px" height="40px" />
             </Link>
           </Grid>
 
@@ -64,9 +64,9 @@ const DashboardMobileMenu = () => {
                 {user?.isLoggedIn && user?.role === "contributor" && user?.avatar && user?.avatar !== "null" ? (
                   <>
                     {user?.avatar_from === "own" ? (
-                      <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} />
+                      <img className={classes.avatar} src={getBaseURL().bucket_base_url + "/" + user?.avatar} alt={user?.username} width="40px" height="40px" />
                     ) : (
-                      <img className={classes.avatar} src={user?.avatar} alt={user?.username} />
+                      <img className={classes.avatar} src={user?.avatar} alt={user?.username} width="40px" height="40px" />
                     )}
                   </>
                 ) : (

@@ -1,11 +1,11 @@
 import { Button, CircularProgress, Container, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import authorImg from "../../assets/author.png";
-import heroBanner from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
+import heroBanner from "../../assets/banner/hero-banner.jpg";
 import behanceIcon from "../../assets/icons/behance.svg";
 import dribbbleIcon from "../../assets/icons/dribble.svg";
 import facebookIcon from "../../assets/icons/facebook.svg";
@@ -15,15 +15,17 @@ import pinterestIcon from "../../assets/icons/pintarest.svg";
 import shutterstockIcon from "../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../assets/icons/twitter.svg";
 import Spacing from "../../components/Spacing";
-import AuthorItems from "../../components/ui/AuthorItems";
-import CallToAction from "../../components/ui/CallToAction";
-import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import SocialShare from "../../components/ui/SocialShare";
 import { getBaseURL } from "../../helpers";
 import Layout from "../../Layout";
 import SignUpModal from "../Authentication/SignUpModal";
+import Loader from "./../../components/ui/Loader/index";
 import useStyles from "./AuthorProfile.styles";
+
+const AuthorItems = lazy(() => import("../../components/ui/AuthorItems"));
+const CallToAction = lazy(() => import("../../components/ui/CallToAction"));
+const Footer = lazy(() => import("../../components/ui/Footer"));
 
 const AuthorProfile = () => {
   const classes = useStyles();
@@ -156,6 +158,7 @@ const AuthorProfile = () => {
       ogImage={thumbnail}
     >
       <Header />
+
       <div className={classes.authorHero} style={{ backgroundImage: `url(${heroBanner})` }}>
         <Container>
           {isLoading ? (
@@ -176,9 +179,9 @@ const AuthorProfile = () => {
                 <Grid container className={classes.profileWrapper}>
                   <div className={classes.authorImg}>
                     {profileInfo?.avatar ? (
-                      <img src={getBaseURL().bucket_base_url + "/" + profileInfo?.avatar} alt={profileInfo?.username} />
+                      <img src={getBaseURL().bucket_base_url + "/" + profileInfo?.avatar} alt={profileInfo?.username} width="90px" height="90px" />
                     ) : (
-                      <img src={authorImg} alt={profileInfo?.username} />
+                      <img src={authorImg} alt={profileInfo?.username} width="90px" height="90px" />
                     )}
                   </div>
 
@@ -236,29 +239,36 @@ const AuthorProfile = () => {
         </Container>
       </div>
 
-      <AuthorItems userId={profileInfo.id} imageSummery={imageSummery} />
+      <Suspense fallback={<Loader />}>
+        <AuthorItems userId={profileInfo.id} imageSummery={imageSummery} />
+      </Suspense>
 
       <Spacing space={{ height: "4rem" }} />
 
-      {!user?.isLoggedIn ? (
-        <CallToAction
-          title="Join Piktask team"
-          subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
-          buttonText="Join Us"
-          buttonClicked={() => handleJoinUsButton()}
-        />
-      ) : (
-        <CallToAction
-          title="Go Premium"
-          subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
-          buttonLink="/subscription"
-          buttonText="See Plans"
-        />
-      )}
+      <Suspense fallback={<Loader />}>
+        {!user?.isLoggedIn ? (
+          <CallToAction
+            title="Join Piktask team"
+            subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
+            buttonText="Join Us"
+            buttonClicked={() => handleJoinUsButton()}
+          />
+        ) : (
+          <CallToAction
+            title="Go Premium"
+            subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
+            buttonLink="/subscription"
+            buttonText="See Plans"
+          />
+        )}
+      </Suspense>
 
       {/* Sign up modal section*/}
       <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} role={role} />
-      <Footer />
+
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };

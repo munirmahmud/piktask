@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import contributorBG from "../../../assets/banner/contributorBG.jpg";
-import heroBG from "../../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
+import heroBG from "../../../assets/banner/hero-banner.jpg";
 import contributorLogo from "../../../assets/Logo/piktask.png";
 import SignUpModal from "../../../pages/Authentication/SignUpModal";
 import CustomPopper from "../CustomPopper";

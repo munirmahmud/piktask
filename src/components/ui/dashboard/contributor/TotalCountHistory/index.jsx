@@ -31,10 +31,6 @@ const TotalCountHistory = () => {
               <span className={classes.title}>Total Earning</span>
             </div>
             <div className={classes.graphBox}>
-              <div className={classes.amount}>${totalSummary?.balance}</div>
-              <span className={classes.title}>Total Balance</span>
-            </div>
-            <div className={classes.graphBox}>
               <span className={`${classes.amount} ${classes.paidDownloadColor}`}>{totalSummary?.total_images}</span>
               <span className={classes.title}>Total Files</span>
             </div>
@@ -45,6 +41,10 @@ const TotalCountHistory = () => {
             <div className={classes.graphBox}>
               <span className={`${classes.amount} ${classes.totalDownloadColor}`}>{totalSummary?.total_downloads}</span>
               <span className={classes.title}>Total Download</span>
+            </div>
+            <div className={classes.graphBox}>
+              <div className={classes.amount}>${totalSummary?.balance}</div>
+              <span className={classes.title}>Available Balance</span>
             </div>
           </Card>
         </Grid>

@@ -88,7 +88,7 @@ const DownloadButton = ({ productDetails }) => {
           disableElevation
           disabled={buttonLoading}
         >
-          <img src={downArrowIconWhite} alt="Download" />
+          <img src={downArrowIconWhite} alt="Download" width="12px" height="18px" />
           {buttonLoading ? "Downloading..." : "Download"}
         </Button>
 

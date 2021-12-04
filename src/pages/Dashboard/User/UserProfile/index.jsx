@@ -23,25 +23,47 @@ import useStyles from "./UserProfile.style";
 const UserProfile = () => {
   const classes = useStyles();
   const user = useSelector((state) => state.user);
+  const userProfile = useSelector((state) => state.userProfile);
 
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [locationAddress, setLocationAddress] = useState("");
-  const [job_position, setJob_position] = useState("");
-  const [phone, setPhone] = useState("");
-  const [website, setWebsite] = useState("");
-  const [shutterstock, setShutterstock] = useState("");
-  const [pinterest, setPinterest] = useState("");
-  const [behance, setBehance] = useState("");
-  const [dribbble, setDribbble] = useState("");
-  const [facebook, setFacebook] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [instagram, setInstagram] = useState("");
-  const [isLoading, setLoading] = useState(true);
+  const [userProfileInfo, setUserProfileInfo] = useState({
+    name: "",
+    username: "",
+    email: "",
+    location: "",
+    job_position: "",
+    phone: "",
+    website: "",
+    shutterstock: "",
+    pinterest: "",
+    behance: "",
+    dribbble: "",
+    facebook: "",
+    twitter: "",
+    instagram: "",
+    linkedin: "",
+  });
+
+  useEffect(() => {
+    setUserProfileInfo({
+      name: userProfile.name,
+      username: userProfile.username,
+      email: userProfile.email,
+      location: userProfile.location,
+      job_position: userProfile.job_position,
+      phone: userProfile.phone,
+      website: userProfile.website,
+      shutterstock: userProfile.shutterstock,
+      pinterest: userProfile.pinterest,
+      behance: userProfile.behance,
+      dribbble: userProfile.dribbble,
+      facebook: userProfile.facebook,
+      twitter: userProfile.twitter,
+      instagram: userProfile.instagram,
+      linkedin: userProfile.linkedin,
+    });
+  }, [userProfile]);
+
   const [errors, setErrors] = useState({});
-
   const [checked, setChecked] = useState(true);
 
   const handleChange = (event) => {
@@ -49,53 +71,17 @@ const UserProfile = () => {
   };
 
   //mobile view
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 577
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
-
-  // get user information
-  useEffect(() => {
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
-
-    if (user?.isLoggedIn && user?.role === "user") {
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/user/profile`, { cancelToken: source.token, headers: { Authorization: user?.token } })
-        .then(({ data }) => {
-          if (data?.status) {
-            setName(data?.user?.name);
-            setUsername(data?.user?.username);
-            setEmail(data?.user?.email);
-            setLocationAddress(data?.user?.location);
-            setJob_position(data?.user?.job_position);
-            setPhone(data?.user?.phone);
-            setWebsite(data?.user?.website);
-            setShutterstock(data?.user?.shutterstock);
-            setPinterest(data?.user?.pinterest);
-            setBehance(data?.user?.behance);
-            setDribbble(data?.user?.dribbble);
-            setFacebook(data?.user?.facebook);
-            setTwitter(data?.user?.twitter);
-            setLinkedin(data?.user?.linkedin);
-            setInstagram(data?.user?.instagram);
-            setLoading(false);
-          }
-        })
-        .catch((error) => {
-          console.log("User profile", error.message);
-        });
-    }
-
-    return () => source.cancel();
-  }, [user?.token, user?.isLoggedIn, user?.role]);
+  // const [menuSate, setMenuSate] = useState({ mobileView: false });
+  // const { mobileView } = menuSate;
+  // useEffect(() => {
+  //   const setResponsiveness = () => {
+  //     return window.innerWidth < 577
+  //       ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
+  //       : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
+  //   };
+  //   setResponsiveness();
+  //   window.addEventListener("resize", () => setResponsiveness());
+  // }, []);
 
   //Update user profile
   const handleSubmit = (e) => {
@@ -106,59 +92,59 @@ const UserProfile = () => {
 
     const formData = new FormData();
     let emptyFieldCheck = 0;
-    if (name) {
-      formData.append("name", name);
+    if (userProfileInfo.name) {
+      formData.append("name", userProfileInfo.name);
       emptyFieldCheck++;
     }
-    if (locationAddress) {
-      formData.append("location", locationAddress);
+    if (userProfileInfo.location) {
+      formData.append("location", userProfileInfo.location);
       emptyFieldCheck++;
     }
-    if (job_position) {
-      formData.append("job_position", job_position);
+    if (userProfileInfo.job_position) {
+      formData.append("job_position", userProfileInfo.job_position);
       emptyFieldCheck++;
     }
-    if (phone) {
-      formData.append("phone", phone);
+    if (userProfileInfo.phone) {
+      formData.append("phone", userProfileInfo.phone);
       emptyFieldCheck++;
     }
-    if (website) {
-      formData.append("website", website);
+    if (userProfileInfo.website) {
+      formData.append("website", userProfileInfo.website);
       emptyFieldCheck++;
     }
-    if (shutterstock) {
-      formData.append("shutterstock", shutterstock);
+    if (userProfileInfo.shutterstock) {
+      formData.append("shutterstock", userProfileInfo.shutterstock);
       emptyFieldCheck++;
     }
-    if (pinterest) {
-      formData.append("pinterest", pinterest);
+    if (userProfileInfo.pinterest) {
+      formData.append("pinterest", userProfileInfo.pinterest);
       emptyFieldCheck++;
     }
-    if (behance) {
-      formData.append("behance", behance);
+    if (userProfileInfo.behance) {
+      formData.append("behance", userProfileInfo.behance);
       emptyFieldCheck++;
     }
-    if (dribbble) {
-      formData.append("dribbble", dribbble);
+    if (userProfileInfo.dribbble) {
+      formData.append("dribbble", userProfileInfo.dribbble);
       emptyFieldCheck++;
     }
-    if (facebook) {
-      formData.append("facebook", facebook);
+    if (userProfileInfo.facebook) {
+      formData.append("facebook", userProfileInfo.facebook);
       emptyFieldCheck++;
     }
-    if (twitter) {
-      formData.append("twitter", twitter);
+    if (userProfileInfo.twitter) {
+      formData.append("twitter", userProfileInfo.twitter);
       emptyFieldCheck++;
     }
-    if (instagram) {
-      formData.append("instagram", instagram);
+    if (userProfileInfo.instagram) {
+      formData.append("instagram", userProfileInfo.instagram);
     }
-    if (linkedin) {
-      formData.append("linkedin", linkedin);
+    if (userProfileInfo.linkedin) {
+      formData.append("linkedin", userProfileInfo.linkedin);
       emptyFieldCheck++;
     }
 
-    if (emptyFieldCheck && user?.isLoggedIn && user?.role === "user") {
+    if (user?.isLoggedIn && user?.role === "user" && emptyFieldCheck) {
       const url = `${process.env.REACT_APP_API_URL}/user/profile`;
       axios({
         method: "put",
@@ -227,9 +213,8 @@ const UserProfile = () => {
                           label="Real Name"
                           className={classes.formControl}
                           name="name"
-                          value={name}
-                          // defaultValue={name}
-                          onChange={(e) => setName(e.target.value)}
+                          value={userProfileInfo.name}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, name: e.target.value })}
                         />
 
                         <TextField
@@ -238,8 +223,8 @@ const UserProfile = () => {
                           label="Location"
                           className={classes.formControl}
                           name="locationAddress"
-                          value={locationAddress}
-                          onChange={(e) => setLocationAddress(e.target.value)}
+                          value={userProfileInfo.location}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, location: e.target.value })}
                         />
 
                         <TextField
@@ -248,8 +233,8 @@ const UserProfile = () => {
                           label="Job Position"
                           className={classes.formControl}
                           name="jobPosition"
-                          value={job_position}
-                          onChange={(e) => setJob_position(e.target.value)}
+                          value={userProfileInfo.job_position}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, job_position: e.target.value })}
                         />
 
                         <TextField
@@ -263,8 +248,8 @@ const UserProfile = () => {
                             inputMode: "numeric",
                             pattern: "[0-9]*",
                           }}
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
+                          value={userProfileInfo.phone}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, phone: e.target.value })}
                         />
                       </div>
                     </Grid>
@@ -275,9 +260,25 @@ const UserProfile = () => {
                       </Typography>
 
                       <div className={classes.personalDataField}>
-                        <TextField fullWidth variant="outlined" label="User Name" disabled className={classes.formControl} name="username" value={username} />
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          label="User Name"
+                          disabled
+                          className={classes.formControl}
+                          name="username"
+                          value={userProfileInfo.username}
+                        />
 
-                        <TextField fullWidth variant="outlined" label="Email" className={classes.formControl} name="email" value={email} />
+                        <TextField
+                          fullWidth
+                          disabled
+                          variant="outlined"
+                          label="Email"
+                          className={classes.formControl}
+                          name="email"
+                          value={userProfileInfo.email}
+                        />
 
                         <TextField
                           error={!!errors.website}
@@ -287,8 +288,8 @@ const UserProfile = () => {
                           label="Website"
                           className={classes.formControl}
                           name="website"
-                          value={website}
-                          onChange={(e) => setWebsite(e.target.value)}
+                          value={userProfileInfo.website}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, website: e.target.value })}
                         />
 
                         <div className={classes.dataChangeBtn}>
@@ -316,7 +317,7 @@ const UserProfile = () => {
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="shutterstock" className={classes.portfolioIconWrapper}>
-                          <img src={shutterstockLogo} alt="Shutterstock Icon" />
+                          <img src={shutterstockLogo} alt="Shutterstock Icon" width="25px" height="57px" />
                         </label>
                         <TextField
                           id="shutterstock"
@@ -326,8 +327,8 @@ const UserProfile = () => {
                           variant="outlined"
                           className={`${classes.inputField}`}
                           placeholder="Your Shutterstock Account"
-                          value={shutterstock}
-                          onChange={(e) => setShutterstock(e.target.value)}
+                          value={userProfileInfo.shutterstock}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, shutterstock: e.target.value })}
                         />
                       </FormControl>
                     </div>
@@ -335,7 +336,7 @@ const UserProfile = () => {
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="pinterest" className={classes.portfolioIconWrapper}>
-                          <img src={pinterestIcon} alt="Pinterest Icon" />
+                          <img src={pinterestIcon} alt="Pinterest Icon" width="25px" height="57px" />
                         </label>
                         <TextField
                           id="pinterest"
@@ -345,8 +346,8 @@ const UserProfile = () => {
                           variant="outlined"
                           className={`${classes.inputField}`}
                           placeholder="Your Pinterest Account"
-                          value={pinterest}
-                          onChange={(e) => setPinterest(e.target.value)}
+                          value={userProfileInfo.pinterest}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, pinterest: e.target.value })}
                         />
                       </FormControl>
                     </div>
@@ -354,7 +355,7 @@ const UserProfile = () => {
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="behance" className={classes.portfolioIconWrapper}>
-                          <img src={behanceIcon} alt="Behance Icon" />
+                          <img src={behanceIcon} alt="Behance Icon" width="25px" height="57px" />
                         </label>
                         <TextField
                           id="behance"
@@ -364,8 +365,8 @@ const UserProfile = () => {
                           variant="outlined"
                           className={`${classes.inputField}`}
                           placeholder="Your Behance Account"
-                          value={behance}
-                          onChange={(e) => setBehance(e.target.value)}
+                          value={userProfileInfo.behance}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, behance: e.target.value })}
                         />
                       </FormControl>
                     </div>
@@ -373,7 +374,7 @@ const UserProfile = () => {
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="dribbble" className={classes.portfolioIconWrapper}>
-                          <img src={dribbbleIcon} alt="Dribbble Icon" />
+                          <img src={dribbbleIcon} alt="Dribbble Icon" width="25px" height="57px" />
                         </label>
                         <TextField
                           id="dribbble"
@@ -383,8 +384,8 @@ const UserProfile = () => {
                           variant="outlined"
                           className={`${classes.inputField}`}
                           placeholder="Your Dribbble Account"
-                          value={dribbble}
-                          onChange={(e) => setDribbble(e.target.value)}
+                          value={userProfileInfo.dribbble}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, dribbble: e.target.value })}
                         />
                       </FormControl>
                     </div>
@@ -401,7 +402,7 @@ const UserProfile = () => {
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="facebook" className={classes.portfolioIconWrapper}>
-                          <img src={facebookLogo} className={classes.facebookIcon} alt="Facebook Icon" />
+                          <img src={facebookLogo} className={classes.facebookIcon} alt="Facebook Icon" width="25px" height="57px" />
                         </label>
                         <TextField
                           id="facebook"
@@ -411,8 +412,8 @@ const UserProfile = () => {
                           variant="outlined"
                           className={`${classes.inputField}`}
                           placeholder="Your Facebook Account"
-                          value={facebook}
-                          onChange={(e) => setFacebook(e.target.value)}
+                          value={userProfileInfo.facebook}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, facebook: e.target.value })}
                         />
                       </FormControl>
                     </div>
@@ -420,7 +421,7 @@ const UserProfile = () => {
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="twitter" className={classes.portfolioIconWrapper}>
-                          <img src={twitterLogo} alt="Twitter Icon" />
+                          <img src={twitterLogo} alt="Twitter Icon" width="25px" height="57px" />
                         </label>
                         <TextField
                           id="twitter"
@@ -430,8 +431,8 @@ const UserProfile = () => {
                           variant="outlined"
                           className={`${classes.inputField}`}
                           placeholder="Your Twitter Account"
-                          value={twitter}
-                          onChange={(e) => setTwitter(e.target.value)}
+                          value={userProfileInfo.twitter}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, twitter: e.target.value })}
                         />
                       </FormControl>
                     </div>
@@ -439,7 +440,7 @@ const UserProfile = () => {
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="linkedin" className={classes.portfolioIconWrapper}>
-                          <img src={linkedinLogo} alt="Linkedin Icon" />
+                          <img src={linkedinLogo} alt="Linkedin Icon" width="25px" height="57px" />
                         </label>
                         <TextField
                           id="linkedin"
@@ -449,8 +450,8 @@ const UserProfile = () => {
                           variant="outlined"
                           className={`${classes.inputField}`}
                           placeholder="Your Linkedin Account"
-                          value={linkedin}
-                          onChange={(e) => setLinkedin(e.target.value)}
+                          value={userProfileInfo.linkedin}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, linkedin: e.target.value })}
                         />
                       </FormControl>
                     </div>
@@ -458,7 +459,7 @@ const UserProfile = () => {
                     <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
                       <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
                         <label htmlFor="instagram" className={classes.portfolioIconWrapper}>
-                          <img src={instagramLogo} alt="Instagram Icon" />
+                          <img src={instagramLogo} alt="Instagram Icon" width="25px" height="57px" />
                         </label>
                         <TextField
                           id="instagram"
@@ -468,8 +469,8 @@ const UserProfile = () => {
                           variant="outlined"
                           className={`${classes.inputField}`}
                           placeholder="Your Instagram Account"
-                          value={instagram}
-                          onChange={(e) => setInstagram(e.target.value)}
+                          value={userProfileInfo.instagram}
+                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, instagram: e.target.value })}
                         />
                       </FormControl>
                     </div>

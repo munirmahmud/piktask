@@ -1,15 +1,11 @@
 import { Container, Grid } from "@material-ui/core";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import Spacing from "../../components/Spacing";
-import Blog from "../../components/ui/Blog";
-import CallToAction from "../../components/ui/CallToAction";
-import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import SectionHeading from "../../components/ui/Heading";
-import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
 import Pagination from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
@@ -17,6 +13,11 @@ import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
 import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./Recent.style";
+
+const HeroSection = lazy(() => import("../../components/ui/Hero"));
+const CallToAction = lazy(() => import("../../components/ui/CallToAction"));
+const Blog = lazy(() => import("../../components/ui/Blog"));
+const Footer = lazy(() => import("../../components/ui/Footer"));
 
 const Recent = () => {
   const classes = useStyles();
@@ -74,47 +75,57 @@ const Recent = () => {
     <Layout title="Recent Images" canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
 
-      <HeroSection size="large" popularKeywords heroButton title="Graphic Resource for Free Download" />
+      <Suspense fallback={<Loader />}>
+        <HeroSection size="large" popularKeywords heroButton title="Graphic Resource for Free Download" />
+      </Suspense>
 
       <Spacing space={{ height: "3rem" }} />
 
-      <Container>
-        <SectionHeading title="Recent Images" large />
-        <Grid classes={{ container: classes.container }} container spacing={2}>
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <>
-              {recentProduct?.length ? (
-                recentProduct?.map((photo, index) => (
-                  <Grid key={index} item xs={6} sm={4} md={3} className={classes.productItem}>
-                    <Product photo={photo} />
-                  </Grid>
-                ))
-              ) : (
-                <ProductNotFound />
-              )}
-            </>
-          )}
-        </Grid>
+      <Suspense fallback={<Loader />}>
+        <Container>
+          <SectionHeading title="Recent Images" large />
+          <Grid classes={{ container: classes.container }} container spacing={2}>
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <>
+                {recentProduct?.length ? (
+                  recentProduct?.map((photo, index) => (
+                    <Grid key={index} item xs={6} sm={4} md={3} className={classes.productItem}>
+                      <Product photo={photo} />
+                    </Grid>
+                  ))
+                ) : (
+                  <ProductNotFound />
+                )}
+              </>
+            )}
+          </Grid>
 
-        {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
-      </Container>
+          {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+        </Container>
+      </Suspense>
 
       <Spacing space={{ height: "3.5rem" }} />
 
-      <CallToAction
-        title="Daily 10 image/photos Download"
-        subtitle="Top website templates with the highest sales volume."
-        buttonLink="/subscription"
-        buttonText="Get Started"
-      />
+      <Suspense fallback={<Loader />}>
+        <CallToAction
+          title="Daily 10 image/photos Download"
+          subtitle="Top website templates with the highest sales volume."
+          buttonLink="/subscription"
+          buttonText="Get Started"
+        />
+      </Suspense>
 
       <Spacing space={{ height: "2.5rem" }} />
 
-      <Blog />
+      <Suspense fallback={<Loader />}>
+        <Blog />
+      </Suspense>
 
-      <Footer />
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };
