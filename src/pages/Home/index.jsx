@@ -4,14 +4,14 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import piktaskImg from "../../assets/piktask.jpg";
 import Spacing from "../../components/Spacing";
-import { CategoryCarousel } from "../../components/ui/Carousel";
 import Header from "../../components/ui/Header";
-import SectionHeading from "../../components/ui/Heading";
 import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
-import Layout from "../../Layout";
 import useStyles from "./Home.styles";
 
+const Layout = lazy(() => import("../../Layout"));
+const SectionHeading = lazy(() => import("../../components/ui/Heading"));
+const CategoryCarousel = lazy(() => import("../../components/ui/Carousel"));
 const Blog = lazy(() => import("../../components/ui/Blog"));
 const Footer = lazy(() => import("../../components/ui/Footer"));
 const Products = lazy(() => import("../../components/ui/Products"));
@@ -39,62 +39,68 @@ const Home = () => {
   };
 
   return (
-    <Layout
-      title="Graphic Resources for Free Download"
-      description="Graphic Resources for Free Download"
-      ogUrl=""
-      ogType=""
-      twitterImg={`${document.URL}${piktaskImg}`}
-    >
-      <Header />
-      {/* <Suspense fallback={<h1>Loading...</h1>}> */}
-      <HeroSection size="large" popularKeywords heroButton heroTitle title="Graphic Resources for Free Download" />
-      {/* </Suspense> */}
-      <Container>
-        <Spacing space={{ height: "3rem" }} />
-        <SectionHeading title="Popular Album Collection" large>
-          <Button className={classes.headingButton} component={Link} to="/categories">
-            See More
-          </Button>
-        </SectionHeading>
-      </Container>
+    <Suspense fallback={<Loader />}>
+      <Layout
+        title="Graphic Resources for Free Download"
+        description="Graphic Resources for Free Download"
+        ogUrl=""
+        ogType=""
+        twitterImg={`${document.URL}${piktaskImg}`}
+      >
+        <Header />
+        {/* <Suspense fallback={<h1>Loading...</h1>}> */}
+        <HeroSection size="large" popularKeywords heroButton heroTitle title="Graphic Resources for Free Download" />
+        {/* </Suspense> */}
 
-      <Spacing space={{ height: "1.2rem" }} />
+        <Suspense fallback={<Loader />}>
+          <Container>
+            <Spacing space={{ height: "3rem" }} />
+            <SectionHeading title="Popular Album Collection" large>
+              <Button className={classes.headingButton} component={Link} to="/categories">
+                See More
+              </Button>
+            </SectionHeading>
+          </Container>
+        </Suspense>
 
-      {/* Carousel with Categories */}
-      <CategoryCarousel />
+        <Spacing space={{ height: "1.2rem" }} />
 
-      <Suspense fallback={<Loader />}>
-        <Container>
-          <Products piktaskCollection />
-        </Container>
-      </Suspense>
+        {/* Carousel with Categories */}
+        <Suspense fallback={<Loader />}>
+          <CategoryCarousel />
+        </Suspense>
 
-      <Suspense fallback={<Loader />}>
-        <Container>
-          <Products category={categories[0]} showHeading count={8} />
-        </Container>
-      </Suspense>
+        <Suspense fallback={<Loader />}>
+          <Container>
+            <Products piktaskCollection />
+          </Container>
+        </Suspense>
 
-      <Suspense fallback={<Loader />}>
-        {popularCats?.length &&
-          popularCats.map((category, index) => (
-            <Container key={category?.id}>
-              <Products key={category?.id} category={category} showHeading count={8} />
-            </Container>
-          ))}
-      </Suspense>
+        <Suspense fallback={<Loader />}>
+          <Container>
+            <Products category={categories[0]} showHeading count={8} />
+          </Container>
+        </Suspense>
 
-      <Suspense fallback={<Loader />}>
-        <CallToAction
-          title="Daily 10 image/photos Download"
-          subtitle="Top website templates with the highest sales volume."
-          // buttonLink="/subscription"
-          buttonText="Get Started"
-        />
-      </Suspense>
+        <Suspense fallback={<Loader />}>
+          {popularCats?.length &&
+            popularCats.map((category, index) => (
+              <Container key={category?.id}>
+                <Products key={category?.id} category={category} showHeading count={8} />
+              </Container>
+            ))}
+        </Suspense>
 
-      {/* <Container>
+        <Suspense fallback={<Loader />}>
+          <CallToAction
+            title="Daily 10 image/photos Download"
+            subtitle="Top website templates with the highest sales volume."
+            // buttonLink="/subscription"
+            buttonText="Get Started"
+          />
+        </Suspense>
+
+        {/* <Container>
         <SectionHeading title="Top Selling Author" large>
         <Button
         className={classes.headingButton}
@@ -107,15 +113,16 @@ const Home = () => {
             </Container>
             Top selling author 
           <TopSeller homeTopSeller /> */}
-      {/* BLOG SECTION */}
-      <Suspense fallback={<Loader />}>
-        <Blog />
-      </Suspense>
+        {/* BLOG SECTION */}
+        <Suspense fallback={<Loader />}>
+          <Blog />
+        </Suspense>
 
-      <Suspense fallback={<Loader />}>
-        <Footer />
-      </Suspense>
-    </Layout>
+        <Suspense fallback={<Loader />}>
+          <Footer />
+        </Suspense>
+      </Layout>
+    </Suspense>
   );
 };
 

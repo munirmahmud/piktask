@@ -40,7 +40,7 @@ const MobileMenu = () => {
         <Toolbar disableGutters className={classes.menuWrapper}>
           <div>
             <Button component={Link} to="/" className={classes.headerLogo} disableRipple onClick={() => setOpenMobileMenu(false)}>
-              <img src={logo} className={classes.logo} alt="Dev" />
+              <img src={logo} className={classes.logo} alt="Dev" width="110px" height="29px" />
             </Button>
           </div>
 

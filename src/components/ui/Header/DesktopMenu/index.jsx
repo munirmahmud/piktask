@@ -58,7 +58,7 @@ const DesktopMenu = ({ history }) => {
       <div className={classes.container}>
         <Toolbar disableGutters className={classes.mainHeaderToolbar}>
           <Button component={Link} to="/" className={classes.logoWrapper} disableRipple>
-            <img src={logo} className={classes.logo} alt="Piktask" />
+            <img src={logo} className={classes.logo} alt="Piktask" width="153px" height="41px" />
           </Button>
 
           <Tabs value={value} className={classes.menuTab} classes={{ indicator: classes.menuUnderline }} onChange={handleChange} aria-label="main navigation">
