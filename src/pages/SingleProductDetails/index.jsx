@@ -1,16 +1,18 @@
 import { Container } from "@material-ui/core";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ProductDetails from "../../components/Partials/ProductDetails";
 import Spacing from "../../components/Spacing";
-import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import SectionHeading from "../../components/ui/Heading";
-import HeroSection from "../../components/ui/Hero";
+import Loader from "../../components/ui/Loader";
 import RelatedImage from "../../components/ui/RelatedImage";
 import TagButtons from "../../components/ui/TagButtons";
 import Layout from "../../Layout";
 import useStyles from "./SingleProductDetails.styles";
+
+const Footer = lazy(() => import("../../components/ui/Footer"));
+const HeroSection = lazy(() => import("../../components/ui/Hero"));
 
 const SingleProductDetails = () => {
   const classes = useStyles();
@@ -26,28 +28,34 @@ const SingleProductDetails = () => {
     <Layout title={`${productTitle}`} canonical={document.URL} ogUrl={document.URL} ogImage={thumbnail}>
       <Header />
 
-      <HeroSection size="medium" heroTitle title="Graphic Resources for Free Download" />
+      <Suspense fallback={<Loader />}>
+        <HeroSection size="medium" heroTitle title="Graphic Resources for Free Download" />
+      </Suspense>
 
-      <Container className={classes.containerWrapper}>
-        <ProductDetails
-          location={location}
-          setAllTags={setAllTags}
-          imageID={imageID}
-          shareUrl={shareUrl}
-          setProductTitle={setProductTitle}
-          setThumbnail={setThumbnail}
-        />
+      <Suspense fallback={<Loader />}>
+        <Container className={classes.containerWrapper}>
+          <ProductDetails
+            location={location}
+            setAllTags={setAllTags}
+            imageID={imageID}
+            shareUrl={shareUrl}
+            setProductTitle={setProductTitle}
+            setThumbnail={setThumbnail}
+          />
 
-        <Spacing space={{ height: "2.5rem" }}></Spacing>
+          <Spacing space={{ height: "2.5rem" }}></Spacing>
 
-        <SectionHeading title="Related Products" subtitle="Top website templates with the highest sales volume." size="large" />
+          <SectionHeading title="Related Products" subtitle="Top website templates with the highest sales volume." size="large" />
 
-        <RelatedImage imageID={imageID} />
+          <RelatedImage imageID={imageID} />
 
-        <TagButtons allTags={allTags} />
-      </Container>
+          <TagButtons allTags={allTags} />
+        </Container>
+      </Suspense>
 
-      <Footer />
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };

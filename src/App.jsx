@@ -206,8 +206,9 @@ const App = () => {
           <Route exact path="/author/:username" component={AuthorProfile} />
           <Route exact path="/category/:catName" component={Category} />
           <Route exact path="/category/:catName/:id" component={SingleProductDetails} />
-          <Route path="*" component={NotFoundPage} />
         </Suspense>
+
+        <Route path="*" component={NotFoundPage} />
       </Switch>
     </ThemeProvider>
   );
