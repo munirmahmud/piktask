@@ -1,13 +1,15 @@
 import { CircularProgress, Container, Grid, makeStyles } from "@material-ui/core";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import Spacing from "../../components/Spacing";
 import Post from "../../components/ui/Blog/Post";
-import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
-import HeroSection from "../../components/ui/Hero";
+import Loader from "../../components/ui/Loader";
 import Layout from "../../Layout";
 import { getBaseURL } from "./../../helpers/index";
+
+const HeroSection = lazy(() => import("../../components/ui/Hero"));
+const Footer = lazy(() => import("../../components/ui/Footer"));
 
 const useStyles = makeStyles((theme) => ({
   postsWrapper: {
@@ -47,28 +49,38 @@ const AllBlogs = () => {
   return (
     <Layout title="All Blog Posts" canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
-      <HeroSection size="medium" blogsTitle isSearch />
+
+      <Suspense fallback={<Loader />}>
+        <HeroSection size="medium" blogsTitle isSearch />
+      </Suspense>
+
       <Spacing space={{ height: "3rem" }} />
-      <Container>
-        <Grid container spacing={2} className={classes.postsWrapper}>
-          {isLoading ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "0 auto",
-                height: 300,
-              }}
-            >
-              <CircularProgress color="primary" />
-            </div>
-          ) : (
-            <>{blogsPost?.length > 0 && blogsPost?.map((post) => <Post key={post?.id} post={post} />)}</>
-          )}
-        </Grid>
-      </Container>
-      <Footer />
+
+      <Suspense fallback={<Loader />}>
+        <Container>
+          <Grid container spacing={2} className={classes.postsWrapper}>
+            {isLoading ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "0 auto",
+                  height: 300,
+                }}
+              >
+                <CircularProgress color="primary" />
+              </div>
+            ) : (
+              <>{blogsPost?.length > 0 && blogsPost?.map((post) => <Post key={post?.id} post={post} />)}</>
+            )}
+          </Grid>
+        </Container>
+      </Suspense>
+
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };

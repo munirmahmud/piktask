@@ -134,6 +134,7 @@ const Product = ({ photo = null }) => {
                     title={photo?.name}
                     width="33px"
                     height="33px"
+                    alt={photo?.name}
                   />
                 ) : (
                   <AccountCircleIcon className={classes.authorImage} />

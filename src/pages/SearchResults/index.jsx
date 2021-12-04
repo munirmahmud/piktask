@@ -1,20 +1,22 @@
 import { CircularProgress, Container, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Spacing from "../../components/Spacing";
-import CallToAction from "../../components/ui/CallToAction";
-import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
-import HeroSection from "../../components/ui/Hero";
 import Pagination from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
 import SignUpModal from "../Authentication/SignUpModal";
+import Loader from "./../../components/ui/Loader/index";
 import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./SearchResults.styles";
+
+const HeroSection = lazy(() => import("../../components/ui/Hero"));
+const CallToAction = lazy(() => import("../../components/ui/CallToAction"));
+const Footer = lazy(() => import("../../components/ui/Footer"));
 
 const SearchResults = () => {
   const classes = useStyles();
@@ -88,67 +90,78 @@ const SearchResults = () => {
 
   return (
     <Layout title={`${searchKey}`} canonical={canonicalURL} ogUrl={document.URL} ogImage={imageThumbnail}>
-      <Header></Header>
-      <HeroSection size="large" popularKeywords title="Graphic Resources for Free Download" />
+      <Header />
 
-      <Container>
-        {totalProduct > 0 && (
-          <Typography className={classes.totalResources} variant="h3">
-            {`${totalProduct} Resources for "${searchKey.replace(/-/g, " ")}"`}
-          </Typography>
-        )}
+      <Suspense fallback={<Loader />}>
+        <HeroSection size="large" popularKeywords title="Graphic Resources for Free Download" />
+      </Suspense>
 
-        <Grid classes={{ container: classes.container }} container spacing={2}>
-          {searchResults === null ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "0 auto",
-                height: 300,
-              }}
-            >
-              <CircularProgress color="primary" />
-            </div>
-          ) : (
-            <>
-              {searchResults.length ? (
-                searchResults?.map((photo) => (
-                  <Grid key={photo.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
-                    <Product photo={photo} />
-                  </Grid>
-                ))
-              ) : (
-                <ProductNotFound keywords={keywords} />
-              )}
-            </>
+      <Suspense fallback={<Loader />}>
+        <Container>
+          {totalProduct > 0 && (
+            <Typography className={classes.totalResources} variant="h3">
+              {`${totalProduct} Resources for "${searchKey.replace(/-/g, " ")}"`}
+            </Typography>
           )}
-        </Grid>
 
-        {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
-      </Container>
+          <Grid classes={{ container: classes.container }} container spacing={2}>
+            {searchResults === null ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "0 auto",
+                  height: 300,
+                }}
+              >
+                <CircularProgress color="primary" />
+              </div>
+            ) : (
+              <>
+                {searchResults.length ? (
+                  searchResults?.map((photo) => (
+                    <Grid key={photo.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
+                      <Product photo={photo} />
+                    </Grid>
+                  ))
+                ) : (
+                  <ProductNotFound keywords={keywords} />
+                )}
+              </>
+            )}
+          </Grid>
+
+          {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+        </Container>
+      </Suspense>
+
       <Spacing space={{ height: "3rem" }} />
 
-      {!user.token ? (
-        <CallToAction
-          title="Join Piktask team"
-          subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
-          buttonText="Join Us"
-          buttonClicked={() => handleJoinUsButton()}
-        />
-      ) : (
-        <CallToAction
-          title="Go Premium"
-          subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
-          buttonLink="/subscription"
-          buttonText="See Plans"
-        />
-      )}
+      <Suspense fallback={<Loader />}>
+        {!user.token ? (
+          <CallToAction
+            title="Join Piktask team"
+            subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
+            buttonText="Join Us"
+            buttonClicked={() => handleJoinUsButton()}
+          />
+        ) : (
+          <CallToAction
+            title="Go Premium"
+            subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
+            buttonLink="/subscription"
+            buttonText="See Plans"
+          />
+        )}
+      </Suspense>
 
       {/* Sign up modal section*/}
       <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} />
-      <Footer></Footer>
+
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };
