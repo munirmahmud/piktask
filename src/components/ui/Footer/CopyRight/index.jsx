@@ -52,7 +52,7 @@ const CopyRight = () => {
           <Grid className={classes.gridRoot}>
             <Grid item xs={12} sm={3} md={3} className={classes.logoWrapper}>
               <Link to="/">
-                <img className={classes.logo} src={logo} alt="Piktask" />
+                <img className={classes.logo} src={logo} alt="Piktask" width="135px" height="40px" />
               </Link>
             </Grid>
 
