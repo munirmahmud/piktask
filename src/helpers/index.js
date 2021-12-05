@@ -13,10 +13,6 @@ export const dateFormat = (time) => {
 };
 
 export const imageObjSchema = (schemaObjData) => {
-  const script = document.createElement("script");
-  script.dataset.test = "image-object";
-  script.type = "application/ld+json";
-
   const schemaObj = {
     ...schemaObjData,
     "@context": "http://schema.org",
@@ -26,10 +22,9 @@ export const imageObjSchema = (schemaObjData) => {
     license: "https://piktask.com/license-agreement",
   };
 
-  script.innerHTML = JSON.stringify(schemaObj);
-  // const body = document.querySelector("body");
-  const body = (document.querySelector('script[data-test="image-object"]').innerHTML = script);
-  console.log("body", body);
+  // script.innerHTML = JSON.stringify(schemaObj);
+
+  document.querySelector('script[data-test="image-object"]').append(JSON.stringify(schemaObj));
 };
 
 export const expiredLoginTime = () => {
