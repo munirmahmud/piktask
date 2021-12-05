@@ -64,7 +64,7 @@ const App = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [isDataLoaded, setDataLoaded] = useState(true);
-  // const [isTokenExpired, setTokenExpired] = useState(false);
+  const [isTokenExpired, setTokenExpired] = useState(false);
 
   useEffect(() => {
     // Check token auth state
@@ -86,10 +86,13 @@ const App = () => {
       }
 
       // Send user to the home page if token is expired
-      // const expired = new Date(decodeToken.exp * 1000) - new Date();
-      // setTimeout(() => {
-      //   setTokenExpired(true);
-      // }, expired);
+      const expired = new Date(decodeToken.exp * 1000) - new Date();
+      console.log(expired);
+      console.log("decodeToken.exp", new Date(decodeToken.exp));
+      setTimeout(() => {
+        console.log("You have been logged out.");
+        setTokenExpired(true);
+      }, decodeToken.exp);
     }
 
     // Popular categories API integration
@@ -130,12 +133,12 @@ const App = () => {
     }
   }, [user?.isLoggedIn, user?.role, user?.token, dispatch]);
 
-  // const tokenExpiredAndUserSignOut = () => {
-  //   if (isTokenExpired) {
-  //     localStorage.removeItem("token");
-  //     return (window.location.href = "/");
-  //   }
-  // };
+  const tokenExpiredAndUserSignOut = () => {
+    if (isTokenExpired) {
+      localStorage.removeItem("token");
+      return (window.location.href = "/");
+    }
+  };
 
   return isDataLoaded ? (
     <LinearProgress />
