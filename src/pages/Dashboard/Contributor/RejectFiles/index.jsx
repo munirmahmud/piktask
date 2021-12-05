@@ -1,19 +1,21 @@
 import { Card, CardContent, CircularProgress, Drawer, Grid, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import Spacing from "../../../../components/Spacing";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
-import Footer from "../../../../components/ui/Footer";
+import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./RejectFiles.styles";
+
+const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const RejectFiles = () => {
   const classes = useStyles();
@@ -108,57 +110,62 @@ const RejectFiles = () => {
 
         <main className={classes.content}>
           <AdminHeader />
-          <div className={classes.rejectFilesWrapper}>
-            <div className={classes.headingWrapper}>
-              <Heading tag="h2">Reject Files</Heading>
-              <Typography>
-                Here you will see your rejected resources. The reason for rejection is specified in each <br /> case. For more information, consult our Reasons
-                for rejection.
-              </Typography>
-            </div>
 
-            <Spacing space={{ height: "4rem" }} />
-
-            {isLoading ? (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin: "0 auto",
-                  height: 300,
-                }}
-              >
-                <CircularProgress color="primary" />
+          <Suspense fallback={<Loader />}>
+            <div className={classes.rejectFilesWrapper}>
+              <div className={classes.headingWrapper}>
+                <Heading tag="h2">Reject Files</Heading>
+                <Typography>
+                  Here you will see your rejected resources. The reason for rejection is specified in each <br /> case. For more information, consult our
+                  Reasons for rejection.
+                </Typography>
               </div>
-            ) : (
-              <Grid container spacing={2}>
-                {rejectProduct?.length > 0 ? (
-                  rejectProduct?.map((product) => (
-                    <Grid key={product?.id} item xs={4} sm={2} md={2} className={classes.productItem}>
-                      <Card className={classes.cardWrapper} onClick={() => handleClick(product)}>
-                        <div className={classes.cardImage}>
-                          <img src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file} alt={product?.original_name} />
-                        </div>
 
-                        <CardContent className={classes.cardContent}>
-                          <Typography variant="h3">{product?.original_name}</Typography>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))
-                ) : (
-                  <ProductNotFound rejectFileContent contributorProductNotFound />
-                )}
-              </Grid>
-            )}
+              <Spacing space={{ height: "4rem" }} />
 
-            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
-          </div>
+              {isLoading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "0 auto",
+                    height: 300,
+                  }}
+                >
+                  <CircularProgress color="primary" />
+                </div>
+              ) : (
+                <Grid container spacing={2}>
+                  {rejectProduct?.length > 0 ? (
+                    rejectProduct?.map((product) => (
+                      <Grid key={product?.id} item xs={4} sm={2} md={2} className={classes.productItem}>
+                        <Card className={classes.cardWrapper} onClick={() => handleClick(product)}>
+                          <div className={classes.cardImage}>
+                            <img src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file} alt={product?.original_name} />
+                          </div>
+
+                          <CardContent className={classes.cardContent}>
+                            <Typography variant="h3">{product?.original_name}</Typography>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))
+                  ) : (
+                    <ProductNotFound rejectFileContent contributorProductNotFound />
+                  )}
+                </Grid>
+              )}
+
+              {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+            </div>
+          </Suspense>
 
           <Spacing space={{ height: "4rem" }} />
 
-          <Footer />
+          <Suspense fallback={<Loader />}>
+            <Footer />
+          </Suspense>
         </main>
       </div>
 

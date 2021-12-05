@@ -2,19 +2,21 @@ import { Button, Typography } from "@material-ui/core";
 import axios from "axios";
 import Chart from "chart.js";
 import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
+import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
-import TotalCountHistory from "../../../../components/ui/dashboard/contributor/TotalCountHistory";
-import Footer from "../../../../components/ui/Footer";
+import Loader from "../../../../components/ui/Loader";
 import Layout from "../../../../Layout";
 import DateSelection from "./../../../../components/ui/dashboard/contributor/DateSelection/index";
 import useStyles from "./EarningManagement.styles";
 import TabPanel from "./TabPanel";
 import WithdrawModal from "./WithdrawModal";
+
+const TotalCountHistory = lazy(() => import("../../../../components/ui/dashboard/contributor/TotalCountHistory"));
+const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const EarningManagement = () => {
   const refChart = useRef();
@@ -260,71 +262,75 @@ const EarningManagement = () => {
               </div>
             </div>
 
-            <TotalCountHistory />
+            <Suspense fallback={<Loader />}>
+              <TotalCountHistory />
+            </Suspense>
 
-            <div>
-              <Typography className={classes.formTitle} variant="h4">
-                Select Period
-              </Typography>
+            <Suspense fallback={<Loader />}>
+              <div>
+                <Typography className={classes.formTitle} variant="h4">
+                  Select Period
+                </Typography>
 
-              <DateSelection earningManagementBtn setSearchInput={setSearchInput} />
+                <DateSelection earningManagementBtn setSearchInput={setSearchInput} />
 
-              <div
-                value={earningData}
-                onChange={handleChange}
-                aria-label="Earning Chart"
-                className={classes.tabsBtnWrapper}
-                classes={{ indicator: classes.indicator }}
-              >
-                <button
-                  {...selectData(0)}
-                  onClick={(e) => {
-                    setOnClickEvent(!onClickEvent);
-                    handleSelectedGraphRatio(e);
-                  }}
-                  name="earning"
-                  className={classes.earningBtn}
+                <div
+                  value={earningData}
+                  onChange={handleChange}
+                  aria-label="Earning Chart"
+                  className={classes.tabsBtnWrapper}
+                  classes={{ indicator: classes.indicator }}
                 >
-                  Earning
-                </button>
+                  <button
+                    {...selectData(0)}
+                    onClick={(e) => {
+                      setOnClickEvent(!onClickEvent);
+                      handleSelectedGraphRatio(e);
+                    }}
+                    name="earning"
+                    className={classes.earningBtn}
+                  >
+                    Earning
+                  </button>
 
-                <button
-                  {...selectData(1)}
-                  onClick={(e) => {
-                    setOnClickEvent(!onClickEvent);
-                    handleSelectedGraphRatio(e);
-                  }}
-                  name="download"
-                  className={classes.earningBtn}
-                >
-                  Download
-                </button>
+                  <button
+                    {...selectData(1)}
+                    onClick={(e) => {
+                      setOnClickEvent(!onClickEvent);
+                      handleSelectedGraphRatio(e);
+                    }}
+                    name="download"
+                    className={classes.earningBtn}
+                  >
+                    Download
+                  </button>
 
-                <button
-                  {...selectData(2)}
-                  onClick={(e) => {
-                    setOnClickEvent(!onClickEvent);
-                    handleSelectedGraphRatio(e);
-                  }}
-                  name="file"
-                  className={classes.earningBtn}
-                >
-                  Files
-                </button>
+                  <button
+                    {...selectData(2)}
+                    onClick={(e) => {
+                      setOnClickEvent(!onClickEvent);
+                      handleSelectedGraphRatio(e);
+                    }}
+                    name="file"
+                    className={classes.earningBtn}
+                  >
+                    Files
+                  </button>
+                </div>
+
+                <TabPanel value={earningData} index={0}>
+                  <canvas id="earningChart" ref={refChart} width="600" height="200"></canvas>
+                </TabPanel>
+
+                <TabPanel value={earningData} index={1}>
+                  <canvas id="earningChart" ref={refChart} width="600" height="200"></canvas>
+                </TabPanel>
+
+                <TabPanel value={earningData} index={2}>
+                  <canvas id="earningChart" ref={refChart} width="600" height="200"></canvas>
+                </TabPanel>
               </div>
-
-              <TabPanel value={earningData} index={0}>
-                <canvas id="earningChart" ref={refChart} width="600" height="200"></canvas>
-              </TabPanel>
-
-              <TabPanel value={earningData} index={1}>
-                <canvas id="earningChart" ref={refChart} width="600" height="200"></canvas>
-              </TabPanel>
-
-              <TabPanel value={earningData} index={2}>
-                <canvas id="earningChart" ref={refChart} width="600" height="200"></canvas>
-              </TabPanel>
-            </div>
+            </Suspense>
           </div>
 
           <WithdrawModal

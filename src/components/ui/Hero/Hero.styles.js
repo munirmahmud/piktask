@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
-    // marginTop: 72,
+
     "&::before": {
       background: "rgba(0, 28, 48, 0.6)",
       content: '""',

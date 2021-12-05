@@ -103,13 +103,25 @@ const Product = ({ photo = null }) => {
         {photo?.extension === "png" ? (
           <div className={classes.itemTransparent}>
             <Link to={pikTaskEncodeURI(photo)}>
-              <img className={classes.image} src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)} alt={`${photo?.title}`} />
+              <img
+                className={classes.image}
+                src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)}
+                alt={`${photo?.title}`}
+                width="361px"
+                height="240px"
+              />
             </Link>
           </div>
         ) : (
           <div className={classes.itemContainer}>
             <Link to={pikTaskEncodeURI(photo)}>
-              <img className={classes.image} src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)} alt={`${photo?.title}`} />
+              <img
+                className={classes.image}
+                src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)}
+                alt={`${photo?.title}`}
+                width="361px"
+                height="240px"
+              />
             </Link>
           </div>
         )}

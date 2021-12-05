@@ -1,18 +1,20 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
-import PublishProduct from "../../../../components/Partials/PublishProduct";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
-import Footer from "../../../../components/ui/Footer";
+import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination";
 import Layout from "../../../../Layout";
-import DateSelection from "./../../../../components/ui/dashboard/contributor/DateSelection/index";
 // import { expiredLoginTime } from "./../../../../helpers/index";
 import useStyles from "./Publish.styles";
+
+const DateSelection = lazy(() => import("./../../../../components/ui/dashboard/contributor/DateSelection/index"));
+const PublishProduct = lazy(() => import("../../../../components/Partials/PublishProduct"));
+const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const Publish = () => {
   const classes = useStyles();
@@ -92,18 +94,24 @@ const Publish = () => {
 
         <main className={classes.content}>
           <AdminHeader />
-          <div className={classes.publishFileWrapper}>
-            <div className={classes.headingWrapepr}>
-              <Heading tag="h2">Publish File</Heading>
+
+          <Suspense fallback={<Loader />}>
+            <div className={classes.publishFileWrapper}>
+              <div className={classes.headingWrapepr}>
+                <Heading tag="h2">Publish File</Heading>
+              </div>
+
+              <DateSelection setSearchInput={setSearchInput} />
+
+              <PublishProduct isLoading={isLoading} allPublishProduct={allPublishProduct} />
+
+              {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
             </div>
+          </Suspense>
 
-            <DateSelection setSearchInput={setSearchInput} />
-
-            <PublishProduct isLoading={isLoading} allPublishProduct={allPublishProduct} />
-
-            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
-          </div>
-          <Footer />
+          <Suspense fallback={<Loader />}>
+            <Footer />
+          </Suspense>
         </main>
       </div>
     </Layout>

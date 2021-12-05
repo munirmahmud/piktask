@@ -1,17 +1,19 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
-import TotalCountHistory from "../../../../components/ui/dashboard/contributor/TotalCountHistory";
-import Footer from "../../../../components/ui/Footer";
+import Loader from "../../../../components/ui/Loader";
 import Layout from "../../../../Layout";
 import DateSelection from "./../../../../components/ui/dashboard/contributor/DateSelection/index";
 import Pagination from "./../../../../components/ui/Pagination/index";
 import HistoryTable from "./HistoryTable";
 import useStyles from "./WithdrawHistory.style";
+
+const TotalCountHistory = lazy(() => import("../../../../components/ui/dashboard/contributor/TotalCountHistory"));
+const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const WithdrawHistory = () => {
   const classes = useStyles();
@@ -89,20 +91,26 @@ const WithdrawHistory = () => {
               <Heading tag="h2">Withdraw History</Heading>
             </div>
 
-            <TotalCountHistory />
+            <Suspense fallback={<Loader />}>
+              <TotalCountHistory />
+            </Suspense>
 
             <div className={classes.headingWrapper}>
               <Heading tag="h2">Records</Heading>
             </div>
 
-            <DateSelection setSearchInput={setSearchInput} />
+            <Suspense fallback={<Loader />}>
+              <DateSelection setSearchInput={setSearchInput} />
 
-            <HistoryTable isLoading={isLoading} setLoading={setLoading} withdrawalHistory={withdrawalHistory} />
+              <HistoryTable isLoading={isLoading} setLoading={setLoading} withdrawalHistory={withdrawalHistory} />
+            </Suspense>
 
             {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
           </div>
 
-          <Footer />
+          <Suspense fallback={<Loader />}>
+            <Footer />
+          </Suspense>
         </main>
       </div>
     </Layout>
