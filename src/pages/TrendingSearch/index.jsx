@@ -1,5 +1,5 @@
 import React from "react";
-import thumbnail from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
+import thumbnail from "../../assets/banner/hero-banner.jpg";
 import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";

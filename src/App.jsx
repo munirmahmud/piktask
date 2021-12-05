@@ -207,7 +207,6 @@ const App = () => {
           <Route exact path="/category/:catName" component={Category} />
           <Route exact path="/category/:catName/:id" component={SingleProductDetails} />
         </Suspense>
-
         <Route path="*" component={NotFoundPage} />
       </Switch>
     </ThemeProvider>

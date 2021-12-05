@@ -1,11 +1,9 @@
 import { Container, Grid, makeStyles } from "@material-ui/core";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import Spacing from "../../../../components/Spacing";
-import UserSideBar from "../../../../components/ui/dashboard/user/UserSideBar";
-import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
 import SectionHeading from "../../../../components/ui/Heading";
 import Loader from "../../../../components/ui/Loader";
@@ -13,6 +11,9 @@ import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import Product from "../../../../components/ui/Products/Product";
 import Layout from "../../../../Layout";
+
+const UserSideBar = lazy(() => import("../../../../components/ui/dashboard/user/UserSideBar"));
+const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const useStyles = makeStyles({
   cardItem: {
@@ -66,44 +67,55 @@ const DownloadItems = () => {
   return (
     <Layout title="Downloads">
       <Header />
+
       <Spacing space={{ height: "5rem" }} />
+
       <Container>
         <Grid container spacing={2}>
-          <Grid item md={3} sm={3} xs={12} className={classes.cardItem}>
-            <UserSideBar />
-          </Grid>
-          <Grid item md={9} sm={9} xs={12} className={classes.cardItem}>
-            <SectionHeading title="Download" large />
-            <Grid classes={{ container: classes.container }} container spacing={2}>
-              {isLoading ? (
-                <Loader />
-              ) : (
-                <>
-                  {downloadsItem?.length ? (
-                    downloadsItem?.map((photo) => (
-                      <Grid
-                        key={photo.image_id}
-                        item
-                        xs={6}
-                        sm={4}
-                        // md={3}
-                        className={classes.productItem}
-                      >
-                        <Product photo={photo} />
-                      </Grid>
-                    ))
-                  ) : (
-                    <ProductNotFound noCollection="Downloads" />
-                  )}
-                </>
-              )}
+          <Suspense fallback={<Loader />}>
+            <Grid item md={3} sm={3} xs={12} className={classes.cardItem}>
+              <UserSideBar />
             </Grid>
-            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
-          </Grid>
+          </Suspense>
+
+          <Suspense fallback={<Loader />}>
+            <Grid item md={9} sm={9} xs={12} className={classes.cardItem}>
+              <SectionHeading title="Download" large />
+              <Grid classes={{ container: classes.container }} container spacing={2}>
+                {isLoading ? (
+                  <Loader />
+                ) : (
+                  <>
+                    {downloadsItem?.length ? (
+                      downloadsItem?.map((photo) => (
+                        <Grid
+                          key={photo.image_id}
+                          item
+                          xs={6}
+                          sm={4}
+                          // md={3}
+                          className={classes.productItem}
+                        >
+                          <Product photo={photo} />
+                        </Grid>
+                      ))
+                    ) : (
+                      <ProductNotFound noCollection="Downloads" />
+                    )}
+                  </>
+                )}
+              </Grid>
+              {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+            </Grid>
+          </Suspense>
         </Grid>
       </Container>
+
       <Spacing space={{ height: "3rem" }} />
-      <Footer />
+
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };

@@ -1,7 +1,7 @@
 import { Button, Card, FormControl, Select, TextField, Typography } from "@material-ui/core";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import behanceIcon from "../../../../assets/icons/behance.svg";
@@ -15,11 +15,13 @@ import twitterIcon from "../../../../assets/icons/twitter-svg.svg";
 import authorImage from "../../../../assets/user/userProfile.jpg";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
-import Footer from "../../../../components/ui/Footer";
+import Loader from "../../../../components/ui/Loader";
 import allCountry from "../../../../data/countryList.json";
 import Layout from "../../../../Layout";
 import { getBaseURL } from "./../../../../helpers/index";
 import useStyles from "./AccountSettings.styles";
+
+const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const AccountSettings = () => {
   const classes = useStyles();
@@ -349,498 +351,503 @@ const AccountSettings = () => {
         <main className={classes.content}>
           <AdminHeader />
 
-          <div className={classes.profileContentWrapper}>
-            <div className={classes.settingsHero}>
-              <div className={classes.authorProfileImage}>
-                {profilePicture ? (
-                  <div>
-                    <img src={getBaseURL().bucket_base_url + "/" + profilePicture} alt={user?.username} />
-                  </div>
-                ) : (
-                  <img src={authorImage} alt={user?.username} />
-                )}
+          <Suspense fallback={<Loader />}>
+            <div className={classes.profileContentWrapper}>
+              <div className={classes.settingsHero}>
+                <div className={classes.authorProfileImage}>
+                  {profilePicture ? (
+                    <div>
+                      <img src={getBaseURL().bucket_base_url + "/" + profilePicture} alt={user?.username} width="90px" height="90px" />
+                    </div>
+                  ) : (
+                    <img src={authorImage} alt={user?.username} width="90px" height="90px" />
+                  )}
 
-                <div className={classes.avatarOverlay}>
-                  <div className={classes.bgOverlay}>
-                    <label htmlFor="upload_photo">
-                      <PhotoCameraIcon className={classes.uploadIcon} />
-                      <input type="file" name="profile_picture" accept="image/*" id="upload_photo" style={{ display: "none" }} onChange={handleUpdateImage} />
-                    </label>
+                  <div className={classes.avatarOverlay}>
+                    <div className={classes.bgOverlay}>
+                      <label htmlFor="upload_photo">
+                        <PhotoCameraIcon className={classes.uploadIcon} />
+                        <input type="file" name="profile_picture" accept="image/*" id="upload_photo" style={{ display: "none" }} onChange={handleUpdateImage} />
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            {/* Ends Hero */}
+              {/* Ends Hero */}
 
-            <div className={classes.settingsFormWrapper}>
-              <form onSubmit={handleSubmit} className={classes.selectPeriodFrom}>
-                <Card className={classes.cardRoot}>
-                  <div className={classes.headingWrapper}>
-                    <Typography className={classes.settingsFormTitle} variant="h4">
-                      Personal Information
-                    </Typography>
-                    <hr className={classes.seperator} />
-                  </div>
-
-                  <div className={classes.cardWrapper}>
-                    <div className={classes.fieldsGroup}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                        <TextField
-                          id="name"
-                          label="Name"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                        />
-                      </FormControl>
-
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.lastField}>
-                        <TextField id="username" label="User Name" variant="outlined" className={`${classes.inputField}`} value={username} disabled />
-                      </FormControl>
+              <div className={classes.settingsFormWrapper}>
+                <form onSubmit={handleSubmit} className={classes.selectPeriodFrom}>
+                  <Card className={classes.cardRoot}>
+                    <div className={classes.headingWrapper}>
+                      <Typography className={classes.settingsFormTitle} variant="h4">
+                        Personal Information
+                      </Typography>
+                      <hr className={classes.seperator} />
                     </div>
 
-                    <div className={classes.fieldsGroup}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                        <TextField id="email" label="Email" variant="outlined" className={`${classes.inputField}`} value={email} />
-                      </FormControl>
-
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          label="Website"
-                          className={`${classes.inputField}`}
-                          name="website"
-                          value={website}
-                          onChange={(e) => setWebsite(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={classes.fieldsGroup}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.lastField}>
-                        <TextField
-                          id="phonenumber"
-                          label="Phone Number"
-                          type="number"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                        />
-                      </FormControl>
-
-                      <FormControl variant="outlined" fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                        <TextField
-                          SelectProps={{
-                            native: true,
-                          }}
-                          select
-                          variant="outlined"
-                          label="Country"
-                          className={`${classes.inputField}`}
-                          value={countryName}
-                          onChange={(e) => setCountryName(e.target.value)}
-                          onClick={handleCountries}
-                        >
-                          {countries.length === 0 && (
-                            <>
-                              countryName ? (<option value={countryName}>{countryName}</option>) :(<option value="Bangladesh">Bangladesh</option>)
-                            </>
-                          )}
-                          {countries.map((option, index) => (
-                            <option key={index} value={option.country}>
-                              {option.country}
-                            </option>
-                          ))}
-                        </TextField>
-                      </FormControl>
-                    </div>
-
-                    <div className={classes.fieldsGroup}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                        <TextField
-                          id="city"
-                          label="Your State/City"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          value={city}
-                          onChange={(e) => setCity(e.target.value)}
-                        ></TextField>
-                      </FormControl>
-
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.lastField}>
-                        <TextField
-                          id="postalcode"
-                          label="Zip/Postal Code"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          value={zipCode}
-                          onChange={(e) => setZipCode(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={classes.fieldsGroup}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                        <TextField
-                          id="address"
-                          label="Current Address"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          value={locationAddress}
-                          onChange={(e) => setLocationAddress(e.target.value)}
-                        />
-                      </FormControl>
-
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.lastField}>
-                        <TextField
-                          id="billingaddress"
-                          label="Billing Address"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          value={billingsAddress}
-                          onChange={(e) => setBillingsAddress(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  {/* Card Wrapper ends */}
-                </Card>
-
-                <Card className={classes.cardRoot}>
-                  <div className={classes.headingWrapper}>
-                    <Typography className={classes.settingsFormTitle} variant="h4">
-                      Add Payment Method
-                    </Typography>
-                    <hr className={classes.seperator} />
-                  </div>
-
-                  <div className={classes.cardWrapper}>
-                    <div className={classes.fieldsGroup}>
-                      <FormControl variant="outlined" fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                        <Select native value={payment} onChange={(e) => setPayment(e.target.value)} className={classes.selectArea}>
-                          {paymentMethod ? (
-                            paymentMethod?.map((paymentValue, index) => (
-                              <option key={index} value={paymentValue.name}>
-                                {paymentValue.name}
-                              </option>
-                            ))
-                          ) : (
-                            <option>PayPal</option>
-                          )}
-                        </Select>
-                      </FormControl>
-
-                      {payment === "PayPal" && (
-                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                          <TextField
-                            fullWidth
-                            variant="outlined"
-                            label="Paypal Email"
-                            name="paypalEmail"
-                            className={`${classes.inputField}`}
-                            value={paypalAccount}
-                            onChange={(e) => setPaypalAccount(e.target.value)}
-                          />
-                        </FormControl>
-                      )}
-
-                      {payment === "Payoneer" && (
-                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                          <TextField
-                            fullWidth
-                            variant="outlined"
-                            label="Payoneer Email"
-                            name="payoneerEmail"
-                            className={`${classes.inputField}`}
-                            value={payoneerAccount}
-                            onChange={(e) => setPayoneerAccount(e.target.value)}
-                          />
-                        </FormControl>
-                      )}
-
-                      {payment === "Bank" && (
+                    <div className={classes.cardWrapper}>
+                      <div className={classes.fieldsGroup}>
                         <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
                           <TextField
                             id="name"
-                            label="Account Name"
+                            label="Name"
                             variant="outlined"
                             className={`${classes.inputField}`}
-                            placeholder="Account Name"
-                            value={accountName}
-                            onChange={(e) => setAccountName(e.target.value)}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                           />
                         </FormControl>
+
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.lastField}>
+                          <TextField id="username" label="User Name" variant="outlined" className={`${classes.inputField}`} value={username} disabled />
+                        </FormControl>
+                      </div>
+
+                      <div className={classes.fieldsGroup}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                          <TextField id="email" label="Email" variant="outlined" className={`${classes.inputField}`} value={email} />
+                        </FormControl>
+
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                          <TextField
+                            fullWidth
+                            variant="outlined"
+                            label="Website"
+                            className={`${classes.inputField}`}
+                            name="website"
+                            value={website}
+                            onChange={(e) => setWebsite(e.target.value)}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={classes.fieldsGroup}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.lastField}>
+                          <TextField
+                            id="phonenumber"
+                            label="Phone Number"
+                            type="number"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                          />
+                        </FormControl>
+
+                        <FormControl variant="outlined" fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                          <TextField
+                            SelectProps={{
+                              native: true,
+                            }}
+                            select
+                            variant="outlined"
+                            label="Country"
+                            className={`${classes.inputField}`}
+                            value={countryName}
+                            onChange={(e) => setCountryName(e.target.value)}
+                            onClick={handleCountries}
+                          >
+                            {countries.length === 0 && (
+                              <>
+                                countryName ? (<option value={countryName}>{countryName}</option>) :(<option value="Bangladesh">Bangladesh</option>)
+                              </>
+                            )}
+                            {countries.map((option, index) => (
+                              <option key={index} value={option.country}>
+                                {option.country}
+                              </option>
+                            ))}
+                          </TextField>
+                        </FormControl>
+                      </div>
+
+                      <div className={classes.fieldsGroup}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                          <TextField
+                            id="city"
+                            label="Your State/City"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                          ></TextField>
+                        </FormControl>
+
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.lastField}>
+                          <TextField
+                            id="postalcode"
+                            label="Zip/Postal Code"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            value={zipCode}
+                            onChange={(e) => setZipCode(e.target.value)}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={classes.fieldsGroup}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                          <TextField
+                            id="address"
+                            label="Current Address"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            value={locationAddress}
+                            onChange={(e) => setLocationAddress(e.target.value)}
+                          />
+                        </FormControl>
+
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.lastField}>
+                          <TextField
+                            id="billingaddress"
+                            label="Billing Address"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            value={billingsAddress}
+                            onChange={(e) => setBillingsAddress(e.target.value)}
+                          />
+                        </FormControl>
+                      </div>
+                    </div>
+                    {/* Card Wrapper ends */}
+                  </Card>
+
+                  <Card className={classes.cardRoot}>
+                    <div className={classes.headingWrapper}>
+                      <Typography className={classes.settingsFormTitle} variant="h4">
+                        Add Payment Method
+                      </Typography>
+                      <hr className={classes.seperator} />
+                    </div>
+
+                    <div className={classes.cardWrapper}>
+                      <div className={classes.fieldsGroup}>
+                        <FormControl variant="outlined" fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                          <Select native value={payment} onChange={(e) => setPayment(e.target.value)} className={classes.selectArea}>
+                            {paymentMethod ? (
+                              paymentMethod?.map((paymentValue, index) => (
+                                <option key={index} value={paymentValue.name}>
+                                  {paymentValue.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option>PayPal</option>
+                            )}
+                          </Select>
+                        </FormControl>
+
+                        {payment === "PayPal" && (
+                          <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                            <TextField
+                              fullWidth
+                              variant="outlined"
+                              label="Paypal Email"
+                              name="paypalEmail"
+                              className={`${classes.inputField}`}
+                              value={paypalAccount}
+                              onChange={(e) => setPaypalAccount(e.target.value)}
+                            />
+                          </FormControl>
+                        )}
+
+                        {payment === "Payoneer" && (
+                          <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                            <TextField
+                              fullWidth
+                              variant="outlined"
+                              label="Payoneer Email"
+                              name="payoneerEmail"
+                              className={`${classes.inputField}`}
+                              value={payoneerAccount}
+                              onChange={(e) => setPayoneerAccount(e.target.value)}
+                            />
+                          </FormControl>
+                        )}
+
+                        {payment === "Bank" && (
+                          <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                            <TextField
+                              id="name"
+                              label="Account Name"
+                              variant="outlined"
+                              className={`${classes.inputField}`}
+                              placeholder="Account Name"
+                              value={accountName}
+                              onChange={(e) => setAccountName(e.target.value)}
+                            />
+                          </FormControl>
+                        )}
+                      </div>
+
+                      {payment === "Bank" && (
+                        <div>
+                          <div className={classes.fieldsGroup}>
+                            <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.inputImage}>
+                              <TextField
+                                type="number"
+                                id="accountNumber"
+                                label="Account Number"
+                                variant="outlined"
+                                className={`${classes.inputField}`}
+                                placeholder="Account Number"
+                                value={accountNumber}
+                                onChange={(e) => setAccountNumber(e.target.value)}
+                              />
+                            </FormControl>
+
+                            <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                              <TextField
+                                id="routingNumber"
+                                type="number"
+                                label="Routing Number"
+                                variant="outlined"
+                                className={`${classes.inputField}`}
+                                placeholder="Routing Number"
+                                value={routingNumber}
+                                onChange={(e) => setRoutingNumber(e.target.value)}
+                              />
+                            </FormControl>
+                          </div>
+
+                          <div className={classes.fieldsGroup}>
+                            <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.inputImage}>
+                              <TextField
+                                type="number"
+                                id="swiftCode"
+                                label="Swift Code"
+                                variant="outlined"
+                                className={`${classes.inputField}`}
+                                placeholder="Swift Code"
+                                value={swiftCode}
+                                onChange={(e) => setSwiftCode(e.target.value)}
+                              />
+                            </FormControl>
+
+                            <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
+                              <TextField
+                                id="branch"
+                                label="Branch"
+                                variant="outlined"
+                                className={`${classes.inputField}`}
+                                placeholder="Branch"
+                                value={branch}
+                                onChange={(e) => setBranch(e.target.value)}
+                              />
+                            </FormControl>
+                          </div>
+
+                          <div>
+                            <FormControl className={classes.bankCountryName} classes={{ fullWidth: classes.fullWidth }}>
+                              <TextField
+                                id="bankCountry"
+                                label="Country"
+                                variant="outlined"
+                                className={`${classes.inputField}`}
+                                placeholder="Bank Country"
+                                value={bankCountry}
+                                onChange={(e) => setBankCountry(e.target.value)}
+                              />
+                            </FormControl>
+                            <Button type="submit" className={classes.profileInfoSaveBtn}>
+                              Save Changes
+                            </Button>
+                          </div>
+                        </div>
                       )}
                     </div>
+                  </Card>
+                  {/* Add payment method ends */}
 
-                    {payment === "Bank" && (
-                      <div>
-                        <div className={classes.fieldsGroup}>
-                          <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.inputImage}>
-                            <TextField
-                              type="number"
-                              id="accountNumber"
-                              label="Account Number"
-                              variant="outlined"
-                              className={`${classes.inputField}`}
-                              placeholder="Account Number"
-                              value={accountNumber}
-                              onChange={(e) => setAccountNumber(e.target.value)}
-                            />
-                          </FormControl>
+                  <Card className={classes.cardRoot}>
+                    <div className={classes.headingWrapper}>
+                      <Typography className={classes.settingsFormTitle} variant="h4">
+                        Professional Portfolio
+                      </Typography>
+                      <hr className={classes.seperator} />
+                    </div>
 
-                          <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                            <TextField
-                              id="routingNumber"
-                              type="number"
-                              label="Routing Number"
-                              variant="outlined"
-                              className={`${classes.inputField}`}
-                              placeholder="Routing Number"
-                              value={routingNumber}
-                              onChange={(e) => setRoutingNumber(e.target.value)}
-                            />
-                          </FormControl>
-                        </div>
+                    <div className={classes.cardWrapper}>
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="shutterstock" className={classes.portfolioIconWrapper}>
+                            <img src={shutterstockIcon} alt="Shutterstock Icon" width="25px" height="57px" />
+                          </label>
 
-                        <div className={classes.fieldsGroup}>
-                          <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.inputImage}>
-                            <TextField
-                              type="number"
-                              id="swiftCode"
-                              label="Swift Code"
-                              variant="outlined"
-                              className={`${classes.inputField}`}
-                              placeholder="Swift Code"
-                              value={swiftCode}
-                              onChange={(e) => setSwiftCode(e.target.value)}
-                            />
-                          </FormControl>
-
-                          <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }}>
-                            <TextField
-                              id="branch"
-                              label="Branch"
-                              variant="outlined"
-                              className={`${classes.inputField}`}
-                              placeholder="Branch"
-                              value={branch}
-                              onChange={(e) => setBranch(e.target.value)}
-                            />
-                          </FormControl>
-                        </div>
-
-                        <div>
-                          <FormControl className={classes.bankCountryName} classes={{ fullWidth: classes.fullWidth }}>
-                            <TextField
-                              id="bankCountry"
-                              label="Country"
-                              variant="outlined"
-                              className={`${classes.inputField}`}
-                              placeholder="Bank Country"
-                              value={bankCountry}
-                              onChange={(e) => setBankCountry(e.target.value)}
-                            />
-                          </FormControl>
-                          <Button type="submit" className={classes.profileInfoSaveBtn}>
-                            Save Changes
-                          </Button>
-                        </div>
+                          <TextField
+                            id="shutterstock"
+                            // error={!!errors.shutterstock}
+                            // helperText={errors.shutterstock}
+                            label="Your Shutterstock Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Shutterstock Account"
+                            value={shutterstock}
+                            onChange={(e) => setShutterstock(e.target.value)}
+                          />
+                        </FormControl>
                       </div>
-                    )}
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="pinterest" className={classes.portfolioIconWrapper}>
+                            <img src={pinterestIcon} alt="Pinterest Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="pinterest"
+                            label="Your Pinterest Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Pinterest Account"
+                            value={pinterest}
+                            onChange={(e) => setPinterest(e.target.value)}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="behance" className={classes.portfolioIconWrapper}>
+                            <img src={behanceIcon} alt="Behance Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="behance"
+                            // error={!!errors.behance}
+                            // helperText={errors.behance}
+                            label="Your Behance Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Behance Account"
+                            value={behance}
+                            onChange={(e) => setBehance(e.target.value)}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="dribbble" className={classes.portfolioIconWrapper}>
+                            <img src={dribbbleIcon} alt="Dribbble Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="dribbble"
+                            // error={!!errors.dribbble}
+                            // helperText={errors.dribbble}
+                            label="Your Dribbble Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Dribbble Account"
+                            value={dribbble}
+                            onChange={(e) => setDribbble(e.target.value)}
+                          />
+                        </FormControl>
+                      </div>
+                    </div>
+                  </Card>
+                  {/* Ends Professional Portfolio */}
+
+                  <Card className={classes.cardRoot}>
+                    <div className={classes.headingWrapper}>
+                      <Typography className={classes.settingsFormTitle} variant="h4">
+                        Social Link
+                      </Typography>
+                      <hr className={classes.seperator} />
+                    </div>
+
+                    <div className={classes.cardWrapper}>
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="facebook" className={classes.portfolioIconWrapper}>
+                            <img src={facebookIcon} className={classes.facebookIcon} alt="Facebook Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="facebook"
+                            // error={!!errors.facebook}
+                            // helperText={errors.facebook}
+                            label="Your Facebook Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Facebook Account"
+                            value={facebook}
+                            onChange={(e) => setFacebook(e.target.value)}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="twitter" className={classes.portfolioIconWrapper}>
+                            <img src={twitterIcon} alt="Twitter Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="twitter"
+                            // error={!!errors.twitter}
+                            // helperText={errors.twitter}
+                            label="Your Twitter Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Twitter Account"
+                            value={twitter}
+                            onChange={(e) => setTwitter(e.target.value)}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="linkedin" className={classes.portfolioIconWrapper}>
+                            <img src={linkedinIcon} alt="Linkedin Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="linkedin"
+                            // error={!!errors.linkedin}
+                            // helperText={errors.linkedin}
+                            label="Your Linkedin Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Linkedin Account"
+                            value={linkedin}
+                            onChange={(e) => setLinkedin(e.target.value)}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="instagram" className={classes.portfolioIconWrapper}>
+                            <img src={instagramIcon} alt="Instagram Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="instagram"
+                            // error={!!errors.instagram}
+                            // helperText={errors.instagram}
+                            label="Your Instagram Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Instagram Account"
+                            value={instagram}
+                            onChange={(e) => setInstagram(e.target.value)}
+                          />
+                        </FormControl>
+                      </div>
+                    </div>
+                  </Card>
+                  {/* Ends Professional Portfolio */}
+
+                  <div className={classes.buttonGroup}>
+                    <Button className={`${classes.settingsBtn} ${classes.restoreBtn}`}>Restore All Attributes</Button>
+                    <Button type="submit" className={`${classes.settingsBtn} ${classes.saveBtn}`}>
+                      Save All Changes
+                    </Button>
                   </div>
-                </Card>
-                {/* Add payment method ends */}
-
-                <Card className={classes.cardRoot}>
-                  <div className={classes.headingWrapper}>
-                    <Typography className={classes.settingsFormTitle} variant="h4">
-                      Professional Portfolio
-                    </Typography>
-                    <hr className={classes.seperator} />
-                  </div>
-
-                  <div className={classes.cardWrapper}>
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="shutterstock" className={classes.portfolioIconWrapper}>
-                          <img src={shutterstockIcon} alt="Shutterstock Icon" />
-                        </label>
-
-                        <TextField
-                          id="shutterstock"
-                          // error={!!errors.shutterstock}
-                          // helperText={errors.shutterstock}
-                          label="Your Shutterstock Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Shutterstock Account"
-                          value={shutterstock}
-                          onChange={(e) => setShutterstock(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="pinterest" className={classes.portfolioIconWrapper}>
-                          <img src={pinterestIcon} alt="Pinterest Icon" />
-                        </label>
-                        <TextField
-                          id="pinterest"
-                          label="Your Pinterest Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Pinterest Account"
-                          value={pinterest}
-                          onChange={(e) => setPinterest(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="behance" className={classes.portfolioIconWrapper}>
-                          <img src={behanceIcon} alt="Behance Icon" />
-                        </label>
-                        <TextField
-                          id="behance"
-                          // error={!!errors.behance}
-                          // helperText={errors.behance}
-                          label="Your Behance Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Behance Account"
-                          value={behance}
-                          onChange={(e) => setBehance(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="dribbble" className={classes.portfolioIconWrapper}>
-                          <img src={dribbbleIcon} alt="Dribbble Icon" />
-                        </label>
-                        <TextField
-                          id="dribbble"
-                          // error={!!errors.dribbble}
-                          // helperText={errors.dribbble}
-                          label="Your Dribbble Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Dribbble Account"
-                          value={dribbble}
-                          onChange={(e) => setDribbble(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                </Card>
-                {/* Ends Professional Portfolio */}
-
-                <Card className={classes.cardRoot}>
-                  <div className={classes.headingWrapper}>
-                    <Typography className={classes.settingsFormTitle} variant="h4">
-                      Social Link
-                    </Typography>
-                    <hr className={classes.seperator} />
-                  </div>
-
-                  <div className={classes.cardWrapper}>
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="facebook" className={classes.portfolioIconWrapper}>
-                          <img src={facebookIcon} className={classes.facebookIcon} alt="Facebook Icon" />
-                        </label>
-                        <TextField
-                          id="facebook"
-                          // error={!!errors.facebook}
-                          // helperText={errors.facebook}
-                          label="Your Facebook Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Facebook Account"
-                          value={facebook}
-                          onChange={(e) => setFacebook(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="twitter" className={classes.portfolioIconWrapper}>
-                          <img src={twitterIcon} alt="Twitter Icon" />
-                        </label>
-                        <TextField
-                          id="twitter"
-                          // error={!!errors.twitter}
-                          // helperText={errors.twitter}
-                          label="Your Twitter Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Twitter Account"
-                          value={twitter}
-                          onChange={(e) => setTwitter(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="linkedin" className={classes.portfolioIconWrapper}>
-                          <img src={linkedinIcon} alt="Linkedin Icon" />
-                        </label>
-                        <TextField
-                          id="linkedin"
-                          // error={!!errors.linkedin}
-                          // helperText={errors.linkedin}
-                          label="Your Linkedin Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Linkedin Account"
-                          value={linkedin}
-                          onChange={(e) => setLinkedin(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="instagram" className={classes.portfolioIconWrapper}>
-                          <img src={instagramIcon} alt="Instagram Icon" />
-                        </label>
-                        <TextField
-                          id="instagram"
-                          // error={!!errors.instagram}
-                          // helperText={errors.instagram}
-                          label="Your Instagram Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Instagram Account"
-                          value={instagram}
-                          onChange={(e) => setInstagram(e.target.value)}
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                </Card>
-                {/* Ends Professional Portfolio */}
-
-                <div className={classes.buttonGroup}>
-                  <Button className={`${classes.settingsBtn} ${classes.restoreBtn}`}>Restore All Attributes</Button>
-                  <Button type="submit" className={`${classes.settingsBtn} ${classes.saveBtn}`}>
-                    Save All Changes
-                  </Button>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
-          </div>
+          </Suspense>
           {/* Ends form wrapper */}
-          <Footer addminFooter />
+
+          <Suspense fallback={<Loader />}>
+            <Footer addminFooter />
+          </Suspense>
         </main>
       </div>
     </Layout>

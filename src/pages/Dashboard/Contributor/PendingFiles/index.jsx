@@ -3,7 +3,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { toast } from "react-toastify";
@@ -11,13 +11,15 @@ import Spacing from "../../../../components/Spacing";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
-import Footer from "../../../../components/ui/Footer";
+import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import EditItem from "./EditItem";
 import useStyles from "./PendingFiles.styles";
+
+const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const PendingFiles = () => {
   const classes = useStyles();
@@ -202,88 +204,91 @@ const PendingFiles = () => {
 
         <main className={classes.content}>
           <AdminHeader />
-          <div className={classes.dashboardGridContainer}>
-            <div className={classes.headingWrapper}>
-              <div className={classes.contentWrapper}>
-                <Heading tag="h2">Not yet submitted</Heading>
-                <Typography variant="h3">This is your first upload!</Typography>
-                <Typography>
-                  Upload and send your 20 best resources. Our team will review them to ensure they <br /> meet our requirements, so make sure they show your
-                  true potential.
-                </Typography>
-              </div>
-              <div>
-                {/* <Button onClick={() => deleteSelectionProduct()} className={`${classes.actionBtn} ${classes.deleteBtn}`}>
+
+          <Suspense fallback={<Loader />}>
+            <div className={classes.dashboardGridContainer}>
+              <div className={classes.headingWrapper}>
+                <div className={classes.contentWrapper}>
+                  <Heading tag="h2">Not yet submitted</Heading>
+                  <Typography variant="h3">This is your first upload!</Typography>
+                  <Typography>
+                    Upload and send your 20 best resources. Our team will review them to ensure they <br /> meet our requirements, so make sure they show your
+                    true potential.
+                  </Typography>
+                </div>
+                <div>
+                  {/* <Button onClick={() => deleteSelectionProduct()} className={`${classes.actionBtn} ${classes.deleteBtn}`}>
                   Delete File
                 </Button> */}
-                {pendingProducts?.length > 0 && (
-                  <Button className={`${classes.actionBtn} ${classes.addFileBtn}`} onClick={() => handleSubmit()}>
-                    Submit
-                  </Button>
-                )}
-                {/* <Button
+                  {pendingProducts?.length > 0 && (
+                    <Button className={`${classes.actionBtn} ${classes.addFileBtn}`} onClick={() => handleSubmit()}>
+                      Submit
+                    </Button>
+                  )}
+                  {/* <Button
                   to={`/contributor/upload`}
                   component={Link}
                   className={`${classes.actionBtn} ${classes.addFileBtn}`}
                 >
                   Add File
                 </Button> */}
-                {pendingProducts?.length > 0 && (
-                  <Button className={`${classes.actionBtn} ${classes.workInfoBtn}`} onClick={() => handleWorkInfo()}>
-                    Add Work Information
-                  </Button>
-                )}
+                  {pendingProducts?.length > 0 && (
+                    <Button className={`${classes.actionBtn} ${classes.workInfoBtn}`} onClick={() => handleWorkInfo()}>
+                      Add Work Information
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
 
-            {isLoading ? (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin: "0 auto",
-                  height: 300,
-                }}
-              >
-                <CircularProgress color="primary" />
-              </div>
-            ) : (
-              <Grid container spacing={2}>
-                {pendingProducts?.length > 0 ? (
-                  pendingProducts?.map((product) => (
-                    <Grid key={product?.id} item xs={4} sm={3} md={2} className={classes.productItem}>
-                      <div className={classes.btnWrapper}>
-                        <DeleteIcon onClick={() => handleDelete(product?.token_id)} className={classes.deleteIcon} />
-                      </div>
-
-                      <Card
-                        className={classes.pendingFileCard}
-                        onClick={(e) => {
-                          selectedProduct(e, product);
-                        }}
-                        classes={{ root: classes.root }}
-                        ref={cardRef}
-                        style={{
-                          border: product?.is_save === 1 && "2px solid #008000",
-                        }}
-                      >
-                        <img src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file} alt={product?.original_name} />
-
-                        <div className={classes.productInfo}>
-                          <Typography variant="h3">{product?.original_name}</Typography>
-                          <Typography variant="body2">File Size: {(product.size / 1024 / 1024).toFixed(2)} MB</Typography>
+              {isLoading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "0 auto",
+                    height: 300,
+                  }}
+                >
+                  <CircularProgress color="primary" />
+                </div>
+              ) : (
+                <Grid container spacing={2}>
+                  {pendingProducts?.length > 0 ? (
+                    pendingProducts?.map((product) => (
+                      <Grid key={product?.id} item xs={4} sm={3} md={2} className={classes.productItem}>
+                        <div className={classes.btnWrapper}>
+                          <DeleteIcon onClick={() => handleDelete(product?.token_id)} className={classes.deleteIcon} />
                         </div>
-                      </Card>
-                    </Grid>
-                  ))
-                ) : (
-                  <ProductNotFound pendingContent contributorProductNotFound />
-                )}
-              </Grid>
-            )}
-            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
-          </div>
+
+                        <Card
+                          className={classes.pendingFileCard}
+                          onClick={(e) => {
+                            selectedProduct(e, product);
+                          }}
+                          classes={{ root: classes.root }}
+                          ref={cardRef}
+                          style={{
+                            border: product?.is_save === 1 && "2px solid #008000",
+                          }}
+                        >
+                          <img src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file} alt={product?.original_name} />
+
+                          <div className={classes.productInfo}>
+                            <Typography variant="h3">{product?.original_name}</Typography>
+                            <Typography variant="body2">File Size: {(product.size / 1024 / 1024).toFixed(2)} MB</Typography>
+                          </div>
+                        </Card>
+                      </Grid>
+                    ))
+                  ) : (
+                    <ProductNotFound pendingContent contributorProductNotFound />
+                  )}
+                </Grid>
+              )}
+              {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+            </div>
+          </Suspense>
 
           <Spacing space={{ height: "5rem" }} />
 
@@ -305,7 +310,10 @@ const PendingFiles = () => {
               setSuccessProduct={setSuccessProduct}
             />
           </Drawer>
-          <Footer />
+
+          <Suspense fallback={<Loader />}>
+            <Footer />
+          </Suspense>
         </main>
       </div>
     </Layout>

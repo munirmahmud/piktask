@@ -83,7 +83,7 @@ const FavouriteButton = ({ productDetails }) => {
         <>
           {!productDetails?.isLike ? (
             <Button className={classes.likeBtn} onClick={handleLikeBtn} value="user">
-              <img src={likeIcon} alt="like Button" />
+              <img src={likeIcon} alt="like Button" width="27px" height="24px" />
             </Button>
           ) : (
             <Tooltip title="You already liked the image." placement="top" arrow classes={{ tooltip: classes.tooltip }}>

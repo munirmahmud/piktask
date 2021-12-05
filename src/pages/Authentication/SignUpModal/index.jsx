@@ -1,12 +1,8 @@
-import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Checkbox, Dialog, DialogContent, FormControlLabel, Grid, Tab, Tabs, Typography } from "@material-ui/core";
+import { Checkbox, Dialog, DialogContent, FormControlLabel, Grid, Tab, Tabs, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import GoogleLogin from "react-google-login";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory, useLocation } from "react-router";
 import { Link } from "react-router-dom";
@@ -16,10 +12,9 @@ import logoWhite from "../../../assets/logo-white.png";
 import lockIcon from "../../../assets/password.png";
 import { CustomBtn, InputField } from "../../../components/InputField";
 import Spacing from "../../../components/Spacing";
+import SocialLogin from "../../../components/ui/SocialLogin";
 import { auth } from "../../../database";
 import useStyles from "./SignUpModal.styles";
-
-const clientId = "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -230,86 +225,6 @@ const SignUpModal = (props) => {
       });
   };
 
-  //login with google
-  const handleGoogleLogin = async (googleData) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/google_login`, {
-      method: "POST",
-      body: JSON.stringify({
-        token: googleData.tokenId,
-        role: role,
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const data = await res.json();
-    // store user data in localStorage
-    if (data.status) {
-      setOpenAuthModal(false);
-      const token = data.token;
-      localStorage.setItem("token", token);
-      const decodedToken = jwt_decode(token.split(" ")[1]);
-      localStorage.setItem("profileImage", decodedToken.avatar);
-
-      if (decodedToken.email) {
-        dispatch({
-          type: "SET_USER",
-          payload: {
-            ...decodedToken,
-            token,
-          },
-        });
-      }
-
-      if (decodedToken.role === "contributor") {
-        history.push("/contributor/dashboard");
-      } else if (location.pathname) {
-        history.push(location.pathname);
-      } else {
-        history.replace(from);
-      }
-    }
-  };
-
-  //login with facebook
-  const handleFacebookLogin = async (facebookData) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/facebook_login`, {
-      method: "POST",
-      body: JSON.stringify({
-        token: facebookData.tokenId,
-        role: role,
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const data = await res.json();
-    // store user data in localStorage
-    if (data.status) {
-      setOpenAuthModal(false);
-      const token = data.token;
-      localStorage.setItem("token", token);
-      const decodedToken = jwt_decode(token.split(" ")[1]);
-      localStorage.setItem("profileImage", decodedToken.avatar);
-
-      if (decodedToken.email) {
-        dispatch({
-          type: "SET_USER",
-          payload: {
-            ...decodedToken,
-            token,
-          },
-        });
-      }
-
-      if (decodedToken.role === "contributor") {
-        history.push("/contributor/dashboard");
-      } else if (location.pathname) {
-        history.push(location.pathname);
-      } else {
-        history.replace(from);
-      }
-    }
-  };
-
   return (
     <>
       {isRedirectTo && <Redirect to="/confirm-signup" />}
@@ -325,7 +240,7 @@ const SignUpModal = (props) => {
           <Grid container>
             <Grid item xs={12} sm={5}>
               <div className={classes.leftPanel}>
-                <img className={classes.authLogo} src={logoWhite} alt="Piktask" />
+                <img className={classes.authLogo} src={logoWhite} alt="Piktask" width="120px" height="47px" />
                 <Typography>Enjoy Free Download Now!</Typography>
                 <Typography>*Get 50% OFF Discount for Premium Plan</Typography>
                 <Typography>*Download 6 Images for Free Everyday</Typography>
@@ -358,37 +273,8 @@ const SignUpModal = (props) => {
                   with your social network
                 </Typography>
 
-                <div className={classes.socialsButtons}>
-                  <GoogleLogin
-                    clientId={clientId}
-                    render={(renderProps) => (
-                      <Button className={classes.googleButton} onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                        <FontAwesomeIcon className={classes.googleIcon} icon={faGoogle} />
-                        <span>Google</span>
-                      </Button>
-                    )}
-                    buttonText="Login"
-                    onSuccess={handleGoogleLogin}
-                    onFailure={handleGoogleLogin}
-                    cookiePolicy={"single_host_origin"}
-                  />
-
-                  <Spacing space={{ margin: "0 0.5rem" }} />
-
-                  <FacebookLogin
-                    appId="168140328625744"
-                    autoLoad={false}
-                    fields="name,email,picture"
-                    onClick={handleFacebookLogin}
-                    callback={handleFacebookLogin}
-                    render={(renderProps) => (
-                      <Button className={classes.facebookBtn} onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                        <FontAwesomeIcon className={classes.facebookIconBtn} icon={faFacebookF} />
-                        <span>Facebook</span>
-                      </Button>
-                    )}
-                  />
-                </div>
+                {/* Social login */}
+                <SocialLogin setOpenAuthModal={setOpenAuthModal} role={role} />
 
                 <Spacing space={{ height: "1rem" }} />
 
@@ -411,7 +297,7 @@ const SignUpModal = (props) => {
                         value={authData.password}
                         onChange={handleAuthData}
                       />
-                      <img src={lockIcon} alt="Show or hide password" onClick={handleShowHidePassword} />
+                      <img src={lockIcon} alt="Show or hide password" onClick={handleShowHidePassword} width="20px" height="23px" />
                     </div>
 
                     <CustomBtn disabled={isLoading} type="submit" text="Sign In" />
@@ -443,7 +329,7 @@ const SignUpModal = (props) => {
                         value={authData.password}
                         onChange={handleAuthData}
                       />
-                      <img src={lockIcon} alt="Show or hide password" onClick={handleShowHidePassword} />
+                      <img src={lockIcon} alt="Show or hide password" onClick={handleShowHidePassword} width="20px" height="23px" />
                     </div>
 
                     <CustomBtn text="Sign Up" disabledBtn={!authData.userName || !authData.email || !authData.password} />

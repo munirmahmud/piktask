@@ -64,9 +64,11 @@ const AuthorProfileInfo = ({ productDetails }) => {
             className={classes.authorImg}
             src={getBaseURL().bucket_base_url + "/" + productDetails?.imageDetails?.user?.avatar}
             alt={productDetails?.imageDetails?.user?.username}
+            width="41px"
+            height="41px"
           />
         ) : (
-          <img className={classes.authorImg} src={authorPhoto} alt={productDetails?.imageDetails?.user?.username} />
+          <img className={classes.authorImg} src={authorPhoto} alt={productDetails?.imageDetails?.user?.username} width="41px" height="41px" />
         )}
       </Link>
 

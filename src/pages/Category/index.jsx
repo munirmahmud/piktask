@@ -1,26 +1,26 @@
 import { Button, Container, FormControl, Grid, Select, Typography } from "@material-ui/core";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router";
 import { Link, useParams } from "react-router-dom";
-import CallToAction from "../../components/ui/CallToAction";
-import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
-import HeroSection from "../../components/ui/Hero";
 import Pagination from "../../components/ui/Pagination";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
+import Loader from "./../../components/ui/Loader/index";
 import { getBaseURL } from "./../../helpers/index";
 import useStyles from "./Category.styles";
+
+const HeroSection = lazy(() => import("../../components/ui/Hero"));
+const CallToAction = lazy(() => import("../../components/ui/CallToAction"));
+const Footer = lazy(() => import("../../components/ui/Footer"));
 
 const Category = () => {
   const classes = useStyles();
   const { catName } = useParams();
-  const location = useLocation();
-  const locationPath = location.pathname;
+  const locationPath = document.location.pathname;
   const user = useSelector((state) => state.user);
 
   const [popularSearchKeywords, setPopularSearchKeywords] = useState([]);
@@ -32,7 +32,7 @@ const Category = () => {
   const [totalProduct, setTotalProduct] = useState();
   const [thumbnail, setThumbnail] = useState("");
 
-  let limit = 24;
+  let limit = 32;
   const count = Math.ceil(totalProduct / limit);
 
   const categoryItem = categories.find((item) => item?.slug === catName);
@@ -118,6 +118,7 @@ const Category = () => {
   //Fetch api to get data for the category page by sorting by popularity
   const getCategoryProducts = (e) => {
     const product = e.target.value;
+
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
 
@@ -148,70 +149,74 @@ const Category = () => {
     <Layout title={`${catName}`} canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
 
-      <HeroSection size="large" popularKeywords title="Graphic Resource for Free Download" />
+      <Suspense fallback={<Loader />}>
+        <HeroSection size="large" popularKeywords title="Graphic Resource for Free Download" />
+      </Suspense>
 
-      <Container>
-        {categoryProducts?.length > 0 && (
-          <div className={classes.shortList}>
-            <div className={classes.shortListWrapper}>
-              <Typography className={classes.shortListTag}>Sort by:</Typography>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <Select
-                  className={classes.selectSortItem}
-                  native
-                  onChange={getCategoryProducts}
-                  inputProps={{
-                    id: "outlined-age-native-simple",
-                  }}
-                >
-                  <option value="all_product">All Product</option>
-                  <option value="brand_new">Brand New</option>
-                  <option value="popular">Popular</option>
-                  <option value="top_download">Top Download</option>
-                  <option value="free">Free</option>
-                  <option value="premium">Premium</option>
-                </Select>
-              </FormControl>
+      <Suspense fallback={<Loader />}>
+        <Container>
+          {categoryProducts?.length > 0 && (
+            <div className={classes.shortList}>
+              <div className={classes.shortListWrapper}>
+                <Typography className={classes.shortListTag}>Sort by:</Typography>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <Select
+                    className={classes.selectSortItem}
+                    native
+                    onChange={getCategoryProducts}
+                    inputProps={{
+                      id: "outlined-age-native-simple",
+                    }}
+                  >
+                    <option value="all_product">All Product</option>
+                    <option value="brand_new">Brand New</option>
+                    <option value="popular">Popular</option>
+                    <option value="top_download">Top Download</option>
+                    <option value="free">Free</option>
+                    <option value="premium">Premium</option>
+                  </Select>
+                </FormControl>
+              </div>
             </div>
-          </div>
-        )}
-      </Container>
+          )}
+        </Container>
 
-      <Container>
-        {totalProduct > 0 && (
-          <Typography className={classes.totalResources} variant="h3">
-            {`${totalProduct} Resources`}
-          </Typography>
-        )}
+        <Container>
+          {totalProduct > 0 && (
+            <Typography className={classes.totalResources} variant="h3">
+              {`${totalProduct} Resources`}
+            </Typography>
+          )}
 
-        {categoryProducts === null ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              margin: "0 auto",
-              height: 300,
-            }}
-          >
-            <CircularProgress color="primary" />
-          </div>
-        ) : (
-          <Grid classes={{ container: classes.container }} container spacing={2}>
-            {categoryProducts?.length > 0 ? (
-              categoryProducts?.map((photo) => (
-                <Grid key={photo?.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
-                  <Product photo={photo} />
-                </Grid>
-              ))
-            ) : (
-              <ProductNotFound />
-            )}
-          </Grid>
-        )}
+          {categoryProducts === null ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto",
+                height: 300,
+              }}
+            >
+              <CircularProgress color="primary" />
+            </div>
+          ) : (
+            <Grid classes={{ container: classes.container }} container spacing={2}>
+              {categoryProducts?.length > 0 ? (
+                categoryProducts?.map((photo) => (
+                  <Grid key={photo?.image_id} item xs={6} sm={4} md={3} className={classes.productItem}>
+                    <Product photo={photo} />
+                  </Grid>
+                ))
+              ) : (
+                <ProductNotFound />
+              )}
+            </Grid>
+          )}
 
-        {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
-      </Container>
+          {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+        </Container>
+      </Suspense>
 
       <div className={classes.tagWrapper}>
         <Container>
@@ -230,9 +235,13 @@ const Category = () => {
         </Container>
       </div>
 
-      <CallToAction title="Join Piktask team" subtitle="Upload your first copyrighted design. Get $5 designer coupon packs" buttonText="Join Us" uppercase />
+      <Suspense fallback={<Loader />}>
+        <CallToAction title="Join Piktask team" subtitle="Upload your first copyrighted design. Get $5 designer coupon packs" buttonText="Join Us" uppercase />
+      </Suspense>
 
-      <Footer />
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };

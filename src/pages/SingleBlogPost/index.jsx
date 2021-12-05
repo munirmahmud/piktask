@@ -1,7 +1,7 @@
 import { Button, Container, FormControl, Grid, TextareaAutosize, Typography } from "@material-ui/core";
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
@@ -22,14 +22,16 @@ import { toast } from "react-toastify";
 import Spacing from "../../components/Spacing";
 import Post from "../../components/ui/Blog/Post";
 import RelatedBlogs from "../../components/ui/Blog/RelatedBlogs";
-import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import SectionHeading from "../../components/ui/Heading";
-import HeroSection from "../../components/ui/Hero";
 import { getBaseURL } from "../../helpers";
 import Layout from "../../Layout";
 import SignUpModal from "../Authentication/SignUpModal";
+import Loader from "./../../components/ui/Loader/index";
 import useStyles from "./SinglePost.styles";
+
+const HeroSection = lazy(() => import("../../components/ui/Hero"));
+const Footer = lazy(() => import("../../components/ui/Footer"));
 
 const SingleBlogPost = () => {
   const classes = useStyles();
@@ -120,109 +122,122 @@ const SingleBlogPost = () => {
       ogImage={thumbnail}
     >
       <Header />
-      <HeroSection size="medium" />
+
+      <Suspense fallback={<Loader />}>
+        <HeroSection size="medium" />
+      </Suspense>
+
       <Spacing space={{ height: "5rem" }} />
-      <Container>
-        <Grid container spacing={3} className={classes.blogContainer}>
-          <Grid item sm={8} md={8} xs={12} className={classes.blogsItem}>
-            <div className={classes.blogImageWrapper}>
-              <img src={thumbnail} alt={blogDetails?.category} />
-            </div>
 
-            <Spacing space={{ height: "2rem" }} />
-            <div className={classes.blogAuthorInfo}>
-              <div className={classes.shareSocialMedia}>
-                <div>
-                  <Typography style={{ fontWeight: "500", fontSize: "1.8rem" }}>{blogDetails?.category}</Typography>
-                </div>
-                <div style={{ display: "flex" }}>
-                  <EmailShareButton url={shareUrl}>
-                    <EmailIcon size={25} style={{ margin: "0.4rem" }} round={true} />
-                  </EmailShareButton>
-
-                  <FacebookShareButton url={shareUrl}>
-                    <FacebookIcon size={25} style={{ margin: "0.4rem" }} round={true} />
-                  </FacebookShareButton>
-
-                  <FacebookMessengerShareButton url={shareUrl}>
-                    <FacebookMessengerIcon size={25} style={{ margin: "0.4rem" }} round={true} />
-                  </FacebookMessengerShareButton>
-
-                  <TwitterShareButton url={shareUrl}>
-                    <TwitterIcon size={25} style={{ margin: "0.4rem" }} round={true} />
-                  </TwitterShareButton>
-
-                  <LinkedinShareButton url={shareUrl}>
-                    <LinkedinIcon size={25} style={{ margin: "0.4rem" }} round={true} />
-                  </LinkedinShareButton>
-
-                  <TelegramShareButton url={shareUrl}>
-                    <TelegramIcon size={25} style={{ margin: "0.4rem" }} round={true} />
-                  </TelegramShareButton>
-                </div>
+      <Suspense fallback={<Loader />}>
+        <Container>
+          <Grid container spacing={3} className={classes.blogContainer}>
+            <Grid item sm={8} md={8} xs={12} className={classes.blogsItem}>
+              <div className={classes.blogImageWrapper}>
+                <img src={thumbnail} alt={blogDetails?.category} />
               </div>
-              <Typography variant="h3">{blogDetails?.title}</Typography>
-              <Typography>
-                By {blogDetails?.username} <span>{moment(blogDetails?.createdAt).format("LL")}</span>
-              </Typography>
-            </div>
 
-            <Spacing space={{ height: "3rem" }} />
-            <div className={classes.blogContent}>
-              <Typography>{blogDetails?.description}</Typography>
-            </div>
-            <Spacing space={{ height: "3rem" }} />
+              <Spacing space={{ height: "2rem" }} />
+              <div className={classes.blogAuthorInfo}>
+                <div className={classes.shareSocialMedia}>
+                  <div>
+                    <Typography style={{ fontWeight: "500", fontSize: "1.8rem" }}>{blogDetails?.category}</Typography>
+                  </div>
+                  <div style={{ display: "flex" }}>
+                    <EmailShareButton url={shareUrl}>
+                      <EmailIcon size={25} style={{ margin: "0.4rem" }} round={true} />
+                    </EmailShareButton>
 
-            <div className={classes.blogImageWrapper}>
-              <img src={thumbnail} alt={blogDetails?.category} />
-            </div>
-            <Spacing space={{ height: "4rem" }} />
-            <div className={classes.blogContent}>
-              <Typography>{blogDetails?.description}</Typography>
-            </div>
-            <Spacing space={{ height: "4rem" }} />
-            <div className={classes.blogContent}>
-              <Typography>{blogDetails?.description}</Typography>
-            </div>
+                    <FacebookShareButton url={shareUrl}>
+                      <FacebookIcon size={25} style={{ margin: "0.4rem" }} round={true} />
+                    </FacebookShareButton>
 
-            <Spacing space={{ height: "5rem" }} />
-            <div>
-              <form onSubmit={handleCommentPost}>
-                <FormControl fullWidth className={classes.fieldWrapper}>
-                  <label htmlFor="description">Description</label>
-                  <TextareaAutosize
-                    id="description"
-                    autoComplete="off"
-                    className={classes.formDescription}
-                    aria-label="minimum height"
-                    minRows={6}
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                  />
-                </FormControl>
-                <Button variant="contained" className={classes.sentBtn} type="submit" disabled={isLoading}>
-                  {isLoading ? "Sending..." : "Send"}
-                </Button>
-              </form>
-            </div>
-          </Grid>
+                    <FacebookMessengerShareButton url={shareUrl}>
+                      <FacebookMessengerIcon size={25} style={{ margin: "0.4rem" }} round={true} />
+                    </FacebookMessengerShareButton>
 
-          <Grid item sm={4} md={4} xs={12} className={classes.blogsItem}>
-            <Grid container spacing={0} className={classes.postsWrapper}>
-              <SectionHeading title="Recent Blog" large></SectionHeading>
-              {recentBlogsPost?.length > 0 && recentBlogsPost?.slice(0, 3).map((post) => <Post recentBlog key={post?.id} post={post} />)}
+                    <TwitterShareButton url={shareUrl}>
+                      <TwitterIcon size={25} style={{ margin: "0.4rem" }} round={true} />
+                    </TwitterShareButton>
+
+                    <LinkedinShareButton url={shareUrl}>
+                      <LinkedinIcon size={25} style={{ margin: "0.4rem" }} round={true} />
+                    </LinkedinShareButton>
+
+                    <TelegramShareButton url={shareUrl}>
+                      <TelegramIcon size={25} style={{ margin: "0.4rem" }} round={true} />
+                    </TelegramShareButton>
+                  </div>
+                </div>
+                <Typography variant="h3">{blogDetails?.title}</Typography>
+                <Typography>
+                  By {blogDetails?.username} <span>{moment(blogDetails?.createdAt).format("LL")}</span>
+                </Typography>
+              </div>
+
+              <Spacing space={{ height: "3rem" }} />
+              <div className={classes.blogContent}>
+                <Typography>{blogDetails?.description}</Typography>
+              </div>
+              <Spacing space={{ height: "3rem" }} />
+
+              <div className={classes.blogImageWrapper}>
+                <img src={thumbnail} alt={blogDetails?.category} />
+              </div>
+              <Spacing space={{ height: "4rem" }} />
+              <div className={classes.blogContent}>
+                <Typography>{blogDetails?.description}</Typography>
+              </div>
+              <Spacing space={{ height: "4rem" }} />
+              <div className={classes.blogContent}>
+                <Typography>{blogDetails?.description}</Typography>
+              </div>
+
+              <Spacing space={{ height: "5rem" }} />
+
+              <div>
+                <form onSubmit={handleCommentPost}>
+                  <FormControl fullWidth className={classes.fieldWrapper}>
+                    <label htmlFor="description">Description</label>
+                    <TextareaAutosize
+                      id="description"
+                      autoComplete="off"
+                      className={classes.formDescription}
+                      aria-label="minimum height"
+                      minRows={6}
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    />
+                  </FormControl>
+                  <Button variant="contained" className={classes.sentBtn} type="submit" disabled={isLoading}>
+                    {isLoading ? "Sending..." : "Send"}
+                  </Button>
+                </form>
+              </div>
+            </Grid>
+
+            <Grid item sm={4} md={4} xs={12} className={classes.blogsItem}>
+              <Grid container spacing={0} className={classes.postsWrapper}>
+                <SectionHeading title="Recent Blog" large></SectionHeading>
+                {recentBlogsPost?.length > 0 && recentBlogsPost?.slice(0, 3).map((post) => <Post recentBlog key={post?.id} post={post} />)}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
 
-        <Spacing space={{ height: "5rem" }} />
-        <div className={classes.blogContainer}>
-          <RelatedBlogs blogID={id} />
-        </div>
-      </Container>
+          <Spacing space={{ height: "5rem" }} />
+          <div className={classes.blogContainer}>
+            <RelatedBlogs blogID={id} />
+          </div>
+        </Container>
+      </Suspense>
+
       <Spacing space={{ height: "2rem" }} />
+
       <SignUpModal openAuthModal={openAuthModal} setOpenAuthModal={setOpenAuthModal} />
-      <Footer />
+
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };

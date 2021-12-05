@@ -34,7 +34,7 @@ const ProductImage = ({ imageDetails, setThumbnail }) => {
 
   return (
     <div className={classes.imageWrapper}>
-      <img title={imageDetails.title} className={classes.image} src={imageThumbnail} alt={imageDetails?.original_name} />
+      <img title={imageDetails.title} className={classes.image} src={imageThumbnail} alt={imageDetails?.original_name} width="817px" height="511px" />
     </div>
   );
 };

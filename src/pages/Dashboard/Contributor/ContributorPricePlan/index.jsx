@@ -1,12 +1,14 @@
 import { Button, Grid, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import Spacing from "../../../../components/Spacing";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
-import Footer from "../../../../components/ui/Footer";
+import Loader from "../../../../components/ui/Loader";
 import Layout from "../../../../Layout";
 import useStyles from "./ContributorPricePlan.styles";
+
+const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const ContributorPricePlan = () => {
   const classes = useStyles();
@@ -83,8 +85,12 @@ const ContributorPricePlan = () => {
               </Grid>
             </div>
           </div>
+
           <Spacing space={{ height: "2rem" }} />
-          <Footer />
+
+          <Suspense fallback={<Loader />}>
+            <Footer />
+          </Suspense>
         </main>
       </div>
     </Layout>

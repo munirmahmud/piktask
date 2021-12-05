@@ -4,7 +4,7 @@ import { Button, Container, FormControl, TextareaAutosize, TextField, Typography
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import thumbnail from "../../assets/banner/lucas-wesney-s-y2HJElONo-unsplash.jpg";
+import thumbnail from "../../assets/banner/hero-banner.jpg";
 import Spacing from "../../components/Spacing";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";

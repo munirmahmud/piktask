@@ -1,17 +1,20 @@
 import { Button, Container, Grid } from "@material-ui/core";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Spacing from "../../components/Spacing";
-import CallToAction from "../../components/ui/CallToAction";
-import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
-import HeroSection from "../../components/ui/Hero";
 import CategoryItemLoader from "../../components/ui/Loader/CategoryItemLoader";
 import ProductNotFound from "../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../helpers";
 import Layout from "../../Layout";
+import Loader from "./../../components/ui/Loader/index";
 import useStyles from "./Categories.style";
+
+const HeroSection = lazy(() => import("../../components/ui/Hero"));
+const CallToAction = lazy(() => import("../../components/ui/CallToAction"));
+const Footer = lazy(() => import("../../components/ui/Footer"));
+
 const Categories = () => {
   const classes = useStyles();
   const [isLoading, setLoading] = useState(true);
@@ -44,51 +47,63 @@ const Categories = () => {
   return (
     <Layout title="All Categories" canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
       <Header />
-      <HeroSection title="Graphic Resources for Free Download" size="large" popularKeywords />
-      <Spacing space={{ height: "4rem" }} />
-      <Container>
-        <Grid classes={{ container: classes.container }} container spacing={2}>
-          {isLoading ? (
-            <CategoryItemLoader />
-          ) : (
-            <>
-              {popularCategories?.length ? (
-                popularCategories?.map((photo) => (
-                  <Grid key={photo.id} item xs={12} sm={4} md={3} className={classes.productItem}>
-                    <div className={classes.catItemWrapper}>
-                      <div className={classes.catItem}>
-                        <Link to={`/category/${photo.slug}`}>
-                          <img
-                            className={classes.catImage}
-                            src={getBaseURL().bucket_base_url + getBaseURL().categories + photo?.thumbnail}
-                            alt={`${photo?.name}`}
-                          />
-                        </Link>
 
-                        <Button className={classes.catName} component={Link} to={`/category/${photo.slug}`}>
-                          {photo?.name}
-                        </Button>
+      <Suspense fallback={<Loader />}>
+        <HeroSection title="Graphic Resources for Free Download" size="large" popularKeywords />
+      </Suspense>
+
+      <Spacing space={{ height: "4rem" }} />
+
+      <Suspense fallback={<Loader />}>
+        <Container>
+          <Grid classes={{ container: classes.container }} container spacing={2}>
+            {isLoading ? (
+              <CategoryItemLoader />
+            ) : (
+              <>
+                {popularCategories?.length ? (
+                  popularCategories?.map((photo) => (
+                    <Grid key={photo.id} item xs={12} sm={4} md={3} className={classes.productItem}>
+                      <div className={classes.catItemWrapper}>
+                        <div className={classes.catItem}>
+                          <Link to={`/category/${photo.slug}`}>
+                            <img
+                              className={classes.catImage}
+                              src={getBaseURL().bucket_base_url + getBaseURL().categories + photo?.thumbnail}
+                              alt={`${photo?.name}`}
+                            />
+                          </Link>
+
+                          <Button className={classes.catName} component={Link} to={`/category/${photo.slug}`}>
+                            {photo?.name}
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  </Grid>
-                ))
-              ) : (
-                <ProductNotFound />
-              )}
-            </>
-          )}
-        </Grid>
-      </Container>
+                    </Grid>
+                  ))
+                ) : (
+                  <ProductNotFound />
+                )}
+              </>
+            )}
+          </Grid>
+        </Container>
+      </Suspense>
 
       <Spacing space={{ height: "4rem" }} />
 
-      <CallToAction
-        title="Join Piktask Designer team"
-        subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
-        buttonText="Join Us"
-        uppercase
-      />
-      <Footer />
+      <Suspense fallback={<Loader />}>
+        <CallToAction
+          title="Join Piktask Designer team"
+          subtitle="Upload your first copyrighted design. Get $5 designer coupon packs"
+          buttonText="Join Us"
+          uppercase
+        />
+      </Suspense>
+
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };

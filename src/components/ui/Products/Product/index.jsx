@@ -103,13 +103,25 @@ const Product = ({ photo = null }) => {
         {photo?.extension === "png" ? (
           <div className={classes.itemTransparent}>
             <Link to={pikTaskEncodeURI(photo)}>
-              <img className={classes.image} src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)} alt={`${photo?.title}`} />
+              <img
+                className={classes.image}
+                src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)}
+                alt={`${photo?.title}`}
+                width="361px"
+                height="240px"
+              />
             </Link>
           </div>
         ) : (
           <div className={classes.itemContainer}>
             <Link to={pikTaskEncodeURI(photo)}>
-              <img className={classes.image} src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)} alt={`${photo?.title}`} />
+              <img
+                className={classes.image}
+                src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + photo?.preview)}
+                alt={`${photo?.title}`}
+                width="361px"
+                height="240px"
+              />
             </Link>
           </div>
         )}
@@ -127,7 +139,15 @@ const Product = ({ photo = null }) => {
             <CardFooter className={classes.cardAuthorInfo}>
               <Link to={`/author/${photo?.username}`} className={classes.avatar}>
                 {photo?.avatar ? (
-                  <CardMedia component="img" className={classes.authorImage} image={getBaseURL().bucket_base_url + "/" + photo?.avatar} title={photo?.name} />
+                  <CardMedia
+                    component="img"
+                    className={classes.authorImage}
+                    image={getBaseURL().bucket_base_url + "/" + photo?.avatar}
+                    title={photo?.name}
+                    width="33px"
+                    height="33px"
+                    alt={photo?.name}
+                  />
                 ) : (
                   <AccountCircleIcon className={classes.authorImage} />
                 )}
@@ -139,7 +159,7 @@ const Product = ({ photo = null }) => {
             </CardFooter>
 
             <Typography variant="body1" className={classes.itemStatus}>
-              <img className={classes.downloadIcon} src={downloadIcon} alt="Total Download" />
+              <img className={classes.downloadIcon} src={downloadIcon} alt="Total Download" width="6px" height="10px" />
               {photo?.total_download}
               <FavoriteBorderIcon className={classes.heartIcon} /> {likeCount}
             </Typography>

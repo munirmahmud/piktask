@@ -31,7 +31,7 @@ const ProductInfo = ({ productDetails }) => {
         <div className={classes.buttons}>
           <Typography className={classes.creationDate}>{productDetails?.imageDetails?.creation_ago}</Typography>
           <Button className={classes.button} onClick={handleClickOpen}>
-            <img className={classes.buttonIcon} src={shareIcon} alt="Share" />
+            <img className={classes.buttonIcon} src={shareIcon} alt="Share" width="13px" height="14px" />
             Share
           </Button>
 
