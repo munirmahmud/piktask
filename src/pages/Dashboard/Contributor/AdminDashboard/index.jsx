@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import AuthorFiles from "../../../../components/Partials/ContributorDashboard/AuthorFiles";
-import CurrentMonthStatus from "../../../../components/Partials/ContributorDashboard/CurrentMonthStatus";
-import Blog from "../../../../components/ui/Blog";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
-import Footer from "../../../../components/ui/Footer";
+import Loader from "../../../../components/ui/Loader";
 import Layout from "../../../../Layout";
 import useStyles from "./admin.styles";
+
+const CurrentMonthStatus = lazy(() => import("../../../../components/Partials/ContributorDashboard/CurrentMonthStatus"));
+const AuthorFiles = lazy(() => import("../../../../components/Partials/ContributorDashboard/AuthorFiles"));
+const Blog = lazy(() => import("../../../../components/ui/Blog"));
+const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const AdminDashboard = () => {
   const classes = useStyles();
@@ -30,10 +32,22 @@ const AdminDashboard = () => {
 
         <main className={classes.content}>
           <AdminHeader />
-          <CurrentMonthStatus />
-          <AuthorFiles />
-          <Blog />
-          <Footer contributorFooter />
+
+          <Suspense fallback={<Loader />}>
+            <CurrentMonthStatus />
+          </Suspense>
+
+          <Suspense fallback={<Loader />}>
+            <AuthorFiles />
+          </Suspense>
+
+          <Suspense fallback={<Loader />}>
+            <Blog />
+          </Suspense>
+
+          <Suspense fallback={<Loader />}>
+            <Footer contributorFooter />
+          </Suspense>
         </main>
       </div>
     </Layout>

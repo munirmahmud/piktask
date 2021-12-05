@@ -267,7 +267,7 @@ const Search = () => {
           )}
 
           <button type="submit" className={classes.searchIconWrapper}>
-            <img className={classes.searchIcon} src={searchIcon} alt="Search" />
+            <img className={classes.searchIcon} src={searchIcon} alt="Search" width="22px" height="52px" />
           </button>
 
           {isExpanded && (

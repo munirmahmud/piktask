@@ -13,19 +13,13 @@ const PopularCategory = ({ photo }) => {
         <Link to={`category/${photo.slug}`}>
           <img
             className={classes.catImage}
-            src={
-              getBaseURL().bucket_base_url +
-              getBaseURL().categories +
-              photo?.thumbnail
-            }
+            src={getBaseURL().bucket_base_url + getBaseURL().categories + photo?.thumbnail}
             alt={`${photo?.name}`}
+            width="363px"
+            height="240px"
           />
         </Link>
-        <Button
-          className={classes.catName}
-          component={Link}
-          to={`category/${photo.slug}`}
-        >
+        <Button className={classes.catName} component={Link} to={`category/${photo.slug}`}>
           {photo?.name}
         </Button>
       </div>

@@ -1,7 +1,7 @@
 import { Button, Container, FormControl, FormControlLabel, Grid, TextField, Typography } from "@material-ui/core";
 import Switch from "@mui/material/Switch";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,11 +14,13 @@ import pinterestIcon from "../../../../assets/icons/pintarest.svg";
 import shutterstockLogo from "../../../../assets/icons/shutterstock.svg";
 import twitterLogo from "../../../../assets/icons/twitter-svg.svg";
 import Spacing from "../../../../components/Spacing";
-import UserSideBar from "../../../../components/ui/dashboard/user/UserSideBar";
-import Footer from "../../../../components/ui/Footer";
 import Header from "../../../../components/ui/Header";
+import Loader from "../../../../components/ui/Loader";
 import Layout from "../../../../Layout";
 import useStyles from "./UserProfile.style";
+
+const UserSideBar = lazy(() => import("../../../../components/ui/dashboard/user/UserSideBar"));
+const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const UserProfile = () => {
   const classes = useStyles();
@@ -181,339 +183,346 @@ const UserProfile = () => {
 
       <Container>
         <Grid container spacing={2}>
-          <Grid item md={3} sm={3} xs={12} className={classes.cardItem}>
-            <UserSideBar />
-          </Grid>
+          <Suspense fallback={<Loader />}>
+            <Grid item md={3} sm={3} xs={12} className={classes.cardItem}>
+              <UserSideBar />
+            </Grid>
+          </Suspense>
 
-          <Grid item md={9} sm={9} xs={12} className={classes.cardItem}>
-            <div className={classes.userProfileRoot}>
-              <div className={classes.headingWrapper}>
-                <div>
-                  <Typography className={classes.settingsFormTitle} variant="h4">
-                    {/* Connect */}
-                    Profile Settings
-                  </Typography>
+          <Suspense fallback={<Loader />}>
+            <Grid item md={9} sm={9} xs={12} className={classes.cardItem}>
+              <div className={classes.userProfileRoot}>
+                <div className={classes.headingWrapper}>
+                  <div>
+                    <Typography className={classes.settingsFormTitle} variant="h4">
+                      {/* Connect */}
+                      Profile Settings
+                    </Typography>
+                  </div>
                 </div>
-              </div>
 
-              <hr className={classes.separator} />
+                <hr className={classes.separator} />
 
-              <form onSubmit={handleSubmit} className={classes.selectPeriodFrom}>
-                <div className={classes.cardRoot}>
-                  <Grid className={classes.profileInfoField} container spacing={0}>
-                    <Grid item xs={12} md={6} sm={6}>
-                      <Typography className={classes.personalInfoTitle} variant="h4">
-                        Personal data
-                      </Typography>
+                <form onSubmit={handleSubmit} className={classes.selectPeriodFrom}>
+                  <div className={classes.cardRoot}>
+                    <Grid className={classes.profileInfoField} container spacing={0}>
+                      <Grid item xs={12} md={6} sm={6}>
+                        <Typography className={classes.personalInfoTitle} variant="h4">
+                          Personal data
+                        </Typography>
 
-                      <div className={classes.personalDataField}>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          label="Real Name"
-                          className={classes.formControl}
-                          name="name"
-                          value={userProfileInfo.name}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, name: e.target.value })}
-                        />
+                        <div className={classes.personalDataField}>
+                          <TextField
+                            fullWidth
+                            variant="outlined"
+                            label="Real Name"
+                            className={classes.formControl}
+                            name="name"
+                            value={userProfileInfo.name}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, name: e.target.value })}
+                          />
 
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          label="Location"
-                          className={classes.formControl}
-                          name="locationAddress"
-                          value={userProfileInfo.location}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, location: e.target.value })}
-                        />
+                          <TextField
+                            fullWidth
+                            variant="outlined"
+                            label="Location"
+                            className={classes.formControl}
+                            name="locationAddress"
+                            value={userProfileInfo.location}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, location: e.target.value })}
+                          />
 
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          label="Job Position"
-                          className={classes.formControl}
-                          name="jobPosition"
-                          value={userProfileInfo.job_position}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, job_position: e.target.value })}
-                        />
+                          <TextField
+                            fullWidth
+                            variant="outlined"
+                            label="Job Position"
+                            className={classes.formControl}
+                            name="jobPosition"
+                            value={userProfileInfo.job_position}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, job_position: e.target.value })}
+                          />
 
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          label="Telephone Number"
-                          className={classes.formControl}
-                          name="telephoneNumber"
-                          type="number"
-                          inputProps={{
-                            inputMode: "numeric",
-                            pattern: "[0-9]*",
-                          }}
-                          value={userProfileInfo.phone}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, phone: e.target.value })}
-                        />
-                      </div>
-                    </Grid>
-
-                    <Grid item xs={12} md={6} sm={6}>
-                      <Typography className={classes.accountInfoTitle} variant="h4">
-                        Account Information
-                      </Typography>
-
-                      <div className={classes.personalDataField}>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          label="User Name"
-                          disabled
-                          className={classes.formControl}
-                          name="username"
-                          value={userProfileInfo.username}
-                        />
-
-                        <TextField
-                          fullWidth
-                          disabled
-                          variant="outlined"
-                          label="Email"
-                          className={classes.formControl}
-                          name="email"
-                          value={userProfileInfo.email}
-                        />
-
-                        <TextField
-                          error={!!errors.website}
-                          helperText={errors.website}
-                          fullWidth
-                          variant="outlined"
-                          label="Website"
-                          className={classes.formControl}
-                          name="website"
-                          value={userProfileInfo.website}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, website: e.target.value })}
-                        />
-
-                        <div className={classes.dataChangeBtn}>
-                          <Link to="/reset-password" className={classes.passwordResetLink}>
-                            Change Password
-                          </Link>
-                          <Button type="submit" className={classes.profileInfoSaveBtn}>
-                            Save Changes
-                          </Button>
+                          <TextField
+                            fullWidth
+                            variant="outlined"
+                            label="Telephone Number"
+                            className={classes.formControl}
+                            name="telephoneNumber"
+                            type="number"
+                            inputProps={{
+                              inputMode: "numeric",
+                              pattern: "[0-9]*",
+                            }}
+                            value={userProfileInfo.phone}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, phone: e.target.value })}
+                          />
                         </div>
-                      </div>
+                      </Grid>
+
+                      <Grid item xs={12} md={6} sm={6}>
+                        <Typography className={classes.accountInfoTitle} variant="h4">
+                          Account Information
+                        </Typography>
+
+                        <div className={classes.personalDataField}>
+                          <TextField
+                            fullWidth
+                            variant="outlined"
+                            label="User Name"
+                            disabled
+                            className={classes.formControl}
+                            name="username"
+                            value={userProfileInfo.username}
+                          />
+
+                          <TextField
+                            fullWidth
+                            disabled
+                            variant="outlined"
+                            label="Email"
+                            className={classes.formControl}
+                            name="email"
+                            value={userProfileInfo.email}
+                          />
+
+                          <TextField
+                            error={!!errors.website}
+                            helperText={errors.website}
+                            fullWidth
+                            variant="outlined"
+                            label="Website"
+                            className={classes.formControl}
+                            name="website"
+                            value={userProfileInfo.website}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, website: e.target.value })}
+                          />
+
+                          <div className={classes.dataChangeBtn}>
+                            <Link to="/reset-password" className={classes.passwordResetLink}>
+                              Change Password
+                            </Link>
+                            <Button type="submit" className={classes.profileInfoSaveBtn}>
+                              Save Changes
+                            </Button>
+                          </div>
+                        </div>
+                      </Grid>
                     </Grid>
-                  </Grid>
 
-                  {/* Professional Portfolio section start  */}
-                  <div className={classes.portfolioHeadingWrapper}>
-                    <Typography className={classes.settingsFormTitle} variant="h4">
-                      Professional Portfolio
+                    {/* Professional Portfolio section start  */}
+                    <div className={classes.portfolioHeadingWrapper}>
+                      <Typography className={classes.settingsFormTitle} variant="h4">
+                        Professional Portfolio
+                      </Typography>
+
+                      <hr className={classes.separator} />
+                    </div>
+
+                    <div className={classes.cardWrapper}>
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="shutterstock" className={classes.portfolioIconWrapper}>
+                            <img src={shutterstockLogo} alt="Shutterstock Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="shutterstock"
+                            error={!!errors.shutterstock}
+                            helperText={errors.shutterstock}
+                            label="Your Shutterstock Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Shutterstock Account"
+                            value={userProfileInfo.shutterstock}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, shutterstock: e.target.value })}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="pinterest" className={classes.portfolioIconWrapper}>
+                            <img src={pinterestIcon} alt="Pinterest Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="pinterest"
+                            error={!!errors.pinterest}
+                            helperText={errors.pinterest}
+                            label="Your Pinterest Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Pinterest Account"
+                            value={userProfileInfo.pinterest}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, pinterest: e.target.value })}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="behance" className={classes.portfolioIconWrapper}>
+                            <img src={behanceIcon} alt="Behance Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="behance"
+                            error={!!errors.behance}
+                            helperText={errors.behance}
+                            label="Your Behance Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Behance Account"
+                            value={userProfileInfo.behance}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, behance: e.target.value })}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="dribbble" className={classes.portfolioIconWrapper}>
+                            <img src={dribbbleIcon} alt="Dribbble Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="dribbble"
+                            error={!!errors.dribbble}
+                            helperText={errors.dribbble}
+                            label="Your Dribbble Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Dribbble Account"
+                            value={userProfileInfo.dribbble}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, dribbble: e.target.value })}
+                          />
+                        </FormControl>
+                      </div>
+                    </div>
+
+                    <div className={classes.socialHeadingWrapper}>
+                      <Typography className={classes.settingsFormTitle} variant="h4">
+                        Social Link
+                      </Typography>
+
+                      <hr className={classes.separator} />
+                    </div>
+                    <div className={classes.cardWrapper}>
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="facebook" className={classes.portfolioIconWrapper}>
+                            <img src={facebookLogo} className={classes.facebookIcon} alt="Facebook Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="facebook"
+                            error={!!errors.facebook}
+                            helperText={errors.facebook}
+                            label="Your Facebook Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Facebook Account"
+                            value={userProfileInfo.facebook}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, facebook: e.target.value })}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="twitter" className={classes.portfolioIconWrapper}>
+                            <img src={twitterLogo} alt="Twitter Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="twitter"
+                            error={!!errors.twitter}
+                            helperText={errors.twitter}
+                            label="Your Twitter Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Twitter Account"
+                            value={userProfileInfo.twitter}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, twitter: e.target.value })}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="linkedin" className={classes.portfolioIconWrapper}>
+                            <img src={linkedinLogo} alt="Linkedin Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="linkedin"
+                            error={!!errors.linkedin}
+                            helperText={errors.linkedin}
+                            label="Your Linkedin Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Linkedin Account"
+                            value={userProfileInfo.linkedin}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, linkedin: e.target.value })}
+                          />
+                        </FormControl>
+                      </div>
+
+                      <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
+                        <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
+                          <label htmlFor="instagram" className={classes.portfolioIconWrapper}>
+                            <img src={instagramLogo} alt="Instagram Icon" width="25px" height="57px" />
+                          </label>
+                          <TextField
+                            id="instagram"
+                            error={!!errors.instagram}
+                            helperText={errors.instagram}
+                            label="Your Instagram Account"
+                            variant="outlined"
+                            className={`${classes.inputField}`}
+                            placeholder="Your Instagram Account"
+                            value={userProfileInfo.instagram}
+                            onChange={(e) => setUserProfileInfo({ ...userProfileInfo, instagram: e.target.value })}
+                          />
+                        </FormControl>
+                      </div>
+                    </div>
+
+                    <div className={classes.buttonGroup}>
+                      <Button className={`${classes.settingsBtn} ${classes.restoreBtn}`}>Cancel</Button>
+
+                      <Button type="submit" className={`${classes.settingsBtn} ${classes.saveBtn}`}>
+                        Save Changes
+                      </Button>
+                    </div>
+
+                    <Typography className={classes.notification} variant="h4">
+                      Notifications
                     </Typography>
 
-                    <hr className={classes.separator} />
-                  </div>
-
-                  <div className={classes.cardWrapper}>
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="shutterstock" className={classes.portfolioIconWrapper}>
-                          <img src={shutterstockLogo} alt="Shutterstock Icon" width="25px" height="57px" />
-                        </label>
-                        <TextField
-                          id="shutterstock"
-                          error={!!errors.shutterstock}
-                          helperText={errors.shutterstock}
-                          label="Your Shutterstock Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Shutterstock Account"
-                          value={userProfileInfo.shutterstock}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, shutterstock: e.target.value })}
-                        />
-                      </FormControl>
+                    <div className={classes.getNews}>
+                      <Typography className={classes.getNewsTitle}>I wish to receive newsletters,promotions and news from Piktask Company</Typography>
+                      <FormControlLabel
+                        control={<Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />}
+                        label="Primary"
+                      />
                     </div>
 
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="pinterest" className={classes.portfolioIconWrapper}>
-                          <img src={pinterestIcon} alt="Pinterest Icon" width="25px" height="57px" />
-                        </label>
-                        <TextField
-                          id="pinterest"
-                          error={!!errors.pinterest}
-                          helperText={errors.pinterest}
-                          label="Your Pinterest Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Pinterest Account"
-                          value={userProfileInfo.pinterest}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, pinterest: e.target.value })}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="behance" className={classes.portfolioIconWrapper}>
-                          <img src={behanceIcon} alt="Behance Icon" width="25px" height="57px" />
-                        </label>
-                        <TextField
-                          id="behance"
-                          error={!!errors.behance}
-                          helperText={errors.behance}
-                          label="Your Behance Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Behance Account"
-                          value={userProfileInfo.behance}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, behance: e.target.value })}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="dribbble" className={classes.portfolioIconWrapper}>
-                          <img src={dribbbleIcon} alt="Dribbble Icon" width="25px" height="57px" />
-                        </label>
-                        <TextField
-                          id="dribbble"
-                          error={!!errors.dribbble}
-                          helperText={errors.dribbble}
-                          label="Your Dribbble Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Dribbble Account"
-                          value={userProfileInfo.dribbble}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, dribbble: e.target.value })}
-                        />
-                      </FormControl>
+                    <div className={classes.basicInfo}>
+                      <Typography>
+                        Basic information on Data Protection: Piktask Company stores your data to improve the service and, with your consent, offers news,
+                        promotions and raffles, as well as projects and releases from Piktask Company.
+                        <Link to="#" className={classes.moreInfo}>
+                          More information
+                        </Link>
+                      </Typography>
                     </div>
                   </div>
-
-                  <div className={classes.socialHeadingWrapper}>
-                    <Typography className={classes.settingsFormTitle} variant="h4">
-                      Social Link
-                    </Typography>
-
-                    <hr className={classes.separator} />
-                  </div>
-                  <div className={classes.cardWrapper}>
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="facebook" className={classes.portfolioIconWrapper}>
-                          <img src={facebookLogo} className={classes.facebookIcon} alt="Facebook Icon" width="25px" height="57px" />
-                        </label>
-                        <TextField
-                          id="facebook"
-                          error={!!errors.facebook}
-                          helperText={errors.facebook}
-                          label="Your Facebook Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Facebook Account"
-                          value={userProfileInfo.facebook}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, facebook: e.target.value })}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="twitter" className={classes.portfolioIconWrapper}>
-                          <img src={twitterLogo} alt="Twitter Icon" width="25px" height="57px" />
-                        </label>
-                        <TextField
-                          id="twitter"
-                          error={!!errors.twitter}
-                          helperText={errors.twitter}
-                          label="Your Twitter Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Twitter Account"
-                          value={userProfileInfo.twitter}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, twitter: e.target.value })}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="linkedin" className={classes.portfolioIconWrapper}>
-                          <img src={linkedinLogo} alt="Linkedin Icon" width="25px" height="57px" />
-                        </label>
-                        <TextField
-                          id="linkedin"
-                          error={!!errors.linkedin}
-                          helperText={errors.linkedin}
-                          label="Your Linkedin Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Linkedin Account"
-                          value={userProfileInfo.linkedin}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, linkedin: e.target.value })}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div className={`${classes.fieldsGroup} ${classes.linkField}`}>
-                      <FormControl fullWidth classes={{ fullWidth: classes.fullWidth }} className={classes.portfolioLink}>
-                        <label htmlFor="instagram" className={classes.portfolioIconWrapper}>
-                          <img src={instagramLogo} alt="Instagram Icon" width="25px" height="57px" />
-                        </label>
-                        <TextField
-                          id="instagram"
-                          error={!!errors.instagram}
-                          helperText={errors.instagram}
-                          label="Your Instagram Account"
-                          variant="outlined"
-                          className={`${classes.inputField}`}
-                          placeholder="Your Instagram Account"
-                          value={userProfileInfo.instagram}
-                          onChange={(e) => setUserProfileInfo({ ...userProfileInfo, instagram: e.target.value })}
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-
-                  <div className={classes.buttonGroup}>
-                    <Button className={`${classes.settingsBtn} ${classes.restoreBtn}`}>Cancel</Button>
-
-                    <Button type="submit" className={`${classes.settingsBtn} ${classes.saveBtn}`}>
-                      Save Changes
-                    </Button>
-                  </div>
-
-                  <Typography className={classes.notification} variant="h4">
-                    Notifications
-                  </Typography>
-
-                  <div className={classes.getNews}>
-                    <Typography className={classes.getNewsTitle}>I wish to receive newsletters,promotions and news from Piktask Company</Typography>
-                    <FormControlLabel
-                      control={<Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />}
-                      label="Primary"
-                    />
-                  </div>
-
-                  <div className={classes.basicInfo}>
-                    <Typography>
-                      Basic information on Data Protection: Piktask Company stores your data to improve the service and, with your consent, offers news,
-                      promotions and raffles, as well as projects and releases from Piktask Company.
-                      <Link to="#" className={classes.moreInfo}>
-                        More information
-                      </Link>
-                    </Typography>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </Grid>
+                </form>
+              </div>
+            </Grid>
+          </Suspense>
         </Grid>
       </Container>
 
       <Spacing space={{ height: "5rem" }} />
-      <Footer />
+
+      <Suspense fallback={<Loader />}>
+        <Footer />
+      </Suspense>
     </Layout>
   );
 };

@@ -27,7 +27,6 @@ const ProductDetails = (props) => {
   const [imageLink, setImageLink] = useState("");
 
   useEffect(() => {
-    setLoading(true);
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
 
@@ -61,7 +60,6 @@ const ProductDetails = (props) => {
                 }
               });
           }
-          setLoading(false);
         }
       })
       .catch((error) => {
