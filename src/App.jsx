@@ -88,11 +88,10 @@ const App = () => {
       // Send user to the home page if token is expired
       const expired = new Date(decodeToken.exp * 1000) - new Date();
       console.log(expired);
-      console.log("decodeToken.exp", new Date(decodeToken.exp));
       setTimeout(() => {
-        console.log("You have been logged out.");
+        console.log("I have been logged out");
         setTokenExpired(true);
-      }, decodeToken.exp);
+      }, expired);
     }
 
     // Popular categories API integration
@@ -144,7 +143,7 @@ const App = () => {
     <LinearProgress />
   ) : (
     <ThemeProvider theme={theme}>
-      {/* {tokenExpiredAndUserSignOut()} */}
+      {tokenExpiredAndUserSignOut()}
 
       <ToastContainer />
       <Switch>
