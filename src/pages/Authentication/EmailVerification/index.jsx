@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { auth } from "../../../database";
+import { imageObjSchema } from "../../../helpers";
 import Layout from "../../../Layout";
 import useStyles from "./EmailVerification.styles";
 
@@ -52,6 +53,17 @@ const EmailVerification = ({ history }) => {
     }
   };
   saveData();
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
 
   return (
     <Layout title="Email verification" canonical={document.URL}>

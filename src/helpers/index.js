@@ -12,6 +12,26 @@ export const dateFormat = (time) => {
   return time;
 };
 
+export const imageObjSchema = (schemaObjData) => {
+  const script = document.createElement("script");
+  script.dataset.test = "image-object";
+  script.type = "application/ld+json";
+
+  const schemaObj = {
+    ...schemaObjData,
+    "@context": "http://schema.org",
+    "@type": "ImageObject",
+    datePublished: schemaObjData.datePublished ? schemaObjData.datePublished : "05/12/2021",
+    fileFormat: schemaObjData.fileFormat ? schemaObjData.fileFormat : "image/jpeg",
+    license: "https://piktask.com/license-agreement",
+  };
+
+  script.innerHTML = JSON.stringify(schemaObj);
+  // const body = document.querySelector("body");
+  const body = (document.querySelector('script[data-test="image-object"]').innerHTML = script);
+  console.log("body", body);
+};
+
 export const expiredLoginTime = () => {
   localStorage.removeItem("token");
   return (window.location.href = "/login");

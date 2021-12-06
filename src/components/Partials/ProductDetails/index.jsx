@@ -2,6 +2,7 @@ import { CircularProgress, Grid, makeStyles } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { getBaseURL, imageObjSchema } from "../../../helpers";
 import ProductImage from "./ProductImage";
 import ProductInfo from "./ProductInfo";
 
@@ -90,6 +91,21 @@ const ProductDetails = (props) => {
 
     return () => source.cancel();
   }, [imageID, user, user?.token, setAllTags, setProductTitle]);
+
+  useEffect(() => {
+    const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${imageDetails?.preview}`);
+
+    const schemaObj = {
+      name: imageDetails.title,
+      contentUrl: shareUrl,
+      datePublished: imageDetails.createdAt,
+      fileFormat: imageDetails.extension,
+      acquireLicensePage: shareUrl,
+      thumbnailUrl: imageThumbnail,
+    };
+
+    imageObjSchema(schemaObj);
+  }, [imageDetails, shareUrl]);
 
   return isLoading ? (
     <div

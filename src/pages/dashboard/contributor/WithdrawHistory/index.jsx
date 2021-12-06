@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@material-ui/core";
 import axios from "axios";
 import moment from "moment";
 import React, { lazy, Suspense, useEffect, useState } from "react";
@@ -19,6 +20,8 @@ const WithdrawHistory = () => {
   const classes = useStyles();
   const locationPath = document.location.pathname;
   const user = useSelector((state) => state.user);
+  const mobileView = useMediaQuery("(max-width:769px)");
+
   const [isLoading, setLoading] = useState(true);
   const [withdrawalHistory, setWithdrawalHistory] = useState([]);
 
@@ -27,9 +30,6 @@ const WithdrawHistory = () => {
 
   let limit = 20;
   const count = Math.ceil(totalProduct / limit);
-
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
 
   const dateFormat = "YYYY-MM-DD";
   let newDate = new Date();
@@ -41,17 +41,6 @@ const WithdrawHistory = () => {
     firstDay: firstDay,
     toDays: today,
   });
-
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 769
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
 
   useEffect(() => {
     const CancelToken = axios.CancelToken;

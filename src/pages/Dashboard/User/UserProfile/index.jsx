@@ -16,6 +16,7 @@ import twitterLogo from "../../../../assets/icons/twitter-svg.svg";
 import Spacing from "../../../../components/Spacing";
 import Header from "../../../../components/ui/Header";
 import Loader from "../../../../components/ui/Loader";
+import { imageObjSchema } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./UserProfile.style";
 
@@ -174,6 +175,17 @@ const UserProfile = () => {
 
     return () => source.cancel();
   };
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
 
   return (
     <Layout title="UserProfile">

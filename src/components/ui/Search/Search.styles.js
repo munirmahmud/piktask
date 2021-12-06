@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: "6.5rem",
     position: "relative",
   },
   inputField: {
@@ -127,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
       height: "4.5rem",
     },
     [theme.breakpoints.down(577)]: {
-      display: "none"
+      display: "none",
     },
   },
   searchCatItem: {

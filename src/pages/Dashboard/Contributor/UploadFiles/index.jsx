@@ -1,10 +1,10 @@
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
+import { Button, Card, CardContent, Grid, Typography, useMediaQuery } from "@material-ui/core";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { Box, LinearProgress } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -34,6 +34,7 @@ function LinearProgressWithLabel(props) {
 const UploadFiles = () => {
   const classes = useStyles();
   const history = useHistory();
+  const mobileView = useMediaQuery("(max-width:769px)");
   const user = useSelector((state) => state.user);
 
   const [imageError, setImageError] = useState({});
@@ -46,20 +47,7 @@ const UploadFiles = () => {
   //for tag element
   const [files, setFiles] = useState([]);
   const [thumbImage, setThumbImage] = useState("");
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
   const [isImageDimensionOkay, setImageDimensionOkay] = useState(false);
-
-  const { mobileView } = menuSate;
-  //mobile responsive
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 769
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-    setResponsiveness();
-    window.addEventListener("resize", setResponsiveness);
-  }, []);
 
   const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
     accept: "image/*, .ai,.eps,.psd,.svg",

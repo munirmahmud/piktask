@@ -10,8 +10,11 @@ const useStyles = makeStyles((theme) => ({
     "& a": {
       textDecoration: "none",
     },
+    "@media (max-width: 769px)": {
+      padding: "2rem 3rem",
+    },
     [theme.breakpoints.down(480)]: {
-      marginBottom: "1.5rem",
+      display: "none",
     },
   },
   searchTitle: {

@@ -1,3 +1,4 @@
+import { useMediaQuery } from "@material-ui/core";
 import axios from "axios";
 import moment from "moment";
 import React, { lazy, Suspense, useEffect, useState } from "react";
@@ -21,6 +22,7 @@ const Publish = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const locationPath = location.pathname;
+  const mobileView = useMediaQuery("(max-width:769px)");
   const user = useSelector((state) => state.user);
 
   const [isLoading, setLoading] = useState(true);
@@ -41,20 +43,6 @@ const Publish = () => {
   const [totalProduct, setTotalProduct] = useState();
   let limit = 30;
   const count = Math.ceil(totalProduct / limit);
-
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
-
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 769
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
 
   useEffect(() => {
     const CancelToken = axios.CancelToken;

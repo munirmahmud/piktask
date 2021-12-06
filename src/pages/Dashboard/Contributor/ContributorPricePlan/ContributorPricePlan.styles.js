@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core";
-import pricePlanBanner from "../../../../assets/banner/contributorBG.jpg";
+import mobilePricePlanBanner from "../../../../assets/banner/pricePlanBanner-mobile.jpg";
+import tabletPricePlanBanner from "../../../../assets/banner/pricePlanBanner-tablet.jpg";
+import pricePlanBanner from "../../../../assets/banner/pricePlanBanner.jpg";
 
 const useStyles = makeStyles((theme) => ({
   adminRoot: {
@@ -28,6 +30,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "center",
     padding: "100px 0",
     borderRadius: "1rem",
+
+    [theme.breakpoints.down(769)]: {
+      backgroundImage: `url(${tabletPricePlanBanner})`,
+    },
+
+    [theme.breakpoints.down(576)]: {
+      backgroundImage: `url(${mobilePricePlanBanner})`,
+    },
   },
   priceInfo: {
     padding: "5rem 0",

@@ -1,4 +1,5 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import { useMediaQuery } from "@material-ui/core";
+import React, { lazy, Suspense } from "react";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Loader from "../../../../components/ui/Loader";
@@ -12,18 +13,7 @@ const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const AdminDashboard = () => {
   const classes = useStyles();
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
-
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 769
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
+  const mobileView = useMediaQuery("(max-width:769px)");
 
   return (
     <Layout title="dashboard">

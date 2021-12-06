@@ -10,6 +10,7 @@ import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import Product from "../../../../components/ui/Products/Product";
+import { imageObjSchema } from "../../../../helpers";
 import Layout from "../../../../Layout";
 
 const UserSideBar = lazy(() => import("../../../../components/ui/dashboard/user/UserSideBar"));
@@ -63,6 +64,17 @@ const DownloadItems = () => {
 
     return () => source.cancel();
   }, [user?.isLoggedIn, user?.token, pageCount, limit]);
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
 
   return (
     <Layout title="Downloads">

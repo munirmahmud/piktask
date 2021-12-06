@@ -15,12 +15,7 @@ const SectionHeading = (props) => {
       spacing={2}
       className={classes.headingContainer}
       style={{
-        padding:
-          size === "large"
-            ? "0 0.8rem 3rem"
-            : size === "medium"
-            ? "2.5rem 0.8rem"
-            : "0 0.8rem 1.2rem",
+        padding: size === "large" ? "0 0.8rem 3rem" : size === "medium" ? "0 2.5rem 1.5rem" : "0 0.8rem 1.2rem",
       }}
     >
       <div

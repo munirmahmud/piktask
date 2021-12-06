@@ -149,12 +149,14 @@ const useStyles = makeStyles((theme) => ({
     },
     "& img": {
       width: "100%",
+      height: "100%",
     },
     "@media (max-width: 577px)": {
-      width: "11rem",
+      // width: "11rem",
 
       "& img": {
         width: "100%",
+        height: "100%",
       },
     },
     [theme.breakpoints.down(325)]: {

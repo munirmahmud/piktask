@@ -1,5 +1,5 @@
-import { Button, Grid, Typography } from "@material-ui/core";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import { Button, Grid, Typography, useMediaQuery } from "@material-ui/core";
+import React, { lazy, Suspense, useState } from "react";
 import Spacing from "../../../../components/Spacing";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
@@ -12,18 +12,7 @@ const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const ContributorPricePlan = () => {
   const classes = useStyles();
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
-
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 769
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
+  const mobileView = useMediaQuery("(max-width:769px)");
 
   const [showViewDetails, setViewDetails] = useState(false);
   const handleShowDetails = () => {

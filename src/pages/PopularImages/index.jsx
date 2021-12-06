@@ -10,7 +10,7 @@ import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 // import { TopSeller } from "../../components/ui/TopSeller";
 import Layout from "../../Layout";
-import { getBaseURL } from "./../../helpers/index";
+import { getBaseURL, imageObjSchema } from "./../../helpers/index";
 import useStyles from "./Popular.style";
 
 const HeroSection = lazy(() => import("../../components/ui/Hero"));
@@ -54,6 +54,17 @@ const PopularImages = () => {
   }, [user]);
 
   const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.preview}`);
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
 
   return (
     <Layout title="Popular Images" canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>
