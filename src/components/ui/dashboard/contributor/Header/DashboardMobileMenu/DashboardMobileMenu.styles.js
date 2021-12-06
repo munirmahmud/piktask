@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
     width: "15rem",
     marginTop: "0.6rem",
     [theme.breakpoints.down(426)]: {
-      width: "11rem",
-      marginTop: "1rem",
+      // width: "11rem",
+      // marginTop: "1rem",
     },
   },
   item: {

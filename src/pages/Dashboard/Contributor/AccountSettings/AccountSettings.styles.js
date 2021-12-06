@@ -1,4 +1,6 @@
 import { makeStyles } from "@material-ui/core";
+import mobileProfileBanner from "../../../../assets/banner/account-mobileProfile.jpg";
+import tabletProfileBanner from "../../../../assets/banner/account-TabletProfile.jpg";
 import profileBanner from "../../../../assets/banner/profile-banner.jpg";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     height: "20rem",
     marginBottom: "2.5rem",
     padding: "5rem 0",
+
     "&::before": {
       background: "rgba(0, 28, 48, 0.4)",
       content: '""',
@@ -46,6 +49,14 @@ const useStyles = makeStyles((theme) => ({
       left: 0,
       width: "100%",
       height: "100%",
+    },
+
+    [theme.breakpoints.down(769)]: {
+      backgroundImage: `url(${tabletProfileBanner})`,
+    },
+
+    [theme.breakpoints.down(576)]: {
+      backgroundImage: `url(${mobileProfileBanner})`,
     },
   },
   authorProfileImage: {

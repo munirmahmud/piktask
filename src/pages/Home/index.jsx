@@ -1,5 +1,5 @@
 import { Button, Container } from "@material-ui/core";
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import piktaskImg from "../../assets/piktask.jpg";
@@ -7,6 +7,7 @@ import Spacing from "../../components/Spacing";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
 import Loader from "../../components/ui/Loader";
+import { imageObjSchema } from "../../helpers";
 import useStyles from "./Home.styles";
 
 const Layout = lazy(() => import("../../Layout"));
@@ -23,6 +24,17 @@ const Home = () => {
   const [popularCats, setPopularCats] = useState([]);
   const [scrolling, setScrolling] = useState(0);
   let [index, setIndex] = useState(1);
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
 
   //onScroll data load function
   window.onscroll = () => {
@@ -48,48 +60,48 @@ const Home = () => {
         twitterImg={`${document.URL}${piktaskImg}`}
       >
         <Header />
+
         {/* <Suspense fallback={<h1>Loading...</h1>}> */}
-        <HeroSection size="large" popularKeywords heroButton heroTitle title="Graphic Resources for Free Download" />
+        <HeroSection size="large" popularKeywords heroButton title="Graphic Resources for Free Download" />
         {/* </Suspense> */}
 
-        <Suspense fallback={<Loader />}>
-          <Container>
+        <Container>
+          <Suspense fallback={<Loader />}>
             <Spacing space={{ height: "3rem" }} />
             <SectionHeading title="Popular Album Collection" large>
               <Button className={classes.headingButton} component={Link} to="/categories">
                 See More
               </Button>
             </SectionHeading>
-          </Container>
-        </Suspense>
 
-        <Spacing space={{ height: "1.2rem" }} />
+            <Spacing space={{ height: "1.2rem" }} />
 
-        {/* Carousel with Categories */}
-        <Suspense fallback={<Loader />}>
-          <CategoryCarousel />
-        </Suspense>
+            {/* Carousel with Categories */}
 
-        <Suspense fallback={<Loader />}>
-          <Container>
+            <CategoryCarousel />
+          </Suspense>
+        </Container>
+
+        <Container>
+          <Suspense fallback={<Loader />}>
             <Products piktaskCollection />
-          </Container>
-        </Suspense>
+          </Suspense>
+        </Container>
 
-        <Suspense fallback={<Loader />}>
-          <Container>
+        <Container>
+          <Suspense fallback={<Loader />}>
             <Products category={categories[0]} showHeading count={8} />
-          </Container>
-        </Suspense>
+          </Suspense>
+        </Container>
 
-        <Suspense fallback={<Loader />}>
-          {popularCats?.length &&
-            popularCats.map((category, index) => (
-              <Container key={category?.id}>
+        {popularCats?.length &&
+          popularCats.map((category, index) => (
+            <Container key={category?.id}>
+              <Suspense fallback={<Loader />}>
                 <Products key={category?.id} category={category} showHeading count={8} />
-              </Container>
-            ))}
-        </Suspense>
+              </Suspense>
+            </Container>
+          ))}
 
         <Suspense fallback={<Loader />}>
           <CallToAction
@@ -114,6 +126,7 @@ const Home = () => {
             Top selling author 
           <TopSeller homeTopSeller /> */}
         {/* BLOG SECTION */}
+
         <Suspense fallback={<Loader />}>
           <Blog />
         </Suspense>

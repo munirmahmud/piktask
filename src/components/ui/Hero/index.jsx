@@ -1,11 +1,10 @@
-import { Button, Container, Typography } from "@material-ui/core";
+import { Button, Container, Typography, useMediaQuery } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import contributorBG from "../../../assets/banner/contributorBG.jpg";
-import heroBG from "../../../assets/banner/hero-banner.jpg";
 import contributorLogo from "../../../assets/Logo/piktask.png";
 import SignUpModal from "../../../pages/Authentication/SignUpModal";
 import CustomPopper from "../CustomPopper";
@@ -31,7 +30,6 @@ const HeroSection = (props) => {
     cookiesPolicy,
     support,
     blogsTitle,
-    heroTitle,
     guidLine,
     contact,
     contributorUser,
@@ -43,9 +41,7 @@ const HeroSection = (props) => {
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState("");
-
-  // const [menuSate, setMenuSate] = useState({ mobileView: false });
-  // const { mobileView } = menuSate;
+  const mobileView = useMediaQuery("(max-width:577px)");
 
   useEffect(() => {
     const recentImage = recentButtonRef?.current?.baseURI.split("/").includes("recent");
@@ -54,15 +50,6 @@ const HeroSection = (props) => {
     } else {
       popularButtonRef?.current?.classList?.add("active");
     }
-
-    // const setResponsiveness = () => {
-    //   return window.innerWidth < 576
-    //     ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-    //     : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    // };
-
-    // setResponsiveness();
-    // window.addEventListener("resize", () => setResponsiveness());
   }, []);
 
   const handleToggle = () => {
@@ -142,8 +129,7 @@ const HeroSection = (props) => {
         <div
           className={classes.heroWrapper}
           style={{
-            backgroundImage: `url(${heroBG})`,
-            padding: size === "large" ? "5rem 0" : "3rem 0",
+            padding: mobileView ? (size === "large" ? "3rem 0" : "3rem 0") : size === "large" ? "5rem 0" : "3rem 0",
           }}
         >
           <Container>

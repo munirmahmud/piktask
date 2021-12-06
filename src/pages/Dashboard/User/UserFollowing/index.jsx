@@ -11,7 +11,7 @@ import SectionHeading from "../../../../components/ui/Heading";
 import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
-import { getBaseURL } from "../../../../helpers";
+import { getBaseURL, imageObjSchema } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./UserFollowing.style";
 
@@ -57,6 +57,17 @@ const UserFollowing = () => {
 
     return () => source.cancel();
   }, [user?.isLoggedIn, user?.token, pageCount, limit]);
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
 
   return (
     <Layout title="Followings">

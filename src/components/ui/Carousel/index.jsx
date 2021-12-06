@@ -1,4 +1,4 @@
-import { Container, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import React, { useEffect, useState } from "react";
@@ -92,31 +92,29 @@ const CategoryCarousel = () => {
 
   return (
     <>
-      <Container>
-        {categories?.length >= 5 ? (
-          <Slider {...settings} className={classes.carouselWrapper}>
-            {Array.isArray(categories) && categories?.map((photo) => <PopularCategory key={photo.id} photo={photo} />)}
-          </Slider>
-        ) : (
-          <>
-            <Grid classes={{ container: classes.container }} container spacing={2}>
-              {isLoading ? (
-                <Loader />
-              ) : (
-                <>
-                  {Array.isArray(categories) &&
-                    categories?.map((photo) => (
-                      <Grid key={photo?.id} item xs={6} sm={4} md={3} className={classes.productItem}>
-                        <PopularCategory key={photo.id} photo={photo} />
-                      </Grid>
-                    ))}
-                </>
-              )}
-            </Grid>
-            <Spacing space={{ height: "3rem" }} />
-          </>
-        )}
-      </Container>
+      {categories?.length >= 5 ? (
+        <Slider {...settings} className={classes.carouselWrapper}>
+          {Array.isArray(categories) && categories?.map((photo) => <PopularCategory key={photo.id} photo={photo} />)}
+        </Slider>
+      ) : (
+        <>
+          <Grid classes={{ container: classes.container }} container spacing={2}>
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <>
+                {Array.isArray(categories) &&
+                  categories?.map((photo) => (
+                    <Grid key={photo?.id} item xs={6} sm={4} md={3} className={classes.productItem}>
+                      <PopularCategory key={photo.id} photo={photo} />
+                    </Grid>
+                  ))}
+              </>
+            )}
+          </Grid>
+          <Spacing space={{ height: "3rem" }} />
+        </>
+      )}
     </>
   );
 };

@@ -1,14 +1,27 @@
 import { Container, Typography } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import Spacing from "../../components/Spacing";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
+import { imageObjSchema } from "../../helpers";
 import Layout from "../../Layout";
 import useStyles from "./CopyrightInfo.style";
 
 const CopyrightInfo = () => {
   const classes = useStyles();
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
+
   return (
     <Layout title="Copyright information" canonical={document.URL}>
       <Header />

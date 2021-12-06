@@ -8,7 +8,7 @@ import ProductNotFound from "../../components/ui/ProductNotFound";
 import Product from "../../components/ui/Products/Product";
 import Layout from "../../Layout";
 import Loader from "./../../components/ui/Loader/index";
-import { getBaseURL } from "./../../helpers/index";
+import { getBaseURL, imageObjSchema } from "./../../helpers/index";
 import useStyles from "./TagRelatedProducts.style";
 
 const HeroSection = lazy(() => import("../../components/ui/Hero"));
@@ -20,12 +20,22 @@ const TagTemplate = () => {
   const { tagName } = useParams();
   const location = useLocation();
   const keywords = location.pathname.split("/tag/").pop().replace(/-/g, " ");
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [tagRelatedProducts, setTagRelatedProducts] = useState(null);
   const [thumbnail, setThumbnail] = useState("");
 
   useEffect(() => {
-    setLoading(true);
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
+
+  useEffect(() => {
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
 

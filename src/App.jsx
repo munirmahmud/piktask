@@ -173,11 +173,11 @@ const App = () => {
           <PrivateRoute exact path="/user/subscription" component={UserSubscription} />
 
           {/* Footer pages */}
-          <Route exact path="/termsConditions" component={TermsConditions} />
-          <Route exact path="/licenseAgreement" component={LicenseAgreement} />
-          <Route exact path="/copyrightInformation" component={CopyrightInfo} />
-          <Route exact path="/cookiesPolicy" component={CookiesPolicy} />
-          <Route exact path="/aboutUs" component={AboutUs} />
+          <Route exact path="/terms-conditions" component={TermsConditions} />
+          <Route exact path="/license-agreement" component={LicenseAgreement} />
+          <Route exact path="/copyright-information" component={CopyrightInfo} />
+          <Route exact path="/cookies-policy" component={CookiesPolicy} />
+          <Route exact path="/about-us" component={AboutUs} />
           <Route exact path="/support" component={Support} />
           <Route exact path="/contact" component={Contact} />
 

@@ -6,7 +6,7 @@ import Post from "../../components/ui/Blog/Post";
 import Header from "../../components/ui/Header";
 import Loader from "../../components/ui/Loader";
 import Layout from "../../Layout";
-import { getBaseURL } from "./../../helpers/index";
+import { getBaseURL, imageObjSchema } from "./../../helpers/index";
 
 const HeroSection = lazy(() => import("../../components/ui/Hero"));
 const Footer = lazy(() => import("../../components/ui/Footer"));
@@ -45,6 +45,17 @@ const AllBlogs = () => {
   }, []);
 
   const imageThumbnail = encodeURI(`${getBaseURL().bucket_base_url}${getBaseURL().images}${thumbnail?.thumbnail}`);
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
 
   return (
     <Layout title="All Blog Posts" canonical={document.URL} ogUrl={document.URL} ogImage={imageThumbnail}>

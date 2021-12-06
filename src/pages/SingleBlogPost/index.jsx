@@ -24,7 +24,7 @@ import Post from "../../components/ui/Blog/Post";
 import RelatedBlogs from "../../components/ui/Blog/RelatedBlogs";
 import Header from "../../components/ui/Header";
 import SectionHeading from "../../components/ui/Heading";
-import { getBaseURL } from "../../helpers";
+import { getBaseURL, imageObjSchema } from "../../helpers";
 import Layout from "../../Layout";
 import SignUpModal from "../Authentication/SignUpModal";
 import Loader from "./../../components/ui/Loader/index";
@@ -112,6 +112,17 @@ const SingleBlogPost = () => {
 
     return () => source.cancel();
   };
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
 
   return (
     <Layout
