@@ -1,4 +1,4 @@
-import { Button, Card, FormControl, Select, TextField, Typography } from "@material-ui/core";
+import { Button, Card, FormControl, Select, TextField, Typography, useMediaQuery } from "@material-ui/core";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import axios from "axios";
 import React, { lazy, Suspense, useEffect, useState } from "react";
@@ -26,6 +26,7 @@ const Footer = lazy(() => import("../../../../components/ui/Footer"));
 const AccountSettings = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const mobileView = useMediaQuery("(max-width:769px)");
   const user = useSelector((state) => state.user);
 
   const [profilePicture, setProfilePicture] = useState("");
@@ -62,20 +63,6 @@ const AccountSettings = () => {
   const [payoneerAccount, setPayoneerAccount] = useState("");
 
   const [countries, setCountries] = useState([]);
-
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
-
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 769
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
 
   const handleCountries = () => {
     setCountries(allCountry.countries);

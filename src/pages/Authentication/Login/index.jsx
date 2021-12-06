@@ -11,6 +11,7 @@ import lockIcon from "../../../assets/password.png";
 import Spacing from "../../../components/Spacing";
 import Footer from "../../../components/ui/Footer";
 import Header from "../../../components/ui/Header";
+import { imageObjSchema } from "../../../helpers";
 import Layout from "../../../Layout";
 import useStyles from "../Auth.styles";
 
@@ -102,6 +103,17 @@ const Login = ({ history }) => {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
 
   return (
     <Layout title="Login" canonical={document.URL}>

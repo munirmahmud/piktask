@@ -1,6 +1,6 @@
-import { Box, Grid, Tab, Typography } from "@material-ui/core";
+import { Box, Grid, Tab, Typography, useMediaQuery } from "@material-ui/core";
 import { TabContext, TabList, TabPanel } from "@material-ui/lab";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PhotoImage from "../../../../assets/guidLine-Images/photo.jpg";
 import PSDImage from "../../../../assets/guidLine-Images/psd.jpg";
 import VectorImage from "../../../../assets/guidLine-Images/vector.jpg";
@@ -15,18 +15,7 @@ const GuidLine = () => {
   const classes = useStyles();
   const [value, setValue] = useState("1");
 
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
-
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 769
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
+  const mobileView = useMediaQuery("(max-width:769px)");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

@@ -1,7 +1,11 @@
 import { makeStyles } from "@material-ui/core/styles";
+import heroBG from "../../../assets/banner/hero-banner.jpg";
+import mobileHeroBG from "../../../assets/banner/mobileHero-banner.jpg";
+import tabletHeroBG from "../../../assets/banner/tabletHero-banner.jpg";
 
 const useStyles = makeStyles((theme) => ({
   heroWrapper: {
+    backgroundImage: `url(${heroBG})`,
     backgroundPosition: "center center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
@@ -18,6 +22,14 @@ const useStyles = makeStyles((theme) => ({
       left: 0,
       width: "100%",
       height: "100%",
+    },
+
+    [theme.breakpoints.down(769)]: {
+      backgroundImage: `url(${tabletHeroBG})`,
+    },
+
+    [theme.breakpoints.down(576)]: {
+      backgroundImage: `url(${mobileHeroBG})`,
     },
   },
   contentWrapper: {
@@ -58,8 +70,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     textAlign: "center",
     justifyContent: "center",
-    [theme.breakpoints.down("480")]: {
-      paddingBottom: "3rem",
+    [theme.breakpoints.down(480)]: {
+      paddingTop: "1.5rem",
     },
   },
   popularButton: {

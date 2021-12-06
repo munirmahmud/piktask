@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "@material-ui/core";
+import React from "react";
 import useStyles from "./AdminHeader.styles";
 import DashboardDesktopMenu from "./DashboardDesktopMenu";
 import DashboardMobileMenu from "./DashboardMobileMenu/index";
 
 const AdminHeader = () => {
   const classes = useStyles();
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
-
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 769
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
+  const mobileView = useMediaQuery("(max-width:769px)");
 
   return (
     <div position="fixed" className={classes.appbarHeader}>

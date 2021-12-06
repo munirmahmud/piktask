@@ -1,4 +1,4 @@
-import { Card, CardContent, CircularProgress, Drawer, Grid, Typography } from "@material-ui/core";
+import { Card, CardContent, CircularProgress, Drawer, Grid, Typography, useMediaQuery } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import React, { lazy, Suspense, useEffect, useState } from "react";
@@ -21,6 +21,7 @@ const RejectFiles = () => {
   const classes = useStyles();
   const location = useLocation();
   const locationPath = location.pathname;
+  const mobileView = useMediaQuery("(max-width:769px)");
   const user = useSelector((state) => state.user);
 
   const [rejectMessage, setRejectMessage] = useState([]);
@@ -33,20 +34,6 @@ const RejectFiles = () => {
 
   let limit = 36;
   const count = Math.ceil(totalProduct / limit);
-
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
-
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 769
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
 
   useEffect(() => {
     const CancelToken = axios.CancelToken;

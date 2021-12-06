@@ -17,7 +17,7 @@ import twitterIcon from "../../assets/icons/twitter.svg";
 import Spacing from "../../components/Spacing";
 import Header from "../../components/ui/Header";
 import SocialShare from "../../components/ui/SocialShare";
-import { getBaseURL } from "../../helpers";
+import { getBaseURL, imageObjSchema } from "../../helpers";
 import Layout from "../../Layout";
 import SignUpModal from "../Authentication/SignUpModal";
 import Loader from "./../../components/ui/Loader/index";
@@ -148,6 +148,17 @@ const AuthorProfile = () => {
       socialIcon: twitterIcon,
     },
   ];
+
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
 
   return (
     <Layout

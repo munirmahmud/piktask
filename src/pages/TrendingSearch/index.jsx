@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import thumbnail from "../../assets/banner/hero-banner.jpg";
 import CallToAction from "../../components/ui/CallToAction";
 import Footer from "../../components/ui/Footer";
 import Header from "../../components/ui/Header";
 import HeroSection from "../../components/ui/Hero";
 import PopularKeyWords from "../../components/ui/PopularKeyWords";
+import { imageObjSchema } from "../../helpers";
 import Layout from "../../Layout";
 
 const TrendingSearch = () => {
+  useEffect(() => {
+    const schemaObj = {
+      name: document.title,
+      contentUrl: document.location.href,
+      acquireLicensePage: document.location.href,
+      thumbnailUrl: `${process.env.REACT_APP_API_URL}/media_images/company/piktak_logo.jpg`,
+    };
+
+    imageObjSchema(schemaObj);
+  }, []);
+
   return (
     <Layout
       title="Trending Search result"

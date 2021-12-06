@@ -1,4 +1,4 @@
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography, useMediaQuery } from "@material-ui/core";
 import axios from "axios";
 import Chart from "chart.js";
 import moment from "moment";
@@ -22,6 +22,7 @@ const EarningManagement = () => {
   const refChart = useRef();
   const classes = useStyles();
   const user = useSelector((state) => state.user);
+  const mobileView = useMediaQuery("(max-width:769px)");
 
   const [isLoading, setLoading] = useState(true);
   const [earningData, setEarningData] = useState(0);
@@ -48,21 +49,6 @@ const EarningManagement = () => {
     firstDay: firstDay,
     toDays: today,
   });
-
-  // Mobile responsive
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
-
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 769
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
 
   useEffect(() => {
     const CancelToken = axios.CancelToken;

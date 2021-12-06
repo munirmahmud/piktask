@@ -122,7 +122,7 @@ const Footer = () => {
 
               <List className={classes.menuWrapper}>
                 <ListItem className={classes.navItem}>
-                  <Link className={classes.navLink} to="/aboutUs">
+                  <Link className={classes.navLink} to="/about-us">
                     About us
                   </Link>
                 </ListItem>
@@ -157,22 +157,22 @@ const Footer = () => {
 
               <List className={classes.menuWrapper}>
                 <ListItem className={classes.navItem}>
-                  <Link className={classes.navLink} to="/termsConditions">
+                  <Link className={classes.navLink} to="/terms-conditions">
                     Terms &amp; conditions
                   </Link>
                 </ListItem>
                 <ListItem className={classes.navItem}>
-                  <Link className={classes.navLink} to="/licenseAgreement">
+                  <Link className={classes.navLink} to="/license-agreement">
                     License Agreement
                   </Link>
                 </ListItem>
                 <ListItem className={classes.navItem}>
-                  <Link className={classes.navLink} to="/copyrightInformation">
+                  <Link className={classes.navLink} to="/copyright-information">
                     Copyright information
                   </Link>
                 </ListItem>
                 <ListItem className={classes.navItem}>
-                  <Link className={classes.navLink} to="/cookiesPolicy">
+                  <Link className={classes.navLink} to="/cookies-policy">
                     Cookies policy
                   </Link>
                 </ListItem>
@@ -256,7 +256,7 @@ const Footer = () => {
           <Collapse className={classes.collapseInfo} in={!information} timeout="auto" unmountOnExit>
             <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.collapseNavLink} to="/aboutUs">
+                <Link className={classes.collapseNavLink} to="/about-us">
                   About us
                 </Link>
               </ListItemButton>
@@ -295,25 +295,25 @@ const Footer = () => {
           <Collapse className={classes.collapseInfo} in={!legal} timeout="auto" unmountOnExit>
             <List component="div">
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.collapseNavLink} to="/termsConditions" rel="noreferrer">
+                <Link className={classes.collapseNavLink} to="/terms-conditions" rel="noreferrer">
                   Terms &amp; conditions
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.collapseNavLink} to="/licenseAgreement" rel="noreferrer">
+                <Link className={classes.collapseNavLink} to="/license-agreement" rel="noreferrer">
                   License Agreement
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.collapseNavLink} to="/copyrightInformation" rel="noreferrer">
+                <Link className={classes.collapseNavLink} to="/copyright-information" rel="noreferrer">
                   Copyright information
                 </Link>
               </ListItemButton>
               <br />
               <ListItemButton sx={{ pl: 4 }}>
-                <Link className={classes.collapseNavLink} to="/cookiesPolicy" rel="noreferrer">
+                <Link className={classes.collapseNavLink} to="/cookies-policy" rel="noreferrer">
                   Cookies policy
                 </Link>
               </ListItemButton>

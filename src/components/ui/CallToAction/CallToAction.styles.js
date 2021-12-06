@@ -1,10 +1,12 @@
 import { makeStyles } from "@material-ui/core";
-import banner from "../../../assets/banner/hans.jpg";
+import callToAction from "../../../assets/banner/call-to-action.jpg";
+import mobileCallToAction from "../../../assets/banner/call-to-actionMobile.jpg";
+import tabletCallToAction from "../../../assets/banner/call-to-actionTablet.jpg";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     backgroundColor: " #1b3f4e",
-    backgroundImage: `url(${banner})`,
+    backgroundImage: `url(${callToAction})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center center",
@@ -19,6 +21,14 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       height: "100%",
       background: "rgba(0, 28, 48, 0.4)",
+    },
+
+    [theme.breakpoints.down(769)]: {
+      backgroundImage: `url(${tabletCallToAction})`,
+    },
+
+    [theme.breakpoints.down(576)]: {
+      backgroundImage: `url(${mobileCallToAction})`,
     },
   },
   container: {
