@@ -1,33 +1,29 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { getBaseURL } from "./../../../../helpers/index";
 import useStyles from "./SearchItem.styles";
 
-const SearchItem = ({ item, active }) => {
+const SearchItem = ({ item, selected }) => {
   const classes = useStyles();
   const history = useHistory();
 
-  useEffect(() => {
-    const listener = (event) => {
-      if (active) {
-        if (event.keyCode === 13) {
-          // console.log("image_id", item?.image_id);
-          // console.log("Enter key was pressed. Run your function.");
+  const handleEnterPress = (event) => {
+    event.preventDefault();
+    if (selected) {
+      selected?.forEach((element) => {
+        if (event.keyCode === 13 && item?.image_id === selected?.image_id) {
           history.push(
             "/category" +
               encodeURI(
-                `/${item?.category.toLowerCase().trim().replace(/\s/g, "-")}/${item?.title.toLowerCase().trim().replace(/\s/g, "-")}&id=${item?.image_id}`
+                `/${selected?.category.toLowerCase().trim().replace(/\s/g, "-")}/${selected?.title.toLowerCase().trim().replace(/\s/g, "-")}&id=${
+                  selected?.image_id
+                }`
               )
           );
-          event.preventDefault();
         }
-      }
-    };
-    document.addEventListener("keydown", listener);
-    return () => {
-      document.removeEventListener("keydown", listener);
-    };
-  }, [history, item, active]);
+      });
+    }
+  };
 
   function pikTaskEncodeURI(data) {
     if (data) {
@@ -40,7 +36,7 @@ const SearchItem = ({ item, active }) => {
 
   return (
     <Link to={encodeURI(pikTaskEncodeURI(item))} className={classes.searchItemWrapper}>
-      <div className={classes.searchLeft}>
+      <div className={classes.searchLeft} onKeyPress={handleEnterPress}>
         <div className={classes.thumbnail}>
           <img src={encodeURI(getBaseURL().bucket_base_url + getBaseURL().images + item?.preview)} alt={item?.title} />
         </div>

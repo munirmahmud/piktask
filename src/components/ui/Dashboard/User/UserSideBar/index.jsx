@@ -19,9 +19,9 @@ import pinterestIcon from "../../../../../assets/icons/pintarest.svg";
 import shutterstockIcon from "../../../../../assets/icons/shutterstock.svg";
 import twitterIcon from "../../../../../assets/icons/twitter-svg.svg";
 import { getBaseURL } from "../../../../../helpers";
+import SocialShare from "../../../SocialShare/index";
 import CloseAccountModal from "../CloseAccountModal";
-import SocialShare from "./../../../SocialShare/index";
-import UserSidebarMenu from "./../UserSidebarMenu/index";
+import UserSidebarMenu from "../UserSidebarMenu/index";
 import useStyles from "./UserSideBar.style";
 
 const UserSideBar = () => {

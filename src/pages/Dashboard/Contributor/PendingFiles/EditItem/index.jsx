@@ -6,8 +6,8 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Spacing from "../../../../../components/Spacing/index";
 import { getBaseURL } from "../../../../../helpers";
-import Spacing from "./../../../../../components/Spacing/index";
 import useStyles from "./EditItem.styles";
 
 const EditItem = (props) => {

@@ -174,13 +174,29 @@ const Search = () => {
   };
 
   const [active, setActive] = useState(0);
+  const [selected, setSelected] = useState([]);
+
+  useEffect(() => {
+    if (active === 0) {
+      const searchFind = searchResults.filter((item, index) => index === active);
+      setSelected(searchFind);
+    }
+  }, [searchResults, active]);
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 38) {
+      e.preventDefault();
+      const searchFind = searchResults.filter((item, index) => index === active - 1);
+      if (searchFind) {
+        setSelected(searchFind);
+      }
       setActive(active - 1);
     } else if (e.keyCode === 40) {
-      const searchFind = searchResults.filter((item, index) => index === active);
-      console.log("searchFinds", searchFind);
+      e.preventDefault();
+      const searchFind = searchResults.filter((item, index) => index === active + 1);
+      if (searchFind) {
+        setSelected(searchFind);
+      }
       setActive(active + 1);
     }
   };
@@ -304,7 +320,7 @@ const Search = () => {
                     {searchResults?.length > 0 &&
                       searchResults?.map((item, index) => (
                         <div key={index} className={active === index ? `${classes.active}` : ""}>
-                          <SearchItem key={index} active={active} item={item} />
+                          <SearchItem key={index} selected={selected} item={item} />
                         </div>
                       ))}
                   </div>

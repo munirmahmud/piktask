@@ -13,7 +13,7 @@ import Layout from "../../../../Layout";
 // import { expiredLoginTime } from "./../../../../helpers/index";
 import useStyles from "./Publish.styles";
 
-const DateSelection = lazy(() => import("./../../../../components/ui/dashboard/contributor/DateSelection/index"));
+const DateSelection = lazy(() => import("../../../../components/ui/dashboard/contributor/DateSelection/index"));
 const PublishProduct = lazy(() => import("../../../../components/Partials/PublishProduct"));
 const Footer = lazy(() => import("../../../../components/ui/Footer"));
 

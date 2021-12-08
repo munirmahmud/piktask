@@ -17,8 +17,8 @@ import AdminHeader from "../../../../components/ui/dashboard/contributor/Header"
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Loader from "../../../../components/ui/Loader";
 import allCountry from "../../../../data/countryList.json";
+import { getBaseURL } from "../../../../helpers/index";
 import Layout from "../../../../Layout";
-import { getBaseURL } from "./../../../../helpers/index";
 import useStyles from "./AccountSettings.styles";
 
 const Footer = lazy(() => import("../../../../components/ui/Footer"));
