@@ -68,8 +68,8 @@ const useStyles = makeStyles((theme) => ({
     "@media (max-width: 768px)": {
       width: "15rem",
     },
-    [theme.breakpoints.down("480")]:{
-      width: "11rem"
+    [theme.breakpoints.down("480")]: {
+      width: "11rem",
     },
   },
   formWrapperInner: {
@@ -95,57 +95,57 @@ const useStyles = makeStyles((theme) => ({
   formSubtitle: {
     fontSize: "1.6rem",
   },
-  socialsButtons: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: "1.5rem",
-  },
-  googleBtn: {
-    backgroundColor: "#fff !important",
-    fontSize: "25px !important",
-    textAlign: "center",
-    padding: "0.2rem 3rem !important",
-    width: "45%",
-    borderRadius: 0,
-    "&:hover": {
-      backgroundColor: "rgb(28 81 103)",
-    },
-    "@media (max-width: 768px)": {
-      padding: "1.5rem",
-      "& img": {
-        width: "8rem",
-      },
-    },
-  },
-  facebookBtn: {
-    backgroundColor: "#425993",
-    borderRadius: 0,
+  // socialsButtons: {
+  //   display: "flex",
+  //   alignItems: "center",
+  //   justifyContent: "space-between",
+  //   marginBottom: "1.5rem",
+  // },
+  // googleBtn: {
+  //   backgroundColor: "#fff !important",
+  //   fontSize: "25px !important",
+  //   textAlign: "center",
+  //   padding: "0.2rem 3rem !important",
+  //   width: "45%",
+  //   borderRadius: 0,
+  //   "&:hover": {
+  //     backgroundColor: "rgb(28 81 103)",
+  //   },
+  //   "@media (max-width: 768px)": {
+  //     padding: "1.5rem",
+  //     "& img": {
+  //       width: "8rem",
+  //     },
+  //   },
+  // },
+  // facebookBtn: {
+  //   backgroundColor: "#425993",
+  //   borderRadius: 0,
 
-    "& .kep-login-facebook": {
-      fontWeight: 700,
-      fontSize: 13,
-    },
+  //   "& .kep-login-facebook": {
+  //     fontWeight: 700,
+  //     fontSize: 13,
+  //   },
 
-    "&:hover": {
-      backgroundColor: "rgb(48 72 132)",
-    },
-    [theme.breakpoints.up(2000)]: {
-      "& .kep-login-facebook": {
-        fontWeight: 700,
-        fontSize: 13,
-      },
-     },
-    [theme.breakpoints.down(1025)]: {
-      "& .kep-login-facebook": {
-        fontWeight: 700,
-        fontSize: 13,
-      },
-     },
-    [theme.breakpoints.up(2039)]: {
-      padding: "14px !important",
-     },
-  },
+  //   "&:hover": {
+  //     backgroundColor: "rgb(48 72 132)",
+  //   },
+  //   [theme.breakpoints.up(2000)]: {
+  //     "& .kep-login-facebook": {
+  //       fontWeight: 700,
+  //       fontSize: 13,
+  //     },
+  //    },
+  //   [theme.breakpoints.down(1025)]: {
+  //     "& .kep-login-facebook": {
+  //       fontWeight: 700,
+  //       fontSize: 13,
+  //     },
+  //    },
+  //   [theme.breakpoints.up(2039)]: {
+  //     padding: "14px !important",
+  //    },
+  // },
   // facebookBtn: {
   //   backgroundColor: "#425993",
   //   padding: "1.2rem 2rem",
@@ -166,31 +166,31 @@ const useStyles = makeStyles((theme) => ({
   //     },
   //   },
   // },
-  formDevider: {
-    position: "relative",
-    textAlign: "center",
-    fontSize: "1.6rem",
-    fontStyle: "italic",
-    marginBottom: "1.5rem",
-    "&:before": {
-      content: '""',
-      position: "absolute",
-      background: "#CBCBCB",
-      height: ".1rem",
-      width: "47%",
-      top: "1.2rem",
-      left: 0,
-    },
-    "&:after": {
-      content: '""',
-      position: "absolute",
-      background: "#CBCBCB",
-      height: ".1rem",
-      width: "47%",
-      top: "1.2rem",
-      right: 0,
-    },
-  },
+  // formDevider: {
+  //   position: "relative",
+  //   textAlign: "center",
+  //   fontSize: "1.6rem",
+  //   fontStyle: "italic",
+  //   marginBottom: "1.5rem",
+  //   "&:before": {
+  //     content: '""',
+  //     position: "absolute",
+  //     background: "#CBCBCB",
+  //     height: ".1rem",
+  //     width: "47%",
+  //     top: "1.2rem",
+  //     left: 0,
+  //   },
+  //   "&:after": {
+  //     content: '""',
+  //     position: "absolute",
+  //     background: "#CBCBCB",
+  //     height: ".1rem",
+  //     width: "47%",
+  //     top: "1.2rem",
+  //     right: 0,
+  //   },
+  // },
   form: {
     "@media (max-width: 768px)": {
       "& input": {
@@ -300,7 +300,7 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "underline",
     },
     "@media (max-width: 768px)": {
-       top: "-.6rem",
+      top: "-.6rem",
     },
   },
   formButtonGroups: {

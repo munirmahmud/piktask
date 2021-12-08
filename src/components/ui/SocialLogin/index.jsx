@@ -10,7 +10,8 @@ import { useHistory, useLocation } from "react-router";
 import Spacing from "./../../Spacing/index";
 import useStyles from "./SocialLogin.style";
 
-const clientId = "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
+// const clientId = "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
+const clientId = "928238679381-qbtukgifv4eit5d4vj3hqf5a7gh3aaku.apps.googleusercontent.com";
 
 const SocialLogin = (props) => {
   const classes = useStyles();
@@ -119,7 +120,7 @@ const SocialLogin = (props) => {
       <Spacing space={{ margin: "0 0.5rem" }} />
 
       <FacebookLogin
-        appId="168140328625744"
+        appId="1253439691803048"
         autoLoad={false}
         fields="name,email,picture"
         onClick={handleFacebookLogin}

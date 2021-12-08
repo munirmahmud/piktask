@@ -12,13 +12,13 @@ export const dateFormat = (time) => {
   return time;
 };
 
-export const imageObjSchema = (schemaObjData) => {
+export const imageObjSchema = (schemaData) => {
   const schemaObj = {
-    ...schemaObjData,
+    ...schemaData,
     "@context": "http://schema.org",
     "@type": "ImageObject",
-    datePublished: schemaObjData.datePublished ? schemaObjData.datePublished : "05/12/2021",
-    fileFormat: schemaObjData.fileFormat ? schemaObjData.fileFormat : "image/jpeg",
+    datePublished: schemaData.datePublished ? schemaData.datePublished : "05/12/2021",
+    fileFormat: schemaData.fileFormat ? schemaData.fileFormat : "image/jpeg",
     license: "https://piktask.com/license-agreement",
   };
 

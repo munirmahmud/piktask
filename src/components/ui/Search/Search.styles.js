@@ -231,6 +231,10 @@ const useStyles = makeStyles((theme) => ({
       justifySelf: "center",
     },
   },
+  active: {
+    boxShadow: "0 0px 10px rgb(0 0 0 / 10%)",
+    backgroundColor: "#f8f8f8",
+  },
 }));
 
 export default useStyles;

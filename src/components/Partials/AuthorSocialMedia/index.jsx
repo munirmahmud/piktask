@@ -13,35 +13,35 @@ import SocialShare from "./../../ui/SocialShare/index";
 const AuthorSocialMedia = ({ productDetails }) => {
   const socialMedia = [
     {
-      socialUrl: productDetails.imageDetails.user.facebook,
+      socialUrl: productDetails?.imageDetails?.user?.facebook,
       socialIcon: facebookIcon,
     },
     {
-      socialUrl: productDetails.imageDetails.user.behance,
+      socialUrl: productDetails?.imageDetails?.user?.behance,
       socialIcon: behanceIcon,
     },
     {
-      socialUrl: productDetails.imageDetails.user.dribbble,
+      socialUrl: productDetails?.imageDetails?.user?.dribbble,
       socialIcon: dribbbleIcon,
     },
     {
-      socialUrl: productDetails.imageDetails.user.instagram,
+      socialUrl: productDetails?.imageDetails?.user?.instagram,
       socialIcon: instagramIcon,
     },
     {
-      socialUrl: productDetails.imageDetails.user.linkedin,
+      socialUrl: productDetails?.imageDetails?.user?.linkedin,
       socialIcon: linkedInIcon,
     },
     {
-      socialUrl: productDetails.imageDetails.user.pinterest,
+      socialUrl: productDetails?.imageDetails?.user?.pinterest,
       socialIcon: pinterestIcon,
     },
     {
-      socialUrl: productDetails.imageDetails.user.shutterstock,
+      socialUrl: productDetails?.imageDetails?.user?.shutterstock,
       socialIcon: shutterstockIcon,
     },
     {
-      socialUrl: productDetails.imageDetails.user.twitter,
+      socialUrl: productDetails?.imageDetails?.user?.twitter,
       socialIcon: twitterIcon,
     },
   ];

@@ -181,9 +181,9 @@ const Login = ({ history }) => {
                   <Spacing space={{ height: "1rem" }} />
                 </form>
 
-                {/* <Button component={Link} to="/registration" className={classes.formLink}>
+                <Button component={Link} to="/registration" className={classes.formLink}>
                   Not a member? Sign up
-                </Button> */}
+                </Button>
               </div>
             </div>
           </div>
