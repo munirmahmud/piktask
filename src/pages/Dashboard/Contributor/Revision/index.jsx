@@ -1,20 +1,19 @@
 import { Card, CardContent, CircularProgress, Grid, Typography, useMediaQuery } from "@material-ui/core";
 import axios from "axios";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import Spacing from "../../../../components/Spacing";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
+import Footer from "../../../../components/ui/Footer";
 import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import { getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./Revision.styles";
-
-const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const Revision = () => {
   const classes = useStyles();
@@ -122,9 +121,7 @@ const Revision = () => {
 
           <Spacing space={{ height: "1.8rem" }} />
 
-          <Suspense fallback={<Loader />}>
-            <Footer />
-          </Suspense>
+          <Footer />
         </main>
       </div>
     </Layout>

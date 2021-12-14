@@ -55,10 +55,10 @@ const DownloadButton = ({ productDetails }) => {
           toast.error("Please, login as a user", { autoClose: 2200 });
           setButtonLoading(false);
         } else if (user?.isLoggedIn && user?.role === "user") {
-          toast.error(error.response.data.message, { autoClose: 2000 });
+          toast.error(error.response.data.message);
           setButtonLoading(false);
         } else {
-          toast.error(error.response.data.message, { autoClose: 2000 });
+          toast.error(error.response.data.message);
           setRole(e.target.closest("button").value);
           setOpenAuthModal(true);
           setButtonLoading(false);

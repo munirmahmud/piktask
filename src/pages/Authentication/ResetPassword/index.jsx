@@ -1,6 +1,7 @@
 import { Button, Container, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CustomBtn, InputField } from "../../../components/InputField";
@@ -16,6 +17,7 @@ const ResetPassword = () => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
+  const user = useSelector((state) => state.user);
   const { from } = location.state || { from: { pathname: "/login" } };
 
   const [passwordChange, setPasswordChange] = useState(false);
@@ -26,12 +28,24 @@ const ResetPassword = () => {
   const [token, setToken] = useState("");
 
   useEffect(() => {
+    if (user?.isLoggedIn === true) {
+      if (user?.role === "contributor") {
+        history.push("/contributor/upload");
+      } else if (user?.role === "user") {
+        history.push("/");
+      } else {
+        history.goBack();
+      }
+    } else {
+      history.push(location.pathname);
+    }
+
     document.body.style.backgroundColor = "#ECEEF5";
 
     return () => {
       document.body.style.backgroundColor = "";
     };
-  }, []);
+  }, [user, history, location.pathname]);
 
   // Reset Password
   const handleSubmit = (e) => {

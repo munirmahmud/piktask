@@ -121,7 +121,7 @@ const SignUpModal = (props) => {
           }
 
           if (decodedToken.role === "contributor") {
-            history.push("/contributor/dashboard");
+            history.push("/contributor/upload");
           } else if (location.pathname) {
             history.push(location.pathname);
           } else {

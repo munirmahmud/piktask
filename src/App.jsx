@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 // import Sellers from "./pages/Sellers";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import theme from "./components/ui/Theme";
+import { expiredLoginTime } from "./helpers";
 import Home from "./pages/Home";
 
 const Publish = lazy(() => import("./pages/dashboard/contributor/Publish"));
@@ -64,9 +65,11 @@ const App = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [isDataLoaded, setDataLoaded] = useState(true);
-  // const [isTokenExpired, setTokenExpired] = useState(false);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     // Check token auth state
     const token = window.localStorage.getItem("token");
     const avatar = window.localStorage.getItem("profileImage");
@@ -84,17 +87,11 @@ const App = () => {
           },
         });
       }
-
-      // Send user to the home page if token is expired
-      // const expired = new Date(decodeToken.exp * 1000) - new Date();
-      // setTimeout(() => {
-      //   setTokenExpired(true);
-      // }, expired);
     }
 
     // Popular categories API integration
     axios
-      .get(`${process.env.REACT_APP_API_URL}/categories/popular?limit=6`)
+      .get(`${process.env.REACT_APP_API_URL}/categories/popular?limit=6`, { cancelToken: source.token })
       .then(({ data }) => {
         if (data?.status) {
           dispatch({
@@ -108,41 +105,46 @@ const App = () => {
       });
 
     // Product Base url API
-    axios.get(`${process.env.REACT_APP_API_URL}/client/urls`).then(({ data }) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/client/urls`, { cancelToken: source.token }).then(({ data }) => {
       if (data?.status) {
         localStorage.setItem("imageBaseURL", JSON.stringify(data.urls));
         setDataLoaded(false);
       }
     });
+
+    return () => source.cancel();
   }, [dispatch]);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     // Upload total count
     if (user?.isLoggedIn && user?.role === "contributor") {
-      axios.get(`${process.env.REACT_APP_API_URL}/contributor/images/total_count`, { headers: { Authorization: user?.token } }).then(({ data }) => {
-        if (data?.status) {
-          dispatch({
-            type: "TOTAL_PRODUCT_COUNT",
-            payload: { ...data },
-          });
-        }
-      });
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/contributor/images/total_count`, { cancelToken: source.token, headers: { Authorization: user?.token } })
+        .then(({ data }) => {
+          if (data?.status) {
+            dispatch({
+              type: "TOTAL_PRODUCT_COUNT",
+              payload: { ...data },
+            });
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
+        });
     }
-  }, [user?.isLoggedIn, user?.role, user?.token, dispatch]);
 
-  // const tokenExpiredAndUserSignOut = () => {
-  //   if (isTokenExpired) {
-  //     localStorage.removeItem("token");
-  //     return (window.location.href = "/");
-  //   }
-  // };
+    return () => source.cancel();
+  }, [user?.isLoggedIn, user?.role, user?.token, dispatch]);
 
   return isDataLoaded ? (
     <LinearProgress />
   ) : (
     <ThemeProvider theme={theme}>
-      {/* {tokenExpiredAndUserSignOut()} */}
-
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />

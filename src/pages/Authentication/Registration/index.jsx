@@ -2,7 +2,7 @@ import { Button, Checkbox, FormControlLabel, Radio, RadioGroup, TextField, Typog
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import formIconBottom from "../../../assets/formIconBottom.png";
 import formIconTop from "../../../assets/formIconTop.png";
@@ -17,6 +17,7 @@ import useStyles from "../Auth.styles";
 
 const Registration = ({ history }) => {
   const classes = useStyles();
+  const location = useLocation();
   const user = useSelector((state) => state.user);
 
   // const [confirmValue, setConfirmValue] = useState(false);
@@ -31,17 +32,24 @@ const Registration = ({ history }) => {
   const handleShowHidePassword = () => {
     setValue((value) => !value);
   };
-  // const handleShowHideConfirmPassword = () => {
-  //   setConfirmValue((value) => !value);
-  // };
 
   useEffect(() => {
-    if (user.token) history.push("/");
+    if (user?.isLoggedIn === true) {
+      if (user?.role === "contributor") {
+        history.push("/contributor/upload");
+      } else if (user?.role === "user") {
+        history.push("/");
+      } else {
+        history.goBack();
+      }
+    } else {
+      history.push(location.pathname);
+    }
 
     return () => {
       document.body.style.backgroundColor = "";
     };
-  }, [user, history]);
+  }, [user, history, location.pathname]);
 
   const handleUserRole = (e) => {
     setRole(e.target.value);

@@ -9,6 +9,7 @@ import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination/index";
+import { expiredLoginTime } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import HistoryTable from "./HistoryTable";
 import useStyles from "./WithdrawHistory.style";
@@ -62,6 +63,9 @@ const WithdrawHistory = () => {
         .catch((error) => {
           console.log("Withdrawals history", error.message);
           setLoading(false);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     }
 

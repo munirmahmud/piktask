@@ -61,9 +61,7 @@ const Home = () => {
       >
         <Header />
 
-        {/* <Suspense fallback={<h1>Loading...</h1>}> */}
         <HeroSection size="large" popularKeywords heroButton title="Graphic Resources for Free Download" />
-        {/* </Suspense> */}
 
         <Container>
           <Suspense fallback={<Loader />}>

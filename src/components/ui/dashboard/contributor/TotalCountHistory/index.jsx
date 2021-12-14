@@ -2,6 +2,7 @@ import { Card, Grid } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { expiredLoginTime } from "../../../../../helpers";
 import useStyles from "./TotalCountHistory.style";
 
 const TotalCountHistory = () => {
@@ -11,13 +12,24 @@ const TotalCountHistory = () => {
   const [totalSummary, setTotalSummery] = useState({});
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     // Total earning summary API integration
     if (user?.isLoggedIn && user?.role === "contributor") {
-      axios.get(`${process.env.REACT_APP_API_URL}/contributor/earning/summary`, { headers: { Authorization: user?.token } }).then(({ data }) => {
-        if (data?.status) {
-          setTotalSummery(data?.total_summery);
-        }
-      });
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/summary`, { cancelToken: source.token, headers: { Authorization: user?.token } })
+        .then(({ data }) => {
+          if (data?.status) {
+            setTotalSummery(data?.total_summery);
+          }
+        })
+        .catch((error) => {
+          console.log("Earning summery", error);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
+        });
     }
   }, [user?.isLoggedIn, user?.role, user?.token]);
 

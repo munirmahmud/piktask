@@ -16,7 +16,7 @@ import twitterLogo from "../../../../assets/icons/twitter-svg.svg";
 import Spacing from "../../../../components/Spacing";
 import Header from "../../../../components/ui/Header";
 import Loader from "../../../../components/ui/Loader";
-import { imageObjSchema } from "../../../../helpers";
+import { expiredLoginTime, imageObjSchema } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./UserProfile.style";
 
@@ -48,21 +48,21 @@ const UserProfile = () => {
 
   useEffect(() => {
     setUserProfileInfo({
-      name: userProfile.name,
-      username: userProfile.username,
-      email: userProfile.email,
-      location: userProfile.location,
-      job_position: userProfile.job_position,
-      phone: userProfile.phone,
-      website: userProfile.website,
-      shutterstock: userProfile.shutterstock,
-      pinterest: userProfile.pinterest,
-      behance: userProfile.behance,
-      dribbble: userProfile.dribbble,
-      facebook: userProfile.facebook,
-      twitter: userProfile.twitter,
-      instagram: userProfile.instagram,
-      linkedin: userProfile.linkedin,
+      name: userProfile?.name || "",
+      username: userProfile?.username || "",
+      email: userProfile?.email || "",
+      location: userProfile?.location || "",
+      job_position: userProfile?.job_position || "",
+      phone: userProfile?.phone || "",
+      website: userProfile?.website || "",
+      shutterstock: userProfile?.shutterstock || "",
+      pinterest: userProfile?.pinterest || "",
+      behance: userProfile?.behance || "",
+      dribbble: userProfile?.dribbble || "",
+      facebook: userProfile?.facebook || "",
+      twitter: userProfile?.twitter || "",
+      instagram: userProfile?.instagram || "",
+      linkedin: userProfile?.linkedin || "",
     });
   }, [userProfile]);
 
@@ -72,19 +72,6 @@ const UserProfile = () => {
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
-
-  //mobile view
-  // const [menuSate, setMenuSate] = useState({ mobileView: false });
-  // const { mobileView } = menuSate;
-  // useEffect(() => {
-  //   const setResponsiveness = () => {
-  //     return window.innerWidth < 577
-  //       ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-  //       : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-  //   };
-  //   setResponsiveness();
-  //   window.addEventListener("resize", () => setResponsiveness());
-  // }, []);
 
   //Update user profile
   const handleSubmit = (e) => {
@@ -168,6 +155,9 @@ const UserProfile = () => {
         .catch((error) => {
           const { errors } = error.response.data;
           setErrors(errors);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     } else {
       toast.error("Please insert profile info");
@@ -239,7 +229,7 @@ const UserProfile = () => {
                             variant="outlined"
                             label="Location"
                             className={classes.formControl}
-                            name="locationAddress"
+                            name="location"
                             value={userProfileInfo.location}
                             onChange={(e) => setUserProfileInfo({ ...userProfileInfo, location: e.target.value })}
                           />
@@ -249,7 +239,7 @@ const UserProfile = () => {
                             variant="outlined"
                             label="Job Position"
                             className={classes.formControl}
-                            name="jobPosition"
+                            name="job_position"
                             value={userProfileInfo.job_position}
                             onChange={(e) => setUserProfileInfo({ ...userProfileInfo, job_position: e.target.value })}
                           />
@@ -259,7 +249,7 @@ const UserProfile = () => {
                             variant="outlined"
                             label="Telephone Number"
                             className={classes.formControl}
-                            name="telephoneNumber"
+                            name="phone"
                             type="number"
                             inputProps={{
                               inputMode: "numeric",
@@ -344,6 +334,7 @@ const UserProfile = () => {
                             variant="outlined"
                             className={`${classes.inputField}`}
                             placeholder="Your Shutterstock Account"
+                            name="shutterstock"
                             value={userProfileInfo.shutterstock}
                             onChange={(e) => setUserProfileInfo({ ...userProfileInfo, shutterstock: e.target.value })}
                           />
@@ -363,6 +354,7 @@ const UserProfile = () => {
                             variant="outlined"
                             className={`${classes.inputField}`}
                             placeholder="Your Pinterest Account"
+                            name="pinterest"
                             value={userProfileInfo.pinterest}
                             onChange={(e) => setUserProfileInfo({ ...userProfileInfo, pinterest: e.target.value })}
                           />
@@ -382,6 +374,7 @@ const UserProfile = () => {
                             variant="outlined"
                             className={`${classes.inputField}`}
                             placeholder="Your Behance Account"
+                            name="behance"
                             value={userProfileInfo.behance}
                             onChange={(e) => setUserProfileInfo({ ...userProfileInfo, behance: e.target.value })}
                           />
@@ -401,6 +394,7 @@ const UserProfile = () => {
                             variant="outlined"
                             className={`${classes.inputField}`}
                             placeholder="Your Dribbble Account"
+                            name="dribbble"
                             value={userProfileInfo.dribbble}
                             onChange={(e) => setUserProfileInfo({ ...userProfileInfo, dribbble: e.target.value })}
                           />
@@ -429,6 +423,7 @@ const UserProfile = () => {
                             variant="outlined"
                             className={`${classes.inputField}`}
                             placeholder="Your Facebook Account"
+                            name="facebook"
                             value={userProfileInfo.facebook}
                             onChange={(e) => setUserProfileInfo({ ...userProfileInfo, facebook: e.target.value })}
                           />
@@ -448,6 +443,7 @@ const UserProfile = () => {
                             variant="outlined"
                             className={`${classes.inputField}`}
                             placeholder="Your Twitter Account"
+                            name="twitter"
                             value={userProfileInfo.twitter}
                             onChange={(e) => setUserProfileInfo({ ...userProfileInfo, twitter: e.target.value })}
                           />
@@ -467,6 +463,7 @@ const UserProfile = () => {
                             variant="outlined"
                             className={`${classes.inputField}`}
                             placeholder="Your Linkedin Account"
+                            name="linkedin"
                             value={userProfileInfo.linkedin}
                             onChange={(e) => setUserProfileInfo({ ...userProfileInfo, linkedin: e.target.value })}
                           />
@@ -486,6 +483,7 @@ const UserProfile = () => {
                             variant="outlined"
                             className={`${classes.inputField}`}
                             placeholder="Your Instagram Account"
+                            name="instagram"
                             value={userProfileInfo.instagram}
                             onChange={(e) => setUserProfileInfo({ ...userProfileInfo, instagram: e.target.value })}
                           />

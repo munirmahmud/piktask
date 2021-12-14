@@ -1,21 +1,19 @@
 import { useMediaQuery } from "@material-ui/core";
 import axios from "axios";
 import moment from "moment";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
+import PublishProduct from "../../../../components/Partials/PublishProduct";
+import DateSelection from "../../../../components/ui/dashboard/contributor/DateSelection/index";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
-import Loader from "../../../../components/ui/Loader";
+import Footer from "../../../../components/ui/Footer";
 import Pagination from "../../../../components/ui/Pagination";
+import { expiredLoginTime } from "../../../../helpers";
 import Layout from "../../../../Layout";
-// import { expiredLoginTime } from "./../../../../helpers/index";
 import useStyles from "./Publish.styles";
-
-const DateSelection = lazy(() => import("../../../../components/ui/dashboard/contributor/DateSelection/index"));
-const PublishProduct = lazy(() => import("../../../../components/Partials/PublishProduct"));
-const Footer = lazy(() => import("../../../../components/ui/Footer"));
 
 const Publish = () => {
   const classes = useStyles();
@@ -65,10 +63,10 @@ const Publish = () => {
         })
         .catch((error) => {
           console.log("Published product", error);
-          // if (error.response.data.status === 401) {
-          //   expiredLoginTime();
-          //   console.log("Published file", error);
-          // }
+          if (error.response.status === 401) {
+            expiredLoginTime();
+            console.log("Published file", error);
+          }
         });
     }
 
@@ -83,23 +81,19 @@ const Publish = () => {
         <main className={classes.content}>
           <AdminHeader />
 
-          <Suspense fallback={<Loader />}>
-            <div className={classes.publishFileWrapper}>
-              <div className={classes.headingWrapepr}>
-                <Heading tag="h2">Publish File</Heading>
-              </div>
-
-              <DateSelection setSearchInput={setSearchInput} />
-
-              <PublishProduct isLoading={isLoading} allPublishProduct={allPublishProduct} />
-
-              {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+          <div className={classes.publishFileWrapper}>
+            <div className={classes.headingWrapepr}>
+              <Heading tag="h2">Publish File</Heading>
             </div>
-          </Suspense>
 
-          <Suspense fallback={<Loader />}>
-            <Footer />
-          </Suspense>
+            <DateSelection setSearchInput={setSearchInput} />
+
+            <PublishProduct isLoading={isLoading} allPublishProduct={allPublishProduct} />
+
+            {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
+          </div>
+
+          <Footer />
         </main>
       </div>
     </Layout>

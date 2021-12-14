@@ -11,7 +11,7 @@ import SectionHeading from "../../../../components/ui/Heading";
 import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
-import { getBaseURL, imageObjSchema } from "../../../../helpers";
+import { expiredLoginTime, getBaseURL, imageObjSchema } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./UserFollowing.style";
 
@@ -52,6 +52,9 @@ const UserFollowing = () => {
         .catch((error) => {
           console.log("Category products error:", error);
           setLoading(false);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     }
 

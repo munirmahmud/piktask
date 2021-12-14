@@ -7,6 +7,7 @@ import box from "../../../../assets/dashboardicons/box.svg";
 import arrowDown from "../../../../assets/dashboardicons/icon1.svg";
 import moneyIcon from "../../../../assets/dashboardicons/money.svg";
 import followerIcon from "../../../../assets/icons/followerIcon.png";
+import { expiredLoginTime } from "../../../../helpers";
 import Heading from "../../../ui/dashboard/contributor/Heading";
 import useStyles from "./CurrentMonthStatus.styles";
 
@@ -31,7 +32,8 @@ const CurrentMonthStatus = () => {
 
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/summery/?start=${firstDay}&end=${todayCurrentMonth}`, {
-          headers: { cancelToken: source.token, Authorization: user?.token },
+          cancelToken: source.token,
+          headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -42,7 +44,10 @@ const CurrentMonthStatus = () => {
           }
         })
         .catch((error) => {
-          console.log("Dashboard summery", error);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
+          console.log("Dashboard summery", error.response.status);
           setLoading(false);
         });
     }
@@ -58,7 +63,8 @@ const CurrentMonthStatus = () => {
 
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/summery/?start=${previousFirstDays}&end=${previousFirstDay}`, {
-          headers: { cancelToken: source.token, Authorization: user?.token },
+          cancelToken: source.token,
+          headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -67,6 +73,13 @@ const CurrentMonthStatus = () => {
           } else {
             setLoading(false);
           }
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
+          console.log("Dashboard summery", error);
+          setLoading(false);
         });
     }
 

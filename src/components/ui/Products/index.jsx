@@ -107,6 +107,7 @@ const Products = (props) => {
         }
       })
       .catch((error) => {
+        console.log("Category error", error);
         if (axios.isCancel(error)) {
           // console.log("Request canceld for categories", error);
         } else {
@@ -121,7 +122,7 @@ const Products = (props) => {
     <>
       {piktaskCollection ? (
         <>
-          {piktaskProduct.length !== 0 && (
+          {piktaskProduct?.length !== 0 && (
             <SectionHeading title="Piktask Collection" large>
               <Button className={classes.headingButton} component={Link} to={"category/piktask-collection"}>
                 See More
@@ -146,7 +147,7 @@ const Products = (props) => {
         </>
       ) : (
         <>
-          {images.length !== 0 && showHeading && (
+          {images?.length !== 0 && showHeading && (
             <SectionHeading title={category?.name} large>
               <Button className={classes.headingButton} component={Link} to={`category/${category?.slug}`}>
                 See More
