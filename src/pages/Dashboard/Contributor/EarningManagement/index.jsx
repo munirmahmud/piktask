@@ -5,12 +5,13 @@ import moment from "moment";
 import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import DateSelection from "../../../../components/ui/dashboard/contributor/DateSelection/index";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Loader from "../../../../components/ui/Loader";
+import { expiredLoginTime } from "../../../../helpers";
 import Layout from "../../../../Layout";
-import DateSelection from "./../../../../components/ui/dashboard/contributor/DateSelection/index";
 import useStyles from "./EarningManagement.styles";
 import TabPanel from "./TabPanel";
 import WithdrawModal from "./WithdrawModal";
@@ -84,6 +85,14 @@ const EarningManagement = () => {
             });
             setLoading(false);
           }
+        })
+        .catch((error) => {
+          console.log("Earning management", error);
+          setLoading(false);
+
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     }
 
@@ -134,6 +143,14 @@ const EarningManagement = () => {
               ],
             });
             setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log("Graph ratio", error);
+          setLoading(false);
+
+          if (error.response.status === 401) {
+            expiredLoginTime();
           }
         });
     }
@@ -198,8 +215,8 @@ const EarningManagement = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/withdrawals/info`, {
+          cancelToken: source.token,
           headers: {
-            cancelToken: source.token,
             Authorization: user?.token,
           },
         })
@@ -219,6 +236,10 @@ const EarningManagement = () => {
         .catch((error) => {
           console.log(error.message);
           setLoading(false);
+
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     }
 

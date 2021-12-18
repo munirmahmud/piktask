@@ -27,10 +27,14 @@ const CustomPopper = ({ open, handleToggle, anchorRef, handleClose, handleListKe
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (user?.isLoggedIn && user?.role === "user") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/user/download_count`, {
           headers: { Authorization: user?.token },
+          cancelToken: source.token,
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -40,10 +44,12 @@ const CustomPopper = ({ open, handleToggle, anchorRef, handleClose, handleListKe
           }
         })
         .catch((error) => {
-          console.log("Download error", error.response);
+          console.log("Download error", error.response.data.message);
           setLoading(false);
         });
     }
+
+    return () => source.cancel();
   }, [user?.token, user?.isLoggedIn, user?.role]);
 
   const handleSignout = () => {
@@ -117,7 +123,7 @@ const CustomPopper = ({ open, handleToggle, anchorRef, handleClose, handleListKe
                   </Grid>
                 </Grid>
 
-                {user?.role === "user" && (
+                {user?.isLoggedIn && user?.role === "user" && (
                   <Grid container className={classes.productDownloadCount}>
                     <Grid item xs={6} className={classes.productDownloadGrid}>
                       <Typography variant="h2" className={classes.totalAmount}>

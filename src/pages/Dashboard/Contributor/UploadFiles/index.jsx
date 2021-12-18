@@ -15,6 +15,7 @@ import AdminHeader from "../../../../components/ui/dashboard/contributor/Header"
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Footer from "../../../../components/ui/Footer";
+import { expiredLoginTime } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./UploadFiles.styles";
 
@@ -128,6 +129,9 @@ const UploadFiles = () => {
             }
           } catch (error) {
             console.log("File upload error", error);
+            if (error.response.status === 401) {
+              expiredLoginTime();
+            }
             reject();
           }
         } else {

@@ -1,7 +1,7 @@
 import { Button, Card, CardContent, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import { auth } from "../../../database";
 import { imageObjSchema } from "../../../helpers";
 import Layout from "../../../Layout";
@@ -10,6 +10,9 @@ import useStyles from "./EmailVerification.styles";
 const EmailVerification = ({ history }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const location = useLocation();
+  const user = useSelector((state) => state.user);
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +22,20 @@ const EmailVerification = ({ history }) => {
     setEmail(window.localStorage.getItem("email"));
     setPassword(window.localStorage.getItem("password"));
   }, []);
+
+  useEffect(() => {
+    if (user?.isLoggedIn === true) {
+      if (user?.role === "contributor") {
+        history.push("/contributor/upload");
+      } else if (user?.role === "user") {
+        history.push("/");
+      } else {
+        history.goBack();
+      }
+    } else {
+      history.push(location.pathname);
+    }
+  }, [user, history, location.pathname]);
 
   const saveData = async () => {
     const result = await auth.signInWithEmailLink(email, window.location.href);

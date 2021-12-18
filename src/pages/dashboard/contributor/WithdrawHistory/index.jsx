@@ -3,13 +3,14 @@ import axios from "axios";
 import moment from "moment";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import DateSelection from "../../../../components/ui/dashboard/contributor/DateSelection/index";
 import AdminHeader from "../../../../components/ui/dashboard/contributor/Header";
 import Heading from "../../../../components/ui/dashboard/contributor/Heading";
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Loader from "../../../../components/ui/Loader";
+import Pagination from "../../../../components/ui/Pagination/index";
+import { expiredLoginTime } from "../../../../helpers";
 import Layout from "../../../../Layout";
-import DateSelection from "./../../../../components/ui/dashboard/contributor/DateSelection/index";
-import Pagination from "./../../../../components/ui/Pagination/index";
 import HistoryTable from "./HistoryTable";
 import useStyles from "./WithdrawHistory.style";
 
@@ -62,6 +63,9 @@ const WithdrawHistory = () => {
         .catch((error) => {
           console.log("Withdrawals history", error.message);
           setLoading(false);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     }
 

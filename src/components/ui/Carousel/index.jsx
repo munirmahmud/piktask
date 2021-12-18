@@ -7,9 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import Spacing from "../../Spacing";
 import Loader from "../Loader";
-// import CategoryItemLoader from "../Loader/CategoryItemLoader";
 import PopularCategory from "../PopularCategory";
-// import ProductNotFound from "../ProductNotFound";
 import useStyles from "./Carousel.styles";
 
 function NavigateNextArrow(props) {
@@ -36,7 +34,7 @@ const CategoryCarousel = () => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (categories.length > 0) {
+    if (categories?.length > 0) {
       setLoading(false);
     }
   }, [categories]);

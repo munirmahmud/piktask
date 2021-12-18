@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import authorBadge from "../../../../assets/badge.png";
 import authorPhoto from "../../../../assets/user/user-man.png";
-import { getBaseURL } from "../../../../helpers";
+import { expiredLoginTime, getBaseURL } from "../../../../helpers";
 import Heading from "../../../ui/dashboard/contributor/Heading";
 import ProductNotFound from "./../../../ui/ProductNotFound/index";
 import useStyles from "./AuthorFiles.styles";
@@ -34,24 +34,38 @@ const AuthorFiles = () => {
     // Author last file API integration
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=5`, { headers: { cancelToken: source.token, Authorization: user?.token } })
+        .get(`${process.env.REACT_APP_API_URL}/contributor/earning/images?limit=5`, { cancelToken: source.token, headers: { Authorization: user?.token } })
         .then(({ data }) => {
           if (data?.status) {
             setAuthorFiles(data?.images);
             setLoading(false);
           }
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
+          console.log("Latest file", error);
+          setLoading(false);
         });
     }
 
     // Piktask top file API  integration
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/top_files?limit=5`, { headers: { cancelToken: source.token, Authorization: user?.token } })
+        .get(`${process.env.REACT_APP_API_URL}/contributor/dashboard/top_files?limit=5`, { cancelToken: source.token, headers: { Authorization: user?.token } })
         .then(({ data }) => {
           if (data?.status) {
             setTopFiles(data?.images);
             setLoading(false);
           }
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
+          console.log("Piktask top files", error);
+          setLoading(false);
         });
     }
 

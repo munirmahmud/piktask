@@ -10,7 +10,7 @@ import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
 import Product from "../../../../components/ui/Products/Product";
-import { imageObjSchema } from "../../../../helpers";
+import { expiredLoginTime, imageObjSchema } from "../../../../helpers";
 import Layout from "../../../../Layout";
 
 const UserSideBar = lazy(() => import("../../../../components/ui/dashboard/user/UserSideBar"));
@@ -59,6 +59,9 @@ const DownloadItems = () => {
         .catch((error) => {
           console.log("Category products error:", error);
           setLoading(false);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     }
 

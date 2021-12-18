@@ -44,7 +44,9 @@ const PublishProduct = (props) => {
                     <Table className={classes.table} aria-label="publish data table">
                       <TableHead>
                         <TableRow className={classes.tableHead}>
-                          <TableCell className={classes.tableCell}></TableCell>
+                          <TableCell style={{ textAlign: "left" }} className={classes.tableCell}>
+                            Item
+                          </TableCell>
                           <TableCell style={{ textAlign: "left" }} className={classes.tableCell}>
                             Title
                           </TableCell>
@@ -90,7 +92,7 @@ const PublishProduct = (props) => {
                               {product?.total_earning}
                             </TableCell>
 
-                            <TableCell className={classes.tableCell}>{moment(product?.createdAt).format("LL")}</TableCell>
+                            <TableCell className={classes.tableCell}>{moment(product?.createdAt).format("ll")}</TableCell>
                           </TableRow>
                         </TableBody>
                       ))}

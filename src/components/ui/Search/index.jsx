@@ -1,4 +1,4 @@
-import { ClickAwayListener, Grow, IconButton, Input, MenuItem, Paper, Popper } from "@material-ui/core";
+import { ClickAwayListener, Grow, IconButton, Input, MenuItem, Paper, Popper, useMediaQuery } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import CloseIcon from "@material-ui/icons/Close";
@@ -33,6 +33,7 @@ const Search = () => {
   const history = useHistory();
   const searchRef = useRef("");
   const anchorRef = useRef("");
+  const mobileView = useMediaQuery("(max-width:576px)");
 
   const [searchCategoryName, setSearchCategoryName] = useState("All Resources");
   const [searchCategoryID, setSearchCategoryID] = useState("");
@@ -48,26 +49,14 @@ const Search = () => {
 
   const isEmpty = !searchResults || searchResults.length === 0;
 
-  const [menuSate, setMenuSate] = useState({ mobileView: false });
-  const { mobileView } = menuSate;
-
-  useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 576
-        ? setMenuSate((prevState) => ({ ...prevState, mobileView: true }))
-        : setMenuSate((prevState) => ({ ...prevState, mobileView: false }));
-    };
-
-    setResponsiveness();
-    window.addEventListener("resize", () => setResponsiveness());
-  }, []);
-
   const expandContainer = () => {
     setIsExpanded(true);
   };
+
   const handleSearchToggle = () => {
     SearchCategory((prevOpen) => !prevOpen);
   };
+
   const handleCloseCatSearch = () => {
     SearchCategory(false);
   };
@@ -127,8 +116,8 @@ const Search = () => {
     if (response) {
       if (response.data && response.data.length === 0) setNoSearchResults(true);
       setSearchResults(response.data.results);
+      setLoading(false);
     }
-    setLoading(false);
 
     return () => source.cancel();
   };
@@ -143,9 +132,12 @@ const Search = () => {
   };
 
   const loadCategories = () => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
     if (categories?.length === 0) {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`)
+        .get(`${process.env.REACT_APP_API_URL}/categories?limit=50`, { cancelToken: source.token })
         .then(({ data }) => {
           if (data?.status) {
             const sortedData = data?.categories.sort((a, b) => a.id - b.id);
@@ -154,6 +146,8 @@ const Search = () => {
         })
         .catch((error) => console.log("Categories loading error: ", error));
     }
+
+    return () => source.cancel();
   };
 
   const borderStyles = {
@@ -179,6 +173,34 @@ const Search = () => {
     }
   };
 
+  const [active, setActive] = useState(0);
+  const [selected, setSelected] = useState([]);
+
+  useEffect(() => {
+    if (active === 0) {
+      const searchFind = searchResults.filter((item, index) => index === active);
+      setSelected(searchFind);
+    }
+  }, [searchResults, active]);
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 38) {
+      e.preventDefault();
+      const searchFind = searchResults.filter((item, index) => index === active - 1);
+      if (searchFind) {
+        setSelected(searchFind);
+      }
+      setActive(active - 1);
+    } else if (e.keyCode === 40) {
+      e.preventDefault();
+      const searchFind = searchResults.filter((item, index) => index === active + 1);
+      if (searchFind) {
+        setSelected(searchFind);
+      }
+      setActive(active + 1);
+    }
+  };
+
   return (
     <>
       <form action="" autoComplete="off" onSubmit={handleSearch} className={classes.formSubmit}>
@@ -192,6 +214,7 @@ const Search = () => {
             disableUnderline
             ref={searchRef}
             onFocus={expandContainer}
+            onKeyDown={handleKeyDown}
             style={borderStyles}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -294,9 +317,12 @@ const Search = () => {
 
                 {!isLoading && !isEmpty && (
                   <div onClick={collapseContainer}>
-                    {searchResults.map((item, index) => (
-                      <SearchItem key={index} item={item} />
-                    ))}
+                    {searchResults?.length > 0 &&
+                      searchResults?.map((item, index) => (
+                        <div key={index} className={active === index ? `${classes.active}` : ""}>
+                          <SearchItem key={index} selected={selected} item={item} />
+                        </div>
+                      ))}
                   </div>
                 )}
               </div>

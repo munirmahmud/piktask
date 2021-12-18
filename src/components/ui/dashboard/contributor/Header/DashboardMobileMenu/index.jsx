@@ -7,9 +7,9 @@ import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../../../../../assets/Logo/piktask.png";
-import { getBaseURL } from "./../../../../../../helpers/index";
-import CustomPopper from "./../../../../CustomPopper/index";
-import MobileSidebarMenu from "./../../Sidebar/MobileSidebarMenu/index";
+import { getBaseURL } from "../../../../../../helpers/index";
+import CustomPopper from "../../../../CustomPopper/index";
+import MobileSidebarMenu from "../../Sidebar/MobileSidebarMenu/index";
 import useStyles from "./DashboardMobileMenu.styles";
 
 const DashboardMobileMenu = () => {

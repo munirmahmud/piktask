@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import CloseIcon from "@material-ui/icons/Close";
 // import Autocomplete from "@mui/material/Autocomplete";
@@ -7,7 +7,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getBaseURL } from "../../../../../helpers";
-import Spacing from "./../../../../../components/Spacing/index";
 import useStyles from "./EditItem.styles";
 
 const EditItem = (props) => {
@@ -152,11 +151,11 @@ const EditItem = (props) => {
     );
   };
 
-  const [openSchema, setOpenSchema] = useState("");
+  // const [openSchema, setOpenSchema] = useState("");
 
-  const handleSchemaInput = () => {
-    setOpenSchema(!openSchema);
-  };
+  // const handleSchemaInput = () => {
+  //   setOpenSchema(!openSchema);
+  // };
 
   return (
     <div className={classes.editItemWrapper}>
@@ -203,7 +202,7 @@ const EditItem = (props) => {
 
         <hr className={classes.separator} />
 
-        <div style={{ alignSelf: "flex-start" }}>
+        {/* <div style={{ alignSelf: "flex-start" }}>
           <FormControlLabel onClick={handleSchemaInput} value="schema" control={<Checkbox />} label="Schema" />
         </div>
 
@@ -219,9 +218,9 @@ const EditItem = (props) => {
               <input type="text" id="keyword" />
             </div>
           </>
-        )}
+        )} */}
 
-        <Spacing space={{ height: "2rem" }} />
+        {/* <Spacing space={{ height: "2rem" }} /> */}
 
         <div className={classes.buttonsWrapper}>
           <Button onClick={handleProductSubmit} value="submit" type="submit" className={`${classes.actionBtn} ${classes.submitBtn}`}>

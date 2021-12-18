@@ -17,8 +17,8 @@ import AdminHeader from "../../../../components/ui/dashboard/contributor/Header"
 import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Loader from "../../../../components/ui/Loader";
 import allCountry from "../../../../data/countryList.json";
+import { expiredLoginTime, getBaseURL } from "../../../../helpers/index";
 import Layout from "../../../../Layout";
-import { getBaseURL } from "./../../../../helpers/index";
 import useStyles from "./AccountSettings.styles";
 
 const Footer = lazy(() => import("../../../../components/ui/Footer"));
@@ -76,7 +76,8 @@ const AccountSettings = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/contributor/profile`, {
-          headers: { cancelToken: source.token, Authorization: user?.token },
+          cancelToken: source.token,
+          headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -114,6 +115,9 @@ const AccountSettings = () => {
         .catch((error) => {
           console.log(error.message);
           setLoading(false);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     }
 
@@ -249,6 +253,9 @@ const AccountSettings = () => {
         })
         .catch((error) => {
           console.log("Contributor profile", error);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     } else {
       toast.error("Please insert profile info", { autoClose: 2200 });
@@ -265,7 +272,8 @@ const AccountSettings = () => {
     if (user?.isLoggedIn && user?.role === "contributor") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/payment`, {
-          headers: { cancelToken: source.token, Authorization: user?.token },
+          cancelToken: source.token,
+          headers: { Authorization: user?.token },
         })
         .then(({ data }) => {
           if (data?.status) {
@@ -274,6 +282,9 @@ const AccountSettings = () => {
         })
         .catch((error) => {
           console.log(error.message);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     }
 
@@ -299,8 +310,8 @@ const AccountSettings = () => {
       axios({
         method: "put",
         url,
+        cancelToken: source.token,
         headers: {
-          cancelToken: source.token,
           Authorization: user?.token,
           "Content-Type": "multipart/form-data",
         },
@@ -324,6 +335,9 @@ const AccountSettings = () => {
         .catch((error) => {
           console.log(error);
           setLoading(false);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
     }
 
@@ -435,9 +449,7 @@ const AccountSettings = () => {
                             onClick={handleCountries}
                           >
                             {countries.length === 0 && (
-                              <>
-                                countryName ? (<option value={countryName}>{countryName}</option>) :(<option value="Bangladesh">Bangladesh</option>)
-                              </>
+                              <>{countryName ? <option value={countryName}>{countryName}</option> : <option value="Bangladesh">Bangladesh</option>}</>
                             )}
                             {countries.map((option, index) => (
                               <option key={index} value={option.country}>

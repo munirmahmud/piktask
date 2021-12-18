@@ -14,7 +14,7 @@ import Sidebar from "../../../../components/ui/dashboard/contributor/Sidebar";
 import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
-import { getBaseURL } from "../../../../helpers";
+import { expiredLoginTime, getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import EditItem from "./EditItem";
 import useStyles from "./PendingFiles.styles";
@@ -69,6 +69,10 @@ const PendingFiles = () => {
         .catch((error) => {
           console.log("Not submit", error);
           setLoading(false);
+
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
 
       return () => source.cancel();
@@ -97,9 +101,10 @@ const PendingFiles = () => {
         .catch((error) => {
           console.log("Product delete", error);
           setLoading(false);
-        })
-        .catch((error) => {
-          console.log("Product delete", error);
+
+          if (error.response.status === 401) {
+            expiredLoginTime();
+          }
         });
 
       return () => source.cancel();
@@ -178,6 +183,10 @@ const PendingFiles = () => {
       } catch (error) {
         console.log("Submit image", error);
         toast.success(error.response.data?.message || "Image submitted fail");
+
+        if (error.response.status === 401) {
+          expiredLoginTime();
+        }
       }
     }
 

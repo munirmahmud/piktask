@@ -14,7 +14,6 @@ import useStyles from "./guidLine.styles";
 const GuidLine = () => {
   const classes = useStyles();
   const [value, setValue] = useState("1");
-
   const mobileView = useMediaQuery("(max-width:769px)");
 
   const handleChange = (event, newValue) => {
@@ -49,7 +48,9 @@ const GuidLine = () => {
                         <Tab className={classes.guidLineMenuItem} disableRipple label="Photo" value="3" />
                       </TabList>
                     </Box>
+
                     <Spacing space={{ height: "2rem" }} />
+
                     <TabPanel value="1">
                       <div className={classes.guidLineWrapper}>
                         <div className={classes.guidLineTitle}>
@@ -245,6 +246,7 @@ const GuidLine = () => {
                         </div>
                       </div>
                     </TabPanel>
+
                     <TabPanel value="2">
                       <div className={classes.guidLineWrapper}>
                         <div className={classes.guidLineTitle}>
@@ -525,6 +527,7 @@ const GuidLine = () => {
                         </div>
                       </div>
                     </TabPanel>
+
                     <TabPanel value="3">
                       <div className={classes.guidLineWrapper}>
                         <div className={classes.guidLineTitle}>
@@ -821,7 +824,9 @@ const GuidLine = () => {
               </Grid>
             </div>
           </div>
+
           <Spacing space={{ height: "2rem" }} />
+
           <Footer />
         </main>
       </div>

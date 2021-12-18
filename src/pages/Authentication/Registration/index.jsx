@@ -1,11 +1,8 @@
 import { Button, Checkbox, FormControlLabel, Radio, RadioGroup, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import FacebookLogin from "react-facebook-login";
-import GoogleLogin from "react-google-login";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import formIconBottom from "../../../assets/formIconBottom.png";
 import formIconTop from "../../../assets/formIconTop.png";
@@ -18,14 +15,9 @@ import { imageObjSchema } from "../../../helpers";
 import Layout from "../../../Layout";
 import useStyles from "../Auth.styles";
 
-const clientId = "523940507800-llt47tmfjdscq2icuvu1fgh20hmknk4u.apps.googleusercontent.com";
-
 const Registration = ({ history }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const location = useLocation();
-  const pathHistory = useHistory();
-  const { from } = location.state || { from: { pathname: "/" } };
   const user = useSelector((state) => state.user);
 
   // const [confirmValue, setConfirmValue] = useState(false);
@@ -40,17 +32,24 @@ const Registration = ({ history }) => {
   const handleShowHidePassword = () => {
     setValue((value) => !value);
   };
-  // const handleShowHideConfirmPassword = () => {
-  //   setConfirmValue((value) => !value);
-  // };
 
   useEffect(() => {
-    if (user.token) history.push("/");
+    if (user?.isLoggedIn === true) {
+      if (user?.role === "contributor") {
+        history.push("/contributor/upload");
+      } else if (user?.role === "user") {
+        history.push("/");
+      } else {
+        history.goBack();
+      }
+    } else {
+      history.push(location.pathname);
+    }
 
     return () => {
       document.body.style.backgroundColor = "";
     };
-  }, [user, history]);
+  }, [user, history, location.pathname]);
 
   const handleUserRole = (e) => {
     setRole(e.target.value);
@@ -147,70 +146,6 @@ const Registration = ({ history }) => {
       });
   };
 
-  //login with google
-  const handleGoogleLogin = async (googleData) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/google_login`, {
-      method: "POST",
-      body: JSON.stringify({
-        token: googleData.tokenId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    // store returned user somehow
-    if (data.status) {
-      const token = data.token;
-      localStorage.setItem("token", token);
-      const decodedToken = jwt_decode(token.split(" ")[1]);
-
-      if (decodedToken.email) {
-        dispatch({
-          type: "SET_USER",
-          payload: {
-            ...decodedToken,
-            token,
-          },
-        });
-      }
-      toast.success(data.message);
-      pathHistory.replace(from);
-    }
-  };
-
-  //login with facebook
-  const handleFacebookLogin = async (facebookData) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/facebook_login`, {
-      method: "POST",
-      body: JSON.stringify({
-        token: facebookData.tokenId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    // store returned user somehow
-    if (data.status) {
-      const token = data.token;
-      localStorage.setItem("token", token);
-      const decodedToken = jwt_decode(token.split(" ")[1]);
-
-      if (decodedToken.email) {
-        dispatch({
-          type: "SET_USER",
-          payload: {
-            ...decodedToken,
-            token,
-          },
-        });
-      }
-      toast.success(data.message);
-      pathHistory.replace(from);
-    }
-  };
-
   useEffect(() => {
     const schemaObj = {
       name: document.title,
@@ -241,33 +176,9 @@ const Registration = ({ history }) => {
               </div>
 
               <div>
-                <div className={classes.socialsButtons}>
-                  <GoogleLogin
-                    clientId={clientId}
-                    buttonText="Google"
-                    className={classes.googleBtn}
-                    onSuccess={handleGoogleLogin}
-                    onFailure={handleGoogleLogin}
-                    cookiePolicy={"single_host_origin"}
-                  />
-
-                  <Spacing space={{ margin: "0 0.5rem" }} />
-
-                  <div className={classes.facebookBtn}>
-                    <FacebookLogin
-                      // className={classes.facebookBtn}
-                      appId="168140328625744"
-                      autoLoad={false}
-                      fields="name,email,picture"
-                      onClick={handleFacebookLogin}
-                      callback={handleFacebookLogin}
-                    />
-                  </div>
-                </div>
-
-                <Typography variant="subtitle1" className={classes.formDevider}>
+                {/* <Typography variant="subtitle1" className={classes.formDevider}>
                   Or
-                </Typography>
+                </Typography> */}
 
                 <div>
                   <form autoComplete="off" className={classes.form} onSubmit={handleSubmit}>

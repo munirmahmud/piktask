@@ -6,8 +6,8 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getBaseURL } from "./../../../../../../helpers/index";
-import CustomPopper from "./../../../../CustomPopper/index";
+import { getBaseURL } from "../../../../../../helpers/index";
+import CustomPopper from "../../../../CustomPopper/index";
 import useStyles from "./DashboardDesktopMenu.styles";
 
 const DashboardDesktopMenu = () => {

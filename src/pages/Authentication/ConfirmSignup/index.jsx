@@ -1,7 +1,8 @@
 import { Container, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CustomBtn, InputField } from "../../../components/InputField";
 import Spacing from "../../../components/Spacing";
@@ -14,6 +15,9 @@ import HeroSection from "./../../../components/ui/Hero/index";
 
 const ConfirmSignup = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const location = useLocation();
+  const user = useSelector((state) => state.user);
 
   const [isRedirectTo, setRedirectTo] = useState(false);
   const [isLoading, setLoading] = useState(true);
@@ -21,6 +25,18 @@ const ConfirmSignup = () => {
   const [role, setRole] = useState("");
 
   useEffect(() => {
+    if (user?.isLoggedIn === true) {
+      if (user?.role === "contributor") {
+        history.push("/contributor/upload");
+      } else if (user?.role === "user") {
+        history.push("/");
+      } else {
+        history.goBack();
+      }
+    } else {
+      history.push(location.pathname);
+    }
+
     document.body.style.backgroundColor = "#ECEEF5";
 
     if (token) {
@@ -30,7 +46,7 @@ const ConfirmSignup = () => {
     return () => {
       document.body.style.backgroundColor = "";
     };
-  }, [token]);
+  }, [token, user, history, location.pathname]);
 
   //For Set Password
   const handleSubmit = (e) => {

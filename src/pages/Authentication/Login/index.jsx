@@ -2,7 +2,7 @@ import { Button, Checkbox, FormControlLabel, Radio, RadioGroup, TextField, Typog
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import formIconBottom from "../../../assets/formIconBottom.png";
@@ -19,6 +19,7 @@ const Login = ({ history }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();
+  const user = useSelector((state) => state.user);
   const { from } = location.state || { from: { pathname: "/" } };
 
   const [loading, setLoading] = useState(true);
@@ -28,10 +29,21 @@ const Login = ({ history }) => {
   const [role, setRole] = useState("");
 
   useEffect(() => {
+    if (user?.isLoggedIn === true) {
+      if (user?.role === "contributor") {
+        history.push("/contributor/upload");
+      } else if (user?.role === "user") {
+        history.push("/");
+      } else {
+        history.goBack();
+      }
+    } else {
+      history.push(location.pathname);
+    }
     return () => {
       document.body.style.backgroundColor = "";
     };
-  }, [history, from]);
+  }, [user, history, location.pathname]);
 
   const handleShowHidePassword = () => {
     setValue((value) => !value);
@@ -82,11 +94,11 @@ const Login = ({ history }) => {
             });
           }
           if (decodedToken.role === "contributor") {
-            history.push(location.state.from.pathname);
+            history.push("/contributor/upload");
           } else if (decodedToken.role === "user") {
             history.push(location.state.from.pathname);
           } else {
-            history.replace(from);
+            history.push(from);
           }
 
           setUsername("");
@@ -96,7 +108,6 @@ const Login = ({ history }) => {
         }
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
         setUsername("");
         setPassword("");
         setRole("");
@@ -181,9 +192,9 @@ const Login = ({ history }) => {
                   <Spacing space={{ height: "1rem" }} />
                 </form>
 
-                {/* <Button component={Link} to="/registration" className={classes.formLink}>
+                <Button component={Link} to="/registration" className={classes.formLink}>
                   Not a member? Sign up
-                </Button> */}
+                </Button>
               </div>
             </div>
           </div>
