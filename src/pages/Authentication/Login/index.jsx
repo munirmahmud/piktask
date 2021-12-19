@@ -22,8 +22,6 @@ const Login = ({ history }) => {
   const user = useSelector((state) => state.user);
   const { from } = location.state || { from: { pathname: "/" } };
 
-  // console.log("location", location);
-
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(false);
   const [username, setUsername] = useState("");
