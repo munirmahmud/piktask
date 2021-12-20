@@ -1,9 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  adminRoot: {
-    // display: "flex",
-  },
   adminSidebar: {
     marginTop: "0rem",
     [theme.breakpoints.down(769)]: {
@@ -25,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   },
   headingWrapper: {
     display: "flex",
-    // alignItems: "center",
     justifyContent: "space-between",
     marginTop: "2rem",
     marginBottom: "3rem",
@@ -78,14 +74,6 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 0,
     },
   },
-  // submitBtn: {
-  //   backgroundColor: "#0773c5",
-  //   transition: "all 0.3s linear",
-  //   "&:hover": {
-  //     backgroundColor: "#0773c5",
-  //     color: "#fff",
-  //   },
-  // },
   addFileBtn: {
     backgroundColor: "#0088f2",
     transition: "all 0.3s linear",
@@ -142,17 +130,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     zIndex: 1,
   },
-  editIcon: {
-    color: "#DDD",
-    fontSize: "2.2rem",
-    marginRight: "0.5rem",
-    cursor: "pointer",
-    transition: "all 0.3s linear",
-    "&:hover": {
-      borderColor: "#0088f2",
-      color: "#0088f2",
-    },
-  },
   deleteIcon: {
     color: "#DDD",
     border: "0.1rem solid",
@@ -167,12 +144,6 @@ const useStyles = makeStyles((theme) => ({
       color: "#FB5252",
     },
   },
-  noItemsFound: {
-    marginLeft: "1.5rem",
-  },
-  root: {
-    // backgroundColor: "red",
-  },
   editItemContainer: {
     width: "45rem",
     padding: "3rem 4.5rem",
@@ -181,7 +152,6 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
-
   editItemHeader: {
     padding: "1rem 2rem 0",
     "& hr": {

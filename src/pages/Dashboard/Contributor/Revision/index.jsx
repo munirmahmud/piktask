@@ -11,7 +11,7 @@ import Footer from "../../../../components/ui/Footer";
 import Loader from "../../../../components/ui/Loader";
 import Pagination from "../../../../components/ui/Pagination";
 import ProductNotFound from "../../../../components/ui/ProductNotFound";
-import { getBaseURL } from "../../../../helpers";
+import { expiredLoginTime, getBaseURL } from "../../../../helpers";
 import Layout from "../../../../Layout";
 import useStyles from "./Revision.styles";
 
@@ -53,6 +53,10 @@ const Revision = () => {
         .catch((error) => {
           console.log("Revision product", error);
           setLoading(false);
+          if (error.response.status === 401) {
+            expiredLoginTime();
+            console.log("Published file", error);
+          }
         });
 
       return () => source.cancel();

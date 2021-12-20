@@ -22,8 +22,6 @@ export const imageObjSchema = (schemaData) => {
     license: "https://piktask.com/license-agreement",
   };
 
-  // script.innerHTML = JSON.stringify(schemaObj);
-
   document.querySelector('script[data-test="image-object"]').append(JSON.stringify(schemaObj));
 };
 

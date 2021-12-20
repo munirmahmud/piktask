@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import SectionHeading from "../Heading";
 import Loader from "../Loader";
-// import ProductNotFound from "../ProductNotFound";
 import Product from "./Product";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,11 +37,11 @@ const Products = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-
   const { category, count, showHeading, piktaskCollection } = props;
-  const [images, setImages] = useState([]);
+
   const [piktaskProduct, setPiktaskProduct] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [images, setImages] = useState([]);
 
   // Data load
   useEffect(() => {
@@ -53,18 +52,20 @@ const Products = (props) => {
 
     let categoryURL;
 
-    if (user?.id && user?.role === "user") {
-      categoryURL = `${process.env.REACT_APP_API_URL}/categories/${category?.id}?user_id=${user?.id}`;
-    } else {
-      categoryURL = `${process.env.REACT_APP_API_URL}/categories/${category?.id}`;
-    }
-    if (category) {
+    if (category?.id) {
+      if (user?.id && user?.role === "user") {
+        categoryURL = `${process.env.REACT_APP_API_URL}/categories/${category?.id}?user_id=${user?.id}`;
+      } else {
+        categoryURL = `${process.env.REACT_APP_API_URL}/categories/${category?.id}`;
+      }
+
       axios
         .get(categoryURL, { cancelToken: source.token })
         .then(({ data }) => {
           if (data?.status) {
             setImages(data?.category_image);
             setLoading(false);
+
             dispatch({
               type: "CATEGORY_BASED_ITEMS",
               payload: {
@@ -81,42 +82,45 @@ const Products = (props) => {
             // console.log("Else message, handles error");
           }
         });
-    } else {
-      setLoading(true);
     }
 
     return () => source.cancel();
-  }, [dispatch, category, user?.id, user?.role]);
+  }, [dispatch, category?.id, user?.id, user?.role]);
 
   useEffect(() => {
     let categoryURL;
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
 
-    if (user?.id && user?.role === "user") {
-      categoryURL = `${process.env.REACT_APP_API_URL}/categories/53?limit=16&user_id=${user?.id}`;
-    } else {
-      categoryURL = `${process.env.REACT_APP_API_URL}/categories/53/?limit=16`;
+    if (piktaskCollection) {
+      if (user?.id && user?.role === "user") {
+        categoryURL = `${process.env.REACT_APP_API_URL}/categories/53?limit=16&user_id=${user?.id}`;
+      } else {
+        categoryURL = `${process.env.REACT_APP_API_URL}/categories/53/?limit=16`;
+      }
+      axios
+        .get(categoryURL, { cancelToken: source.token })
+        .then(({ data }) => {
+          if (data?.status) {
+            setPiktaskProduct(data?.category_image);
+            setLoading(false);
+
+            dispatch({
+              type: "CATEGORY_BASED_ITEMS",
+              payload: {
+                totalImages: data?.total,
+                images: data?.category_image,
+              },
+            });
+          }
+        })
+        .catch((error) => {
+          console.log("Category error", error);
+        });
     }
-    axios
-      .get(categoryURL, { cancelToken: source.token })
-      .then(({ data }) => {
-        if (data?.status) {
-          setPiktaskProduct(data?.category_image);
-          setLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.log("Category error", error);
-        if (axios.isCancel(error)) {
-          // console.log("Request canceld for categories", error);
-        } else {
-          // console.log("Request canceld else", error);
-        }
-      });
 
     return () => source.cancel();
-  }, [user?.id, user?.role]);
+  }, [user?.id, user?.role, piktaskCollection, dispatch]);
 
   return (
     <>

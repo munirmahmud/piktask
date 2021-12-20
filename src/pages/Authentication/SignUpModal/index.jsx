@@ -340,7 +340,7 @@ const SignUpModal = (props) => {
                   <FormControlLabel
                     className={classes.checkboxLabel}
                     control={<Checkbox name="receiveNewsLetter" size="medium" className={classes.checkbox} />}
-                    label="I do not wish to receive news and promotions from piktask Company by email."
+                    label="I do not wish to receive news and promotions from Piktask LLC by email."
                   />
 
                   <div onClick={handleChangeTab} className={classes.authText}>
