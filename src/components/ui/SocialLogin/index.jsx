@@ -10,15 +10,8 @@ import { useHistory, useLocation } from "react-router";
 import Spacing from "./../../Spacing/index";
 import useStyles from "./SocialLogin.style";
 
-//APP SECRET: ba3829ae5cbc3e35fdc9589e5d68e099
 const clientId = "928238679381-jf4obccehr2mq8lotat83l4q0n6l6cqi.apps.googleusercontent.com";
 const fbAppId = "2594350707375312";
-
-// const fbAccessToken =
-//   "EAAERPPiIIAABAFv53YeBWkVBZCymREKQRF6LKYvTYP0B5s7xAZCiIgPZArMXBuD3ZB2jcKRwDEY3emdWCcyCVH8LJeGK80q7x0peJK6nRLP9R9uhPQ8GmaG0ZB7ySyytNd6x0wVrOZCFvqKJVG47994T9EoZCkHA2ZCHC6aMefQAhYGj8RXgaJjsuxfq5m10L7ZBuy9sftd9shJqvEbvbZBZBZC6VdyiZCVCi5Gj62y6IE6CFSjYZCl9xePZAxL";
-
-const fbAccessToken =
-  "EAAF9G1WRME4BAAZCeyxVZBgzly6nxm7ALQvsFZCnEQZBwjC7K1YFRFbK27AN0gKhh1G6qo4qBX9RCvzjhHrxNdZA7bYD79AAbKuIzM1WPZCZCaShjSM8qCtWm4e03ZB43A7oKtcuBs4RqXBiSaKm9ZBvqIuveMvcGRUU8gzcZCri3qUZCEFEv1WZBBS9ZB7kLbBsQQt8ZD";
 
 const SocialLogin = (props) => {
   const classes = useStyles();
@@ -70,20 +63,20 @@ const SocialLogin = (props) => {
   };
 
   //login with facebook
-  const handleFacebookLogin = async (facebookData) => {
-    console.log("facebookData", facebookData);
 
+  const handleFacebookLogin = async (facebookData) => {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/facebook_login`, {
       method: "POST",
       body: JSON.stringify({
-        accessToken: fbAccessToken,
-        userID: fbAppId,
+        accessToken: facebookData.accessToken,
+        userID: facebookData.userID,
         role: role,
       }),
       headers: { "Content-Type": "application/json" },
     });
 
     const data = await res.json();
+
     // store user data in localStorage
     if (data.status) {
       setOpenAuthModal(false);
