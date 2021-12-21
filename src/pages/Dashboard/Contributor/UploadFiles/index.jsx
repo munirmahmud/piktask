@@ -43,7 +43,7 @@ const UploadFiles = () => {
   let isUploadBtnDisabled = true;
   // let disableUploadButton;
   const [disableDeleteBtn, setDisableDeleteBtn] = useState(false);
-  const [disabledBtn, setDisabledBtn] = useState(false);
+  // const [disabledBtn, setDisabledBtn] = useState(false);
 
   //for tag element
   const [files, setFiles] = useState([]);

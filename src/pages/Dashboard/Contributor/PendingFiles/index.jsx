@@ -221,13 +221,7 @@ const PendingFiles = () => {
                       Submit
                     </Button>
                   )}
-                  {/* <Button
-                  to={`/contributor/upload`}
-                  component={Link}
-                  className={`${classes.actionBtn} ${classes.addFileBtn}`}
-                >
-                  Add File
-                </Button> */}
+
                   {pendingProducts?.length > 0 && (
                     <Button className={`${classes.actionBtn} ${classes.workInfoBtn}`} onClick={() => handleWorkInfo()}>
                       Add Work Information
@@ -264,9 +258,7 @@ const PendingFiles = () => {
                           }}
                           classes={{ root: classes.root }}
                           ref={cardRef}
-                          style={{
-                            border: product?.is_save === 1 && "2px solid #008000",
-                          }}
+                          style={{ border: product?.is_save === 1 && "2px solid #008000" }}
                         >
                           <img src={getBaseURL().bucket_base_url + getBaseURL().images + product?.original_file} alt={product?.original_name} />
 
@@ -282,6 +274,7 @@ const PendingFiles = () => {
                   )}
                 </Grid>
               )}
+
               {totalProduct > limit && <Pagination locationPath={locationPath} count={count} pageCount={pageCount} setPageCount={setPageCount} />}
             </div>
           </Suspense>

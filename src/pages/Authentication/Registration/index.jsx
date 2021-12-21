@@ -223,7 +223,7 @@ const Registration = ({ history }) => {
 
                     <FormControlLabel
                       value="end"
-                      label=" I do not wish to receive news and promotions from piktask Company by email."
+                      label=" I do not wish to receive news and promotions from Piktask LLC by email."
                       labelPlacement="end"
                       control={<Checkbox color="primary" />}
                       className={classes.checkboxLabel}

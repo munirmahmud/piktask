@@ -20,8 +20,8 @@ const Publish = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const locationPath = location.pathname;
-  const mobileView = useMediaQuery("(max-width:769px)");
   const user = useSelector((state) => state.user);
+  const mobileView = useMediaQuery("(max-width:769px)");
 
   const [isLoading, setLoading] = useState(true);
   const [allPublishProduct, setAllPublishProduct] = useState([]);

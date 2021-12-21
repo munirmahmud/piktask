@@ -504,7 +504,7 @@ const UserProfile = () => {
                     </Typography>
 
                     <div className={classes.getNews}>
-                      <Typography className={classes.getNewsTitle}>I wish to receive newsletters,promotions and news from Piktask Company</Typography>
+                      <Typography className={classes.getNewsTitle}>I wish to receive newsletters,promotions and news from Piktask LLC</Typography>
                       <FormControlLabel
                         control={<Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />}
                         label="Primary"
@@ -513,8 +513,8 @@ const UserProfile = () => {
 
                     <div className={classes.basicInfo}>
                       <Typography>
-                        Basic information on Data Protection: Piktask Company stores your data to improve the service and, with your consent, offers news,
-                        promotions and raffles, as well as projects and releases from Piktask Company.
+                        Basic information on Data Protection: Piktask LLC stores your data to improve the service and, with your consent, offers news,
+                        promotions and raffles, as well as projects and releases from Piktask LLC.
                         <Link to="#" className={classes.moreInfo}>
                           More information
                         </Link>
