@@ -11,11 +11,22 @@ const useStyles = makeStyles((theme) => ({
       transform: "translateY(-7px)",
     },
   },
+  cardImage: {
+    width: "20rem",
+    margin: "0 auto",
+    minHeight: 200,
+    "& img": {
+      height: "100%",
+      width: "100%",
+      objectFit: "cover",
+    },
+  },
   cardHeading: {
     textAlign: "center",
   },
   cardContent: {
     padding: "3rem 2rem 1rem",
+    textAlign: "center",
 
     "& p": {
       fontSize: "1.6rem",
@@ -24,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
     "& svg": {
       fontSize: "1.6rem",
       marginBottom: "-0.2rem",
-      marginRight: "1.5rem",
+      marginRight: "1rem",
+      color: "#0088f2",
     },
   },
   cardButton: {
@@ -32,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
   },
   viewPlanButton: {
     padding: "0.5rem 6rem",
-    width: "100%",
     backgroundColor: "#0088f2",
     color: "#fff",
     marginTop: "2.5rem",
