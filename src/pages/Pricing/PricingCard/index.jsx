@@ -7,9 +7,9 @@ const PricingCard = ({ pricePlan }) => {
   const classes = useStyles();
   return (
     <div className={classes.cardMain}>
-      {/* <div className={classes.cardImage}>
-        <img src="" alt="" />
-      </div> */}
+      <div className={classes.cardImage}>
+        <img src={pricePlan?.image} alt={pricePlan?.title} width="200px" height="148px" />
+      </div>
       <div className={classes.cardHeading}>
         <Typography variant="h1">${pricePlan?.price}</Typography>
         <Typography variant="h2">{pricePlan?.title}</Typography>

@@ -69,18 +69,15 @@ const useStyles = makeStyles((theme) => ({
     color: "#646464",
     fontSize: 17,
     transition: "all 0.3s linear",
-    // borderRadius: "4px",
     borderRadius: 0,
 
     "&:hover": {
-      // backgroundColor: "#0088f2",
       boxShadow: "rgba(33, 35, 38, 0.1) 0px 10px 10px -10px",
       color: "#0088f2",
     },
   },
   selected: {
     color: "#0088f2",
-    // backgroundColor: "#0088f2",
     boxShadow: "rgba(33, 35, 38, 0.1) 0px 10px 10px -10px",
   },
   passwordResetLink: {
