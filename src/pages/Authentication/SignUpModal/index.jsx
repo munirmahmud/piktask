@@ -261,7 +261,8 @@ const SignUpModal = (props) => {
                   value={tabIndex}
                   onChange={handleChangeTab}
                   aria-label="authentication tabs"
-                  classes={{ indicator: classes.tabsWrapper }}
+                  className={classes.tabsWrapper}
+                  classes={{ indicator: classes.menuUnderline }}
                   variant="fullWidth"
                 >
                   <Tab label="Login" {...a11yProps(0)} className={classes.tabItem} classes={{ selected: classes.selected }} disableRipple />

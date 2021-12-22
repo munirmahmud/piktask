@@ -56,27 +56,32 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tabsWrapper: {
-    height: 0,
-    backgroundColor: "transparent",
-
     "& .MuiTabs-flexContainer": {
       justifyContent: "center",
+      paddingBottom: "2.5rem",
     },
   },
+  menuUnderline: {
+    height: 0,
+    backgroundColor: "transparent",
+  },
   tabItem: {
-    color: "#000",
+    color: "#646464",
     fontSize: 17,
     transition: "all 0.3s linear",
-    borderRadius: "4px",
+    // borderRadius: "4px",
+    borderRadius: 0,
 
     "&:hover": {
-      backgroundColor: "#0088f2",
-      color: "#fff",
+      // backgroundColor: "#0088f2",
+      boxShadow: "rgba(33, 35, 38, 0.1) 0px 10px 10px -10px",
+      color: "#0088f2",
     },
   },
   selected: {
-    color: "#fff",
-    backgroundColor: "#0088f2",
+    color: "#0088f2",
+    // backgroundColor: "#0088f2",
+    boxShadow: "rgba(33, 35, 38, 0.1) 0px 10px 10px -10px",
   },
   passwordResetLink: {
     fontSize: 17,
