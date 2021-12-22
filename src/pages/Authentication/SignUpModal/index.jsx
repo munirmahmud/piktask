@@ -242,9 +242,9 @@ const SignUpModal = (props) => {
               <div className={classes.leftPanel}>
                 <img className={classes.authLogo} src={logoWhite} alt="Piktask" width="120px" height="47px" />
                 <Typography>Enjoy Free Download Now!</Typography>
-                <Typography>*Get 50% OFF Discount for Premium Plan</Typography>
-                <Typography>*Download 6 Images for Free Everyday</Typography>
-                <Typography>*2,600,000+ Images to energize your Design</Typography>
+                <Typography>* Get 50% OFF Discount for Premium Plan</Typography>
+                <Typography>* Download 6 Images for Free Everyday</Typography>
+                <Typography>* 2,600,000+ Images to energize your Design</Typography>
 
                 <Spacing space={{ height: 30 }} />
 
@@ -257,7 +257,13 @@ const SignUpModal = (props) => {
                 <div className={classes.closeModal}>
                   <CloseIcon fontSize="large" onClick={() => setOpenAuthModal(false)} />
                 </div>
-                <Tabs value={tabIndex} onChange={handleChangeTab} aria-label="authentication tabs" className={classes.tabsWrapper} variant="fullWidth">
+                <Tabs
+                  value={tabIndex}
+                  onChange={handleChangeTab}
+                  aria-label="authentication tabs"
+                  classes={{ indicator: classes.tabsWrapper }}
+                  variant="fullWidth"
+                >
                   <Tab label="Login" {...a11yProps(0)} className={classes.tabItem} classes={{ selected: classes.selected }} disableRipple />
                   <Tab label="Sign Up" {...a11yProps(1)} className={classes.tabItem} classes={{ selected: classes.selected }} disableRipple />
                 </Tabs>

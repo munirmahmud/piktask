@@ -56,18 +56,27 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tabsWrapper: {
+    height: 0,
+    backgroundColor: "transparent",
+
     "& .MuiTabs-flexContainer": {
       justifyContent: "center",
-      borderBottom: "2px solid #E8E8E8",
     },
   },
   tabItem: {
-    color: "#CCCCCC",
+    color: "#000",
     fontSize: 17,
+    transition: "all 0.3s linear",
+    borderRadius: "4px",
+
+    "&:hover": {
+      backgroundColor: "#0088f2",
+      color: "#fff",
+    },
   },
   selected: {
-    color: "#0088f2",
-    fontSize: 17,
+    color: "#fff",
+    backgroundColor: "#0088f2",
   },
   passwordResetLink: {
     fontSize: 17,
