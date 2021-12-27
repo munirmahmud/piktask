@@ -13,7 +13,7 @@ import useStyles from "./Home.styles";
 const Layout = lazy(() => import("../../Layout"));
 const SectionHeading = lazy(() => import("../../components/ui/Heading"));
 const CategoryCarousel = lazy(() => import("../../components/ui/Carousel"));
-const Blog = lazy(() => import("../../components/ui/Blog"));
+// const Blog = lazy(() => import("../../components/ui/Blog"));
 const Footer = lazy(() => import("../../components/ui/Footer"));
 const Products = lazy(() => import("../../components/ui/Products"));
 const CallToAction = lazy(() => import("../../components/ui/CallToAction"));
@@ -23,7 +23,7 @@ const Home = () => {
   const categories = useSelector((state) => state.popularCategories);
   const [popularCats, setPopularCats] = useState([]);
   const [scrolling, setScrolling] = useState(0);
-  let [index, setIndex] = useState(1);
+  let [index, setIndex] = useState(0);
 
   useEffect(() => {
     const schemaObj = {
@@ -86,20 +86,22 @@ const Home = () => {
           </Suspense>
         </Container>
 
-        <Container>
+        {/* <Container>
           <Suspense fallback={<Loader />}>
             <Products category={categories[0]} showHeading count={8} />
           </Suspense>
-        </Container>
+        </Container> */}
 
         {popularCats?.length &&
-          popularCats.map((category, index) => (
-            <Container key={category?.id}>
-              <Suspense fallback={<Loader />}>
-                <Products key={category?.id} category={category} showHeading count={8} />
-              </Suspense>
-            </Container>
-          ))}
+          popularCats
+            .filter((cat) => cat.id !== 53)
+            ?.map((category, index) => (
+              <Container key={category?.id}>
+                <Suspense fallback={<Loader />}>
+                  <Products key={category?.id} category={category} showHeading count={8} />
+                </Suspense>
+              </Container>
+            ))}
 
         <Suspense fallback={<Loader />}>
           <CallToAction
@@ -125,9 +127,9 @@ const Home = () => {
           <TopSeller homeTopSeller /> */}
         {/* BLOG SECTION */}
 
-        <Suspense fallback={<Loader />}>
+        {/* <Suspense fallback={<Loader />}>
           <Blog />
-        </Suspense>
+        </Suspense> */}
 
         <Suspense fallback={<Loader />}>
           <Footer />

@@ -45,8 +45,6 @@ const Products = (props) => {
 
   // Data load
   useEffect(() => {
-    if (category?.id === 53) return;
-
     const cancelToken = axios.CancelToken;
     const source = cancelToken.source();
 
