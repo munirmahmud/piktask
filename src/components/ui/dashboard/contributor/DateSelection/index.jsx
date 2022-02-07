@@ -17,7 +17,7 @@ const DateSelection = (props) => {
   let [toYear, setToYear] = useState(moment().year());
   let [toMonth, setToMonth] = useState(moment().format("MMMM"));
   // let [toCurrentDate, setToCurrentDate] = useState("01");
-  let [toCurrentDate, setToCurrentDate] = useState(moment().date());
+  let [toCurrentDate, setToCurrentDate] = useState("01");
 
   const getAllDays = () => {
     const days = [];
